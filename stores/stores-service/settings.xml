@@ -1,0 +1,26 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                          https://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+	<profiles>
+		<profile>
+			<id>cocome-context</id>
+			<properties>
+				<!-- deployment properties -->
+
+				<!-- logic node deployment configuration -->
+				<productsmicroservice.protocol>http</productsmicroservice.protocol>
+				<productsmicroservice.domain>adapter</productsmicroservice.domain>
+				<productsmicroservice.host>localhost</productsmicroservice.host>
+				<productsmicroservice.httpPort>8880</productsmicroservice.httpPort>
+				<productsmicroservice.adminPort>8848</productsmicroservice.adminPort>
+				<productsmicroservice.user>admin</productsmicroservice.user>
+				<productsmicroservice.password></productsmicroservice.password>
+			</properties>
+		</profile>
+	</profiles>
+	<activeProfiles>
+		<activeProfile>cocome-context</activeProfile>
+	</activeProfiles>
+</settings>
