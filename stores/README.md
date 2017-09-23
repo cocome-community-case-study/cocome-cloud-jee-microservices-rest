@@ -31,3 +31,23 @@ Then use maven to compile the sources, build the deployment package and deploy t
 ```bash
 mvn -s settings.xml install
 ```
+
+Undeploying works using maven as well.
+
+```bash
+mvn -s settings.xml clean post-clean
+```
+
+## Working with test data
+
+`fixtures/` contains XML files for the service's domain objects. You can use them as test data. For example, use cURL to save data using the service.
+
+```bash
+curl -X POST http://localhost:8880/storesmicroservice/rest/trading-enterprises -H "Content-Type: application/xml" -d @fixtures/tradingenterprise/1.xml
+```
+
+Assuming the service was running and using the ID 1, fetch it using cURL like that:
+
+```bash
+curl -X GET http://localhost:8880/storesmicroservice/rest/trading-enterprises/1 -H "Accept: application/xml"
+```
