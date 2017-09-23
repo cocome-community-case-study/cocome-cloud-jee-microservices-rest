@@ -53,6 +53,7 @@ public class TradingEnterpriseResource {
 	
 	@PUT
 	@Path("/{id}")
+	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, TradingEnterprise tradingEnterprise) {
 		tradingEnterpriseRepository.update(tradingEnterprise);
 		return Response.noContent().build();
