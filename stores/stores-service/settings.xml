@@ -10,13 +10,13 @@
 				<!-- deployment properties -->
 
 				<!-- logic node deployment configuration -->
-				<productsmicroservice.protocol>http</productsmicroservice.protocol>
-				<productsmicroservice.domain>storesmicroservice</productsmicroservice.domain>
-				<productsmicroservice.host>localhost</productsmicroservice.host>
-				<productsmicroservice.httpPort>8880</productsmicroservice.httpPort>
-				<productsmicroservice.adminPort>8848</productsmicroservice.adminPort>
-				<productsmicroservice.user>admin</productsmicroservice.user>
-				<productsmicroservice.password></productsmicroservice.password>
+				<storesmicroservice.protocol>http</storesmicroservice.protocol>
+				<storesmicroservice.domain>storesmicroservice</storesmicroservice.domain>
+				<storesmicroservice.host>localhost</storesmicroservice.host>
+				<storesmicroservice.httpPort>8880</storesmicroservice.httpPort>
+				<storesmicroservice.adminPort>8848</storesmicroservice.adminPort>
+				<storesmicroservice.user>admin</storesmicroservice.user>
+				<storesmicroservice.password></storesmicroservice.password>
 			</properties>
 		</profile>
 	</profiles>
