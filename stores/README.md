@@ -43,8 +43,10 @@ mvn -s settings.xml clean post-clean
 `fixtures/` contains XML files for the service's domain objects. You can use them as test data. For example, use cURL to save data using the service.
 
 ```bash
-curl -X POST http://localhost:8880/storesmicroservice/rest/trading-enterprises -H "Content-Type: application/xml" -d @fixtures/tradingenterprise/1.xml
+curl -X POST http://localhost:8880/storesmicroservice/rest/trading-enterprises -H "Content-Type: application/xml" -d @fixtures/tradingenterprise/1.xml -v
 ```
+
+By using the `-v` flag, you will see that the service answers with a *201 Created* status code and the URI to the newly created resource in the `Location` header.
 
 Assuming the service was running and using the ID 1, fetch it using cURL like that:
 
