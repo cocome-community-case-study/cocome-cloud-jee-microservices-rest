@@ -3,7 +3,7 @@ package org.cocome.storesservice.repository;
 import java.util.Collection;
 
 public interface Repository<EntityType, KeyType> {
-	void create(EntityType entity);
+	KeyType create(EntityType entity);
 	
 	EntityType find(KeyType id);
 	

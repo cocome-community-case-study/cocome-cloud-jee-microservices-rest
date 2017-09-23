@@ -16,8 +16,9 @@ public class StoreDBRepository implements StoreRepository {
 	private EntityManager em;
 	
 	@Override
-	public void create(Store entity) {
+	public Long create(Store entity) {
 		em.persist(entity);
+		return entity.getId();
 	}
 
 	@Override

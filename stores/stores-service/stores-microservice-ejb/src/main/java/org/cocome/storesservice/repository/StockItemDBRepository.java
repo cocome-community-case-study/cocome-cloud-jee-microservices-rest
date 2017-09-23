@@ -16,8 +16,9 @@ public class StockItemDBRepository implements StockItemRepository {
 	private EntityManager em;
 
 	@Override
-	public void create(StockItem entity) {
+	public Long create(StockItem entity) {
 		em.persist(entity);
+		return entity.getId();
 	}
 
 	@Override

@@ -18,8 +18,9 @@ public class TradingEnterpriseDBRepository implements TradingEnterpriseRepositor
 	public TradingEnterpriseDBRepository() {}
 
 	@Override
-	public void create(TradingEnterprise entity) {
+	public Long create(TradingEnterprise entity) {
 		em.persist(entity);
+		return entity.getId();
 	}
 
 	@Override
