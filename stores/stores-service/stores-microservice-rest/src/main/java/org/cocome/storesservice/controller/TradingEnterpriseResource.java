@@ -17,7 +17,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.cocome.storesservice.domain.Store;
 import org.cocome.storesservice.domain.TradingEnterprise;
+import org.cocome.storesservice.repository.StoreRepository;
 import org.cocome.storesservice.repository.TradingEnterpriseRepository;
 
 /**
@@ -32,8 +34,11 @@ public class TradingEnterpriseResource {
 	@EJB
 	private TradingEnterpriseRepository tradingEnterpriseRepository;
 	
+	@EJB
+	private StoreRepository storeRepository;
+	
 	@GET
-	public Collection<TradingEnterprise> finAll() {
+	public Collection<TradingEnterprise> findAll() {
 		return tradingEnterpriseRepository.all();
 	}
 	
@@ -68,4 +73,22 @@ public class TradingEnterpriseResource {
 	}
 	
 	// Creating and Fetching nested stores
+	
+	@GET
+	@Path("/{id}/stores")
+	public Collection<Store> findStores(@PathParam("id") Long enterpriseId) {
+		TradingEnterprise tradingEnterprise = tradingEnterpriseRepository.find(enterpriseId);
+		return tradingEnterprise.getStores();
+	}
+	
+	@POST
+	@Path("/{id}/stores")
+	@Consumes(MediaType.APPLICATION_XML)
+	public Response createStore(@Context UriInfo uriInfo, @PathParam("id") Long enterpriseId, Store store) {
+		TradingEnterprise tradingEnterprise = tradingEnterpriseRepository.find(enterpriseId);
+		store.setEnterprise(tradingEnterprise);
+		Long storeId = storeRepository.create(store);
+		UriBuilder builder = UriBuilder.fromUri(uriInfo.getBaseUri()).path(StoreResource.class).path(storeId.toString());
+		return Response.created(builder.build()).build();
+	}
 }
