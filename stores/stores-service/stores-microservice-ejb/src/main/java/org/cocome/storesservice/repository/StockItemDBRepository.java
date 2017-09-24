@@ -38,7 +38,6 @@ public class StockItemDBRepository implements StockItemRepository {
 
 	@Override
 	public Collection<StockItem> all() {
-		// TODO Auto-generated method stub
-		return null;
+		return em.createQuery("SELECT s FROM StockItem s", StockItem.class).getResultList();
 	}
 }

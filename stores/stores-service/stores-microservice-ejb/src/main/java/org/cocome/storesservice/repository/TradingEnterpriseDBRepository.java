@@ -40,7 +40,6 @@ public class TradingEnterpriseDBRepository implements TradingEnterpriseRepositor
 
 	@Override
 	public Collection<TradingEnterprise> all() {
-		// TODO Auto-generated method stub
-		return null;
+		return em.createQuery("SELECT t FROM TradingEnterprise t", TradingEnterprise.class).getResultList();
 	}
 }

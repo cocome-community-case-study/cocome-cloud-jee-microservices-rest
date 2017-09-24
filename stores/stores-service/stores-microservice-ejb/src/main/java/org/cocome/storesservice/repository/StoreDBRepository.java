@@ -38,7 +38,6 @@ public class StoreDBRepository implements StoreRepository {
 
 	@Override
 	public Collection<Store> all() {
-		// TODO Auto-generated method stub
-		return null;
+		return em.createQuery("SELECT s FROM Store s", Store.class).getResultList();
 	}
 }
