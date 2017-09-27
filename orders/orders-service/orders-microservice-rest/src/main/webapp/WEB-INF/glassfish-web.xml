@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE glassfish-web-app PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN" "http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd">
+<glassfish-web-app>
+	<context-root>/ordersmicroservice</context-root>
+	<security-role-mapping>
+		<role-name>ADMIN</role-name>
+		<group-name>admin</group-name>
+	</security-role-mapping>
+	<session-config>
+		<session-manager />
+	</session-config>
+	<resource-ref>
+		<res-ref-name>mail/Session</res-ref-name>
+		<jndi-name>mail/Session</jndi-name>
+	</resource-ref>
+	<jsp-config />
+</glassfish-web-app>
