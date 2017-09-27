@@ -1,4 +1,4 @@
-package org.cocome.storesservice.repository;
+package org.cocome.productsservice.repository;
 
 import java.util.Collection;
 

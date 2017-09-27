@@ -6,7 +6,7 @@
 	<display-name>cocome.cloud.productsmicroservice</display-name>
 	<context-param>
 		<param-name>deploymentId</param-name>
-		<param-value>cocome.cloud.storesmicroservice.1</param-value>
+		<param-value>cocome.cloud.productsmicroservice.1</param-value>
 	</context-param>
 	<servlet>
 		<servlet-name>javax.ws.rs.core.Application</servlet-name>
