@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.cocome</groupId>
+	<artifactId>products-microservice</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0</version>
+	<name>CoCoME Products Microservice Parent</name>
+
+	<modules>
+		<module>products-microservice-ear</module>
+		<module>products-microservice-ejb</module>
+		<module>products-microservice-rest</module>
+	</modules>
+
+	<properties>
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<!-- Static build properties -->
+		<!-- -->
+
+		<java-version>1.7</java-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<ejb-spec-version>3.1</ejb-spec-version>
+		<ear-spec-version>6</ear-spec-version>
+		<ejb-plugin-version>2.3</ejb-plugin-version>
+		<war-plugin-version>2.2</war-plugin-version>
+		<ear-plugin-version>2.6</ear-plugin-version>
+		<compiler-plugin-version>2.3.2</compiler-plugin-version>
+		<javaee-api-version>6.0</javaee-api-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<junit-version>4.12</junit-version>
+		<jboss-javaee-version>3.0.3.Final</jboss-javaee-version>
+		<log4j-version>2.1</log4j-version>
+		<mockito-version>2.0.28-beta</mockito-version>
+		<soapui-plugin-version>5.1.3</soapui-plugin-version>
+		<jaxws-plugin-version>2.4.1</jaxws-plugin-version>
+		<maven-dep-plugin-version>2.1</maven-dep-plugin-version>
+		<maven-build-helper-version>1.9.1</maven-build-helper-version>
+		<cxf.version>3.1.6</cxf.version>
+
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<!-- Site deployment properties -->
+		<!-- -->
+		<!-- Site deployment properties must be configured in -->
+		<!-- a settings.xml and used in a build as follows: -->
+		<!-- -->
+		<!-- mvn -s settings.xml GOAL -->
+		<!-- -->
+		<!-- Refer to the settings.xml.template file in the -->
+		<!-- project root directory. -->
+
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<!-- Static deployment properties -->
+		<!-- -->
+	</properties>
+
+
+	<repositories>
+		<repository>
+			<id>maven-central</id>
+			<name>official maven central repo</name>
+			<url>http://repo1.maven.org/maven2/</url>
+		</repository>
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven</name>
+			<url>http://download.java.net/maven/2</url>
+		</repository>
+		<repository>
+			<id>glassfish-repository</id>
+			<name>Java.net Repository for Glassfish</name>
+			<url>http://download.java.net/maven/glassfish</url>
+		</repository>
+		<repository>
+			<id>fusesource.m2</id>
+			<name>Apache CXF Open Source Community Release Repository</name>
+			<url>http://repo.fusesource.com/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>maven.java.net</id>
+			<name>Java.net Maven2 Repository</name>
+			<url>http://download.java.net/maven/2</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>glassfish-repository</id>
+			<name>Java.net Repository for Glassfish</name>
+			<url>http://download.java.net/maven/glassfish</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>maven-central</id>
+			<name>official maven central repo</name>
+			<url>http://repo1.maven.org/maven2/</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>SmartBearPluginRepository</id>
+			<url>http://www.soapui.org/repository/maven2/</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>fusesource.m2</id>
+			<name>Apache CXF Open Source Community Release Repository</name>
+			<url>http://repo.fusesource.com/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-all-6.0</artifactId>
+				<version>${jboss-javaee-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-web-6.0</artifactId>
+				<version>${jboss-javaee-version}</version>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-1.2-api</artifactId>
+				<version>${log4j-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>${mockito-version}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.17</version>
+				<configuration>
+					<configLocation>checkstyle.xml</configLocation>
+				</configuration>
+			</plugin>
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-java2ws-plugin</artifactId>
+					<version>${cxf.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-codegen-plugin</artifactId>
+					<version>${cxf.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${compiler-plugin-version}</version>
+					<configuration>
+						<source>${java-version}</source>
+						<target>${java-version}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>${maven-build-helper-version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-ejb-plugin</artifactId>
+					<version>${ejb-plugin-version}</version>
+					<configuration>
+						<ejbVersion>${ejb-spec-version}</ejbVersion>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${war-plugin-version}</version>
+					<configuration>
+						<failOnMissingWebXml>false</failOnMissingWebXml>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-ear-plugin</artifactId>
+					<version>${ear-plugin-version}</version>
+					<configuration>
+						<version>${ear-spec-version}</version>
+						<defaultLibBundleDir>lib</defaultLibBundleDir>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>${maven-dep-plugin-version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>jaxws-maven-plugin</artifactId>
+					<version>${jaxws-plugin-version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>com.smartbear.soapui</groupId>
+					<artifactId>soapui-maven-plugin</artifactId>
+					<version>${soapui-plugin-version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
