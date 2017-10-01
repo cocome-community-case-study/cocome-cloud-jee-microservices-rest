@@ -11,7 +11,7 @@
 
 				<!-- logic node deployment configuration -->
 				<productsmicroservice.protocol>http</productsmicroservice.protocol>
-				<productsmicroservice.domain>storesmicroservice</productsmicroservice.domain>
+				<productsmicroservice.domain>productsmicroservice</productsmicroservice.domain>
 				<productsmicroservice.host>localhost</productsmicroservice.host>
 				<productsmicroservice.httpPort>8980</productsmicroservice.httpPort>
 				<productsmicroservice.adminPort>8948</productsmicroservice.adminPort>
