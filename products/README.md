@@ -37,3 +37,19 @@ Undeploying works using maven as well.
 ```bash
 mvn -s settings.xml clean post-clean
 ```
+
+## Working with test data
+
+`fixtures/` contains XML files for the service's domain objects. You can use them as test data. For example, use cURL to save data using the service. The following request presumes that there exists a trading enterprise with ID 1.
+
+```bash
+curl -X POST http://localhost:8980/productsmicroservice/rest/trading-enterprises/1/product-suppliers -H "Content-Type: application/xml" -d @fixtures/productsupplier/1.xml -v
+```
+
+By using the `-v` flag, you will see that the service answers with a *201 Created* status code and the URI to the newly created resource in the `Location` header.
+
+Assuming the service was running and using the ID 1, fetch it using cURL like that:
+
+```bash
+url -X GET http://localhost:8980/productsmicroservice/rest/product-suppliers/1 -H "Accept: application/xml"
+```
