@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
@@ -37,8 +39,8 @@ public class ProductSupplierResource {
 	
 	@PUT
 	@Path("/{id}")
-	public Response update(@PathParam("id") Long id) {
-		ProductSupplier supplier = productSupplierRepository.find(id);
+	@Consumes(MediaType.APPLICATION_XML)
+	public Response update(@PathParam("id") Long id, ProductSupplier supplier) {
 		productSupplierRepository.update(supplier);
 		return Response.noContent().build();
 	}
@@ -61,6 +63,7 @@ public class ProductSupplierResource {
 	
 	@POST
 	@Path("/{id}/products")
+	@Consumes(MediaType.APPLICATION_XML)
 	public Response createProduct(@Context UriInfo uriInfo, @PathParam("id") Long supplierId, Product product) {
 		ProductSupplier supplier = productSupplierRepository.find(supplierId);
 		product.setSupplier(supplier);
