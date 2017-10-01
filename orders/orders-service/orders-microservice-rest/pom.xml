@@ -24,7 +24,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.cocome</groupId>
-			<artifactId>products-microservice-ejb</artifactId>
+			<artifactId>orders-microservice-ejb</artifactId>
 			<version>1.0</version>
 			<scope>provided</scope>
 		</dependency>
