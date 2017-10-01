@@ -4,17 +4,20 @@ import java.util.Collection;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.cocome.productsservice.domain.ProductSupplier;
 import org.cocome.productsservice.repository.ProductSupplierRepository;
+
 
 /**
  * This helper resource is needed to fetch and create suppliers. To interact with enterprises, refer to the equally named resource
@@ -25,7 +28,7 @@ import org.cocome.productsservice.repository.ProductSupplierRepository;
  */
 @RequestScoped
 @Path("/trading-enterprises")
-class TradingEnterpriseResource {
+public class TradingEnterpriseResource {	
 	@EJB
 	private ProductSupplierRepository supplierRepository;
 	
@@ -37,6 +40,7 @@ class TradingEnterpriseResource {
 	
 	@POST
 	@Path("/{id}/product-suppliers")
+	@Consumes(MediaType.APPLICATION_XML)
 	public Response createSupplier(@Context UriInfo uriInfo, @PathParam("id") Long enterpriseId, ProductSupplier supplier) {
 		supplier.setEnterpriseId(enterpriseId);
 		Long supplierId = supplierRepository.create(supplier);
