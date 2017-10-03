@@ -14,7 +14,7 @@
 				<reportsmicroservice.domain>reportsmicroservice</reportsmicroservice.domain>
 				<reportsmicroservice.host>localhost</reportsmicroservice.host>
 				<reportsmicroservice.httpPort>8680</reportsmicroservice.httpPort>
-				<reportsmicroservice.adminPort>8648</preportsmicroservice.adminPort>
+				<reportsmicroservice.adminPort>8648</reportsmicroservice.adminPort>
 				<reportsmicroservice.user>admin</reportsmicroservice.user>
 				<reportsmicroservice.password></reportsmicroservice.password>
 			</properties>
