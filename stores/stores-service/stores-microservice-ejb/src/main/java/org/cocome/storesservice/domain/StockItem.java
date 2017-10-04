@@ -8,6 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -17,17 +23,36 @@ import javax.persistence.ManyToOne;
  * @author Yannick Welsch
  */
 @Entity
+@XmlRootElement(name = "StockItem")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "StockItem", propOrder = { "productId", "store", "salesPrice", "amount", "minStock", "maxStock", "incomingAmount" })
 public class StockItem implements Serializable {
 
 	private static final long serialVersionUID = -293179135307588628L;
+	
+	@XmlTransient
 	private long id;
+	
+	@XmlElement(name = "SalesPrice")
 	private double salesPrice;
+	
+	@XmlElement(name = "Amount")
 	private long amount;
+	
+	@XmlElement(name = "MinStock")
 	private long minStock;
+	
+	@XmlElement(name = "MaxStock")
 	private long maxStock;
+	
+	@XmlElement(name = "IncomingAmount")
 	private long incomingAmount;
+		
+	@XmlElement(name = "ProductId")
+	private long productId;
+	
+	@XmlElement(name = "Store")
 	private Store store;
-//	private Product product;
 
 	/** Empty constructor. */
 	public StockItem() {}
@@ -105,22 +130,6 @@ public class StockItem implements Serializable {
 		this.minStock = minStock;
 	}
 
-//	/**
-//	 * @return The Product of a StockItem.
-//	 */
-//	@ManyToOne
-//	public Product getProduct() {
-//		return this.product;
-//	}
-
-//	/**
-//	 * @param product
-//	 *            the Product of a StockItem
-//	 */
-//	public void setProduct(final Product product) {
-//		this.product = product;
-//	}
-
 	/**
 	 * @return The sales price of the StockItem
 	 */
@@ -158,6 +167,14 @@ public class StockItem implements Serializable {
 	 */
 	public void setIncomingAmount(final long incomingAmount) {
 		this.incomingAmount = incomingAmount;
+	}
+	
+	public void setProductId(long productId) {
+		this.productId = productId;
+	}
+	
+	public long getProductId() {
+		return this.productId;
 	}
 
 	/**
