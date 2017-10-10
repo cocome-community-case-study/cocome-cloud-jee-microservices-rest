@@ -12,18 +12,12 @@ Before the first deployment, the domain for the jee application (which is the pr
 asadmin create-domain --portbase 8600 reportsmicroservice
 ```
 
-After that, a JBCD resource has to be created.
-
-```bash
-asadmin create-jdbc-resource --connectionpoolid DerbyPool --host localhost --port 8648  jdbc/CoCoMEReportsServiceDB
-```
-
 ### Deploying into Glassfish
 
 Start the database and domain first.
 
 ```bash
-asadmin start-database & asadmin start-domain reportsmicroservice
+asadmin start-domain reportsmicroservice
 ```
 
 Then use maven to compile the sources, build the deployment package and deploy to glassfish.
