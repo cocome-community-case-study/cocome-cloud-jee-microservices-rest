@@ -11,14 +11,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -28,19 +26,16 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @XmlRootElement(name = "Enterprise")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Enterprise", propOrder = {"name","stores"})
+@XmlType(name = "Enterprise", propOrder = {"id", "name","stores"})
 public class TradingEnterprise implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlTransient
+	@XmlElement(name="Id")
 	private long id;
 
 	@XmlElement(name="Name")
 	private String name;
-
-//	@XmlTransient
-//	private Collection<ProductSupplier> suppliers;
 
 	@XmlElementWrapper(name="Stores")
 	@XmlElement(name="Store")
@@ -94,22 +89,6 @@ public class TradingEnterprise implements Serializable{
 	public void setStores(Collection<Store> stores) {
 		this.stores = stores;
 	}
-
-//	/**
-//	 * @return Collection of Suppliers related to the TradingEnterprise
-//	 */
-//	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//	public Collection<ProductSupplier> getSuppliers() {
-//		return suppliers;
-//	}
-
-//	/**
-//	 * @param suppliers
-//	 *            Collection of Suppliers related to the TradingEnterprise
-//	 */
-//	public void setSuppliers(Collection<ProductSupplier> suppliers) {
-//		this.suppliers = suppliers;
-//	}
 	
 	@Override
 	public String toString() {

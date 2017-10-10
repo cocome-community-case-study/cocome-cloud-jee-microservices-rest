@@ -6,7 +6,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -18,12 +17,12 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name = "StockItem")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StockItem", propOrder = { "productId", "store", "salesPrice", "amount", "minStock", "maxStock", "incomingAmount" })
+@XmlType(name = "StockItem", propOrder = { "id", "productId", "store", "salesPrice", "amount", "minStock", "maxStock", "incomingAmount" })
 public class StockItem implements Serializable {
 
 	private static final long serialVersionUID = -293179135307588628L;
 	
-	@XmlTransient
+	@XmlElement(name = "Id")
 	private long id;
 	
 	@XmlElement(name = "SalesPrice")
