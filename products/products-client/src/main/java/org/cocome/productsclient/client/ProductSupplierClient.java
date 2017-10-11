@@ -7,6 +7,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -21,12 +22,11 @@ private final WebTarget webTarget;
 		this.webTarget = client.target(Config.getBaseUri());
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Collection<ProductSupplier> findAll() {
 		return this.webTarget.path("product-suppliers")
 							 .request()
 							 .accept(MediaType.APPLICATION_XML_TYPE)
-							 .get(Collection.class);
+							 .get(new GenericType<Collection<ProductSupplier>> () {});
 	}
 	
 	public ProductSupplier find(long id) {
@@ -68,6 +68,6 @@ private final WebTarget webTarget;
 									.path("product-suppliers")
 									.request()
 									.accept(MediaType.APPLICATION_XML_TYPE)
-									.get(Collection.class);
+									.get(new GenericType<Collection<ProductSupplier>> () {});
 	}
 }
