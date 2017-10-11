@@ -31,6 +31,18 @@
 			<artifactId>cargo-core-container-glassfish</artifactId>
 			<version>1.4.19</version>
 		</dependency>
+		<dependency>
+			<groupId>org.cocome</groupId>
+			<artifactId>stores-client</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.cocome</groupId>
+			<artifactId>products-client</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -47,6 +59,20 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<modules>
+						<jarModule>
+							<groupId>org.cocome</groupId>
+							<artifactId>stores-client</artifactId>
+							<includeInApplicationXml>true</includeInApplicationXml>
+						</jarModule>
+						<jarModule>
+							<groupId>org.cocome</groupId>
+							<artifactId>products-client</artifactId>
+							<includeInApplicationXml>true</includeInApplicationXml>
+						</jarModule>
+					</modules>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.cargo</groupId>

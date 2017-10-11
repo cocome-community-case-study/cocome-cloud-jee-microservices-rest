@@ -117,6 +117,33 @@
 							</artifactItems>
 						</configuration>
 					</execution>
+					<execution>
+						<id>copy</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.cocome</groupId>
+									<artifactId>stores-client</artifactId>
+									<version>1.0</version>
+									<type>jar</type>
+									<overWrite>false</overWrite>
+              						<outputDirectory>${project.build.directory}/lib/</outputDirectory>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.cocome</groupId>
+									<artifactId>products-client</artifactId>
+									<version>1.0</version>
+									<type>jar</type>
+									<overWrite>false</overWrite>
+              						<outputDirectory>${project.build.directory}/lib/</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 <!-- 			<plugin> -->
