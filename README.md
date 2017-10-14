@@ -27,6 +27,61 @@ To import this project into Eclipse, follow these steps.
 * *Root Directory* -> *Click "Browse"* -> Select the directory of this project
 * *Click "Finish"*
 
-## Deployment
+## Installation in a nutshell
 
-For deployment instructions please refer to the README files of the corresponding services (in the corresponding sub directories).
+Each microservice includes a README file with detailed deployment instructions. If you want to set up all of them, follow these steps:
+
+**1. Create the domains**
+
+```bash
+asadmin create-domain --portbase 8800 storesmicroservice
+asadmin create-domain --portbase 8900 productsmicroservice
+asadmin create-domain --portbase 8700 ordersmicroservice
+asadmin create-domain --portbase 8600 reportsmicroservice
+```
+
+**2. Start the domains**
+
+
+```bash
+asadmin start-domain storesmicroservice
+asadmin start-domain productsmicroservice
+asadmin start-domain ordersmicroservice
+asadmin start-domain reportsmicroservice
+```
+
+**3. Create the databases**
+
+```bash
+asadmin create-jdbc-resource --connectionpoolid DerbyPool --host localhost --port 8848  jdbc/CoCoMEStoresServiceDB
+asadmin create-jdbc-resource --connectionpoolid DerbyPool --host localhost --port 8948  jdbc/CoCoMEProductsServiceDB
+asadmin create-jdbc-resource --connectionpoolid DerbyPool --host localhost --port 8748  jdbc/CoCoMEOrdersServiceDB
+```
+
+**4. Start the databases**
+
+```bash
+asadmin start-database
+```
+
+**5. Build the client libraries**
+
+The client libraries need to be built first, because some of the services depend on them.
+
+```bash
+cd stores/stores-client     & mvn install
+cd products/products-client & mvn install
+cd orders/orders-client     & mvn install
+cd reporst/reports-client   & mvn install
+```
+
+**6. Build and deploy the services**
+
+The maven commands not only builds deployable packages but also deploys them to their corresponding glassfish domains.
+
+```bash
+cd stores/stores-service     & mvn -s settings.xml install
+cd products/products-service & mvn -s settings.xml install
+cd orders/orders-service     & mvn -s settings.xml install
+cd reports/reports-service   & mvn -s settings.xml install
+```
