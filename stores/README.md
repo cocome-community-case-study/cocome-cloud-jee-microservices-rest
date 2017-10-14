@@ -44,33 +44,33 @@ URI Schema: `http://{hostname}:8880/storesmicroservice/rest` + resource path
 
 ### Resource: Trading Enterprise
 
-| Resource | Path | HTTP Operation | Status Code | Response |
-| --- | --- | --- | --- | --- |
-| Trading Enterprise | /trading-enterprises | GET | 200 | XML representations of resource list |
-| Trading Enterprise | /trading-enterprises | POST | 201 | URI to resource in `Location` header |
-| Trading Enterprise | /trading-enterprises/{id} | GET | 200 | XML representation of resource |
-| Trading Enterprise | /trading-enterprises/{id} | PUT | 204 | Empty |
-| Trading Enterprise | /trading-enterprises/{id} | DELETE | 204 | Empty |
+| Path | HTTP Operation | Status Code | Response |
+| --- | --- | --- | --- |
+| /trading-enterprises | GET | 200 | XML representations of resource list |
+| /trading-enterprises | POST | 201 | URI to resource in `Location` header |
+| /trading-enterprises/{id} | GET | 200 | XML representation of resource |
+| /trading-enterprises/{id} | PUT | 204 | Empty |
+| /trading-enterprises/{id} | DELETE | 204 | Empty |
 
 ### Resource: Store
 
-| Resource | Path | HTTP Operation | Status Code | Response |
-| --- | --- | --- | --- | --- |
-| Store | /trading-enterprises/{id}/stores | GET | 200 | XML representations of resource list |
-| Store | /trading-enterprises/{id}/stores | POST | 201 | URI to resource in `Location` header |
-| Store | /stores/{id} | GET | 200 | XML representation of resource |
-| Store | /stores/{id} | PUT | 204 | Empty |
-| Store | /stores/{id} | DELETE | 204 | Empty |
+| Path | HTTP Operation | Status Code | Response |
+| --- | --- | --- | --- |
+| /trading-enterprises/{id}/stores | GET | 200 | XML representations of resource list |
+| /trading-enterprises/{id}/stores | POST | 201 | URI to resource in `Location` header |
+| /stores/{id} | GET | 200 | XML representation of resource |
+| /stores/{id} | PUT | 204 | Empty |
+| /stores/{id} | DELETE | 204 | Empty |
 
 ### Resource: Stock Item
 
-| Resource | Path | HTTP Operation | Status Code | Response |
-| --- | --- | --- | --- | --- |
-| Stock Item | /stores/{id}/stock-items | GET | 200 | XML representations of resource list |
-| Stock Item | /stores/{id}/stock-items | POST | 201 | URI to resource in `Location` header |
-| Stock Item | /stock-items/{id} | GET | 200 | XML representation of resource |
-| Stock Item | /stock-items/{id} | PUT | 204 | Empty |
-| Stock Item | /stock-items/{id} | DELETE | 204 | Empty |
+| Path | HTTP Operation | Status Code | Response |
+| --- | --- | --- | --- |
+| /stores/{id}/stock-items | GET | 200 | XML representations of resource list |
+| /stores/{id}/stock-items | POST | 201 | URI to resource in `Location` header |
+| /stock-items/{id} | GET | 200 | XML representation of resource |
+| /stock-items/{id} | PUT | 204 | Empty |
+| /stock-items/{id} | DELETE | 204 | Empty |
 
 ## Working with test data
 

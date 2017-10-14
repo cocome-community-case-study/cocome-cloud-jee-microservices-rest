@@ -18,6 +18,30 @@ After that, a JBCD resource has to be created.
 asadmin create-jdbc-resource --connectionpoolid DerbyPool --host localhost --port 8748  jdbc/CoCoMEOrdersServiceDB
 ```
 
+## RESTful API
+
+URI Schema: `http://{hostname}:8780/storesmicroservice/rest` + resource path
+
+### Resource: Product Order
+
+| Path | HTTP Operation | Status Code | Response |
+| --- | --- | --- | --- |
+| /stores/{id}/product-orders | GET | 200 | XML representations of resource list |
+| /stores/{id}/product-orders | POST | 201 | URI to resource in `Location` header |
+| /product-orders/{id} | GET | 200 | XML representation of resource |
+| /product-orders/{id} | PUT | 204 | Empty |
+| /product-orders/{id} | DELETE | 204 | Empty |
+
+### Resource: Order Entry
+
+| Path | HTTP Operation | Status Code | Response |
+| --- | --- | --- | --- |
+| /product-orders/{id}/order-entries | GET | 200 | XML representations of resource list |
+| /product-orders/{id}/order-entries | POST | 201 | URI to resource in `Location` header |
+| /order-entries/{id} | GET | 200 | XML representation of resource |
+| /order-entries/{id} | PUT | 204 | Empty |
+| /order-entries/{id} | DELETE | 204 | Empty |
+
 ### Deploying into Glassfish
 
 Start the database and domain first.
