@@ -38,6 +38,40 @@ Undeploying works using maven as well.
 mvn -s settings.xml clean post-clean
 ```
 
+## RESTful API
+
+URI Schema: `http://{hostname}:8880/storesmicroservice/rest` + resource path
+
+### Resource: Trading Enterprise
+
+| Resource | Path | HTTP Operation | Status Code | Response |
+| --- | --- | --- | --- | --- |
+| Trading Enterprise | /trading-enterprises | GET | 200 | XML representations of resource list |
+| Trading Enterprise | /trading-enterprises | POST | 201 | URI to resource in `Location` header |
+| Trading Enterprise | /trading-enterprises/{id} | GET | 200 | XML representation of resource |
+| Trading Enterprise | /trading-enterprises/{id} | PUT | 204 | Empty |
+| Trading Enterprise | /trading-enterprises/{id} | DELETE | 204 | Empty |
+
+### Resource: Store
+
+| Resource | Path | HTTP Operation | Status Code | Response |
+| --- | --- | --- | --- | --- |
+| Store | /trading-enterprises/{id}/stores | GET | 200 | XML representations of resource list |
+| Store | /trading-enterprises/{id}/stores | POST | 201 | URI to resource in `Location` header |
+| Store | /stores/{id} | GET | 200 | XML representation of resource |
+| Store | /stores/{id} | PUT | 204 | Empty |
+| Store | /stores/{id} | DELETE | 204 | Empty |
+
+### Resource: Stock Item
+
+| Resource | Path | HTTP Operation | Status Code | Response |
+| --- | --- | --- | --- | --- |
+| Stock Item | /stores/{id}/stock-items | GET | 200 | XML representations of resource list |
+| Stock Item | /stores/{id}/stock-items | POST | 201 | URI to resource in `Location` header |
+| Stock Item | /stock-items/{id} | GET | 200 | XML representation of resource |
+| Stock Item | /stock-items/{id} | PUT | 204 | Empty |
+| Stock Item | /stock-items/{id} | DELETE | 204 | Empty |
+
 ## Working with test data
 
 `fixtures/` contains XML files for the service's domain objects. You can use them as test data. For example, use cURL to save data using the service.
