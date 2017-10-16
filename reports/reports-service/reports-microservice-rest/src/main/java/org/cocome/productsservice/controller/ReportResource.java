@@ -5,7 +5,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import org.cocome.reportsservice.domain.Report;
 import org.cocome.reportsservice.service.ReportGenerator;
@@ -20,7 +22,8 @@ public class ReportResource {
 	// POST /reports?type={report type}&id={enterprise or store id}
 	//
 	@POST
-	public Report generateReport(@DefaultValue("enterprise-stock") @QueryParam("type") String type, @QueryParam("id") Long id) {
+	@Produces(MediaType.TEXT_HTML)
+	public String generateReport(@DefaultValue("enterprise-stock") @QueryParam("type") String type, @QueryParam("id") Long id) {
 		Report report;
 		
 		switch (type) {
@@ -38,6 +41,6 @@ public class ReportResource {
 			break;
 		}
 		
-		return report;
+		return report.getReportText();
 	}
 }
