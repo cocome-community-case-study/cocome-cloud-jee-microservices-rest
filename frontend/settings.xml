@@ -1,0 +1,26 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                          https://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+	<profiles>
+		<profile>
+			<id>cocome-context</id>
+			<properties>
+				<!-- deployment properties -->
+
+				<!-- logic node deployment configuration -->
+				<frontendservice.protocol>http</frontendservice.protocol>
+				<frontendservice.domain>frontendservice</frontendservice.domain>
+				<frontendservice.host>localhost</frontendservice.host>
+				<frontendservice.httpPort>5980</frontendservice.httpPort>
+				<frontendservice.adminPort>8548</frontendservice.adminPort>
+				<frontendservice.user>admin</frontendservice.user>
+				<frontendservice.password></frontendservice.password>
+			</properties>
+		</profile>
+	</profiles>
+	<activeProfiles>
+		<activeProfile>cocome-context</activeProfile>
+	</activeProfiles>
+</settings>
