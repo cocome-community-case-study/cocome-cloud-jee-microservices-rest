@@ -15,7 +15,7 @@ import org.cocome.productsclient.config.Config;
 import org.cocome.productsclient.domain.Product;
 
 public class ProductClient {
-private final WebTarget webTarget;
+	private final WebTarget webTarget;
 	
 	public ProductClient() {
 		Client client = ClientBuilder.newClient();
