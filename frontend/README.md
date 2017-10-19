@@ -21,7 +21,7 @@ asadmin create-domain --portbase 8500 frontendservice
 Start the domain first.
 
 ```bash
-asadmin start-domain storesmicroservice
+asadmin start-domain frontendservice
 ```
 
 Then use maven to compile the sources, build the deployment package and deploy to glassfish.
