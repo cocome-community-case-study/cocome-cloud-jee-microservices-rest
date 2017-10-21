@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 /**
@@ -14,12 +15,12 @@ import javax.xml.bind.annotation.XmlAccessType;
  */
 @XmlRootElement(name = "Enterprise")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Enterprise", propOrder = { "id", "name" })
+@XmlType(name = "Enterprise", propOrder = { "name" })
 public class TradingEnterprise implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlElement(name = "Id")
+	@XmlTransient
 	private long id;
 
 	@XmlElement(name="Name")

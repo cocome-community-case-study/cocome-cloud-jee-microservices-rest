@@ -49,18 +49,20 @@ public class StoreClient {
 		return id;
 	}
 	
-	public void update(Store store) {
-		this.webTarget.path("stores")
-					  .path(Long.toString(store.getId()))
-					  .request(MediaType.APPLICATION_XML_TYPE)
-					  .put(Entity.xml(store));
+	public boolean update(Store store) {
+		Response response = this.webTarget.path("stores")
+			  .path(Long.toString(store.getId()))
+			  .request(MediaType.APPLICATION_XML_TYPE)
+			  .put(Entity.xml(store));
+		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
-	public void delete(Store store) {
-		this.webTarget.path("stores")
-					  .path(Long.toString(store.getId()))
-					  .request()
-					  .delete();
+	public boolean delete(Store store) {
+		Response response = this.webTarget.path("stores")
+			  .path(Long.toString(store.getId()))
+			  .request()
+			  .delete();
+		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
 	public Collection<Store> findByEnterprise(long enterpriseId) {

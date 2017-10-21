@@ -15,7 +15,7 @@ import org.cocome.storesclient.config.Config;
 import org.cocome.storesclient.domain.StockItem;
 
 public class StockItemClient {
-private final WebTarget webTarget;
+	private final WebTarget webTarget;
 	
 	public StockItemClient() {
 		Client client = ClientBuilder.newClient();
@@ -48,18 +48,22 @@ private final WebTarget webTarget;
 		return id;
 	}
 	
-	public void update(StockItem stockItem) {
-		this.webTarget.path("stock-items")
-					  .path(Long.toString(stockItem.getId()))
-					  .request(MediaType.APPLICATION_XML_TYPE)
-					  .put(Entity.xml(stockItem));
+	public boolean update(StockItem stockItem) {
+		Response response = this.webTarget.path("stock-items")
+			  .path(Long.toString(stockItem.getId()))
+			  .request(MediaType.APPLICATION_XML_TYPE)
+			  .put(Entity.xml(stockItem));
+		System.out.println(response.getStatus());
+		System.out.println(response.readEntity(String.class));
+		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
-	public void delete(StockItem stockItem) {
-		this.webTarget.path("stock-items")
-					  .path(Long.toString(stockItem.getId()))
-					  .request()
-					  .delete();
+	public boolean delete(StockItem stockItem) {
+		Response response = this.webTarget.path("stock-items")
+			  .path(Long.toString(stockItem.getId()))
+			  .request()
+			  .delete();
+		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
 	public Collection<StockItem> findByStore(long storeId) {

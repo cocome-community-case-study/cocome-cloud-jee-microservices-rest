@@ -44,17 +44,19 @@ public class TradingEnterpriseClient {
 		return id;
 	}
 	
-	public void update(TradingEnterprise enterprise) {
-		this.webTarget.path("trading-enterprises")
-					  .path(Long.toString(enterprise.getId()))
-					  .request(MediaType.APPLICATION_XML_TYPE)
-					  .put(Entity.xml(enterprise));
+	public boolean update(TradingEnterprise enterprise) {
+		Response response = this.webTarget.path("trading-enterprises")
+			  .path(Long.toString(enterprise.getId()))
+			  .request(MediaType.APPLICATION_XML_TYPE)
+			  .put(Entity.xml(enterprise));
+		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
-	public void delete(TradingEnterprise enterprise) {
-		this.webTarget.path("trading-enterprises")
-					  .path(Long.toString(enterprise.getId()))
-					  .request()
-					  .delete();
+	public boolean delete(TradingEnterprise enterprise) {
+		Response response = this.webTarget.path("trading-enterprises")
+			  .path(Long.toString(enterprise.getId()))
+			  .request()
+			  .delete();
+		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 }
