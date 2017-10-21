@@ -14,7 +14,7 @@ import org.cocome.ordersservice.domain.OrderEntry;
 public class OrderEntryDBRepository implements OrderEntryRepository {
 	@PersistenceContext(unitName = "InventoryManager")
 	private EntityManager em;
-	
+		
 	@Override
 	public Long create(OrderEntry entity) {
 		em.persist(entity);
@@ -28,11 +28,17 @@ public class OrderEntryDBRepository implements OrderEntryRepository {
 
 	@Override
 	public void update(OrderEntry entity) {
+		if (!em.contains(entity))
+			entity = em.merge(entity);
+		
 		em.persist(entity);
 	}
 
 	@Override
 	public void delete(OrderEntry entity) {
+		if (!em.contains(entity))
+			entity = em.merge(entity);
+		
 		em.remove(entity);
 	}
 

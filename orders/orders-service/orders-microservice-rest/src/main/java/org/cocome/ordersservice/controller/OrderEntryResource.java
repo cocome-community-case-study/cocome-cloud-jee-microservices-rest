@@ -19,7 +19,7 @@ import org.cocome.ordersservice.repository.OrderEntryRepository;
 public class OrderEntryResource {
 	@EJB
 	private OrderEntryRepository entryRepository;
-	
+		
 	@GET
 	@Path("/{id}")
 	public OrderEntry find(@PathParam("id") Long id) {

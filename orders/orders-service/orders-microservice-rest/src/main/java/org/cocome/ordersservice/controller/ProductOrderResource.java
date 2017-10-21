@@ -1,6 +1,7 @@
 package org.cocome.ordersservice.controller;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;

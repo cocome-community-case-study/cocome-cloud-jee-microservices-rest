@@ -28,11 +28,17 @@ public class ProductSupplierDBRepository implements ProductSupplierRepository {
 
 	@Override
 	public void update(ProductSupplier entity) {
+		if (!em.contains(entity))
+			entity = em.merge(entity);
+		
 		em.persist(entity);
 	}
 
 	@Override
 	public void delete(ProductSupplier entity) {
+		if (!em.contains(entity))
+			entity = em.merge(entity);
+		
 		em.remove(entity);
 	}
 
