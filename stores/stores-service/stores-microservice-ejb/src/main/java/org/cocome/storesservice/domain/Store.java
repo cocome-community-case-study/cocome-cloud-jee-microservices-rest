@@ -144,7 +144,7 @@ public class Store implements Serializable, Comparable<Store> {
 
 	@Override
 	public String toString() {
-		return "[Id:" + this.getId() + ",Name:" + this.getName() + ",Location:" + this.getLocation() + ",EnterpriseId:" + this.getEnterprise().getId() + "]";
+		return "[Id:" + this.getId() + ",Name:" + this.getName() + ",Location:" + this.getLocation() + "]";
 	}
 
 	@Override

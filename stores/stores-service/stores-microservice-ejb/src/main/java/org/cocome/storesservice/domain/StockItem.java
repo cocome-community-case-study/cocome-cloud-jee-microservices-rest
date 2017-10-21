@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @XmlRootElement(name = "StockItem")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StockItem", propOrder = { "Id", "productId", "store", "salesPrice", "amount", "minStock", "maxStock", "incomingAmount" })
+@XmlType(name = "StockItem", propOrder = { "id", "productId", "store", "salesPrice", "amount", "minStock", "maxStock", "incomingAmount" })
 public class StockItem implements Serializable {
 
 	private static final long serialVersionUID = -293179135307588628L;

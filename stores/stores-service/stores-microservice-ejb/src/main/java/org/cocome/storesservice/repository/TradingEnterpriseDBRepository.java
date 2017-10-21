@@ -35,6 +35,9 @@ public class TradingEnterpriseDBRepository implements TradingEnterpriseRepositor
 
 	@Override
 	public void delete(TradingEnterprise entity) {
+		if (!em.contains(entity))
+			entity = em.merge(entity);
+		
 		em.remove(entity);
 	}
 

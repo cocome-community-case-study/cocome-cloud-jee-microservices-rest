@@ -33,6 +33,9 @@ public class StoreDBRepository implements StoreRepository {
 
 	@Override
 	public void delete(Store entity) {
+		if (!em.contains(entity))
+			entity = em.merge(entity);
+		
 		em.remove(entity);
 	}
 

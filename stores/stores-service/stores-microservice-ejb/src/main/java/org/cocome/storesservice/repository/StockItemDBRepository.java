@@ -33,6 +33,9 @@ public class StockItemDBRepository implements StockItemRepository {
 
 	@Override
 	public void delete(StockItem entity) {
+		if (!em.contains(entity))
+			entity = em.merge(entity);
+		
 		em.persist(entity);
 	}
 
