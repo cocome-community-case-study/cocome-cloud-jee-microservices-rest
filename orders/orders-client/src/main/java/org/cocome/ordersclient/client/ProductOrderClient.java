@@ -48,18 +48,20 @@ public class ProductOrderClient {
 		return id;
 	}
 	
-	public void update(ProductOrder order) {
-		this.webTarget.path("product-orders")
-					  .path(Long.toString(order.getId()))
-					  .request(MediaType.APPLICATION_XML_TYPE)
-					  .put(Entity.xml(order));
+	public boolean update(ProductOrder order) {
+		Response response = this.webTarget.path("product-orders")
+			  .path(Long.toString(order.getId()))
+			  .request(MediaType.APPLICATION_XML_TYPE)
+			  .put(Entity.xml(order));
+		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
-	public void delete(ProductOrder order) {
-		this.webTarget.path("product-orders")
-					  .path(Long.toString(order.getId()))
-					  .request()
-					  .delete();
+	public boolean delete(ProductOrder order) {
+		Response response = this.webTarget.path("product-orders")
+			  .path(Long.toString(order.getId()))
+			  .request()
+			  .delete();
+		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
 	public Collection<ProductOrder> findByStore(long storeId) {

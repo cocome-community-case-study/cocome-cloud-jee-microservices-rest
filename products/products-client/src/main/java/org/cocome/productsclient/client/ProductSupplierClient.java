@@ -15,7 +15,7 @@ import org.cocome.productsclient.config.Config;
 import org.cocome.productsclient.domain.ProductSupplier;
 
 public class ProductSupplierClient {
-private final WebTarget webTarget;
+	private final WebTarget webTarget;
 	
 	public ProductSupplierClient() {
 		Client client = ClientBuilder.newClient();
@@ -48,18 +48,20 @@ private final WebTarget webTarget;
 		return id;
 	}
 	
-	public void update(ProductSupplier supplier) {
-		this.webTarget.path("product-suppliers")
-					  .path(Long.toString(supplier.getId()))
-					  .request(MediaType.APPLICATION_XML_TYPE)
-					  .put(Entity.xml(supplier));
+	public boolean update(ProductSupplier supplier) {
+		Response response = this.webTarget.path("product-suppliers")
+			  .path(Long.toString(supplier.getId()))
+			  .request(MediaType.APPLICATION_XML_TYPE)
+			  .put(Entity.xml(supplier));
+		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
-	public void delete(ProductSupplier supplier) {
-		this.webTarget.path("product-suppliers")
-					  .path(Long.toString(supplier.getId()))
-					  .request()
-					  .delete();
+	public boolean delete(ProductSupplier supplier) {
+		Response response = this.webTarget.path("product-suppliers")
+			  .path(Long.toString(supplier.getId()))
+			  .request()
+			  .delete();
+		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
 	public Collection<ProductSupplier> findByEnterprise(long enterpriseId) {
