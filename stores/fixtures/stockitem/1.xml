@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StockItem>
+  <SalesPrice>1.99</SalesPrice>
+  <Amount>3</Amount>
+  <MinStock>1</MinStock>
+  <MaxStock>10</MaxStock>
+  <IncomingAmount>5</IncomingAmount>
+  <ProductId>1</ProductId>
+</StockItem>
