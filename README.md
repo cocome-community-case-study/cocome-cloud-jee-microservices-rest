@@ -18,6 +18,7 @@ The services are designed to use their own relational database each and follow a
 * Each service has a parent maven project that holds the `*-ejb`, `*-rest` and `*-ear` projects.
 * These parent maven projects offer deploying and undeploying of the service via maven.
 * Each service contains a subdirectory `fixtures/` with example data XML files and instructions on how to use the service using cURL described in the corresponding `README.md`.
+* Each service contains a separate Eclipse project containing contract tests in a subdirectory `<name>-api-tests`. These projects use the corresponding client library for the service to test.
 
 ## Development Setup
 
