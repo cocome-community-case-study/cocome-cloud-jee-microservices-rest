@@ -8,7 +8,7 @@ import org.cocome.storesclient.client.TradingEnterpriseClient;
 import org.cocome.storesclient.domain.TradingEnterprise;
 import org.junit.Test;
 
-public class TradingEnterpriseResourceTests {
+public class TradingEnterpriseResourceTest {
 	private TradingEnterpriseClient client = new TradingEnterpriseClient();
 	
 	@Test

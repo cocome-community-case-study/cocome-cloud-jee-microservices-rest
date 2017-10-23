@@ -13,7 +13,7 @@ import org.cocome.storesclient.domain.TradingEnterprise;
 import org.junit.Before;
 import org.junit.Test;
 
-public class StockItemResourceTests {
+public class StockItemResourceTest {
 	private StockItemClient client = new StockItemClient();
 	private Store store = new Store();
 	

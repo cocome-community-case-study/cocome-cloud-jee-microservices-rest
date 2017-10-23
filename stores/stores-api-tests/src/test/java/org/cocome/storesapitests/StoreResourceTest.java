@@ -11,7 +11,7 @@ import org.cocome.storesclient.domain.TradingEnterprise;
 import org.junit.Before;
 import org.junit.Test;
 
-public class StoreResourceTests {
+public class StoreResourceTest {
 	private StoreClient client = new StoreClient();
 	private TradingEnterprise enterprise = new TradingEnterprise();
 	

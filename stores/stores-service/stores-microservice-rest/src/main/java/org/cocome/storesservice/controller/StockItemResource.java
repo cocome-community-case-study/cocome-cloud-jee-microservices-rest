@@ -36,6 +36,7 @@ public class StockItemResource {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, StockItem stockItem) {
+		stockItem.setId(id);
 		stockItemRepository.update(stockItem);
 		return Response.noContent().build();
 	}
