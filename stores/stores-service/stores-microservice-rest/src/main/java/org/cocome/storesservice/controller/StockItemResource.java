@@ -44,8 +44,7 @@ public class StockItemResource {
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
-		StockItem stockItem = stockItemRepository.find(id);
-		stockItemRepository.delete(stockItem);
+		stockItemRepository.delete(id);
 		return Response.noContent().build();
 	}
 }

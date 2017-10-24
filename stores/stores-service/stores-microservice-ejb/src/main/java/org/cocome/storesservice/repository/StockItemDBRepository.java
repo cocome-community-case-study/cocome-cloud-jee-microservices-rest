@@ -27,24 +27,14 @@ public class StockItemDBRepository implements StockItemRepository {
 	}
 
 	@Override
-	public void update(StockItem entity) {
-		StockItem old = find(entity.getId());
-		old.setAmount(entity.getAmount());
-		old.setIncomingAmount(entity.getIncomingAmount());
-		old.setMaxStock(entity.getMaxStock());
-		old.setMinStock(entity.getMinStock());
-		old.setProductId(entity.getProductId());
-		old.setSalesPrice(entity.getSalesPrice());
-		old.setStore(entity.getStore());
-		em.persist(old);
+	public StockItem update(StockItem entity) {
+		return em.merge(entity);
 	}
 
 	@Override
-	public void delete(StockItem entity) {
-		if (!em.contains(entity))
-			entity = em.merge(entity);
-		
-		em.persist(entity);
+	public void delete(Long key) {
+		StockItem entity = find(key);
+		em.remove(entity);
 	}
 
 	@Override

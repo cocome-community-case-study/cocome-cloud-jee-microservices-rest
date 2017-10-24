@@ -29,15 +29,13 @@ public class TradingEnterpriseDBRepository implements TradingEnterpriseRepositor
 	}
 
 	@Override
-	public void update(TradingEnterprise entity) {
-		em.persist(entity);
+	public TradingEnterprise update(TradingEnterprise entity) {
+		return em.merge(entity);
 	}
 
 	@Override
-	public void delete(TradingEnterprise entity) {
-		if (!em.contains(entity))
-			entity = em.merge(entity);
-		
+	public void delete(Long key) {
+		TradingEnterprise entity = find(key);
 		em.remove(entity);
 	}
 

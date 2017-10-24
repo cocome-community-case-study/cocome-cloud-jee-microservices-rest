@@ -48,6 +48,7 @@ public class StoreResource {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, Store store) {
+		store.setId(id);
 		storeRepository.update(store);
 		return Response.noContent().build();
 	}
@@ -55,8 +56,7 @@ public class StoreResource {
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
-		Store store = storeRepository.find(id);
-		storeRepository.delete(store);
+		storeRepository.delete(id);
 		return Response.noContent().build();
 	}
 	

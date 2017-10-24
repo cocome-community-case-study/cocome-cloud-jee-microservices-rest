@@ -60,6 +60,7 @@ public class TradingEnterpriseResource {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, TradingEnterprise tradingEnterprise) {
+		tradingEnterprise.setId(id);
 		tradingEnterpriseRepository.update(tradingEnterprise);
 		return Response.noContent().build();
 	}
@@ -67,8 +68,7 @@ public class TradingEnterpriseResource {
 	@DELETE
 	@Path("/{id}")
 	public Response destroy(@PathParam("id") Long id) {
-		TradingEnterprise tradingEnterprise = tradingEnterpriseRepository.find(id);
-		tradingEnterpriseRepository.delete(tradingEnterprise);
+		tradingEnterpriseRepository.delete(id);
 		return Response.noContent().build();
 	}
 	

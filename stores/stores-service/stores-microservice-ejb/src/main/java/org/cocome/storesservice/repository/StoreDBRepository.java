@@ -27,15 +27,13 @@ public class StoreDBRepository implements StoreRepository {
 	}
 
 	@Override
-	public void update(Store entity) {
-		em.persist(entity);
+	public Store update(Store entity) {
+		return em.merge(entity);
 	}
 
 	@Override
-	public void delete(Store entity) {
-		if (!em.contains(entity))
-			entity = em.merge(entity);
-		
+	public void delete(Long key) {
+		Store entity = find(key);
 		em.remove(entity);
 	}
 
