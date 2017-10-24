@@ -41,6 +41,7 @@ public class ProductSupplierResource {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, ProductSupplier supplier) {
+		supplier.setId(id);
 		productSupplierRepository.update(supplier);
 		return Response.noContent().build();
 	}
@@ -48,8 +49,7 @@ public class ProductSupplierResource {
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
-		ProductSupplier supplier = productSupplierRepository.find(id);
-		productSupplierRepository.delete(supplier);
+		productSupplierRepository.delete(id);
 		return Response.noContent().build();
 	}
 	

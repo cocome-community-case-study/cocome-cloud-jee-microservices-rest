@@ -27,18 +27,13 @@ public class OrderEntryDBRepository implements OrderEntryRepository {
 	}
 
 	@Override
-	public void update(OrderEntry entity) {
-		if (!em.contains(entity))
-			entity = em.merge(entity);
-		
-		em.persist(entity);
+	public OrderEntry update(OrderEntry entity) {
+		return em.merge(entity);
 	}
 
 	@Override
-	public void delete(OrderEntry entity) {
-		if (!em.contains(entity))
-			entity = em.merge(entity);
-		
+	public void delete(Long key) {
+		OrderEntry entity = find(key);
 		em.remove(entity);
 	}
 

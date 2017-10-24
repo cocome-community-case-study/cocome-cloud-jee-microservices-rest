@@ -30,6 +30,7 @@ public class ProductResource {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, Product product) {
+		product.setId(id);
 		productRepository.update(product);
 		return Response.noContent().build();
 	}
@@ -37,8 +38,7 @@ public class ProductResource {
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
-		Product product = productRepository.find(id);
-		productRepository.delete(product);
+		productRepository.delete(id);
 		return Response.noContent().build();
 	}
 }

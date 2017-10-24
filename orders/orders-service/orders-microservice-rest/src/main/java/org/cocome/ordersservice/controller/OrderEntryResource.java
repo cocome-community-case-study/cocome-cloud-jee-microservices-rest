@@ -30,6 +30,7 @@ public class OrderEntryResource {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, OrderEntry entry) {
+		entry.setId(id);
 		entryRepository.update(entry);
 		return Response.noContent().build();
 	}
@@ -37,8 +38,7 @@ public class OrderEntryResource {
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
-		OrderEntry entry = entryRepository.find(id);
-		entryRepository.delete(entry);
+		entryRepository.delete(id);
 		return Response.noContent().build();
 	}
 }

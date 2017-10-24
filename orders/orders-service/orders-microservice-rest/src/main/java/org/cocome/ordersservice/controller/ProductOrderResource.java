@@ -42,6 +42,7 @@ public class ProductOrderResource {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, ProductOrder order) {
+		order.setId(id);
 		orderRepository.update(order);
 		return Response.noContent().build();
 	}
@@ -49,8 +50,7 @@ public class ProductOrderResource {
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
-		ProductOrder order = orderRepository.find(id);
-		orderRepository.delete(order);
+		orderRepository.delete(id);
 		return Response.noContent().build();
 	}
 	

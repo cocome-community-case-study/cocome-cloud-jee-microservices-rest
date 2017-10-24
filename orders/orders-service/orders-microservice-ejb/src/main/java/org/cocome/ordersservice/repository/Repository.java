@@ -32,14 +32,14 @@ public interface Repository<EntityType, KeyType> {
 	 * 
 	 * @param entity the entity
 	 */
-	void update(EntityType entity);
+	EntityType update(EntityType entity);
 	
 	/**
 	 * Delete an entity.
 	 * 
 	 * @param entity the entity
 	 */
-	void delete(EntityType entity);
+	void delete(KeyType key);
 	
 	/**
 	 * Find all entities of a kind.

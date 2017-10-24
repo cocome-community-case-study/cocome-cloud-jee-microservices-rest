@@ -27,18 +27,13 @@ public class ProductOrderDBRepository implements ProductOrderRepository {
 	}
 
 	@Override
-	public void update(ProductOrder entity) {
-		if (!em.contains(entity))
-			entity = em.merge(entity);
-		
-		em.persist(entity);
+	public ProductOrder update(ProductOrder entity) {
+		return em.merge(entity);
 	}
 
 	@Override
-	public void delete(ProductOrder entity) {
-		if (!em.contains(entity))
-			entity = em.merge(entity);
-		
+	public void delete(Long key) {
+		ProductOrder entity = find(key);
 		em.remove(entity);
 	}
 
