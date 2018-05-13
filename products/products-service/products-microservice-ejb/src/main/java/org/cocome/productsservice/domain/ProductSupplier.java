@@ -86,6 +86,10 @@ public class ProductSupplier implements Serializable{
 	public Collection<Product> getProducts() {
 		return products;
 	}
+	
+	public void addProduct(Product product) {
+		products.add(product);
+	}
 
 	/**
 	 * @param products
