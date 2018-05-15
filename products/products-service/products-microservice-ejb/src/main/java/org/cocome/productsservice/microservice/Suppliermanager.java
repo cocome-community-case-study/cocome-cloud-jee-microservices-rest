@@ -56,18 +56,25 @@ public class Suppliermanager implements Suppliermanagement{
 		product.setName(name);
 		product.setPurchasePrice(purchasePrice);		
 		
-		supplier.addProduct(product);
+		long id = productRepository.create(product);
 		
-		productRepository.create(product);
+		product.setId(id);
+		
+		supplier.addProduct(product);
+		productSupplierRepository.update(supplier);
 	}
 
 	@Override
 	public void createSupplier(String name, long enterpriseId) {
 		ProductSupplier supplier = new ProductSupplier();
+		
 		supplier.setEnterpriseId(enterpriseId);
 		supplier.setName(name);
 		supplier.setProducts(new LinkedList<Product>());
 		
+		long id = productSupplierRepository.create(supplier);
+		supplier.setId(id);
+		productSupplierRepository.update(supplier);
 	}
 
 }
