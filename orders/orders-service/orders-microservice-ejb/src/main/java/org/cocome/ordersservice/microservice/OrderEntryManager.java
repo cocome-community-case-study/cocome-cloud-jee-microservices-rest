@@ -1,4 +1,4 @@
-package microservice;
+package org.cocome.ordersservice.microservice;
 
 import java.util.Collection;
 

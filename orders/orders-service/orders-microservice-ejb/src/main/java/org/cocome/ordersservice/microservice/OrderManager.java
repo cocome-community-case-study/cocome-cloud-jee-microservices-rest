@@ -1,9 +1,11 @@
-package microservice;
+package org.cocome.ordersservice.microservice;
 
 import java.sql.Date;
 import java.util.Collection;
 
 import javax.ejb.EJB;
+import javax.persistence.criteria.Order;
+
 import org.cocome.ordersservice.domain.OrderEntry;
 import org.cocome.ordersservice.domain.ProductOrder;
 import org.cocome.ordersservice.repository.ProductOrderRepository;
