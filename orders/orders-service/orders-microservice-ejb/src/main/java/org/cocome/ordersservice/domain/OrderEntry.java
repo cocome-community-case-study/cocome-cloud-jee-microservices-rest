@@ -91,6 +91,10 @@ public class OrderEntry implements Serializable {
 	public ProductOrder getOrder() {
 		return this.order;
 	}
+	
+	public void addToOrder(OrderEntry oEntry) {
+				
+	}
 
 	/**
 	 * @param productOrder

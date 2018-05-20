@@ -6,16 +6,14 @@ import java.util.Collection;
 import javax.ejb.EJB;
 import org.cocome.ordersservice.domain.OrderEntry;
 import org.cocome.ordersservice.domain.ProductOrder;
-import org.cocome.ordersservice.repository.OrderEntryRepository;
 import org.cocome.ordersservice.repository.ProductOrderRepository;
 
 
-public class OrderManager implements Ordermanagement{
+public class OrderManager implements OrderManagement{
 	@EJB
 	private ProductOrderRepository orderRepository;
 	
-	@EJB
-	private OrderEntryRepository entryRepository;
+	private OrderEntryManagement oEntryManager = new OrderEntryManager();
 	
 	
 	
@@ -38,20 +36,7 @@ public class OrderManager implements Ordermanagement{
 		//TODO side effects at storage
 	}
 
-	@Override
-	public OrderEntry createOrderEntry(long productId, long amount, ProductOrder order) {
-		OrderEntry oEntry = new OrderEntry();
-		oEntry.setAmount(amount);
-		oEntry.setProductId(productId);
-		oEntry.setOrder(order);
-		
-		long id = entryRepository.create(oEntry);
-		oEntry.setId(id);
-		
-		entryRepository.update(oEntry);
-		
-		return oEntry;
-	}
+
 
 	@Override
 	public ProductOrder createProductOrder(Date orderingDate, Collection<OrderEntry> products, long storeId) {
@@ -60,12 +45,10 @@ public class OrderManager implements Ordermanagement{
 		pOrder.setOrderingDate(orderingDate);
 		
 		long id = orderRepository.create(pOrder);
+		pOrder = orderRepository.find(id);
 		
-		pOrder.setId(id);
-		
-		for (OrderEntry productOrder : products) {
-			productOrder.setOrder(pOrder);
-			entryRepository.update(productOrder);
+		for (OrderEntry oEntry: products) {
+			oEntryManager.setOrder(oEntry, pOrder);
 		}
 		
 		pOrder.setOrderEntries(products);
@@ -94,39 +77,33 @@ public class OrderManager implements Ordermanagement{
 	}
 
 	@Override
-	public void addOrderEntry(OrderEntry entry, long orderId) {
-		entry.setId(orderId);
-		entryRepository.update(entry);
-		
+	public void addOrderEntry(OrderEntry oEntry, long orderId) {
 		ProductOrder pOrder = orderRepository.find(orderId);
 		
-		Collection<OrderEntry> oEntries = pOrder.getOrderEntries();
+		oEntryManager.setOrder(oEntry, pOrder);
 		
-		oEntries.add(entry);
-		pOrder.setOrderEntries(oEntries);
+		pOrder.addToOrder(oEntry);;
 		orderRepository.update(pOrder);
 	}
 
 	@Override
-	public void removeOrderEntry(long productId, long orderId) {
+	public void removeOrderEntry(long oEntryId, long orderId) {
 		ProductOrder pOrder = orderRepository.find(orderId);
-		Collection<OrderEntry> orderCollection = pOrder.getOrderEntries();
-		orderCollection.remove(entryRepository.find(productId));
-		pOrder.setOrderEntries(orderCollection);
 		
+		pOrder.removeFromOrder(oEntryManager.getOEntry(oEntryId));
+		oEntryManager.deleteOrderEntry(oEntryId);
 		orderRepository.update(pOrder);
 		
-		entryRepository.delete(productId);
 		
 	}
 
 	@Override
 	public void removeOrder(long orderId) {
-		Collection<OrderEntry> oEntries = entryRepository.all();
+		Collection<OrderEntry> oEntries = oEntryManager.all();
 		
 		for (OrderEntry orderEntry : oEntries) {
 			if(orderEntry.getOrder().getId() == orderId)
-				entryRepository.delete(orderEntry.getId());
+				oEntryManager.deleteOrderEntry(orderEntry.getId());
 		}
 		
 		orderRepository.delete(orderId);

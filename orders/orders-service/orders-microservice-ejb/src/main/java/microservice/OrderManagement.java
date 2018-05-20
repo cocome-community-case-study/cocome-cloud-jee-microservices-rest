@@ -8,7 +8,7 @@ import javax.persistence.criteria.Order;
 import org.cocome.ordersservice.domain.OrderEntry;
 import org.cocome.ordersservice.domain.ProductOrder;
 
-public interface Ordermanagement {
+public interface OrderManagement {
 
 	/**
 	 * Gets all Orders
@@ -30,16 +30,7 @@ public interface Ordermanagement {
 	 */
 	public void executeOrder(long produktOrderId, Date date); 
 	
-	/**
-	 * creates db entry for complete order
-	 * 
-	 * @param productId
-	 * @param amount
-	 * @param order ggf nullable 
-	 * @return
-	 */
-	public OrderEntry createOrderEntry(long productId, long amount, ProductOrder order);
-	
+
 	/**
 	 * creates product order
 	 * @param orderingDate

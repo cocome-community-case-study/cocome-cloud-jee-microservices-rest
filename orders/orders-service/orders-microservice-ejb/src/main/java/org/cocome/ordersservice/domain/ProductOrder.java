@@ -86,6 +86,14 @@ public class ProductOrder implements Serializable {
 	public void setOrderEntries(final Collection<OrderEntry> orderEntries) {
 		this.orderEntries = orderEntries;
 	}
+	
+	public void addToOrder(OrderEntry oEntry) {
+		orderEntries.add(oEntry);		
+	}
+	
+	public void removeFromOrder(OrderEntry oEntry) {
+		orderEntries.remove(oEntry);		
+	}
 
 	/**
 	 * @return The date of ordering.
