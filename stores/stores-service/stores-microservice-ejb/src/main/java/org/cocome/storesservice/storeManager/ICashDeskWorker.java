@@ -1,7 +1,13 @@
 package org.cocome.storesservice.storeManager;
 
-import org.cocome.storesservice.cashDesk.cashDeskModel.CashDesk;
+import java.util.Collection;
 
-interface ICashDeskFinder {
-	CashDesk getCashdesk(long storeId, String cashDeskName);
+import org.cocome.storesservice.cashDesk.ICashDesk;
+
+interface ICashDeskWorker {
+	ICashDesk getCashdesk(String cashDeskName);
+	
+	void deleteCashdesk(String cashDeskName);
+	
+	Collection<ICashDesk> getAll();
 }

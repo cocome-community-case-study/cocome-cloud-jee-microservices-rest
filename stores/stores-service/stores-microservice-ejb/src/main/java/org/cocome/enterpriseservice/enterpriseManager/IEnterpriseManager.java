@@ -6,7 +6,7 @@ import org.cocome.storesservice.domain.Store;
 import org.cocome.storesservice.storeManager.IStoreAdminManagement;
 
 /**
- * Works on enterprises in form of editing the enterprise structur - creating/deleting etc..
+ * Works on enterprises in form of editing the enterprise structure - creating/deleting etc..
  *
  * @author Tobias Haßberg
  */

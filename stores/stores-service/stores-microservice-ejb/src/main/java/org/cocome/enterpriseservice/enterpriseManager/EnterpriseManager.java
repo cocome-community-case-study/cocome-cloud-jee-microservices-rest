@@ -38,7 +38,7 @@ public class EnterpriseManager implements IEnterpriseManager{
 			return activeStores.get(storeId);
 		}else {
 			if(!storeRepo.find(storeId).equals(null)) {
-				StoreAdminManager storeManager = new StoreAdminManager(storeId);			
+				StoreAdminManager storeManager = new StoreAdminManager(enterpriseId, storeId);			
 				activeStores.put(storeId, storeManager);
 				return storeManager;
 			} else {

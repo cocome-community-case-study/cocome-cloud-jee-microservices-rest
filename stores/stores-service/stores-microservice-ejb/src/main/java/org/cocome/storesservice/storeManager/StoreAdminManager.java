@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import javax.ejb.EJB;
-import javax.net.ssl.ExtendedSSLSession;
 
+import org.cocome.storesservice.cashDesk.ICashDesk;
 import org.cocome.storesservice.cashDesk.cashDeskModel.CashDesk;
 import org.cocome.storesservice.domain.StockItem;
 import org.cocome.storesservice.domain.Store;
@@ -20,16 +20,16 @@ public class StoreAdminManager implements IStoreAdminManagement{
 	@EJB 
 	private StockItemDBRepository stockItemRepo;
 	
-	private HashMap<String, CashDesk> cashdesks;
+	private HashMap<String, ICashDesk> cashDesks;
 	
-	private long storeId;
+	private final long storeId;
+	private final long enterpriseId;
 	
-	private StoreAdminManager() {
-	}
 	
-	public StoreAdminManager(long storeId) {
+	public StoreAdminManager(long enterpriseId, long storeId) {
 		this.storeId = storeId;
-		cashdesks = new HashMap<String, CashDesk>();
+		cashDesks = new HashMap<String, ICashDesk>();
+		this.enterpriseId = enterpriseId;
 	}
 	
 	@Override
@@ -51,13 +51,23 @@ public class StoreAdminManager implements IStoreAdminManagement{
 	}
 
 	@Override
-	public CashDesk getCashdesk(long storeId, String cashDeskName) {
-		if(cashdesks.containsKey(cashDeskName)){
-			return cashdesks.get(cashDeskName);
+	public ICashDesk getCashdesk(String cashDeskName) {
+		if(cashDesks.containsKey(cashDeskName)){
+			return cashDesks.get(cashDeskName);
 		} else {
-			CashDesk cDesk = new CashDesk(cashDeskName);
-			cashdesks.put(cashDeskName, cDesk);
+			ICashDesk cDesk = new CashDesk(this.enterpriseId, this.storeId, cashDeskName);
+			cashDesks.put(cashDeskName, cDesk);
 			return cDesk;
 		}
+	}
+
+	@Override
+	public Collection<ICashDesk> getAll() {
+		return cashDesks.values();
+	}
+
+	@Override
+	public void deleteCashdesk(String cashDeskName) {
+		cashDesks.remove(cashDeskName);
 	}
 }

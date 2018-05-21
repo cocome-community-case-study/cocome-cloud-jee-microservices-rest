@@ -1,4 +1,4 @@
-package org.cocome.storesservice.cashDesk.cashDeskModel.cashdesk.scanner;
+package org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.scanner;
 
 public interface IScanner {
 
