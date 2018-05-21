@@ -1,4 +1,4 @@
-package org.cocome.storesservice.cashdesk;
+package org.cocome.storesservice.cashDesk.cashDeskModel;
 
 
 import org.cocome.storesservice.domain.StockItem;
@@ -22,7 +22,5 @@ public interface ICashdesk {
 	
 	boolean cardPaiment(Long cardNumber, int PIN);
 	
-	//TODO logging completed sales
-	//write completed imformation to printer
-	//succeded sales safe sale!?! "logged"
+	//TODO logging completed sales	//write completed imformation to printer	//succeded sales safe sale!?! "logged"
 }
