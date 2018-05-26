@@ -12,7 +12,7 @@ public interface ICashDeskFunctionality {
 
 	public void submitBarcode(long enterpriseId, long storeId, String cashDeskName);
 	
-	public void enterBarcode(long enterpriseId, long storeId, String cashDeskName, String id);
+	public void submitBarcode(long enterpriseId, long storeId, String cashDeskName, String id);
 	
 	public String getDisplayOutput(long enterpriseId, long storeId, String cashDeskName);
 	

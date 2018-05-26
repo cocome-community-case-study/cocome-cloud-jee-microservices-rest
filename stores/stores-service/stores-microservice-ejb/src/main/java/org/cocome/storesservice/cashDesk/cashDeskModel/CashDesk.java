@@ -1,9 +1,7 @@
 package org.cocome.storesservice.cashDesk.cashDeskModel;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.IScannerAdapter;
@@ -238,6 +236,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 				return false;
 			}
 		}
+		return false;
 	}
 
 	@Override
@@ -295,15 +294,12 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	
 	private void endSaleProcess() {
 		saleProducts.clear();	
-		}
-
-	@Override
-	public void enterBarcode(String id) {
-		if(this.actionInStateAvailable(ADD_ITEM_TO_SALE_STATES)){
-			scanner.enterBarcode(id);
-		}
 	}
 
-
+	@Override
+	public void submitBarcode(String id) {
+		if(this.actionInStateAvailable(ADD_ITEM_TO_SALE_STATES)){
+			scanner.submitBarcode(id);
+		}
 	}
 }

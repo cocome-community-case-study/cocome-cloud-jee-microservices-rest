@@ -12,7 +12,7 @@ public interface ICashDeskView {
 
 	public void submitBarcode();
 	
-	public void enterBarcode(String id);
+	public void submitBarcode(String id);
 	
 	public String getDisplayOutput();
 	

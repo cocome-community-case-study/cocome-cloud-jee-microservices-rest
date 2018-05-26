@@ -104,6 +104,11 @@ public class CashDeskCommunicator implements ICashDeskManaging{
 		activeCashDesk.submitBarcode();
 	}
 
+	@Override
+	public void submitBarcode(long enterpriseId, long storeId, String cashDeskName, String id) {
+		checkActiveStore(enterpriseId, storeId, cashDeskName);
+		activeCashDesk.submitBarcode(id);
+	}
 
 	@Override
 	public String getDisplayOutput(long enterpriseId, long storeId, String cashDeskName) {
@@ -155,11 +160,6 @@ public class CashDeskCommunicator implements ICashDeskManaging{
 	}
 
 
-	@Override
-	public void enterBarcode(long enterpriseId, long storeId, String cashDeskName, String id) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	
