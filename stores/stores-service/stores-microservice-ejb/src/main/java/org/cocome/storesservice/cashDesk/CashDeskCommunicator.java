@@ -2,24 +2,23 @@ package org.cocome.storesservice.cashDesk;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 import org.cocome.enterpriseservice.EnterpriseOrganizer;
 import org.cocome.enterpriseservice.IEnterpriseOrganizer;
-import org.cocome.storesservice.cashDesk.cashDeskModel.CashDesk;
 
 public class CashDeskCommunicator implements ICashDeskManaging{
 
-	private ICashDesk asctiveCashDesk;
+	private ICashDesk activeCashDesk;
 	
 	private final IEnterpriseOrganizer eOrganizer;
 	
+
 	public CashDeskCommunicator() {
 		eOrganizer = new EnterpriseOrganizer();
 	}
 	
 	
 	private void checkActiveStore(long enterpriseId, long storeId, String cashDeskName) {
-		if(asctiveCashDesk == null || equalCashDesk(enterpriseId, storeId, cashDeskName) )
+		if(activeCashDesk == null || equalCashDesk(enterpriseId, storeId, cashDeskName) )
 		{
 			try {
 				eOrganizer.getActiveEnterprise(enterpriseId).getActiveStore(storeId).getCashdesk(cashDeskName);
@@ -30,9 +29,9 @@ public class CashDeskCommunicator implements ICashDeskManaging{
 	}
 	
 	private boolean equalCashDesk(long enterpriseId, long storeId, String cashDeskName) {
-		return	(asctiveCashDesk.getEnterpriseId() == enterpriseId 
-				&& asctiveCashDesk.getStoreId() == storeId 
-				&& asctiveCashDesk.getCashDeskName() == cashDeskName);
+		return	(activeCashDesk.getEnterpriseId() == enterpriseId 
+				&& activeCashDesk.getStoreId() == storeId 
+				&& activeCashDesk.getCashDeskName() == cashDeskName);
 	}
 
 
@@ -72,87 +71,87 @@ public class CashDeskCommunicator implements ICashDeskManaging{
 
 	@Override
 	public void startSale(long enterpriseId, long storeId, String cashDeskName) {
-		// TODO Auto-generated method stub
-		
+		checkActiveStore(enterpriseId, storeId, cashDeskName);
+		activeCashDesk.startSale();
 	}
 
 
 	@Override
-	public void addDigittoBarcode(long enterpriseId, long storeId, String cashDeskName, char digit) {
-		// TODO Auto-generated method stub
-		
+	public void addDigitToBarcode(long enterpriseId, long storeId, String cashDeskName, char digit) {
+		checkActiveStore(enterpriseId, storeId, cashDeskName);
+		activeCashDesk.addDigitToBarcode(digit);
 	}
 
 
 	@Override
 	public void removeLastDigitFromBarcode(long enterpriseId, long storeId, String cashDeskName) {
-		// TODO Auto-generated method stub
-		
+		checkActiveStore(enterpriseId, storeId, cashDeskName);
+		activeCashDesk.removeLastDigitFromBarcode();
 	}
 
 
 	@Override
 	public void clearBarcode(long enterpriseId, long storeId, String cashDeskName) {
-		// TODO Auto-generated method stub
-		
+		checkActiveStore(enterpriseId, storeId, cashDeskName);
+		activeCashDesk.clearBarcode();
 	}
 
 
 	@Override
 	public void submitBarcode(long enterpriseId, long storeId, String cashDeskName) {
-		// TODO Auto-generated method stub
-		
+		checkActiveStore(enterpriseId, storeId, cashDeskName);
+		activeCashDesk.submitBarcode();
 	}
 
 
 	@Override
 	public String getDisplayOutput(long enterpriseId, long storeId, String cashDeskName) {
-		// TODO Auto-generated method stub
-		return null;
+		checkActiveStore(enterpriseId, storeId, cashDeskName);
+		return activeCashDesk.getDisplayOutput();
 	}
 
 
 	@Override
 	public String[] getPrinterOutput(long enterpriseId, long storeId, String cashDeskName) {
-		// TODO Auto-generated method stub
-		return null;
+		checkActiveStore(enterpriseId, storeId, cashDeskName);
+		return activeCashDesk.getPrinterOutput();
 	}
 
 
 	@Override
 	public void finishSale(long enterpriseId, long storeId, String cashDeskName) {
-		// TODO Auto-generated method stub
-		
+		checkActiveStore(enterpriseId, storeId, cashDeskName);
+		activeCashDesk.finishSale();
 	}
 
 
 	@Override
 	public void setCashPayment(long enterpriseId, long storeId, String cashDeskName) {
-		// TODO Auto-generated method stub
-		
+		checkActiveStore(enterpriseId, storeId, cashDeskName);
+		activeCashDesk.setCashPayment();
 	}
 
 
 	@Override
-	public void enterCashPaymentAmount(long enterpriseId, long storeId, String cashDeskName, double amount) {
-		// TODO Auto-generated method stub
-		
+	public boolean enterCashPaymentAmount(long enterpriseId, long storeId, String cashDeskName, double amount) {
+		checkActiveStore(enterpriseId, storeId, cashDeskName);
+		return activeCashDesk.enterCashPaymentAmount(amount);
 	}
 
 
 	@Override
 	public void setCardPayment(long enterpriseId, long storeId, String cashDeskName) {
-		// TODO Auto-generated method stub
-		
+		checkActiveStore(enterpriseId, storeId, cashDeskName);
+		activeCashDesk.setCardPayment();
 	}
 
 
 	@Override
-	public void enterPin(long enterpriseId, long storeId, String cashDeskName, String pin) {
-		// TODO Auto-generated method stub
-		
+	public void enterBankinformation(long enterpriseId, long storeId, String cashDeskName, String pin,
+			String accountNumber) {
+		checkActiveStore(enterpriseId, storeId, cashDeskName);
+		activeCashDesk.enterBankinformation(pin, accountNumber);
 	}
-
 
 
 	

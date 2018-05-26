@@ -2,9 +2,9 @@ package org.cocome.storesservice.cashDesk;
 
 public interface ICashDeskView {
 
-	public void startSale(String cashDeskName);
+	public void startSale();
 	
-	public void addDigittoBarcode(char digit);
+	public void addDigitToBarcode(char digit);
 	
 	public void removeLastDigitFromBarcode();
 	
@@ -20,9 +20,9 @@ public interface ICashDeskView {
 	
 	public void setCashPayment();
 	
-	public void enterCashPaymentAmount(double amount);
+	public boolean enterCashPaymentAmount(double amount);
 	
 	public void setCardPayment();
 	
-	public void enterPin(String pin);
+	public void enterBankinformation(String pin, String accountNumber);
 }

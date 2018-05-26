@@ -24,5 +24,8 @@ public enum CashDeskState {
 	EXPECTING_CARD_INFO,
 
 	/** After the credit card was scanned. */
-	PAYING_BY_CREDIT_CARD;
+	PAYING_BY_CREDIT_CARD,
+	
+	/** After succsessfully paying with credit card*/
+	PAID_BY_CREDIT_CARD;
 }
