@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 import javax.ejb.EJB;
 
-import org.cocome.storesservice.cashDesk.ICashDesk;
 import org.cocome.storesservice.cashDesk.cashDeskModel.CashDesk;
+import org.cocome.storesservice.cashDesk.cashDeskModel.ICashDesk;
 import org.cocome.storesservice.domain.StockItem;
 import org.cocome.storesservice.domain.Store;
 import org.cocome.storesservice.repository.StockItemDBRepository;

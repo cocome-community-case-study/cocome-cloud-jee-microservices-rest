@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import org.cocome.enterpriseservice.EnterpriseOrganizer;
 import org.cocome.enterpriseservice.IEnterpriseOrganizer;
+import org.cocome.storesservice.cashDesk.cashDeskModel.ICashDesk;
 
 public class CashDeskCommunicator implements ICashDeskManaging{
 
@@ -151,6 +152,13 @@ public class CashDeskCommunicator implements ICashDeskManaging{
 			String accountNumber) {
 		checkActiveStore(enterpriseId, storeId, cashDeskName);
 		activeCashDesk.enterBankinformation(pin, accountNumber);
+	}
+
+
+	@Override
+	public void enterBarcode(long enterpriseId, long storeId, String cashDeskName, String id) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

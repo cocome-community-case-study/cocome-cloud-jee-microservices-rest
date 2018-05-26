@@ -1,4 +1,4 @@
-package org.cocome.storesservice.cashDesk;
+package org.cocome.storesservice.cashDesk.cashDeskModel;
 
 public interface ICashDeskView {
 
@@ -9,8 +9,10 @@ public interface ICashDeskView {
 	public void removeLastDigitFromBarcode();
 	
 	public void clearBarcode();
-	
+
 	public void submitBarcode();
+	
+	public void enterBarcode(String id);
 	
 	public String getDisplayOutput();
 	

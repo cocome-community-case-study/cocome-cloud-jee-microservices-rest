@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.cocome.storesservice.cashDesk.ICashDesk;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.IScannerAdapter;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.cashBox.CashBox;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.cashBox.ICashBox;
@@ -198,6 +197,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 			scanner.submitBarcode();
 		}
 	}
+	
 
 	@Override
 	public String getDisplayOutput() {
@@ -296,6 +296,14 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	private void endSaleProcess() {
 		saleProducts.clear();	
 		}
+
+	@Override
+	public void enterBarcode(String id) {
+		if(this.actionInStateAvailable(ADD_ITEM_TO_SALE_STATES)){
+			scanner.enterBarcode(id);
+		}
+	}
+
 
 	}
 }

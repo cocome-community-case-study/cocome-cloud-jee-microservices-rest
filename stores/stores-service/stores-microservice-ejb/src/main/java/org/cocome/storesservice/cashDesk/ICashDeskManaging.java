@@ -2,6 +2,8 @@ package org.cocome.storesservice.cashDesk;
 
 import java.util.Collection;
 
+import org.cocome.storesservice.cashDesk.cashDeskModel.ICashDesk;
+
 
 public interface ICashDeskManaging extends ICashDeskFunctionality{
 	

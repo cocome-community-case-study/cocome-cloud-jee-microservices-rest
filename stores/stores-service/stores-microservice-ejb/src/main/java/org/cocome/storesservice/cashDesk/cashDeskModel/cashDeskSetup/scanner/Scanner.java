@@ -23,6 +23,7 @@ public class Scanner implements IScanner{
 		cDesk.barcodeScanned(Long.parseLong(barcode));
 		barcode="";
 	}
+	
 
 	@Override
 	public void resetBarcode() {
@@ -32,5 +33,11 @@ public class Scanner implements IScanner{
 	@Override
 	public void removeLastDigit() {
 		 barcode = barcode.substring(0, barcode.length() - 1);
+	}
+
+	@Override
+	public void enterBarcode(String id) {
+			cDesk.barcodeScanned(Long.parseLong(id));
+			barcode="";
 	}
 }

@@ -1,4 +1,4 @@
-package org.cocome.storesservice.cashDesk;
+package org.cocome.storesservice.cashDesk.cashDeskModel;
 
 public interface ICashDesk extends ICashDeskView{
 	

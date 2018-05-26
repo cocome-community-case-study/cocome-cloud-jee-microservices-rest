@@ -9,8 +9,10 @@ public interface ICashDeskFunctionality {
 	public void removeLastDigitFromBarcode(long enterpriseId, long storeId, String cashDeskName);
 	
 	public void clearBarcode(long enterpriseId, long storeId, String cashDeskName);
-	
+
 	public void submitBarcode(long enterpriseId, long storeId, String cashDeskName);
+	
+	public void enterBarcode(long enterpriseId, long storeId, String cashDeskName, String id);
 	
 	public String getDisplayOutput(long enterpriseId, long storeId, String cashDeskName);
 	

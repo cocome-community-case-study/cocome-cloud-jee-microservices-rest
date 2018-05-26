@@ -1,7 +1,5 @@
 package storageOrganizer;
 
-import java.awt.im.spi.InputMethod;
-
 import javax.ejb.EJB;
 
 import org.cocome.storesservice.domain.StockItem;
@@ -29,7 +27,7 @@ public class StorageOrganizer implements IStorageOrganizer{
 
 	@Override
 	public StockItem getItem(long id) {
-		return storeRepo.find(id);
+		return stockItemRepository.find(id);
 	}
 
 	@Override
