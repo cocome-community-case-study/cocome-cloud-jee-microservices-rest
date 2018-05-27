@@ -50,7 +50,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 		printer = new Printer();
 		scanner = new Scanner(this);
 		display = new Display();
-		cashBox = new CashBox();
+		cashBox = new CashBox(this);
 		
 		state = CashDeskState.EXPECTING_SALE;
 		expressModeEnabled = false;
@@ -73,6 +73,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	 * New sale can be started (and thus current sale aborted) in almost
 	 * all cash desk states except when already paid by cash.
 	 */
+	@SuppressWarnings("serial")
 	private static final Set<CashDeskState> START_SALE_STATES = new HashSet<CashDeskState>() {{
 		add(CashDeskState.EXPECTING_SALE);
 		add(CashDeskState.EXPECTING_ITEMS);
@@ -87,12 +88,15 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	 * Items can be only added to the sale after it has been started and
 	 * has not been indicated by the cashier as finished.
 	 */
-	private static final Set<CashDeskState> ADD_ITEM_TO_SALE_STATES = new HashSet<CashDeskState>() {{
+	@SuppressWarnings("serial")
+	private static final Set<CashDeskState> ADD_ITEM_TO_SALE_STATES = new HashSet<CashDeskState>() {
+	{
 		add(CashDeskState.EXPECTING_ITEMS);}};
 			
 	/**
 	 * Sale can be only finished when scanning items.
 	 */
+		@SuppressWarnings("serial")
 	private static final Set<CashDeskState> FINISH_SALES_STATES = new HashSet<CashDeskState>() {{
 		add(CashDeskState.EXPECTING_ITEMS);
 	}};
@@ -101,6 +105,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	 * Payment mode can be selected either when a sale has been finished or
 	 * when switching from credit card payment) to cash.
 	 */
+	@SuppressWarnings("serial")
 	private static final Set<CashDeskState> SELECT_PAYMENT_MODE_STATES =new HashSet<CashDeskState>() {{
 		add(CashDeskState.EXPECTING_PAYMENT);
 		add(CashDeskState.EXPECTING_CARD_INFO);
@@ -111,22 +116,25 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	 * Cash payment can only proceed when the cashier selected the cash
 	 * payment mode.
 	 */
+	@SuppressWarnings("serial")
 	private static final Set<CashDeskState> START_CASH_PAYMENT_STATES =new HashSet<CashDeskState>() {{
-		add(CashDeskState.PAYING_BY_CASH);
+		add(CashDeskState.EXPECTING_PAYMENT);
 	}};
 
 	/**
 	 * In cash payment mode, sale is finished when it has been paid for
 	 * and the cash box has been closed.
 	 */
+	@SuppressWarnings("serial")
 	private static final Set<CashDeskState> FINISH_CASH_PAYMENT_STATES =new HashSet<CashDeskState>() {{
-		add(CashDeskState.PAID_BY_CASH);
+		add(CashDeskState.PAYING_BY_CASH);
 	}};
 
 	/**
 	 * Credit card payment can be made only when the cashier selected the credit
 	 * card payment mode or when rescanning the card.
 	 */
+	@SuppressWarnings("serial")
 	private static final Set<CashDeskState> START_CREADIT_CARD_PAYMENT_STATES =new HashSet<CashDeskState>() {{
 		add(CashDeskState.EXPECTING_CARD_INFO);
 		add(CashDeskState.PAYING_BY_CREDIT_CARD);
@@ -136,6 +144,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	 * In credit card payment mode, sale is finished only when we have the
 	 * credit card info.
 	 */
+	@SuppressWarnings("serial")
 	private static final Set<CashDeskState> FINISH_CREDIT_CARD_PAYMENT_STATES = new HashSet<CashDeskState>() {{
 		add(CashDeskState.PAYING_BY_CREDIT_CARD);
 	}};
@@ -167,7 +176,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	@Override
 	public void addDigitToBarcode(char digit) {
 		if(this.actionInStateAvailable(ADD_ITEM_TO_SALE_STATES)){
-			scanner.addToDigit(digit);
+			cashBox.addToDigit(digit);
 			display.addToDisplayLine(digit);
 		}
 	}
@@ -175,7 +184,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	@Override
 	public void removeLastDigitFromBarcode() {
 		if(this.actionInStateAvailable(ADD_ITEM_TO_SALE_STATES)){
-			scanner.removeLastDigit();
+			cashBox.removeLastDigit();
 			display.removeLastDigit();
 		}
 		
@@ -184,7 +193,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	@Override
 	public void clearBarcode() {
 		if(this.actionInStateAvailable(ADD_ITEM_TO_SALE_STATES)){
-			scanner.resetBarcode();
+			cashBox.resetBarcode();
 			display.resetDisplayLine();
 		}
 	}
@@ -192,10 +201,16 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	@Override
 	public void submitBarcode() {
 		if(this.actionInStateAvailable(ADD_ITEM_TO_SALE_STATES)){
-			scanner.submitBarcode();
+			cashBox.submitBarcode();
 		}
 	}
 	
+	@Override
+	public void submitBarcode(String id) {
+		if(this.actionInStateAvailable(ADD_ITEM_TO_SALE_STATES)){
+			scanner.submitBarcode(id);
+		}
+	}
 
 	@Override
 	public String getDisplayOutput() {
@@ -206,9 +221,13 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	public String[] getPrinterOutput() {
 		return printer.getPrinterOutput();
 	}
-
+	
 	@Override
 	public void finishSale() {
+		cashBox.pressButtonFinischSale();
+	}
+	
+	public void finischSaleButtompressed() {
 		if(actionInStateAvailable(FINISH_SALES_STATES)) {
 			display.addDisplayLine("TO Pay: " + runningTotal);
 			state = CashDeskState.EXPECTING_PAYMENT;
@@ -217,6 +236,10 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 
 	@Override
 	public void setCashPayment() {
+		cashBox.selectCashPayment();
+	}
+	
+	public void setCashPaymentButtomPressed() {
 		if(actionInStateAvailable(START_CASH_PAYMENT_STATES)) {
 			state = CashDeskState.PAYING_BY_CASH;
 		}
@@ -224,7 +247,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 
 	@Override
 	public boolean enterCashPaymentAmount(double amount) {
-		if(actionInStateAvailable(START_CASH_PAYMENT_STATES)) {
+		if(actionInStateAvailable(FINISH_CASH_PAYMENT_STATES)) {
 			if(amount > runningTotal) {
 				printer.addPrinterOutput("Paid " + amount);
 				printer.addPrinterOutput("Return: " + (amount - runningTotal));
@@ -241,15 +264,19 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 
 	@Override
 	public void setCardPayment() {
+		cashBox.selectCardPayment();
+	}
+	
+	public void setCardPaymentButtomPressed(){
 		if(actionInStateAvailable(START_CREADIT_CARD_PAYMENT_STATES)) {
 			state = CashDeskState.PAYING_BY_CREDIT_CARD; 
-		}
+		}		
 	}
 
 	@Override
 	public void enterBankinformation(String pin, String accountNumber) {
-		if(actionInStateAvailable(START_CREADIT_CARD_PAYMENT_STATES)) {
-			// TODO: Validate bank information, paiment amount etc.
+		if(actionInStateAvailable(FINISH_CREDIT_CARD_PAYMENT_STATES)) {
+			// TODO: Validate bank information, payment amount etc.
 		
 			//end of sale process, reset products
 			state = CashDeskState.PAID_BY_CREDIT_CARD;
@@ -295,11 +322,4 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	private void endSaleProcess() {
 		saleProducts.clear();	
 	}
-
-	@Override
-	public void submitBarcode(String id) {
-		if(this.actionInStateAvailable(ADD_ITEM_TO_SALE_STATES)){
-			scanner.submitBarcode(id);
-		}
-	}
-}
+}	
