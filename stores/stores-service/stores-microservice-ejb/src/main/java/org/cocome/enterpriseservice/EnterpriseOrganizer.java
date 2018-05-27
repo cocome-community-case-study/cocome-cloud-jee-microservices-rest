@@ -59,7 +59,7 @@ public class EnterpriseOrganizer implements IEnterpriseOrganizer{
 		for (Store store: enterpriseManager.getAll()) {
 			enterpriseManager.deleteStore(store.getId());
 		}
-		activeEnterprises.remove(activeEnterprises);
+		activeEnterprises.remove(enterpriseId);
 		enterpriseDBRepository.delete(enterpriseId);
 	}
 
