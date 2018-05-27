@@ -1,4 +1,4 @@
-package storageOrganizer;
+package org.cocome.storageOrganizer;
 
 import javax.ejb.EJB;
 

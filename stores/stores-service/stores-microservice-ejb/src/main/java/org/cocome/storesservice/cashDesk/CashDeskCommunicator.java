@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.cocome.enterpriseservice.EnterpriseOrganizer;
 import org.cocome.enterpriseservice.IEnterpriseOrganizer;
 import org.cocome.storesservice.cashDesk.cashDeskModel.ICashDesk;
+import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.expressLight.ExpressLightStates;
 
 public class CashDeskCommunicator implements ICashDeskManaging{
 
@@ -157,6 +158,20 @@ public class CashDeskCommunicator implements ICashDeskManaging{
 			String accountNumber) {
 		checkActiveStore(enterpriseId, storeId, cashDeskName);
 		activeCashDesk.enterBankinformation(pin, accountNumber);
+	}
+
+
+	@Override
+	public void setExpressLight(long enterpriseId, long storeId, String cashDeskName, boolean expressLightValue) {
+		checkActiveStore(enterpriseId, storeId, cashDeskName);
+		activeCashDesk.setExpressLight(expressLightValue);
+	}
+
+
+	@Override
+	public ExpressLightStates getExpressLight(long enterpriseId, long storeId, String cashDeskName) {
+		checkActiveStore(enterpriseId, storeId, cashDeskName);
+		return activeCashDesk.getExpressLight();
 	}
 
 

@@ -4,19 +4,23 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
+
+import org.cocome.storageOrganizer.IStorageOrganizer;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.IScannerAdapter;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.cashBox.CashBox;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.cashBox.ICashBox;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.display.Display;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.display.IDisplay;
+import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.expressLight.ExpressLight;
+import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.expressLight.ExpressLightStates;
+import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.expressLight.IExpressLight;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.printer.IPrinter;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.printer.Printer;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.scanner.IScanner;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.scanner.Scanner;
 import org.cocome.storesservice.domain.StockItem;
 import org.cocome.structures.Pair;
-
-import storageOrganizer.IStorageOrganizer;
 
 public class CashDesk implements ICashDesk, IScannerAdapter{
 	
@@ -31,6 +35,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	private final IScanner scanner;
 	private final IDisplay display;
 	private final ICashBox cashBox;
+	private final IExpressLight expressLight;
 	
 	private IStorageOrganizer storageOrg;
 	
@@ -38,7 +43,12 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	HashMap<Long, Pair<Integer, StockItem>> saleProducts;
 	double runningTotal;
 	
-	boolean expressModeEnabled;
+	
+	//Express mode stuff
+	private int expressModeRange = 5;
+	private int[] salesAmount;
+	int nextsalesAmountIndes;
+	private int expressModeLimit;
 
 
 	public CashDesk(Long enterpriseId, long storeId, String name, IStorageOrganizer storageOrganizer) {
@@ -51,9 +61,15 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 		scanner = new Scanner(this);
 		display = new Display();
 		cashBox = new CashBox(this);
+		expressLight = new ExpressLight();
 		
 		state = CashDeskState.EXPECTING_SALE;
-		expressModeEnabled = false;
+		salesAmount = new int[expressModeRange];
+		nextsalesAmountIndes = 0;
+		expressModeLimit = 8;
+		for(int i =0; i < expressModeRange; i++) {
+			salesAmount[i]= -1; 
+		}
 	}	
 	
 	public String getCashDeskName() {
@@ -320,6 +336,45 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	}
 	
 	private void endSaleProcess() {
+		addProductHistory();
 		saleProducts.clear();	
+		updateExpressLight();
 	}
+
+	@Override
+	public void setExpressLight(boolean expressLightValue) {
+		expressLight.updateExpressLight(expressLightValue);
+	}
+
+	@Override
+	public ExpressLightStates getExpressLight() {
+		return expressLight.getExpressLight();
+	}
+	
+	private void updateExpressLight() {
+		expressLight.updateExpressLight(checkNewExpressLightState());
+	}
+	
+	private void addProductHistory() {
+		salesAmount[nextsalesAmountIndes] = saleProducts.size();
+		nextsalesAmountIndes = (nextsalesAmountIndes + 1) % expressModeRange;
+	}
+	
+	private boolean checkNewExpressLightState() {
+		int fullfillLimits = 0;
+		int salesRegistrated = 0;
+		for (int salesSize : salesAmount) {
+			if(salesSize >= 0) {
+				salesRegistrated ++;
+				if(salesSize < expressModeLimit) {
+					fullfillLimits ++;
+				}
+			}
+		}
+		if(salesRegistrated > 3)
+			return (fullfillLimits > (expressModeRange /2)); 
+		return false;
+	}
+	
+	
 }	

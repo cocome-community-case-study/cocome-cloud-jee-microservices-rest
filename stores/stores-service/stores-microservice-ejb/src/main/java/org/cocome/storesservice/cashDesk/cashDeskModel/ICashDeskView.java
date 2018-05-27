@@ -1,5 +1,7 @@
 package org.cocome.storesservice.cashDesk.cashDeskModel;
 
+import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.expressLight.ExpressLightStates;
+
 public interface ICashDeskView {
 
 	public void startSale();
@@ -27,4 +29,8 @@ public interface ICashDeskView {
 	public void setCardPayment();
 	
 	public void enterBankinformation(String pin, String accountNumber);
+	
+	public void setExpressLight(boolean expressLightValue);
+	
+	public ExpressLightStates getExpressLight();
 }

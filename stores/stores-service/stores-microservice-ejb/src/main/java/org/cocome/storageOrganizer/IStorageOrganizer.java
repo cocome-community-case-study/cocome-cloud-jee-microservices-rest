@@ -1,4 +1,4 @@
-package storageOrganizer;
+package org.cocome.storageOrganizer;
 
 import org.cocome.storesservice.domain.StockItem;
 

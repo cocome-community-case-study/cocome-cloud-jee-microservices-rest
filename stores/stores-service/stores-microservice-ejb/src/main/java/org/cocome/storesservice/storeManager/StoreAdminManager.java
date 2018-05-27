@@ -5,15 +5,14 @@ import java.util.HashMap;
 
 import javax.ejb.EJB;
 
+import org.cocome.storageOrganizer.IStorageOrganizer;
+import org.cocome.storageOrganizer.StorageOrganizer;
 import org.cocome.storesservice.cashDesk.cashDeskModel.CashDesk;
 import org.cocome.storesservice.cashDesk.cashDeskModel.ICashDesk;
 import org.cocome.storesservice.domain.StockItem;
 import org.cocome.storesservice.domain.Store;
 import org.cocome.storesservice.repository.StockItemDBRepository;
 import org.cocome.storesservice.repository.StoreDBRepository;
-
-import storageOrganizer.IStorageOrganizer;
-import storageOrganizer.StorageOrganizer;
 
 public class StoreAdminManager implements IStoreAdminManagement{
 
