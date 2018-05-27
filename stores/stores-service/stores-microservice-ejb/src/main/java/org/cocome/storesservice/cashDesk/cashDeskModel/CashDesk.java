@@ -20,6 +20,7 @@ import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.printer.Pri
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.scanner.IScanner;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.scanner.Scanner;
 import org.cocome.storesservice.domain.StockItem;
+import org.cocome.storesservice.storeManager.StoreAdminManager;
 import org.cocome.structures.Pair;
 
 public class CashDesk implements ICashDesk, IScannerAdapter{
@@ -29,7 +30,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	
 	private final long enterpriseId;
 	
-	private final long storeId;
+	private final StoreAdminManager storeAdminManager;
 	
 	private final IPrinter printer;
 	private final IScanner scanner;
@@ -51,9 +52,9 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	private int expressModeLimit;
 
 
-	public CashDesk(Long enterpriseId, long storeId, String name, IStorageOrganizer storageOrganizer) {
+	public CashDesk(long enterpriseId, StoreAdminManager storeAdminManager, String name, IStorageOrganizer storageOrganizer) {
 		this.enterpriseId = enterpriseId;
-		this.storeId = storeId;
+		this.storeAdminManager = storeAdminManager;
 		cashDeskName = name;
 		this.storageOrg = storageOrganizer;
 		
@@ -83,7 +84,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 
 
 	public long getStoreId() {
-		return storeId;
+		return storeAdminManager.getStoreId();
 	}
 	/**
 	 * New sale can be started (and thus current sale aborted) in almost
@@ -337,8 +338,17 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	
 	private void endSaleProcess() {
 		addProductHistory();
+		for (Pair<Integer, StockItem> itemPair : saleProducts.values()) {
+			checkAmount(itemPair.getRight());
+		}
 		saleProducts.clear();	
 		updateExpressLight();
+	}
+	
+	private void checkAmount(StockItem storageProduct) {
+		if(storageProduct.getAmount() == storageProduct.getMinStock()) {
+			storeAdminManager.runningOutOfItem(storageProduct.getProductId());
+		}
 	}
 
 	@Override

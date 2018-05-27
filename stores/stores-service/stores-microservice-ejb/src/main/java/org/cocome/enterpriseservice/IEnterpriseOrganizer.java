@@ -21,4 +21,5 @@ public interface IEnterpriseOrganizer {
 	public long createNewEnterprise(String Name, Collection<Store> stores);
 	
 	public void deleteEnterprise(long enterpriseId);
+	
 }

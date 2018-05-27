@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import javax.ejb.EJB;
 
+import org.cocome.enterpriseservice.enterpriseManager.EnterpriseManager;
 import org.cocome.storageOrganizer.IStorageOrganizer;
 import org.cocome.storageOrganizer.StorageOrganizer;
 import org.cocome.storesservice.cashDesk.cashDeskModel.CashDesk;
@@ -27,14 +28,19 @@ public class StoreAdminManager implements IStoreAdminManagement{
 	private IStorageOrganizer storageOrganizer;
 	
 	private final long storeId;
+	public long getStoreId() {
+		return storeId;
+	}
+
 	private final long enterpriseId;
+	private final EnterpriseManager eManager;
 	
-	
-	public StoreAdminManager(long enterpriseId, long storeId) {
+	public StoreAdminManager(EnterpriseManager eManager, long enterpriseId, long storeId) {
 		this.storeId = storeId;
 		cashDesks = new HashMap<String, ICashDesk>();
 		this.enterpriseId = enterpriseId;
 		this.storageOrganizer = new StorageOrganizer(this.storeId);
+		this.eManager = eManager;
 	}
 	
 	@Override
@@ -60,7 +66,7 @@ public class StoreAdminManager implements IStoreAdminManagement{
 		if(cashDesks.containsKey(cashDeskName)){
 			return cashDesks.get(cashDeskName);
 		} else {
-			ICashDesk cDesk = new CashDesk(this.enterpriseId, this.storeId, cashDeskName, this.storageOrganizer);
+			ICashDesk cDesk = new CashDesk(this.enterpriseId, this, cashDeskName, this.storageOrganizer);
 			cashDesks.put(cashDeskName, cDesk);
 			return cDesk;
 		}
@@ -79,5 +85,9 @@ public class StoreAdminManager implements IStoreAdminManagement{
 	@Override
 	public Collection<StockItem> getStoreProducts(long storeId) {
 		return storeRepo.find(storeId).getStockItems();
+	}
+	
+	public void runningOutOfItem(long productId) {
+		eManager.shiftItem(storeId, productId);
 	}
 }

@@ -20,7 +20,7 @@ public class EnterpriseOrganizer implements IEnterpriseOrganizer{
 	@EJB
 	private TradingEnterpriseDBRepository enterpriseDBRepository;
 	
-	
+	@Override
 	public IEnterpriseManager getActiveEnterprise(long enterpriseId) {
 		if(activeEnterprises.containsKey(enterpriseId)) {
 			return activeEnterprises.get(enterpriseId);
@@ -62,5 +62,5 @@ public class EnterpriseOrganizer implements IEnterpriseOrganizer{
 		activeEnterprises.remove(enterpriseId);
 		enterpriseDBRepository.delete(enterpriseId);
 	}
-
+	
 }

@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import javax.ejb.EJB;
 
+import org.apache.bcel.verifier.exc.LoadingException;
 import org.cocome.storesservice.domain.StockItem;
 import org.cocome.storesservice.domain.Store;
 import org.cocome.storesservice.domain.TradingEnterprise;
+import org.cocome.storesservice.repository.StockItemDBRepository;
 import org.cocome.storesservice.repository.StoreDBRepository;
 import org.cocome.storesservice.repository.TradingEnterpriseDBRepository;
 import org.cocome.storesservice.storeManager.IStoreAdminManagement;
@@ -21,6 +24,9 @@ public class EnterpriseManager implements IEnterpriseManager{
 
 	@EJB
 	private StoreDBRepository storeRepo;
+	
+	@EJB
+	private StockItemDBRepository stockRepo;
 	
 	@EJB
 	private TradingEnterpriseDBRepository enterpriseRepo;
@@ -38,7 +44,7 @@ public class EnterpriseManager implements IEnterpriseManager{
 			return activeStores.get(storeId);
 		}else {
 			if(!storeRepo.find(storeId).equals(null)) {
-				StoreAdminManager storeManager = new StoreAdminManager(enterpriseId, storeId);			
+				StoreAdminManager storeManager = new StoreAdminManager(this, enterpriseId, storeId);			
 				activeStores.put(storeId, storeManager);
 				return storeManager;
 			} else {
@@ -92,5 +98,49 @@ public class EnterpriseManager implements IEnterpriseManager{
 		
 		storeRepo.delete(storeId);
 	}
+	
+	public void shiftItem(long storeId, long productId) {
+		Store toShift = findOptimum(findStores(productId));
+		long shiftAmount =0;
+		
+		for (StockItem item : toShift.getStockItems()) {
+			if (item.getProductId() == productId) {
+				shiftAmount = (item.getAmount()- item.getMinStock())/2; 
+				item.setAmount(item.getAmount()-shiftAmount);
+				stockRepo.update(item);
+				break;
+			}
+		}
+		for (StockItem item : storeRepo.find(storeId).getStockItems()) {
+			if (item.getProductId() == productId) { 
+				item.setAmount(item.getAmount()+shiftAmount);
+				stockRepo.update(item);
+				break;
+			}
+		}
+	}
+	
+	private Collection<Store> findStores(long productId) {
+		Collection<Store> stores = new ArrayList<Store>();
+		for (Store store : getAll()) {
+			for (StockItem item : store.getStockItems()) {
+				if(item.getProductId() == productId) {
+					if(item.getAmount() > item.getMinStock() + 4) {
+						stores.add(store);
+					}
+					break;
+				}
+			}
+		}
+		return stores;
+	}
+	
+	private Store findOptimum(Collection<Store> stores) {
+	   Random randomGenerator = new Random();
+	    int index = randomGenerator.nextInt(stores.size());
+		
+		return stores.toArray(new Store[stores.size()])[index];
+	}
+
 
 }
