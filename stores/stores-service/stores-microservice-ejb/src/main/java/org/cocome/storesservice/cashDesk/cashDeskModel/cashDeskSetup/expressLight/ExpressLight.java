@@ -12,7 +12,7 @@ public class ExpressLight implements IExpressLight{
 		if(value) {
 			expressLight = ExpressLightStates.Express_LIGHT_GREEN;
 		} else {
-			expressLight = ExpressLightStates.Express_LIGHT_GREEN;
+			expressLight = ExpressLightStates.Express_LIGHT_BLACK;
 		}
 	}
 

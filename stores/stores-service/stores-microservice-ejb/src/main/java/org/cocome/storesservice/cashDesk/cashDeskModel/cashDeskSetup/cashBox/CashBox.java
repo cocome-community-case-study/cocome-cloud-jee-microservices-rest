@@ -44,7 +44,7 @@ public class CashBox implements ICashBox{
 
 	@Override
 	public void selectCashPayment() {
-		cDesk.setCashPaymentButtomPressed();
+		cDesk.setCashPaymentButtonPressed();
 	}
 
 	@Override

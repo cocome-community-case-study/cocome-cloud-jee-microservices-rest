@@ -17,7 +17,6 @@ public class Scanner implements IScanner{
 		try {
 			
 		cDesk.barcodeScanned(Long.parseLong(id));
-		barcode="";
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

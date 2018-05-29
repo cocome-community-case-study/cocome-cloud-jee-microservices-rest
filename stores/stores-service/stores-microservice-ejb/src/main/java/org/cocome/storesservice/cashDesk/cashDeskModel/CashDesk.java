@@ -188,6 +188,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 			saleProducts = new HashMap<Long, Pair<Integer, StockItem>>();
 		}
 		runningTotal = 0.0;	
+		printer.resetPrinterOutput();
 		}
 
 	@Override
@@ -256,8 +257,8 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 		cashBox.selectCashPayment();
 	}
 	
-	public void setCashPaymentButtomPressed() {
-		if(actionInStateAvailable(START_CASH_PAYMENT_STATES)) {
+	public void setCashPaymentButtonPressed() {
+		if(actionInStateAvailable(START_CASH_PAYMENT_STATES) && expressLight.getExpressLight() == ExpressLightStates.Express_LIGHT_BLACK) {
 			state = CashDeskState.PAYING_BY_CASH;
 		}
 	}
@@ -303,6 +304,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 
 	public void barcodeScanned(long id) {
 		//get item from repo, reduce storage amount, add to list
+		display.addDisplayLine("Item Scanned " + id);
 		if(saleProducts.containsKey(id)) {
 			if(saleProducts.get(id).getRight().getAmount() > saleProducts.get(id).getLeft()) {
 				storageOrg.reduceInventory(id, 1);
