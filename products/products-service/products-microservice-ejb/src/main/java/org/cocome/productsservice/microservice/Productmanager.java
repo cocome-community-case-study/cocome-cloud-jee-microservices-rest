@@ -28,12 +28,14 @@ public class Productmanager implements Productmanagement{
 		product.setSupplier(productSupplierRepository.find(supplierId));
 		
 		productRepository.update(product);
+		
+		//TODO update Stock items
 	}
 
 	@Override
 	public void delete(long id) {
 		productRepository.delete(id);
-		
+		//TODO delete stock item
 	}
 
 }

@@ -3,7 +3,7 @@ package org.cocome.enterpriseservice.enterpriseManager;
 import java.util.Collection;
 
 import org.cocome.storesservice.domain.Store;
-import org.cocome.storesservice.storeManager.IStoreAdminManagement;
+import org.cocome.storesservice.storeManager.IStoreManagement;
 
 /**
  * Works on enterprises in form of editing the enterprise structure - creating/deleting etc..
@@ -11,7 +11,7 @@ import org.cocome.storesservice.storeManager.IStoreAdminManagement;
  * @author Tobias Haßberg
  */
 public interface IEnterpriseManager {
-	public IStoreAdminManagement getActiveStore(long storeId);
+	public IStoreManagement getActiveStore(long storeId);
 	
 	public Collection<Store> getAll();
 	

@@ -3,7 +3,7 @@ package org.cocome.reportsservice.reporter;
 import restCommunicator.OrderCommunicator;
 import restCommunicator.StoreCommunicator;
 
-public class Reporter implements IReportPresentator{
+public class Reporter implements IReports{
 	// enable different filters
 	
 	

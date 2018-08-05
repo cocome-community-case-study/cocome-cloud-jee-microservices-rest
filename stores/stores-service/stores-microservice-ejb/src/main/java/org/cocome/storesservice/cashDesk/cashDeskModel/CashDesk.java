@@ -6,7 +6,7 @@ import java.util.Set;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
 
-import org.cocome.storageOrganizer.IStorageOrganizer;
+import org.cocome.storageOrganizer.IStorageOrganizerSystem;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.IScannerAdapter;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.cashBox.CashBox;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.cashBox.ICashBox;
@@ -38,7 +38,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	private final ICashBox cashBox;
 	private final IExpressLight expressLight;
 	
-	private IStorageOrganizer storageOrg;
+	private IStorageOrganizerSystem storageOrg;
 	
 	CashDeskState state;
 	HashMap<Long, Pair<Integer, StockItem>> saleProducts;
@@ -52,7 +52,7 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 	private int expressModeLimit;
 
 
-	public CashDesk(long enterpriseId, StoreAdminManager storeAdminManager, String name, IStorageOrganizer storageOrganizer) {
+	public CashDesk(long enterpriseId, StoreAdminManager storeAdminManager, String name, IStorageOrganizerSystem storageOrganizer) {
 		this.enterpriseId = enterpriseId;
 		this.storeAdminManager = storeAdminManager;
 		cashDeskName = name;
@@ -302,32 +302,39 @@ public class CashDesk implements ICashDesk, IScannerAdapter{
 		}
 	}
 
-	public void barcodeScanned(long id) {
+	public void barcodeScanned(long Barcode) {
 		//get item from repo, reduce storage amount, add to list
-		display.addDisplayLine("Item Scanned " + id);
-		if(saleProducts.containsKey(id)) {
-			if(saleProducts.get(id).getRight().getAmount() > saleProducts.get(id).getLeft()) {
-				storageOrg.reduceInventory(id, 1);
-				saleProducts.get(id).setLeft(saleProducts.get(id).getLeft() +1);
-				updateAmount(saleProducts.get(id).getRight().getSalesPrice());
+		display.addDisplayLine("Item Scanned " + Barcode);
+		long productId = BarcodeToStockItemId(Barcode);
+		if(saleProducts.containsKey(Barcode)) {
+			if(saleProducts.get(Barcode).getRight().getAmount() > saleProducts.get(Barcode).getLeft()) {
+				storageOrg.reduceInventory(productId, 1);
+				saleProducts.get(Barcode).setLeft(saleProducts.get(Barcode).getLeft() +1);
+				updateAmount(saleProducts.get(Barcode).getRight().getSalesPrice());
 			} else {
 				// TODO what if not enought products unavailable
 				return;
 			}
-		}else if(storageOrg.containStockItem(id)) {
-			if(storageOrg.reduceInventory(id, 1)) {
-				saleProducts.put(id, new Pair<Integer, StockItem>(1, storageOrg.getItem(id)));
-				updateAmount(saleProducts.get(id).getRight().getSalesPrice());
+		} else { 
+			if(storageOrg.containStockItem(productId)) {
+				if(storageOrg.reduceInventory(productId, 1)) {
+					saleProducts.put(Barcode, new Pair<Integer, StockItem>(1, storageOrg.getItem(productId)));
+					updateAmount(saleProducts.get(Barcode).getRight().getSalesPrice());
 			} else {
-				// TODO what if not enought products unavailable
+					// TODO what if not enought products unavailable
+					return;
+					}
+			} else {
+				// TODO what if barcode unavailable
 				return;
 			}
-		} else {
-		// TODO what if barcode unavailable
-		return;
 		}
 		printer.addPrinterOutput(display.getDisplayLine());
 		display.resetDisplayLine();
+	}
+	
+	private long BarcodeToStockItemId(long barcode) {
+		return storageOrg.getIDByBarcode(barcode);
 	}
 
 	private void updateAmount(double amount) {

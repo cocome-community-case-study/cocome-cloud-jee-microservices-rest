@@ -1,12 +1,15 @@
 package org.cocome.storageOrganizer;
 
+import java.util.Collection;
+
 import javax.ejb.EJB;
 
 import org.cocome.storesservice.domain.StockItem;
+import org.cocome.storesservice.domain.Store;
 import org.cocome.storesservice.repository.StockItemRepository;
 import org.cocome.storesservice.repository.StoreDBRepository;
 
-public class StorageOrganizer implements IStorageOrganizer{
+public class StorageOrganizerSystem implements IStorageOrganizerSystem{
 	
 	@EJB
 	private StoreDBRepository storeRepo;
@@ -16,7 +19,7 @@ public class StorageOrganizer implements IStorageOrganizer{
 		
 	private final long storeId;
 	
-	public StorageOrganizer(long storeId) {
+	public StorageOrganizerSystem(long storeId) {
 		this.storeId = storeId;
 	}
 	
@@ -47,6 +50,18 @@ public class StorageOrganizer implements IStorageOrganizer{
 		StockItem item = stockItemRepository.find(id);
 		item.setAmount(item.getAmount() + amount);
 		stockItemRepository.update(item);
+	}
+
+	@Override
+	public long getIDByBarcode(long Barcode) {
+		Store store = storeRepo.find(storeId);
+		Collection<StockItem>items = store.getStockItems();
+		for(StockItem item : items) {
+			if(item.getBarcode() == Barcode) {
+				return item.getId();
+			}
+		} return -1;
+		                                        
 	}
 	
 }

@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @XmlRootElement(name = "StockItem")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StockItem", propOrder = { "id", "productId", "store", "salesPrice", "amount", "minStock", "maxStock", "incomingAmount" })
+@XmlType(name = "StockItem", propOrder = { "id", "productId", "store", "salesPrice", "amount", "minStock", "maxStock", "Barcode","incomingAmount" })
 public class StockItem implements Serializable {
 
 	private static final long serialVersionUID = -293179135307588628L;
@@ -40,16 +40,19 @@ public class StockItem implements Serializable {
 	
 	@XmlElement(name = "MinStock")
 	private long minStock;
-	
+
 	@XmlElement(name = "MaxStock")
 	private long maxStock;
+
+	@XmlElement(name = "Barcode")
+	private long barcode;
 	
 	@XmlElement(name = "IncomingAmount")
 	private long incomingAmount;
 		
 	@XmlElement(name = "ProductId")
 	private long productId;
-	
+
 	@XmlElement(name = "Store")
 	private Store store;
 
@@ -87,6 +90,18 @@ public class StockItem implements Serializable {
 	 */
 	public void setAmount(final long amount) {
 		this.amount = amount;
+	}
+	
+	public long getBarcode() {
+		return barcode;
+	}
+	
+	/**
+	 * @param amount
+	 *            the Barcode of a product
+	 */
+	public void setBarcode(final long barcode) {
+		this.barcode = barcode;
 	}
 
 	/**
@@ -195,7 +210,7 @@ public class StockItem implements Serializable {
 	@Override
 	public String toString() {
 //		return "[Class:" + this.getClass().getSimpleName() + ",Id" + this.getId() + ",Store:" + this.getStore() + ",Product:" + this.getProduct() + "]";
-		return "[Class:" + this.getClass().getSimpleName() + ",Id" + this.getId() + ",Store:" + this.getStore() + "]";
+		return "[Class:" + this.getClass().getSimpleName() + ",Id" + this.getId() + ",Store:" + this.getStore().getId() + "]";
 	}
 
 }

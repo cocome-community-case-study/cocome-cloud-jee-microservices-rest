@@ -15,12 +15,12 @@ import org.cocome.storesservice.domain.TradingEnterprise;
 import org.cocome.storesservice.repository.StockItemDBRepository;
 import org.cocome.storesservice.repository.StoreDBRepository;
 import org.cocome.storesservice.repository.TradingEnterpriseDBRepository;
-import org.cocome.storesservice.storeManager.IStoreAdminManagement;
+import org.cocome.storesservice.storeManager.IStoreManagement;
 import org.cocome.storesservice.storeManager.StoreAdminManager;
 
 public class EnterpriseManager implements IEnterpriseManager{
 
-	private Map<Long, IStoreAdminManagement> activeStores;
+	private Map<Long, IStoreManagement> activeStores;
 
 	@EJB
 	private StoreDBRepository storeRepo;
@@ -34,12 +34,12 @@ public class EnterpriseManager implements IEnterpriseManager{
 	private long enterpriseId;
 	
 	public EnterpriseManager(long id) {
-		activeStores = new HashMap<Long, IStoreAdminManagement>();
+		activeStores = new HashMap<Long, IStoreManagement>();
 		enterpriseId = id;
 	}
 	
 	@Override
-	public IStoreAdminManagement getActiveStore(long storeId) {
+	public IStoreManagement getActiveStore(long storeId) {
 		if(activeStores.containsKey(storeId)) {
 			return activeStores.get(storeId);
 		}else {

@@ -28,5 +28,7 @@
 			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/stores-microservice-ejb"/>
+	<classpathentry kind="lib" path="/stores-microservice-ejb/src/main/java/org/cocome/storesservice/domain"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
