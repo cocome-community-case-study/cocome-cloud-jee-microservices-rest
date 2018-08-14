@@ -20,19 +20,27 @@ import org.cocome.frontendservice.events.LoginEvent;
 import org.cocome.frontendservice.events.LogoutEvent;
 import org.cocome.frontendservice.logindata.IUser;
 
+
+
 /**
- * Implements the navigation menu for the site.
+ * Implements the navigation menu for the site. THe navigation Menu is a bar 
+ * that contains different possibilities to switch the current view.
+ * The selection depends on the current user and its permissions.
  * 
- * @author Tobias Pöppke
+ * @author Niko Benkler
+ * @author Tobias Haßberg
  * @author Robert Heinrich
+ *
  */
 @Named
 @SessionScoped
 public class NavigationMenu implements INavigationMenu, Serializable {
 	private static final long serialVersionUID = -6352541874730024270L;
 	
+	
 	private static Map<NavigationViewStates, List<INavigationElement>> STATE_MAP;
 	
+	//contains the current elements
 	private List<INavigationElement> elements;
 
 	@Inject
@@ -58,7 +66,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		List<INavigationElement> defaultViewList = populateDefaultView();
 		
 		STATE_MAP = new HashMap<>(NavigationViewStates.values().length, 1);
-		STATE_MAP.put(NavigationViewStates.ENTERPRISE_VIEW, enterpriseViewList);
+		STATE_MAP.put(NavigationViewStates.ENTERPRISE_VIEW, enterpriseViewList); //
 		STATE_MAP.put(NavigationViewStates.STORE_VIEW, storeViewList);
 		STATE_MAP.put(NavigationViewStates.CASHPAD_VIEW, cashpadViewList);
 		STATE_MAP.put(NavigationViewStates.DEFAULT_VIEW, defaultViewList);
@@ -71,7 +79,8 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		cashpadViewList.add(new NavigationElement(NavigationElements.ENTERPRISE_MAIN, labelResolver));
 		return cashpadViewList;
 	}
-
+	
+	//List for Store View
 	private List<INavigationElement> populateStoreView() {
 		List<INavigationElement> storeViewList = new LinkedList<>();
 		storeViewList.add(new NavigationElement(NavigationElements.START_SALE, labelResolver));
@@ -80,7 +89,8 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		storeViewList.add(new NavigationElement(NavigationElements.RECEIVE_PRODUCTS, labelResolver));
 		return storeViewList;
 	}
-
+	
+	//List for enterprise view
 	private List<INavigationElement> populateEnterpriseView() {
 		List<INavigationElement> enterpriseViewList = new LinkedList<>();
 		enterpriseViewList.add(new NavigationElement(NavigationElements.SHOW_ENTERPRISES, labelResolver));
@@ -91,6 +101,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		return enterpriseViewList;
 	}
 	
+	//empty list
 	private List<INavigationElement> populateDefaultView() {
 		List<INavigationElement> enterpriseViewList = new LinkedList<>();
 		return enterpriseViewList;

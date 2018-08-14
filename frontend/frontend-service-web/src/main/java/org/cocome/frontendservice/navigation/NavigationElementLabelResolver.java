@@ -1,5 +1,6 @@
 package org.cocome.frontendservice.navigation;
 
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -10,6 +11,12 @@ import java.io.Serializable;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * @author Niko Benkler
+ * @author Tobias Haßberg
+ * @author Robert Heinrich
+ *
+ */
 @SessionScoped
 public class NavigationElementLabelResolver implements Serializable, ILabelResolver {
 	private static final long serialVersionUID = 7607903884265925992L;
