@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:application="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd" id="Application_ID" version="6">
   <display-name>frontend-service-ear</display-name>
-  <module>
+  <!--  module>
     <ejb>frontend-service-ejb-1.0.jar</ejb>
-  </module>
+  </module-->
+  
   <module>
     <web>
-      <web-uri>frontend-service-rest-1.0.war</web-uri>
+      <web-uri>frontend-service-web-1.0.war</web-uri>
       <context-root>/frontendservice</context-root>
     </web>
   </module>
