@@ -1,0 +1,704 @@
+body { margin: 0px; padding: 0px; font-family: Arial; bgcolor: #FFFFFF; }
+.prtlBody { margin: 0px; padding: 0px; font-family: Arial; bgcolor: #FFFFFF; }
+
+a { color: #054295; }
+a:link { color: #054295; }
+a:visited { color: #054295; }
+a:hover { color: #D62020; }
+a:active { color: #D62020; }
+a:focus { color: #D62020; }
+
+.navlink { color: #054295; font-family: Arial; font-size: 70%; text-decoration: none; }
+.navlink:link { color: #054295; }
+.navlink:visited { color: #054295; }
+.navlink:hover { color: #D62020; }
+.navlink:active { color: #D62020; }
+.navlink:focus { color: #D62020; }
+.navlinkactive { color: #D62020; font-family: Arial; font-size: 70%; text-decoration: none; }
+.navlinkactive:link { color: #D62020; }
+.navlinkactive:visited { color: #D62020; }
+.navlinkactive:hover { color: #D62020; }
+.navlinkactive:active { color: #D62020; }
+.navlinkactive:focus { color: #D62020; }
+.linkInaktiv { color: #747474; }
+
+.contentnavtextbox {padding-top:3px; padding-bottom: 3px; padding-left: 10;font-family: Arial; font-size: 70%; text-decoration: none; } 	
+.topiclink { color: #054295; font-weight: bold; }
+.searchfield { border: 1px solid #9EB6D6; width: 126px; font-family: Arial; padding-left: 3px; font-size: 100%; }
+.searchsubmit { font-family: Arial; color: #054295; font-weight: bold; background: #F6F6FF; border: 1px solid black; border-left: 0; border-top: 0; font-size: 100%;}
+.hessenmarkebox { height: 83px; vertical-align: top; background-position: right; background-repeat : no-repeat; background-image : url(../../images/bg_hrline.gif); }
+.brandingbox { vertical-align: top; height: 60px;}
+
+.branding{ border: 0px; margin: 0px; }
+.bannerline_tina { background: #cdd9ea; height: 1px; }
+.headnavdivider { color: #054295; font-family: Arial; font-size: 75%; padding-left: 8px; padding-right: 8px; }
+.headnavbox { text-align: right; vertical-align: top; padding-right: 10px; padding-top: 3px;}
+.searchbox { font-size: 70%; height: 22px; text-align: right; vertical-align: middle; padding-right: 10px; }
+
+.topnavbox { height: 22px; background: #054295; color: #ffffff; vertical-align: middle; padding-left: 15px; }
+.topnavlink { color: #ffffff; font-family: Arial; font-size: 75%; text-decoration: none; }
+.topnavlink:link { color: #ffffff; }
+.topnavlink:visited { color: #ffffff; }
+.topnavlink:hover { color: #EED62B; }
+.topnavlink:active { color: #EED62B; }
+.topnavlink:focus { color: #EED62B; }
+
+.topnavlinkactive { color: #ffffff; font-family: Arial; font-size: 75%; text-decoration: none; font-weight: bold; }
+.topnavlinkactive:link { color: #ffffff; }
+.topnavlinkactive:visited { color: #ffffff; }
+.topnavlinkactive:hover { color: #EED62B; }
+.topnavlinkactive:active { color: #EED62B; }
+.topnavlinkactive:focus { color: #EED62B; }
+.topnavlinkbox { padding-left: 16px; padding-right: 17px; padding-bottom: 1px; border-right: 1px solid #ffffff; float: left; }
+
+.fiveboxes { width: 31px; vertical-align: top;}
+
+.contentnavbox { width: 184px; background: #EBECF0; vertical-align: top; padding-top: 16px; }
+.contentnavlinkbox1 {padding-top: 3px; padding-bottom: 2px; border-bottom: 1px solid #FFFFFF; padding-left: 8px; } 	
+.contentnavlinkbox2 {background: #ffffff; padding-top: 3px; padding-bottom: 2px; border-bottom: 1px solid #EFEFF7; padding-left: 18px; }
+.contentnavlinkbox3 {background: #ffffff; padding-top: 3px; padding-bottom: 2px; border-bottom: 1px solid #EFEFF7; padding-left: 28px; }
+.contentnavlinkbox4 {background: #ffffff; padding-top: 3px; padding-bottom: 2px; border-bottom: 1px solid #EFEFF7; padding-left: 38px; }
+.contentnavlinkbox5 {background: #ffffff; padding-top: 3px; padding-bottom: 2px; border-bottom: 1px solid #EFEFF7; padding-left: 48px; } 	
+.contentnavtopic { background: #ffffff; color: #054295; font-family: Arial; font-size: 70%; text-decoration: none; width: 184px; padding: 3px; padding-left: 10px; font-weight: bold; margin-top:16px;}
+.contentnavtopicactive { background: #ffffff; color: #D7212A; font-family: Arial; font-size: 70%; text-decoration: none; width: 184px; padding: 3px; padding-left: 10px; font-weight: bold; margin-top:14px;}
+.contentnavsubbox { background: #F6F6FF; padding-top: 1px; } 
+.contenttable { font-size: 100%; }
+.sema { background-color:#FFFFFF; border:0px; }
+
+.contentbox { width: 100%; padding-left: 14; padding-right: 14; vertical-align: top; height: 100%; }
+.contentboxprintview { width: 100%; padding-left: 31; padding-right: 31; padding-top: 28; vertical-align: top;  }
+.contenttopic {padding-bottom: 3;}
+
+.contentarea { padding-left: 10px; vertical-align: top; padding-top: 12px; width: 100%}
+.contentboxprintview { width: 100%; padding-left: 31px; padding-right: 31px; padding-top: 28px; vertical-align: top;  }
+.breadcrumb { color:#747474; font-family:Arial; vertical-align:top; padding-bottom: 10px; padding-left: 12px;}
+.breadcrumblink { color: #054295; font-family: Arial; font-size: 70%; text-decoration: underline; }
+.breadcrumbnolink {font-family: Arial; font-size: 70%; }
+
+.addtofavorites{ padding-right: 10px; }
+p {margin-top: 8px; padding-top: 0px;}
+
+.detailbox { border: 1px solid #EFEFEF; padding-left: 11px; padding-right: 11px; padding-top: 5px; padding-bottom: 5px; }
+.detailbox2 { border: 1px solid #EFEFEF; padding-left: 24px; padding-right: 24px; padding-top: 14px; padding-bottom: 5px; }
+.detail { font-family: Arial; font-size: 70%; padding-top: 9px;}
+.detail2 { font-family: Arial; font-size: 70%; padding-bottom: 21px; }
+.contentdivider { clear: both; background: url(../../images/bg_dottedlineblue.gif); margin-left: 108px; }
+.contentdividerlong { clear: both; background: url(../../images/bg_dottedlineblue.gif); }
+
+.footerbox { border: 1px solid #EFEFEF; border-top: 0; padding-left: 18; padding-right: 11; padding-top: 2; padding-bottom: 2; font-family: Arial; font-size: 70%; margin-bottom: 10; }
+.footerbox2 { font-family: Arial; font-size: 70%; margin-bottom: 10; }
+
+.schlagwortbuchstabe { width: 15; height: 19; text-align: center; float: left; }
+.schlagworttrenner { color: #054295; font-family: Arial; font-size: 70%; text-decoration: none; height: 19; float: left; }
+.selectcontentnav { font-family: Arial; font-size: 70%; width: 155; margin-top: 6; }
+.selectinfo { font-family: Arial; font-size: 70%; width: 170; margin-top: 6; }
+.contentbold { font-weight: bold;}
+.picstart { float: left; padding-right: 14px;}
+.piccontent { float: left; padding-right: 14px;}
+.picgallery { float: right;  padding-left: 14px;}
+.picinfo { float: left; padding-right: 3px;}
+/* Änderungen für eGovernment */ 
+.piccontentleft { float: left; margin-right: 14px; clear: both; margin-top: 5px;}
+
+.infobox { width: 227px; vertical-align: top; padding-right: 2px; }
+.infotopic { width: 227px; } 
+.infodetail { font-family: Arial; font-size: 70%; padding: 6px; padding-left: 9px;}
+.infoform { font-family: Arial; padding-left: 9px;}
+.infodivider { background: url(../../images/bg_dottedlineblue.gif); height: 1px; margin-top: 6px; margin-bottom: 7px; }
+.infospacer { padding-bottom: 5px;}
+.infoboxspacer { height: 16px;}
+.contentnavboxspacer { height: 20px;}
+
+/* veraltet am 24.08.2007 .hidden { display: none; } */
+.margin_bottom10 { margin-bottom: 10px;}
+
+.datatable { font-family: Arial; font-size: 100%; background: #ADCAE5; }
+caption { text-align: left; background: #D3DDF3; color: #004194; border-top: 1px solid #ADCAE5; border-left: 1px solid #ADCAE5; border-right: 1px solid #ADCAE5; font-weight: bold; font-size: 100%; }
+th { background: #EBF1FD; font-weight: bold; text-align:left; vertical-align: top; }
+th.datenkopf_zahl {text-align: right; }
+td.datenzelle { background: #FFFFFF; vertical-align: top; }
+td.datenzelle_zahl { background: #FFFFFF; vertical-align: top; text-align: right; }
+.alignright {text-align: right;}
+.alignleft {text-align: left;}
+
+.fett {font-weight: bold;}
+.kursiv {font-style: italic;}
+.tabelle {font-size: 100%;}
+
+.eingabefeldlang { font-family: Arial; width: 80%; font-size: 100%;}
+.eingabefeld { font-family: Arial; width: 60%; font-size: 100%;}
+.eingabefeldkurz { width: 20%;  font-size: 100%;}
+.fontsize100 { font-size: 100%;}
+
+.error {color: #D62029; }
+.texttable { font-size: 100%; }
+
+.errorText {font-family: Arial; background-color:#f6f6ff; font-size: 0.7em; border:1px solid #cdd9ea; margin-top:10px; margin-left:14px; padding: 10px; color: black;}
+.errorcode	{text-align:right; color:#d62020;}
+
+.welcome{ font-size: 75%; color: #054295; font-family: Arial;  }
+
+h1.icc {color: #054295; font-family: Arial; font-size: 70%; font-weight: bold; margin-bottom: 0px;} 
+
+.contentrowleft { padding-right: 10px; vertical-align: top; }
+.contentrowcenter { padding-right: 10px; padding-left: 10px; text-align: center; }
+.contentrowleft { padding-left: 10px; text-align: right; vertical-align: top; }
+
+h1 {color: #054295; font-family: Arial; font-size: 100%; font-weight: bold; margin-bottom: 0px; }
+h2 {font-family: Arial; font-size: 100%; font-weight: bold; margin-bottom: 0px; } 
+h3 {font-family: Arial; font-size: 100%; font-weight: bold; margin-bottom: 0px; }
+
+<!-- Sitemap -->
+div.tree, div.subtree, div.lastsubtree, div.node, div.lastnode{
+	font-family: arial;
+	background-position: left center;
+}
+div.treeheader {
+	font-weight: bold;
+	height: 15px; background: #EBECF0; vertical-align: top;
+}
+div.subtree, div.lastsubtree, div.node, div.lastnode {
+	padding-left:15px;
+}
+div.subtree {
+	background-image: url(../../images/i.gif);
+	background-repeat: repeat-y;
+}
+div.node {
+	background-image: url(../../images/t.gif);
+	background-repeat: no-repeat;
+}
+div.lastnode {
+	background-image: url(../../images/l.gif);
+	background-repeat: no-repeat;
+}
+
+/* Klassen fuer neues Formular */
+.inputfieldblue { border: 1px solid #9EB6D6; width: 180px; font-family: Arial; padding-left: 3px; font-size: 100%; }
+.contentblue { color: #054295; }
+
+/* ### Gallery ########################### */
+.galleryoverviewimgbox {border: 1px solid #a6caf0; vertical-align: middle; text-align: center; width: 106px; height: 106px; position: relative; float: left; margin-right: 8px; padding-bottom: 0px;}
+.galleryoverviewplus {position: absolute; right: 0px; bottom: 0px; border: 0px;}
+.boxspanner {clear:both; height: 8px;}
+
+.gallerydetailthumbsrow {float: left; width: 190px;}
+.gallerydetaildownloadrow {float: right; width: 105px; padding-left: 11px;}
+.gallerydetailthumbbox {border: 1px solid #a6caf0; vertical-align: middle; text-align: center; width: 85px; height: 85px; position: relative; margin-right: 8px; margin-bottom: 8px; float: left;}
+
+.galleryimgbox {border: 0px; float: left; position: relative;}
+
+.activethumb { filter:Alpha(opacity=30, finishopacity=0, style=0);}
+
+.gallerydetail {float: left; position: relative; padding-left: 11px;}
+.gallerydetaillink:hover {COLOR: #d62029;}
+
+.gallerypagelink { color: #054295; font-family: Arial; text-decoration: none; }
+.gallerypagelink:hover, .gallerypage:focus { color: #D62029; }
+.gallerypagelinkactive { color: #D62029; font-family: Arial; text-decoration: none; }
+.gallerypagelinkactive:hover, .gallerypageactive:focus { color: #D62029; }
+
+.gallerycopyright {background: #e2e2e2; padding: 5px;}
+.gallerytext {background: #f3f3f3; padding: 5px}
+
+.gallerydetailindex {position: absolute; right: 0px; padding: 5px;}
+.gallerydetailback {position: absolute; left: 0px; padding: 5px;}
+
+/* Eingebaut 20.08.2007 */
+/* Für Darstellung der 2 Topmeldungen auf HEP Startseite */
+.detailboxtoppress { border: 1px solid #EFEFEF; background-color: #f2f5fa; border-color: #E3E1E1; padding-left: 11; padding-right: 11; padding-top: 5; padding-bottom: 5; }
+ 
+/* allgemeine CSS Klassen zur Darstellung im Contentbereich */
+h1.icc2 {font-family: Arial; font-size: 100%; font-weight: bold; margin: 0px;}
+h2.icc2 {font-family: Arial; font-size: 100%; font-weight: bold; margin: 0px; } 
+h3.icc2 {font-family: Arial; font-size: 100%; font-weight: bold; margin: 0px; }
+p.icc2 { margin: 0px; }
+ 
+h1.icc3 {font-family: Arial; font-size: 100%; font-weight: bold; margin: 0px; color: #000000;}
+h2.icc3 {font-family: Arial; font-size: 100%; font-weight: bold; margin: 0px; color: #000000;}
+h3.icc3 {font-family: Arial; font-size: 100%; font-weight: bold; margin: 0px; color: #000000;}
+ 
+/* Klassen für Journalseite */
+/* veraltet am 24.08.2007 .journaltable {width: 100%; font-family: Arial; font-size: 70%} 
+.journalrowleft { width: 50%; padding-right: 9px; vertical-align: top;}
+.journalrowright { width: 50%; padding-left: 9px; vertical-align: top;}
+.journaltopic { margin-bottom: 6px; background: #eaeaea; border-bottom: 1px solid #cc3333; padding: 5px; color: #003399; font-weight: bold; clear: both;}
+.journaltext { padding: 5px;}
+.journalinfobox { width: 227px; font-family: Arial; font-size: 70%;} 
+.journalbox { width: 100%; font-family: Arial; font-size: 100%;} */
+ 
+/* Klassen Druckansicht HR1 */
+.printheader { font-family: Arial; font-weight: bold; font-size: 100%; color: #054295; width: 100%; vertical-align: bottom; }
+.printline { height: 20px; border-bottom: 1px solid #054295; }
+.printlinebottom { border-bottom: 1px solid #054295; }
+.printheadinfo { font-family: Arial; font-size: 95%; }
+/* .contentboxprint { width: 100%; padding-top: 28; vertical-align: top;  } */
+h1.printheadline {color: #000000; font-family: Arial; font-size: 80%; font-weight: bold; margin-bottom: 10px;} 
+.printhessenmarkebox { height: 60px; }
+
+/*Eingebaut 24.08.2007 */
+/* Klassen für Journalseite */
+/* veraltet am 28.09.2007  .journaltable { font-family: Arial; font-size: 70%; width: 100%; }
+.journalrowleft { width: 50%; padding-right: 9px; vertical-align: top;}
+.journalrowright { width: 50%; padding-left: 9px; vertical-align: top;}
+.journaltopic { margin-bottom: 6px; background: #eaeaea; border-bottom: 1px solid #cc3333; padding: 5px; color: #003399; font-weight: bold; clear: both;}
+.journaltext { padding-top: 5px; padding-left: 5px; padding-right: 5px;}
+.journalbox { font-family: Arial; font-size: 100%;} 
+.journalinfobox { font-family: Arial; font-size: 70%; width: 100%; }
+.contentbox2 { padding-left: 14; padding-right: 14; vertical-align: top; height: 100%; }
+.infobox2 { vertical-align: top; padding-right: 2; }
+*/
+
+ul.icc2{ list-style-type: none; padding: 0; margin: 0; }
+ul.icc2 li { padding: 0px; margin: 0px; }
+.inactive { color: #747474; }
+.hidden { display: none; }
+
+/* Eingebaut 06.09.2007 */
+/* ##### neue Klassen für Phase 2 mit Breadcrumbnav in Druckansicht */
+.breadcrumbnav { color: #747474; font-family: Arial; font-size: 70%; padding-top: 4px; }
+/* bzw. neue Version bestehender Klasse */
+.contentboxprint { width: 100%; padding-top: 20px; vertical-align: top;  }
+
+/* Eingebaut 28.09.2007 */
+/* Klassen für Journalseite */
+.journaltable { font-family: Arial; font-size: 70%; width: 100%; }
+.journalrowleft { width: 50%; padding-right: 9px; vertical-align: top;}
+.journalrowright { width: 50%; padding-left: 9px; vertical-align: top;}
+.journaltopic { background: #eaeaea; border-bottom: 1px solid #cc3333; padding: 5px; color: #003399; font-weight: bold; clear: both;}
+.journaltext { padding-top: 10px; padding-left: 5px; padding-right: 5px; background: #f9f9ff; width: 100%; }
+.journalbox { font-family: Arial; font-size: 100%; } 
+.journalinfobox { font-family: Arial; font-size: 70%; width: 100%; background: #f9f9ff; }
+.journalinfoboxintro { padding-bottom: 10px; font-family: Arial; font-size: 70%; width: 100%; }
+.contentbox2 { padding-left: 14; padding-right: 14; vertical-align: top; height: 100%; }
+.infobox2 { vertical-align: top; padding-right: 2px; }
+.divwrapperleft { float: left; }
+.footerboxjournal { font-family: Arial; font-size: 70%; margin-bottom: 10; margin-top: 50px; }
+
+/* Eingebaut 10.10.2007 */
+/* neues Template Startseite (Journalseite), Change 64567 */
+.footerboxjournal2{font-family: Arial; font-size: 70%;position:absolute; bottom:10px;margin-top:auto;}
+.detail3 { font-family: Arial; font-size: 70%; padding-top: 0px;}
+
+/*Start der Klassen gem. Change 68788*/
+/* Karteikarten-Reiter */
+ul.karteikarten {
+   padding: 3px 0;
+   margin: 20px 20px 0px 20px;
+   border-bottom: 1px solid #D7E0F7;
+   font-size: 70%;
+}
+ul.karteikarten li {
+   list-style: none;
+   margin: 0;
+   margin-left: -3px;
+   display: inline;
+}
+
+ul.karteikarten li a {
+   padding: 3px 5px;
+   margin-left: 3px;
+   border: 1px solid #D7E0F7;
+   background: #EFF3FF;
+   text-decoration: none;
+   color: #054295;
+}
+ul.karteikarten li a:link { color: #054295; }
+ul.karteikarten li a:visited { color: #054295; }
+ul.karteikarten li a:hover { color: #D62020; }
+ul.karteikarten li a:active { color: #054295; }
+ul.karteikarten li a:focus { color: #054295; }
+
+ul.karteikarten li a.current {
+   background: #FFFFFF;
+   color: #D62020;
+font-weight:bold;
+   border-bottom: 1px solid #FFFFFF;
+}
+ul.karteikarten li a.current:link { color: #D62020; }
+ul.karteikarten li a.current:visited { color: #D62020; }
+ul.karteikarten li a.current:hover { color: #D62020; }
+ul.karteikarten li a.current:active { color: #D62020; }
+ul.karteikarten li a.current:focus { color: #D62020; }
+
+div.karteiinhalt {
+   margin: -1px 20px;
+   padding: 5px;
+   border-left: 1px solid #D7E0F7;
+   border-bottom: 1px solid #D7E0F7;
+   border-right: 1px solid #D7E0F7;
+   font-size: 70%;
+}
+
+/* Fieldset */
+
+.fieldset_legen {
+   height:25px;
+}
+
+/* Einfache Formulare */
+.abstand {
+   height:25px;
+}
+
+div.hint {
+   font-size: 70%;
+   margin: 0px;
+   padding-left: 155px;;
+}
+
+div.formelement {
+   font-family: Arial;
+   font-size: 70%;
+   padding-bottom: 5px;
+}
+
+.formelement {
+   font-family: Arial;
+   font-size: 70%;
+   padding-bottom: 5px;
+   vertical-align:top;
+}
+
+div.formelementbox {
+   font-family: Arial;
+   font-size: 70%;
+   padding-bottom: 5px;
+   padding-left: 20px;
+}
+.right {
+   padding-left: 150px;
+}
+div.formelementgroup {
+   font-family: Arial;
+   font-size: 70%;
+   padding-top: 15px;
+}
+form.searchform {
+   padding: 20px;
+   
+}
+form.searchform fieldset {
+	background-color: #F6F6FF;
+	border: 1px solid #054295;
+	padding-bottom: 10px;
+}
+form.searchform fieldset legend {
+  font-weight: bold;
+  color: #054295;
+  font-size: 70%;
+  padding-bottom: 10px;
+}
+div.error {
+   font-size: 70%;
+   margin: 0px;
+   padding-left: 155px;
+   color:#D21B27;
+}
+div.error img {
+   border: 0px;
+}
+div.formtext {
+   padding-left: 155px;
+   padding-top: 2px;
+}
+label.label {
+  float: left;
+  text-align: right;
+  width: 150px;
+  padding-right: 5px;
+  padding-top: 2px;
+  font-weight: normal;
+}
+
+label.label_fett {
+  float: left;
+  text-align: right;
+  width: 150px;
+  padding-right: 5px;
+  padding-top: 2px;
+  font-weight: bold;
+}
+
+label.labelbreit {
+  float: left;
+  text-align: right;
+  width: 41%;
+  padding-right: 5px;
+  padding-top: 2px;
+  font-weight: normal;
+}
+label.labelright {
+  padding-right: 20px;
+  padding-top: 2px;
+  font-weight: normal;
+}
+label.labeltop {
+  float: left;
+  font-weight: normal;
+}
+.searchfield {
+   border: 1px solid #9EB6D6;
+   width: 126px;
+   font-family: Arial;
+   padding-left: 3px;
+   font-size: 100%;
+}
+.searchfielderror {
+   border: 2px solid #D21B27;
+   width: 126px;
+   font-family: Arial;
+   padding-left: 3px;
+   font-size: 100%;
+}
+.datefield {
+   border: 1px solid #9EB6D6;
+   width: 40px;
+   font-family: Arial;
+   padding-left: 3px;
+   font-size: 100%;
+}
+.monthfield {
+   border: 1px solid #9EB6D6;
+   width: 40px;
+   font-family: Arial;
+   padding-left: 3px;
+   font-size: 100%;
+}
+.yearfield {
+   border: 1px solid #9EB6D6;
+   width: 55px;
+   font-family: Arial;
+   padding-left: 3px;
+   font-size: 100%;
+}
+.searchsubmit {
+   font-family: Arial;
+   color: #054295;
+   font-weight: bold;
+   background: #F6F6FF;
+   border: 1px solid black;
+   border-left: 0;
+   border-top: 0;
+   font-size: 100%;
+}
+.submitbutton {
+   font-family: Arial;
+   color: #054295;
+   font-size: 100%;
+   background: url(../../images/redsquare.gif)  no-repeat left;
+   text-align:left;
+   cursor: pointer;
+   padding-left: 19px;
+   border : 1px solid #d6deed;
+}
+
+html>body .submitbutton {
+   padding-left: 15px;
+}
+.disabledbutton {
+   font-family: Arial;
+   color: #999999;
+   font-size: 100%;
+   background: url(../../images/greysquare.gif)  no-repeat left;
+   text-align:left;
+   cursor: pointer;
+   padding-left: 19px;
+   border : 1px solid #d6deed;
+}
+
+html>body .disabledbutton {
+   padding-left: 15px;
+}
+
+.multisearch {
+   clear: left;
+   border: 1px solid #9EB6D6;
+   width: 126px;
+   font-family: Arial;
+   padding-left: 3px;
+   font-size: 100%;
+}
+
+
+/* Mehrspaltige Formulare */
+table.formulartabelle {
+   width: 100%;
+   padding: 0px;
+}
+table.formulartabelle caption {
+   text-align: left;
+   font-weight: bold;
+   padding: 5px;
+   font-size: 70%;
+   border-top: 1px solid #FFFFFF;
+   border-bottom: 1px solid #FFFFFF;
+}
+table.formulartabelle td.caption {
+   text-align: left;
+   font-weight: bold;
+   padding: 5px;
+   font-size: 70%;
+   border-bottom: 1px solid #FFFFFF;
+}
+table.formulartabelle td.label {
+   vertical-align: top;
+   width: 25%;
+   border-bottom: 1px solid #FFFFFF;
+   padding: 5px;
+   font-size: 70%;
+}
+table.formulartabelle td.labelbreit {
+   vertical-align: top;
+   width: 41%;
+   border-bottom: 1px solid #FFFFFF;
+   padding: 5px;
+   font-size: 70%;
+}
+table.formulartabelle td.eingabe {
+   vertical-align: top;
+   padding: 5px;
+   border-bottom: 1px solid #FFFFFF;
+}
+table.formulartabelle legend.caption {
+   text-align: left;
+   font-weight: bold;
+   padding: 5px;
+   font-size: 70%;
+   border-bottom: 1px solid #FFFFFF;
+}
+
+/* Listen */
+div.liste {
+   font-size: 70%;
+}
+ul.unsortiert {
+   list-style-type: square;
+   font-size: 100%;
+}
+
+/* Ergebnislisten */
+div.searchresult {
+   font-family: Arial;
+   font-size: 100%;
+   margin: 0px 20px;
+}
+div.searchresult p {
+   margin: 0px;
+   padding: 0px;
+}
+table.searchresult {
+	background: #ADCAE5;
+   border:1px solid white;
+   font-family: Arial;
+   font-size: 100%;
+   margin: 0px 20px;
+   width: 90%;
+	font-size: 70%;
+}
+table.searchresult caption.searchcaption {
+	text-align: left;
+   background-color: #004194;
+   color: #FFFFFF;
+   border-top: 1px solid #ADCAE5;
+   border-left: 1px solid #ADCAE5;
+   border-right: 1px solid #ADCAE5;
+   font-weight: bold;
+   font-size: 100%;
+   margin: 0px 20px;
+   width: 90%;
+}
+table.searchresult caption {
+   margin: 0px 20px;
+   width: 90%;
+   text-align: left;
+   font-weight: bold;
+   padding: 3px 0px 0px 0px;
+   background: #ADCAE5;
+   border: 1px solid #ADCAE5;
+}
+table.searchresult td.datenzelle {
+	background: #FFFFFF;
+   vertical-align: top;
+	padding: 3px;
+}
+table.searchresult td.datenlabel {
+	background: #FFFFFF;
+   vertical-align: top;
+	padding: 3px;
+}
+table.searchresult th.headerzelle {
+	background: #EBF1FD;
+   font-weight: bold;
+	padding: 3px;
+}
+table.searchresult img {
+	border: 0;
+}
+div.tablediv {
+   margin-left: 20px;
+}
+/* Hyperlinks */
+.deflink { color: #054295; font-family: Arial; font-size: 100%; text-decoration: underline; }
+.deflink:link { color: #054295; }
+.deflink:visited { color: #054295; }
+.deflink:hover { color: #D62020; }
+.deflink:active { color: #D62020; }
+.deflink:focus { color: #D62020; }
+
+.normal { color: #054295; font-family: Arial; font-size: 100%; text-decoration: none; }
+.normal:link { color: #054295; }
+.normal:visited { color: #054295; }
+.normal:hover { color: #D62020; }
+.normal:active { color: #D62020; }
+.normal:focus { color: #D62020; }
+
+table.applicationtable { font-family: Arial; font-size: 70%; background: #ADCAE5; }
+table.applicationtable caption { text-align: left; background: #D3DDF3; color: #004194; border-top: 1px solid #ADCAE5; border-left: 1px solid #ADCAE5; border-right: 1px solid #ADCAE5; font-weight: bold; font-size: 100%; }
+table.applicationtable th { background: #EBF1FD; font-weight: bold; text-align:left; vertical-align: top; }
+table.applicationtable th.datenkopf_zahl {text-align: right; }
+table.applicationtable td.datenzelle { background: #FFFFFF; vertical-align: top; }
+table.applicationtable td.datenzelle_zahl { background: #FFFFFF; vertical-align: top; text-align: right; }
+
+
+
+/* Roadmap Tabellen */
+table.roadmap {
+   font-family: Arial;
+   margin: 0px 20px;
+	font-size: 70%;
+}
+table.roadmap td.roadmapstart {
+   width: 27px;
+   padding: 0px;
+   margin: 0px;
+}
+table.roadmap td.roadmapstep {
+	background: #EFF3FF;
+	border: 1px solid #D6DFF7;
+	padding: 3px 10px;
+	text-align: center;
+	color: #054295;
+	margin: 0px;
+}
+table.roadmap td.roadmapstepnixda {
+	background: #E4E4E4;
+	border: 1px solid #747474;
+	padding: 3px 10px;
+	text-align: center;
+	color: #999999;
+	margin: 0px;
+}
+table.roadmap td.roadmapstepactive {
+	background: #FFFFFF;
+	border: 1px solid #D6DFF7;
+	padding: 3px 10px;
+	text-align: center;
+	color: #DF2E2F;
+	font-weight: bold;
+	margin: 0px;
+}
+table.roadmap td img {
+	border: 0;
+}
+/*Ende der Klassen gem. Change 68788*/
