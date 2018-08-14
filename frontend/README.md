@@ -13,7 +13,7 @@ Before the first deployment, the domain for the jee application (which is the fr
 
 
 ```bash
-asadmin create-domain --portbase 8500 frontendservice
+asadmin create-domain --portbase 9000 frontendservice
 ```
 
 ### Deploying into Glassfish
@@ -21,7 +21,7 @@ asadmin create-domain --portbase 8500 frontendservice
 Start the domain first.
 
 ```bash
-asadmin start-domain frontendservice
+asadmin start-domain frontendmicroservice
 ```
 
 Then use maven to compile the sources, build the deployment package and deploy to glassfish.

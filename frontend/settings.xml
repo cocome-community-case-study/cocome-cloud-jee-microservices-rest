@@ -11,10 +11,10 @@
 
 				<!-- logic node deployment configuration -->
 				<frontendservice.protocol>http</frontendservice.protocol>
-				<frontendservice.domain>frontendservice</frontendservice.domain>
+				<frontendservice.domain>frontendmicroservice</frontendservice.domain>
 				<frontendservice.host>localhost</frontendservice.host>
-				<frontendservice.httpPort>5980</frontendservice.httpPort>
-				<frontendservice.adminPort>8548</frontendservice.adminPort>
+				<frontendservice.httpPort>9080</frontendservice.httpPort>
+				<frontendservice.adminPort>9048</frontendservice.adminPort>
 				<frontendservice.user>admin</frontendservice.user>
 				<frontendservice.password></frontendservice.password>
 			</properties>

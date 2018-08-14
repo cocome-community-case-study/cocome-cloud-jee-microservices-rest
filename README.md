@@ -39,6 +39,7 @@ asadmin create-domain --portbase 8800 storesmicroservice
 asadmin create-domain --portbase 8900 productsmicroservice
 asadmin create-domain --portbase 8700 ordersmicroservice
 asadmin create-domain --portbase 8600 reportsmicroservice
+asadmin create-domain --portbase 9000 frontendmicroservice
 ```
 
 **2. Start the domains**
@@ -49,6 +50,7 @@ asadmin start-domain storesmicroservice
 asadmin start-domain productsmicroservice
 asadmin start-domain ordersmicroservice
 asadmin start-domain reportsmicroservice
+asadmin start-domain frontendmicroservice
 ```
 
 **3. Create the databases**
