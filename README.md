@@ -39,7 +39,7 @@ asadmin create-domain --portbase 8800 storesmicroservice
 asadmin create-domain --portbase 8900 productsmicroservice
 asadmin create-domain --portbase 8700 ordersmicroservice
 asadmin create-domain --portbase 8600 reportsmicroservice
-asadmin create-domain --portbase 9000 frontendmicroservice
+asadmin create-domain --portbase 8500 frontendmicroservice
 ```
 
 **2. Start the domains**
