@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+<h:outputStylesheet name="css/style.css" />
+<h:outputStylesheet name="css/table_style.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+</h:head>
+<h:body>
+	<f:view>
+	<div class="container">
+	<div class="login">
+		<h1>Login to CoCoME Project</h1>
+				<h:form id="formLogin" prependId="false">
+				<h:messages/>
+				<p>
+					<h:selectOneMenu value="#{login.requestedRole}">
+						<f:selectItem itemValue="#{'ENTERPRISE_MANAGER'}" itemLabel="#{strings['login.enterprise_manager.text']}" />
+						<f:selectItem itemValue="#{'STORE_MANAGER'}" itemLabel="#{strings['login.store_manager.text']}" />
+						<f:selectItem itemValue="#{'STOCK_MANAGER'}" itemLabel="#{strings['login.stock_manager.text']}"/>
+						<f:selectItem itemValue="#{'CASHIER'}" itemLabel="#{strings['login.cashier.text']}" />
+						<f:selectItem itemDisabled="true" itemValue="#{null}"  itemLabel="_________________"/>
+						<f:selectItem itemDisabled="true" itemValue="#{null}"  itemLabel=""/>
+						<f:selectItem itemValue="#{'ADMIN'}" itemLabel="#{strings['login.admin.text']}" />
+						<f:selectItem itemValue="#{'DATABASE_MANAGER'}" itemLabel="#{strings['login.database_manager.text']}" />
+						<f:ajax render="@form" execute="@form"/>
+					</h:selectOneMenu>
+				</p>
+				<p>
+					<h:outputText value="Store ID: "/>
+					<h:inputText value="#{login.requestedStoreId}" rendered="#{login.storeRequired}"/>
+				</p>
+				<p>
+					<h:outputText value="User ID: "/>
+					<h:inputText  value="#{login.userName}" />
+				</p>
+				<p>
+					<h:outputText value="Password: "/>
+					<h:inputSecret  value="#{login.password}" />
+				</p>
+				<p class="submit">
+					<h:commandButton type="submit" value="Login" action="#{login.login}" />
+				</p>
+			</h:form>
+	</div>
+	</div>
+	</f:view>
+</h:body>
+</html>

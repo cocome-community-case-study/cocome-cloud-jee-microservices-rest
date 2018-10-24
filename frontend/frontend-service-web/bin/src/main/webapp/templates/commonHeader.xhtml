@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+	<body>
+	<ui:composition>
+				<table id="headerTable" width="900px" class="headerTable">
+					<tbody>
+						<tr class="header-table-banner-row" valign="top">
+							<td colspan="3" align="center" valign="top" width="100%">
+								
+							</td>
+						</tr>
+						<tr>
+						<td colspan="3">
+							<table width="100%">
+							<tbody>
+								<tr class="header-bold-text">
+									<td align="left" width="65%">
+										<ui:insert name="navigation">
+											<ui:include src="/templates/commonNavigation.xhtml" />
+										</ui:insert>
+									</td>
+									<td align="left" width="20%">
+										<table id="storeEnterpriseInfo">
+											<h:panelGroup rendered="#{not empty enterpriseInformation.activeEnterprise}">
+											<tr>
+												<td><h:outputText value="#{strings['header.enterprise.text']}" 
+													/></td>
+												<td>
+													<h:form>
+													<h:commandLink action="#{navigationMenu.changeStateTo('ENTERPRISE_VIEW')}" 
+														value="#{enterpriseInformation.activeEnterprise.name}"
+														rendered="#{login.loggedIn and (login.user.hasPermissionString('enterprise manager'))}"/>
+													<h:outputText value="#{enterpriseInformation.activeEnterprise.name}"
+														rendered="#{not (login.user.hasPermissionString('enterprise manager'))}"/>
+													</h:form>
+												</td>
+											</tr>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{not empty storeInformation.activeStore}">
+											<tr>
+												<td><h:outputText value="#{strings['header.store.text']}"/></td>
+												<td><h:outputText value="#{storeInformation.activeStore.name}"/></td>
+											</tr>
+											</h:panelGroup>
+										</table>
+									</td>
+									<td align="right" width="15%">
+										<h:form>
+										<h:panelGroup id="loginAccount">
+											<h:outputText value="#{strings['navigation.logged_in_as.text']} #{login.userName}"/><br/>
+											<h:commandLink action="#{login.logout}" value="#{strings['navigation.logout.label']}"/>
+										</h:panelGroup>
+										</h:form>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+						</tr>
+					</tbody>
+				</table>
+	</ui:composition>
+	</body>
+</html>

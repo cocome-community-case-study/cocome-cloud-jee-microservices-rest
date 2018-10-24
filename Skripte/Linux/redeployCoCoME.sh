@@ -57,7 +57,7 @@ rm -rf productsmicroservice/applications/* ;
 rm -rf productsmicroservice/generated/* ;
 rm -rf productsmicroservice/osgi-cache/* ;
 
-echo "------------------------------Osgi-cache deleted-----------------------------------"
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Osgi-cache deleted!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 
 cd $glassfish_home
 ./asadmin start-domain frontendmicroservice ;
@@ -66,7 +66,7 @@ cd $glassfish_home
 ./asadmin start-domain storesmicroservice  ;  
 ./asadmin start-domain productsmicroservice ;
 
-echo "------------------------------Domains Started----------------------------------"
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Domains Started!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 
  mvn -s $frontend_settings clean post-clean -f $frontend_pom ;
  mvn -s $orders_settings clean post-clean -f $orders_pom ;
@@ -74,7 +74,7 @@ echo "------------------------------Domains Started-----------------------------
  mvn -s $reports_settings clean post-clean -f $reports_pom ;
  mvn -s $stores_settings clean post-clean -f $stores_pom ;
 
- echo "------------------------------Cleaning done-----------------------------------"
+ echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Cleaning done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 
 
 ./asadmin undeploy frontend-service-ear --port 8548 ;
@@ -83,7 +83,7 @@ echo "------------------------------Domains Started-----------------------------
 ./asadmin undeploy stores-microservice-ear --port 8848 ;
 ./asadmin undeploy products-microservice-ear --port 8948 ;
 
-echo "------------------------------Undeployment done-----------------------------------"
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Undeployment done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 
 mvn -s $products_settings install -f $products_pom ;
 mvn -s $stores_settings install -f $stores_pom ;
@@ -91,6 +91,6 @@ mvn -s $reports_settings install -f $reports_pom ;
 mvn -s $orders_settings install -f $orders_pom ;
 mvn -s $frontend_settings install -f $frontend_pom ;
 
-echo "------------------------------install done-----------------------------------"
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!install done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 
 echo "Redeployment successful if mvn build was successfull!!!!!!"
