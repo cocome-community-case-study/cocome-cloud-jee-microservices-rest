@@ -13,8 +13,8 @@
 				<frontendservice.protocol>http</frontendservice.protocol>
 				<frontendservice.domain>frontendmicroservice</frontendservice.domain>
 				<frontendservice.host>localhost</frontendservice.host>
-				<frontendservice.httpPort>9080</frontendservice.httpPort>
-				<frontendservice.adminPort>9048</frontendservice.adminPort>
+				<frontendservice.httpPort>8580</frontendservice.httpPort>
+				<frontendservice.adminPort>8548</frontendservice.adminPort>
 				<frontendservice.user>admin</frontendservice.user>
 				<frontendservice.password></frontendservice.password>
 			</properties>

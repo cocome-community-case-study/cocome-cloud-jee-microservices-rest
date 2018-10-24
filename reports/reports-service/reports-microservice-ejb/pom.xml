@@ -130,7 +130,7 @@
 									<artifactId>stores-client</artifactId>
 									<version>1.0</version>
 									<type>jar</type>
-									<overWrite>false</overWrite>
+									<overWrite>true</overWrite>
               						<outputDirectory>${project.build.directory}/lib/</outputDirectory>
 								</artifactItem>
 								<artifactItem>
@@ -138,7 +138,7 @@
 									<artifactId>products-client</artifactId>
 									<version>1.0</version>
 									<type>jar</type>
-									<overWrite>false</overWrite>
+									<overWrite>true</overWrite>
               						<outputDirectory>${project.build.directory}/lib/</outputDirectory>
 								</artifactItem>
 							</artifactItems>
