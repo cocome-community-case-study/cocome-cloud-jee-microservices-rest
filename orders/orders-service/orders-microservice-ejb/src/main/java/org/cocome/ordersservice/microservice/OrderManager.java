@@ -49,7 +49,6 @@ public class OrderManager implements OrderManagement{
 		pOrder.setDeliveryDate(date);
 		orderRepository.update(pOrder);
 		
-		
 		Client client = ClientBuilder.newClient();
 		String targetString = "http://localhost:8980/storesmicroservice/rest/stores/" + Long.toString(pOrder.getStoreId()) + "/stock-items";
 		Collection<StockItem> response = (Collection<StockItem>) client.target(targetString).request(MediaType.APPLICATION_XML).get();		

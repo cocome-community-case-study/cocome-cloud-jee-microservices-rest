@@ -1,6 +1,11 @@
 package org.cocome.reportsservice.reporter;
 
+import java.util.Collection;
+
+import org.cocome.ordersclient.domain.ProductOrder;
+import org.cocome.storesclient.domain.StockItem;
+
 public interface IReports {
-	public String[] getEnterpriseReport(long enterpriseId);
-	public String[] getStoreReport(long enterpriseId, long storeId);
+	public Collection<ProductOrder> getEnterpriseReport(long enterpriseId, long storeId);
+	public Collection<StockItem> getStoreReport(long enterpriseId, long storeId);
 }
