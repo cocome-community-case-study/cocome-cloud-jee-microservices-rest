@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:components="http://java.sun.com/jsf/composite/components">
+
+
+<h:body>
+
+	<ui:composition template="/templates/commonTemplate.xhtml">
+
+		<ui:define name="body">
+			<h:form>
+				<table width="100%">
+					<tr>
+						<td align="left">
+							<table>
+								<tr>
+									<td><h:outputText
+											value="#{strings['report.show.store_id.text']}" /></td>
+									<td><h:inputText value="#{storeID}"
+											styleClass="input-number"
+											validator="#{numberValidator.validatePositiveLong}" 
+											validatorMessage="#{strings['report.validation.storeid.failed']}"/> <h:commandButton
+											action="#{showReportView.loadReport(storeID)}"
+											value="#{strings['report.show.submit.text']}" /></td>
+								</tr>
+							</table>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td height="20"></td>
+					</tr>
+					<tr>
+						<td colspan="4"><h:dataTable
+								value="#{storeInformation.allStockItems}" var="item"
+								styleClass="product-table" headerClass="product-table-header"
+								rowClasses="product-table-odd-row,product-table-even-row"
+								columnClasses="product-table-text-col, product-table-text-col, 
+    				product-table-number-col, product-table-number-col, 
+    				product-table-number-col, product-table-number-col,
+    				product-table-number-col, product-table-text-col"
+								rendered="#{not empty showReportView.stockItems}">
+								<h:column>
+									<f:facet name="header">#{strings['product.table.header_barcode']}</f:facet>
+					#{item.barcode}
+					</h:column>
+								<h:column>
+									<f:facet name="header">#{strings['product.table.header_name']}</f:facet>
+					#{item.name}
+					</h:column>
+								<h:column headerClass="product-table-header-right">
+									<f:facet name="header">#{strings['stock.table.header_min_stock']}</f:facet>
+					#{item.stockItemTO.minStock}
+					</h:column>
+								<h:column headerClass="product-table-header-right">
+									<f:facet name="header">#{strings['stock.table.header_max_stock']}</f:facet>
+					#{item.stockItemTO.maxStock}
+					</h:column>
+								<h:column headerClass="product-table-header-right">
+									<f:facet name="header">#{strings['stock.table.header_curr_stock']}</f:facet>
+					#{item.stockItemTO.amount}
+					</h:column>
+								<h:column headerClass="product-table-header-right">
+									<f:facet name="header">#{strings['stock.table.header_sales_price']}</f:facet>
+									<h:outputText value="#{item.salesPrice}">
+										<f:convertNumber type="currency" currencySymbol="€" />
+									</h:outputText>
+								</h:column>
+							</h:dataTable></td>
+					</tr>
+				</table>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

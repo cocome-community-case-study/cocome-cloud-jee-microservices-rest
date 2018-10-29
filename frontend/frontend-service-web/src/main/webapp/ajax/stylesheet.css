@@ -1,0 +1,19 @@
+#page {height:680px; width:1000px; margin:0 auto}
+
+#header-container {height:100px; background: #0055FA}
+
+#header{background: #0055FA; width:1000px; height: 100%; margin:0}
+
+#messages-container {height:50px; margin:0; display: inline-block;}
+
+#messages {background: #44EE00; width:1000px; height: 100%; margin:0; display: inline-block;}
+
+#content-container {height:100%; margin:0} 
+
+#content {float:left; background: #EDEDED; width:700px;  height:100%; margin:0}
+
+#sidebar {float:left; background: #FF1100; width:300px;  height:100%; margin:0}
+
+#footer-container {height:100px; margin:0; clear:both; display: inline-block;}
+
+#footer {background: #0055FA; width:1000px; height:100%; margin:0 auto; display: inline-block;}

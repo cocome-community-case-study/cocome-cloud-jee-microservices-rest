@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+	<link href="stylesheet.css" rel="stylesheet" type="text/css" />
+</h:head>
+<h:body>
+	<h:panelGroup id="header" layout="block">
+    <h1>Header</h1>
+</h:panelGroup>
+<h:panelGroup id="menu" layout="block">
+    <h:form>
+        <f:ajax render=":content">
+            <ul>
+                <li><h:commandLink value="include1" action="#{contentLoader.setPage('/ajax/content/01name.xhtml')}" /></li>            
+                <li><h:commandLink value="include2" action="#{contentLoader.enterprise}" /></li>            
+                <li><h:commandLink value="include3" action="#{contentLoader.setPage('/ajax/content/03summary.xhtml')}" /></li>            
+            </ul>
+        </f:ajax>
+    </h:form>
+</h:panelGroup>
+<h:panelGroup id="content" layout="block">
+    <ui:include src="#{contentLoader.page}" />
+</h:panelGroup>
+</h:body>
+</html>

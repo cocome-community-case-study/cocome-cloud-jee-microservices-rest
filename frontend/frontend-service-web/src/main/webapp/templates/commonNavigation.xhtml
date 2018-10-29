@@ -12,10 +12,18 @@
 					<td><ui:repeat value="#{navigationMenu.elements}"
 							var="navElement">
 
-							<h:link outcome="#{navElement.navOutcome}"
-								value="#{navElement.displayText}"
-								styleClass="#{view.viewId eq (navElement.navOutcome += '.xhtml')? 'active-nav-element nav-element' : 'nav-element'}" />
+							
+							
+								<f:ajax render=":content">
 
+
+									<h:commandLink value="#{navElement.displayText}"
+										action="#{microserviceRedirecter.enterprise}"
+										styleClass="#{view.viewId eq (navElement.navOutcome += '.xhtml')? 'active-nav-element nav-element' : 'nav-element'}" />
+
+
+								</f:ajax>
+							
 						</ui:repeat></td>
 				</tr>
 			</tbody>

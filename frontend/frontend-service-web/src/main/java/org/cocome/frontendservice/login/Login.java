@@ -23,6 +23,8 @@ import org.cocome.frontendservice.logindata.IUser;
 import org.cocome.frontendservice.logindata.UserRole;
 import org.cocome.frontendservice.navigation.NavigationElements;
 import org.cocome.frontendservice.navigation.NavigationViewStates;
+import org.cocome.frontendservice.resolver.MicroserviceRedirecter;
+
 
 
 @Named
@@ -35,6 +37,9 @@ public class Login implements Serializable {
 	
 	@Inject
 	ICredentialFactory credFactory;
+	
+	//TODO Inject
+	MicroserviceRedirecter microserviceRedirecter;
 
 	@Inject
 	Event<LoginEvent> loginEvent;
@@ -58,6 +63,7 @@ public class Login implements Serializable {
 	@PostConstruct
 	private void init() {
 		password = credFactory.createPlainPassword("");
+		microserviceRedirecter  = new MicroserviceRedirecter();
 	}
 
 	public String getUserName() {
@@ -83,11 +89,12 @@ public class Login implements Serializable {
 		if (storedUser != null) {
 			setLoggedIn(true);
 			user = storedUser;
-			loginEvent.fire(new LoginEvent(storedUser, requestedRole, requestedStoreId));
+			loginEvent.fire(new LoginEvent(storedUser, requestedRole, requestedStoreId)); //TODO implment catching for loginInformation
 			LOG.info(String.format("Successful login: username %s.", getUserName()));
-			//outcome = isStoreRequired() ? NavigationElements.STORE_MAIN.getNavigationOutcome()
-					//: NavigationElements.ENTERPRISE_MAIN.getNavigationOutcome();
-			outcome = "WEB-INF/testhtmls/test";
+			microserviceRedirecter.setDestination(isStoreRequired() ? NavigationElements.STORE_MAIN.getNavigationOutcome() :
+					 NavigationElements.ENTERPRISE_MAIN.getNavigationOutcome());
+			
+			outcome = "templates/commonTemplate";
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			String message = context.getApplication().evaluateExpressionGet(context, "#{strings['login.failed.text']}",
