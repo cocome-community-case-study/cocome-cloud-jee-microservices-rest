@@ -3,58 +3,89 @@ package org.cocome.frontendservice.resolver;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.cocome.frontendservice.login.Login;
+import org.cocome.frontendservice.navigation.INavigationMenu;
+import org.cocome.frontendservice.navigation.NavigationElement;
+import org.cocome.frontendservice.navigation.NavigationElements;
+import org.cocome.frontendservice.navigation.NavigationViewStates;
 
-
-
-
-
-@ManagedBean
-@ViewScoped
+@Named
+@SessionScoped
 public class MicroserviceRedirecter implements Serializable {
 
-     /**
-	 * 
-	 */
+	/**
+	* 
+	*/
 	private static final long serialVersionUID = 1L;
-	private String currentDestination;
-    
+
 	@Inject
-	Login login;
-     
-     
+	INavigationMenu navMenu;
+	
+	private String navOutcome;
+	
+	private NavigationElements element;
+
 	@PostConstruct
-    public void init() {
-       //setPage("http://localhost:8580/frontendservice/faces/ajax/content/01name.xhtml?param1=" + login.getUserName()); //  Default include.
-    	this.currentDestination = ("http://localhost:8580/frontendservice/faces/ajax/content/01name.xhtml");
-    	System.out.println(currentDestination);
-	}
-    
-    public void store(){
-     System.out.println(login.getUserName());
-   	 this.currentDestination = "http://localhost:8880/storesmicroservice/faces/main.xhtml?param1=" + login.getUserName();
-   	 
-    }
-    
-    public String enterprise(){
-    	//this.page = "/ajax/content/01name.xhtml";
-    	//this.page = "http://localhost:8580/frontendservice/faces/ajax/content/01name.xhtml?param1=" + login.getUserName();
-    	this.currentDestination = "http://localhost:8580/frontendservice/faces/enterprise/show_enterprises.xhtml";
-    	System.out.println(currentDestination);
-    	return this.currentDestination;
-    }
-    
+	public void init() {
 
-	public String getDestination() {
-		return currentDestination;
+		navMenu.changeStateTo(NavigationViewStates.DEFAULT_VIEW);
+	    navOutcome = NavigationElements.DEFAULT.getNavOutcome();
+		
+		 
 	}
 
-	public void setDestination(String page) {
-		this.currentDestination = page;
+	public String redirect(NavigationElement navElement) { // TODO hier überall noch die Parameter anhängen?!
+		
+		
+
+		switch (navElement.getNavElementAsEnum()) {
+		case DEFAULT:
+			navMenu.changeStateTo(NavigationViewStates.DEFAULT_VIEW);
+			navOutcome = navElement.getNavOutcome();
+			break;
+		case ENTERPRISE:
+			navMenu.changeStateTo(NavigationViewStates.ENTERPRISE_VIEW);
+			//navOutcome = navElement.getNavOutcome();
+			navOutcome = "http://localhost:8580/frontendservice/faces/enterprise/main.xhtml";
+			break;
+		case LOGIN:
+			navMenu.changeStateTo(NavigationViewStates.LOGIN);
+			navOutcome = navElement.getNavOutcome();
+			break;
+		case ORDERS:
+			navMenu.changeStateTo(NavigationViewStates.ORDERS_VIEW);
+			navOutcome = navElement.getNavOutcome();
+			break;
+		case PRODUCTS:
+			navMenu.changeStateTo(NavigationViewStates.PRODUCTS_VIEW);
+			navOutcome = navElement.getNavOutcome();
+			break;
+		case STORE:
+			navMenu.changeStateTo(NavigationViewStates.STORE_VIEW);
+			navOutcome = navElement.getNavOutcome();
+			break;
+		default:
+			navMenu.changeStateTo(NavigationViewStates.LOGIN);
+			navOutcome = navElement.getNavOutcome();
+			
+			break;
+		}
+
+		return navOutcome;
 	}
-    
- }
+
+	public String getNavOutcome() {
+		return navOutcome;
+	}
+
+	public NavigationElements getNavElement() {
+		return element;
+	}
+
+}

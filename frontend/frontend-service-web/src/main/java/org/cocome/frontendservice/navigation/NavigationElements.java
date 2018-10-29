@@ -1,32 +1,32 @@
 package org.cocome.frontendservice.navigation;
 
 public enum NavigationElements {
-	LOGIN("/login", null),
-	ENTERPRISE_MAIN("/enterprise/main", null),
-	STORE_MAIN("/store/main", null),
-	START_SALE("/store/start_sale", "cashier"),
-	ORDER_PRODUCTS("/store/order_products", "stock manager"),
-	SHOW_STOCK("/store/show_stock", "stock manager"),
-	STOCK_REPORT("/store/show_reports", "store manager"),
-	RECEIVE_PRODUCTS("/store/receive_products", "stock manager"),
-	SHOW_ENTERPRISES("/enterprise/show_enterprises", "enterprise manager"),
-	CREATE_ENTERPRISE("/enterprise/create_enterprise", "enterprise manager"),
-	CREATE_PRODUCT("/enterprise/create_product", "enterprise manager"),
-	SHOW_PRODUCTS("/enterprise/show_products", "enterprise manager");
+	
+	//TODO Links anpassen ggf. mit setttings.xml
+	LOGIN("http://localhost:8580/frontendservice/faces/login.xhtml", "Login"),
+	DEFAULT("http://localhost:8580/frontendservice/faces/templates/defaultView.xhtml", "Default"),
+	ENTERPRISE("http://localhost:8580/frontendservice/faces/enterprise/main.xhtml", "Enterprise"),
+	STORE("http://localhost:8580/frontendservice/faces/store/main.xhtml","Store"),
+	PRODUCTS("http://localhost:8580/frontendservice/faces/enterprise/show_products.xhtml","Products"),
+	ORDERS("http://localhost:8580/frontendservice/faces/store/order_products.xhtml","Orders"),
+	;
 	
 	private String navOutcome;
-	private String permission;
+	private String labelName;
 	
-	private NavigationElements(String navOutcome, String permission) {
+	private NavigationElements(String navOutcome, String labelName) {
 		this.navOutcome = navOutcome;
-		this.permission = permission;
+		this.labelName = labelName;
+	}
+
+	public String getNavOutcome() {
+		return navOutcome;
+	}
+
+	public String getLabelName() {
+		return labelName;
 	}
 	
-	public String getNavigationOutcome() {
-		return this.navOutcome;
-	}
 	
-	public String getNeededPermission() {
-		return this.permission;
-	}
+
 }

@@ -91,8 +91,7 @@ public class Login implements Serializable {
 			user = storedUser;
 			loginEvent.fire(new LoginEvent(storedUser, requestedRole, requestedStoreId)); //TODO implment catching for loginInformation
 			LOG.info(String.format("Successful login: username %s.", getUserName()));
-			microserviceRedirecter.setDestination(isStoreRequired() ? NavigationElements.STORE_MAIN.getNavigationOutcome() :
-					 NavigationElements.ENTERPRISE_MAIN.getNavigationOutcome());
+			
 			
 			outcome = "templates/commonTemplate";
 		} else {
@@ -100,7 +99,7 @@ public class Login implements Serializable {
 			String message = context.getApplication().evaluateExpressionGet(context, "#{strings['login.failed.text']}",
 					String.class);
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-			outcome = NavigationElements.LOGIN.getNavigationOutcome();
+			outcome = NavigationElements.LOGIN.getNavOutcome();
 			LOG.warn(String.format("Failed login: username %s.", getUserName()));
 		}
 		return outcome;
@@ -116,7 +115,7 @@ public class Login implements Serializable {
 		user = null;
 
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-		return NavigationElements.LOGIN.getNavigationOutcome();
+		return NavigationElements.LOGIN.getNavOutcome();
 	}
 
 	public boolean isLoggedIn() {

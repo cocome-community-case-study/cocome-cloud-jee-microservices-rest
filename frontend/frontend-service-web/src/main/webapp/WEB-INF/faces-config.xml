@@ -10,5 +10,9 @@
    <base-name>cocome.frontend.Strings</base-name>
    <var>strings</var>
   </resource-bundle>
+  <converter>
+   <converter-for-class>java.lang.Enum</converter-for-class>
+   <converter-class>javax.faces.convert.EnumConverter</converter-class>
+</converter>
  </application>
 </faces-config>

@@ -15,9 +15,11 @@ public interface INavigationElement {
 	String getDisplayText();
 	
 	/**
-	 * 
+	 * get corresponding EnumElement for frontend
 	 * @return
 	 */
-	String getRequiredPermission();
+	NavigationElements getNavElementAsEnum();
+	
+
 
 }

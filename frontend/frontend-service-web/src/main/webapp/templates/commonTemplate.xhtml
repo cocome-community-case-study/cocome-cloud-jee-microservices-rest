@@ -194,6 +194,8 @@ tr.header-table-banner-row {
 .info-message {
 	color: black;
 }
+
+#myFrame { width:100%; height:100%;}
 </style>
 </h:head>
 
@@ -223,7 +225,7 @@ tr.header-table-banner-row {
 											errorClass="error-message" fatalClass="error-message"
 											warnClass="error-message" infoClass="info-message" /> <h:panelGroup
 											id="content" layout="block">
-											<iframe src="#{microserviceRedirecter.destination}"></iframe>
+											<iframe src="#{microserviceRedirecter.navOutcome}" id="myFrame" frameBorder="0"></iframe>
 										</h:panelGroup></td>
 								</tr>
 							</tbody>

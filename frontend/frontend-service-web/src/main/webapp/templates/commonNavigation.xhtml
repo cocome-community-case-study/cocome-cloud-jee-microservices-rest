@@ -5,30 +5,31 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <body>
-	<ui:composition>
+	
 		<table width="100%" class="navigation-table">
 			<tbody>
 				<tr>
-					<td><ui:repeat value="#{navigationMenu.elements}"
+					<td><ui:repeat value="#{navigationMenu.navigationElements}"
 							var="navElement">
 
-							
-							
-								<f:ajax render=":content">
 
 
-									<h:commandLink value="#{navElement.displayText}"
-										action="#{microserviceRedirecter.enterprise}"
-										styleClass="#{view.viewId eq (navElement.navOutcome += '.xhtml')? 'active-nav-element nav-element' : 'nav-element'}" />
+							<f:ajax render=":content">
 
 
-								</f:ajax>
-							
+								<h:commandLink value="#{navElement.displayText}"
+									action="#{microserviceRedirecter.redirect(navElement)}"
+									styleClass="#{view.viewId eq (navElement.navOutcome += '.xhtml')? 'active-nav-element nav-element' : 'nav-element'}">
+								
+								</h:commandLink>
+
+							</f:ajax>
+
 						</ui:repeat></td>
 				</tr>
 			</tbody>
 		</table>
-	</ui:composition>
+
 </body>
 
 </html>
