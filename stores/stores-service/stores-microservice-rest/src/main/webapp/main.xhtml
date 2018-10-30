@@ -1,9 +1,24 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
 
+<script>
+	window.addEventListener('message', receiveMessage, false);
+
+	function receiveMessage(event) {
+      //check for origin
+      var user = JSON.parse(event.data);
+      document.getElementById("username").innerHTML = user.userName;
+      document.getElementById("permissions").innerHTML = user.userPermissions;
+      
+      
+	}
+</script>
+
+</h:head>
 
 <h:body>
 
@@ -11,7 +26,14 @@
 	
 		
 			This is StoreFrontend!
+			<p id="username"></p>
+			<p id="permissions"></p>
+			
+			
+
+
 	
+
 </h:body>
 
 </html>

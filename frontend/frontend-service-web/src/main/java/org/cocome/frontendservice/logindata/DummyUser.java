@@ -67,4 +67,10 @@ public class DummyUser implements IUser {
 		return hasPermission(checkPermission);
 	}
 
+	public HashMap<String, IPermission> getPermissions() {
+		return permissions;
+	}
+	
+	
+
 }

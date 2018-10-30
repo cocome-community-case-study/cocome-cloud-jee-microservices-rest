@@ -4,6 +4,21 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<script type="text/javascript">
+	
+	function onLoadHandler(destination, iframe, username, userPermissions) {
+		var user ={
+				'userName' : username,
+				'userPermissions' : userPermissions};
+		
+		iframe.postMessage(JSON.stringify(user), destination);
+		
+	}
+</script>
+
+</h:head>
+
 
 <f:loadBundle basename="cocome.frontend.Strings" var="strings" />
 <h:head>
@@ -195,7 +210,10 @@ tr.header-table-banner-row {
 	color: black;
 }
 
-#myFrame { width:100%; height:100%;}
+#myFrame {
+	width: 100%;
+	height: 100%;
+}
 </style>
 </h:head>
 
@@ -225,10 +243,15 @@ tr.header-table-banner-row {
 											errorClass="error-message" fatalClass="error-message"
 											warnClass="error-message" infoClass="info-message" /> <h:panelGroup
 											id="content" layout="block">
-											<iframe src="#{microserviceRedirecter.navOutcome}" id="myFrame" frameBorder="0"></iframe>
+
+											<iframe src="#{microserviceRedirecter.navOutcome}"
+												id="myFrame" frameBorder="0"
+												onload="onLoadHandler('#{microserviceRedirecter.navOutcome}', document.getElementById('myFrame').contentWindow, '#{navigationMenu.currentUser.username}','#{navigationMenu.currentUser.permissions}');"></iframe>
+
 										</h:panelGroup></td>
 								</tr>
 							</tbody>
+
 						</table>
 					</td>
 				</tr>
