@@ -40,7 +40,7 @@ public class MicroserviceRedirecter implements Serializable {
 		 
 	}
 
-	public String redirect(NavigationElement navElement) { // TODO hier überall noch die Parameter anhängen?!
+	public void redirect(NavigationElement navElement) { // TODO hier überall noch die Parameter anhängen?!
 		
 		
 
@@ -51,11 +51,6 @@ public class MicroserviceRedirecter implements Serializable {
 			break;
 		case ENTERPRISE:
 			navMenu.changeStateTo(NavigationViewStates.ENTERPRISE_VIEW);
-			//navOutcome = navElement.getNavOutcome();
-			navOutcome = "http://localhost:8580/frontendservice/faces/enterprise/main.xhtml";
-			break;
-		case LOGIN:
-			navMenu.changeStateTo(NavigationViewStates.LOGIN);
 			navOutcome = navElement.getNavOutcome();
 			break;
 		case ORDERS:
@@ -71,13 +66,13 @@ public class MicroserviceRedirecter implements Serializable {
 			navOutcome = navElement.getNavOutcome();
 			break;
 		default:
-			navMenu.changeStateTo(NavigationViewStates.LOGIN);
+			navMenu.changeStateTo(NavigationViewStates.DEFAULT_VIEW); //TODO Better default case?
 			navOutcome = navElement.getNavOutcome();
 			
 			break;
 		}
 
-		return navOutcome;
+		//return navOutcome;
 	}
 
 	public String getNavOutcome() {

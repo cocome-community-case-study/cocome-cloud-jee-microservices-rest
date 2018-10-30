@@ -3,7 +3,7 @@ package org.cocome.frontendservice.navigation;
 public enum NavigationElements {
 	
 	//TODO Links anpassen ggf. mit setttings.xml
-	LOGIN("http://localhost:8580/frontendservice/faces/login.xhtml", "Login"),
+	LOGIN("/login.xhtml", "Login"),
 	DEFAULT("http://localhost:8580/frontendservice/faces/templates/defaultView.xhtml", "Default"),
 	ENTERPRISE("http://localhost:8580/frontendservice/faces/enterprise/main.xhtml", "Enterprise"),
 	STORE("http://localhost:8580/frontendservice/faces/store/main.xhtml","Store"),

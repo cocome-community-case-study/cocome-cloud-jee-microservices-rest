@@ -7,7 +7,12 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Named;
+
+import org.cocome.frontendservice.events.LoginEvent;
+import org.cocome.frontendservice.events.LogoutEvent;
+import org.cocome.frontendservice.logindata.IUser;
 
 
 @Named
@@ -25,8 +30,10 @@ public class NavigationMenu implements INavigationMenu, Serializable{
 	private final NavigationElement storeNavItem = new NavigationElement(NavigationElements.STORE);
 	private final NavigationElement productsNavItem = new NavigationElement(NavigationElements.PRODUCTS);
 	private final NavigationElement ordersNavItem = new NavigationElement(NavigationElements.ORDERS);
-	private final NavigationElement loginNavItem = new NavigationElement(NavigationElements.LOGIN);
-	private final NavigationElement defaultNavItem = new NavigationElement(NavigationElements.DEFAULT);
+	//private final NavigationElement loginNavItem = new NavigationElement(NavigationElements.LOGIN);
+	//private final NavigationElement defaultNavItem = new NavigationElement(NavigationElements.DEFAULT);
+	
+	private IUser currentUser;
 	
 	
 	
@@ -68,6 +75,24 @@ public class NavigationMenu implements INavigationMenu, Serializable{
 	public NavigationViewStates getCurrentState() {
 		return currentState;
 	}
+	
+	public void observeLoginEvent(@Observes LoginEvent loginEvent) {
+		this.currentUser = loginEvent.getUser();
+		changeStateTo(NavigationViewStates.DEFAULT_VIEW);
+	}
+	
+	public void observeLogoutEvent(@Observes LogoutEvent logoutEvent) {
+		this.currentUser = null;
+		changeStateTo(NavigationViewStates.DEFAULT_VIEW);
+	}
+
+
+
+	public IUser getCurrentUser() {
+		return currentUser;
+	}
+	
+	
 
 
 

@@ -91,9 +91,8 @@ public class Login implements Serializable {
 			user = storedUser;
 			loginEvent.fire(new LoginEvent(storedUser, requestedRole, requestedStoreId)); //TODO implment catching for loginInformation
 			LOG.info(String.format("Successful login: username %s.", getUserName()));
-			
-			
 			outcome = "templates/commonTemplate";
+			
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			String message = context.getApplication().evaluateExpressionGet(context, "#{strings['login.failed.text']}",
