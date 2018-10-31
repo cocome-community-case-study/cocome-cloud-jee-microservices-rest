@@ -8,7 +8,7 @@ import org.cocome.storesclient.domain.StockItem;
 import restCommunicator.OrderCommunicator;
 import restCommunicator.StoreCommunicator;
 
-public class Reporter implements IReports{
+public class Reporter implements IReporter{
 	// enable different filters
 	
 	
