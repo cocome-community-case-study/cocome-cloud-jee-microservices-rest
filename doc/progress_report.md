@@ -2,7 +2,7 @@
 
 ## Implementation state
 - The fundamental implementation of CoCoMEs logic is done.
-- Implementation for CoCoME UseCases 1-8,  which are part of the first CoCoME design, are implemented and the Documentation can be read in the paper [The CoCoME Platform for Collaborativ Empirical Research on Information System Evolution - Evolution Scenarios in the Second Foundiung Period of SPP 1593](https://github.com/cocome-community-case-study/papers/blob/master/Forschungsbericht/2018-10.pdf)
+- Implementation for CoCoME UseCases 1-8,  which are part of the first CoCoME design, are implemented and the Documentation can be read in the paper [The CoCoME Platform for Collaborativ Empirical Research on Information System Evolution - Evolution Scenarios in the Second Foundiung Period of SPP 1593](https://publikationen.bibliothek.kit.edu/1000085350)
 	- The program for these usecases can be found in section 1-8
 
 ## Needed steps
