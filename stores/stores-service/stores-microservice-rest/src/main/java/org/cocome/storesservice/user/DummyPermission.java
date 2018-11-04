@@ -8,6 +8,13 @@ public class DummyPermission implements IPermission {
 	
 	private String name;
 	
+	/**
+	 * Default constructor for JSON Serialization. DO NOT USE!
+	 */
+	public DummyPermission() {
+		
+	}
+	
 	public DummyPermission(String name) {
 		this.name = name.toLowerCase();
 	}

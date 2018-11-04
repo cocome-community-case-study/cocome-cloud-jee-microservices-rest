@@ -7,29 +7,19 @@
 
 	<script>
 		window.addEventListener('message', receiveMessage, false);
-		
 
 		function receiveMessage(event) {
 			//check for origin
-			if (event.data == 'logout') {
 
-				document.getElementById('logoutId:logout').click();
+			
+			
+			document.getElementById('logoutId:logout').click(); //reset Session
 
-				
-			}else{
-				var user = JSON.parse(event.data);
-				//alert('Hallo');
-				document.getElementById('formId:inputId').value = user.userName;
-				document.getElementById('formId:buttonId').click();
-			}
+			document.getElementById('inputForm:user').value = event.data;
+			
+			alert(event.data);
 
-		}
-
-		//window.onload = storeValues();
-
-		function storeValues() {
-			document.getElementById('formId').submit();
-			//document.formId.submit();
+			document.getElementById('inputForm:processInputButton').click(); //process user input
 
 		}
 	</script>
@@ -42,9 +32,10 @@
 	
 		
 			This is StoreFrontend!
-	<h:form id="formId" name="formId">
-		<h:inputText id="inputId" value="#{userInformation.username}" />
-		<h:commandButton id="buttonId" value="Reset"
+	<h:form id="inputForm" name="inputForm">
+		<h:inputHidden id="user" value="#{userInformation.userAsJSON}" />
+		
+		<h:commandButton id="processInputButton" value="Reset"
 			action="#{userInformation.processUIInput}">
 
 			<f:ajax execute="@form" render="result" />
@@ -53,14 +44,21 @@
 
 	</h:form>
 
-	
 
-	<h:panelGroup id="result">Logged in LoginUser #{userInformation.output}</h:panelGroup>
-	
-	
+
+	<h:panelGroup id="result">
+		<div>Logged in LoginUser #{userInformation.userPOJO.username}</div>
+		<div>Logged in LoginUser #{userInformation.userPOJO.permissions}</div>
+
 		
+
+	</h:panelGroup>
+
+
+
+
 	<h:form id="logoutId" name="logoutId">
-		
+
 		<h:commandButton id="logout" value="Reset"
 			action="#{userInformation.logout}">
 

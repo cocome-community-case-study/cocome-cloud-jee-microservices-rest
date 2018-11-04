@@ -1,8 +1,12 @@
 package org.cocome.frontendservice.logindata;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 
 public class DummyUser implements IUser {
 	
@@ -14,6 +18,10 @@ public class DummyUser implements IUser {
 	
 	private HashMap<String, IPermission> permissions;
 	
+	
+	
+	
+
 	public DummyUser(String username, String password) {
 		this(username, new PlainCredential(password));
 	}
@@ -22,7 +30,13 @@ public class DummyUser implements IUser {
 		this.username = username;
 		this.credentials = credentials;
 		this.permissions = new HashMap<String, IPermission>();
+	
+		
 	}
+	
+	
+	
+	
 	
 	@Override
 	public String getUsername() {
@@ -66,7 +80,8 @@ public class DummyUser implements IUser {
 		IPermission checkPermission = new DummyPermission(permission);
 		return hasPermission(checkPermission);
 	}
-
+	
+	@Override
 	public HashMap<String, IPermission> getPermissions() {
 		return permissions;
 	}

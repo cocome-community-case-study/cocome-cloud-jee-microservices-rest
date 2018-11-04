@@ -1,5 +1,6 @@
 package org.cocome.storesservice.user;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -7,6 +8,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 
 
 @Named
@@ -18,47 +23,48 @@ public class UserInformation implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-    private String username = "init";
-    int i =0;
-    private String output="start";
+    private UserPOJO userPOJO;
+    private String userAsJSON;
+    
+    
+    
+
+
+	
+
+
 	
 	
-	
-	public String getOutput() {
-		return output;
+	public UserPOJO getUserPOJO() {
+		return userPOJO;
 	}
 
-
-
-	public void setOutput(String output) {
-		this.output = output;
+	public void setUserPOJO(UserPOJO userPOJO) {
+		this.userPOJO = userPOJO;
 	}
 
-
-
-	private HashMap<String, IPermission> permissions;
-
-
-
-	public String getUsername() {
-		return username;
+	public String getUserAsJSON() {
+		return userAsJSON;
 	}
 
-
-
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserAsJSON(String userAsJSON) {
+		this.userAsJSON = userAsJSON;
 	}
 
-
-
-	public HashMap<String, IPermission> getPermissions() {
-		return permissions;
-	}
-	
 	public void processUIInput() {
-		output= username + "Versuch "+ i; 
-		i++;
+		//userName already set through JSF
+		try {
+			userPOJO = new ObjectMapper().readValue(userAsJSON, UserPOJO.class);
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -68,9 +74,7 @@ public class UserInformation implements Serializable{
 
 
 
-	public void setPermissions(HashMap<String, IPermission> permissions) {
-		this.permissions = permissions;
-	}
+	
 	
 	
 

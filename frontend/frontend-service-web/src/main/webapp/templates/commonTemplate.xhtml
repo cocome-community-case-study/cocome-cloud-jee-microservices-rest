@@ -7,12 +7,10 @@
 <h:head>
 	<script type="text/javascript">
 	
-	function onLoadHandler(destination, iframe, username, userPermissions) {
-		var user ={
-				'userName' : username,
-				'userPermissions' : userPermissions};
+	function onLoadHandler(destination, iframe, user) {
 		
-		iframe.postMessage(JSON.stringify(user), destination);
+		alert(user);
+		iframe.postMessage(user, destination);
 		
 		
 	}
@@ -247,7 +245,7 @@ tr.header-table-banner-row {
 
 											<iframe src="#{microserviceRedirecter.navOutcome}"
 												id="myFrame" frameBorder="0"
-												onload="onLoadHandler('#{microserviceRedirecter.navOutcome}', document.getElementById('myFrame').contentWindow, '#{navigationMenu.currentUser.username}','#{navigationMenu.currentUser.permissions}');"></iframe>
+												onload="onLoadHandler('#{microserviceRedirecter.navOutcome}', document.getElementById('myFrame').contentWindow, '#{navigationMenu.currentUserAsJSON}');"></iframe>
 
 										</h:panelGroup></td>
 								</tr>

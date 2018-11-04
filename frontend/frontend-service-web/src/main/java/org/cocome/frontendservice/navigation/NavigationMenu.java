@@ -1,5 +1,6 @@
 package org.cocome.frontendservice.navigation;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -13,6 +14,10 @@ import javax.inject.Named;
 import org.cocome.frontendservice.events.LoginEvent;
 import org.cocome.frontendservice.events.LogoutEvent;
 import org.cocome.frontendservice.logindata.IUser;
+import org.cocome.frontendservice.logindata.UserPOJO;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 
 
 @Named
@@ -34,6 +39,8 @@ public class NavigationMenu implements INavigationMenu, Serializable{
 	//private final NavigationElement defaultNavItem = new NavigationElement(NavigationElements.DEFAULT);
 	
 	private IUser currentUser;
+	private UserPOJO userPOJO;
+	private String currentUserAsJSON;
 	
 	
 	
@@ -78,11 +85,34 @@ public class NavigationMenu implements INavigationMenu, Serializable{
 	
 	public void observeLoginEvent(@Observes LoginEvent loginEvent) {
 		this.currentUser = loginEvent.getUser();
+		this.userPOJO = new UserPOJO(currentUser.getUsername(), currentUser.getPermissions());
+		try {
+			currentUserAsJSON = new ObjectMapper().writeValueAsString(userPOJO);
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		changeStateTo(NavigationViewStates.DEFAULT_VIEW);
 	}
 	
+	public String getCurrentUserAsJSON() {
+		return currentUserAsJSON;
+	}
+
+
+
 	public void observeLogoutEvent(@Observes LogoutEvent logoutEvent) {
 		this.currentUser = null;
+		this.currentUserAsJSON = null;
+		this.userPOJO = null;
 		changeStateTo(NavigationViewStates.DEFAULT_VIEW);
 	}
 

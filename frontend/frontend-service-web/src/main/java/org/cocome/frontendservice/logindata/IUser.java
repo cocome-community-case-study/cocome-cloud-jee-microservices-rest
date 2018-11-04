@@ -1,5 +1,7 @@
 package org.cocome.frontendservice.logindata;
 
+import java.util.HashMap;
+
 public interface IUser {
 	public String getUsername();
 	
@@ -14,4 +16,10 @@ public interface IUser {
 	public boolean hasPermission(IPermission permission);
 	
 	public void addPermission(IPermission permission);
+
+	public HashMap<String, IPermission> getPermissions();
+
+	
+	
+	
 }
