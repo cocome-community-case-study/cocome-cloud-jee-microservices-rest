@@ -5,18 +5,34 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 
-<script>
-	window.addEventListener('message', receiveMessage, false);
+	<script>
+		window.addEventListener('message', receiveMessage, false);
+		
 
-	function receiveMessage(event) {
-      //check for origin
-      var user = JSON.parse(event.data);
-      document.getElementById("username").innerHTML = user.userName;
-      document.getElementById("permissions").innerHTML = user.userPermissions;
-      
-      
-	}
-</script>
+		function receiveMessage(event) {
+			//check for origin
+			if (event.data == 'logout') {
+
+				document.getElementById('logoutId:logout').click();
+
+				
+			}else{
+				var user = JSON.parse(event.data);
+				//alert('Hallo');
+				document.getElementById('formId:inputId').value = user.userName;
+				document.getElementById('formId:buttonId').click();
+			}
+
+		}
+
+		//window.onload = storeValues();
+
+		function storeValues() {
+			document.getElementById('formId').submit();
+			//document.formId.submit();
+
+		}
+	</script>
 
 </h:head>
 
@@ -26,13 +42,40 @@
 	
 		
 			This is StoreFrontend!
-			<p id="username"></p>
-			<p id="permissions"></p>
-			
-			
+	<h:form id="formId" name="formId">
+		<h:inputText id="inputId" value="#{userInformation.username}" />
+		<h:commandButton id="buttonId" value="Reset"
+			action="#{userInformation.processUIInput}">
 
+			<f:ajax execute="@form" render="result" />
+
+		</h:commandButton>
+
+	</h:form>
 
 	
+
+	<h:panelGroup id="result">Logged in LoginUser #{userInformation.output}</h:panelGroup>
+	
+	
+		
+	<h:form id="logoutId" name="logoutId">
+		
+		<h:commandButton id="logout" value="Reset"
+			action="#{userInformation.logout}">
+
+			<f:ajax execute="@form" render="result" />
+
+		</h:commandButton>
+
+	</h:form>
+
+
+
+
+
+
+
 
 </h:body>
 
