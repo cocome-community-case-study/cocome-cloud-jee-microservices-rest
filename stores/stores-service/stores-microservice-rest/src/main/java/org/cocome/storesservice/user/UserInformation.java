@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -27,7 +28,7 @@ public class UserInformation implements Serializable{
     private String userAsJSON;
     
     
-    
+	private static final Logger LOG = Logger.getLogger(DummyPermission.class);
 
 
 	
@@ -52,6 +53,7 @@ public class UserInformation implements Serializable{
 	}
 
 	public void processUIInput() {
+		
 		//userName already set through JSF
 		try {
 			userPOJO = new ObjectMapper().readValue(userAsJSON, UserPOJO.class);
@@ -65,6 +67,7 @@ public class UserInformation implements Serializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		LOG.debug("Processing User with name: " +userPOJO.getUsername());
 		
 	}
 	

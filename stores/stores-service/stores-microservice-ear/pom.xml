@@ -31,6 +31,11 @@
 			<artifactId>cargo-core-container-glassfish</artifactId>
 			<version>1.4.19</version>
 		</dependency>
+		<dependency>
+			<groupId>com.sun.msv.datatype.xsd</groupId>
+			<artifactId>xsdlib</artifactId>
+			<version>20060615</version>
+		</dependency>
 	</dependencies>
 
 	<build>
