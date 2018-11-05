@@ -5,72 +5,27 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 
-	<script>
-		window.addEventListener('message', receiveMessage, false);
-
-		function receiveMessage(event) {
-			//check for origin
-
-			
-			
-			document.getElementById('logoutId:logout').click(); //reset Session
-
-			document.getElementById('inputForm:user').value = event.data;
-			
-		
-			document.getElementById('inputForm:processInputButton').click(); //process user input
-
-		}
-	</script>
-
 </h:head>
 
 <h:body>
-
-	
-	
-		
-			This is StoreFrontend!
-	<h:form id="inputForm" name="inputForm">
-		<h:inputHidden id="user" value="#{userInformation.userAsJSON}" />
-		
-		<h:commandButton id="processInputButton" value="Reset"
-			action="#{userInformation.processUIInput}">
-
-			<f:ajax execute="@form" render="result" />
-
-		</h:commandButton>
-
-	</h:form>
-
-
-
-	<h:panelGroup id="result">
-		<div>Logged in LoginUser #{userInformation.userPOJO.username}</div>
-		<div>Logged in LoginUser #{userInformation.userPOJO.permissions}</div>
-
-		
-
+	<h:panelGroup id="loginFunctionality" layout="block">
+		<ui:insert>
+			<ui:include src="/login/loginFunctionality.xhtml" />
+		</ui:insert>
+ 
 	</h:panelGroup>
 
+	<h:panelGroup id="page" layout="block" >
 
 
+		<div>Logged in LoginUser #{userInformation.userPOJO.username}</div>
+		<div>Logged in LoginUser #{userInformation.userPOJO.permissions}</div>
+		
+	</h:panelGroup>
+   
+   
 
-	<h:form id="logoutId" name="logoutId">
-
-		<h:commandButton id="logout" value="Reset"
-			action="#{userInformation.logout}">
-
-			<f:ajax execute="@form" render="result" />
-
-		</h:commandButton>
-
-	</h:form>
-
-
-
-
-
+	<!-- NO CONTENT BEHIN THIS PANELGROUP AS IT WILL NOT BE RENDERED CORRECTLY AFTER AJAX CALL -->
 
 
 

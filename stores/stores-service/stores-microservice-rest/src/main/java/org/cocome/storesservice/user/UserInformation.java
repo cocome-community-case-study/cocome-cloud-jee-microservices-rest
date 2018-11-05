@@ -2,10 +2,8 @@ package org.cocome.storesservice.user;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.HashMap;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
@@ -27,12 +25,13 @@ public class UserInformation implements Serializable{
     private UserPOJO userPOJO;
     private String userAsJSON;
     
+   
+    
     
 	private static final Logger LOG = Logger.getLogger(DummyPermission.class);
 
 
 	
-
 
 	
 	
@@ -54,8 +53,9 @@ public class UserInformation implements Serializable{
 
 	public void processUIInput() {
 		
-		//userName already set through JSF
+		
 		try {
+			LOG.debug("userAsJSON string is: " + userAsJSON);
 			userPOJO = new ObjectMapper().readValue(userAsJSON, UserPOJO.class);
 		} catch (JsonParseException e) {
 			// TODO Auto-generated catch block
@@ -67,6 +67,7 @@ public class UserInformation implements Serializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		LOG.debug("Processing User with name: " +userPOJO.getUsername());
 		
 	}
