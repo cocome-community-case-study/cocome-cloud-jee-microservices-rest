@@ -52,7 +52,7 @@ public class CashDeskCommunicator implements ICashDeskManaging{
 		Collection<ICashDesk> cashDesks = new ArrayList<ICashDesk>();
 
 		try {
-			cashDesks = eOrganizer.getActiveEnterprise(enterpriseId).getActiveStore(storeId).getAll();
+			cashDesks = eOrganizer.getActiveEnterprise(enterpriseId).getActiveStore(storeId).getAllCashDesks();
 		} catch (NullPointerException e) {
 			// TODO: handle exception
 		}

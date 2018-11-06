@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:components="http://java.sun.com/jsf/composite/components">
+
+
+<h:body>
+
+	<ui:composition template="/templates/commonTemplate.xhtml">
+		<f:metadata>
+			<f:viewAction action="#{storeInformation.queryProductsWithStockItems}" />
+		</f:metadata>
+		<ui:define name="body">
+			<h:form>
+			<h:outputText value="#{strings['stock.add.available_products.text']}"/>
+			<h:dataTable value="#{storeInformation.allProductsWithStockItems}" var="product"
+				styleClass="product-table" headerClass="product-table-header"
+				rowClasses="product-table-odd-row,product-table-even-row"
+				columnClasses="product-table-text-col, product-table-text-col, 
+    				product-table-text-col, product-table-number-col">
+				<h:column>
+					<f:facet name="header">#{strings['product.table.header_barcode']}</f:facet>
+					#{product.barcode}
+				</h:column>
+				<h:column>
+					<f:facet name="header">#{strings['product.table.header_name']}</f:facet>
+					#{product.name}
+				</h:column>
+				<h:column>
+					<f:facet name="header">#{strings['product.table.header_purchase_price']}</f:facet>
+					<h:outputText value="#{product.productTO.purchasePrice}">
+						<f:convertNumber type="currency" currencySymbol="€"/>
+					</h:outputText>
+				</h:column>
+				<h:column>
+					<h:commandLink action="#{showStockView.createNewStockItem(product)}"
+							styleClass="button"
+							title="#{strings['stock.table.action.edit_price']}"
+							rendered="#{empty product.stockItemTO}">
+							<h:graphicImage
+								value="#{resource['icon:icon_add.png']}"
+								styleClass="button" />
+						</h:commandLink>
+				</h:column>
+			</h:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

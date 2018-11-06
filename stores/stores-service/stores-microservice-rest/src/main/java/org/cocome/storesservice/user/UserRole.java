@@ -1,7 +1,13 @@
-package org.cocome.frontendservice.logindata;
+package org.cocome.storesservice.user;
 
-import org.cocome.frontendservice.navigation.NavigationView;
-
+import org.cocome.storesservice.navigation.NavigationView;
+/**
+ * UserRole a user can have plus the according View
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ * @author Tobias Haßberg
+ *
+ */
 public enum UserRole {
 	ENTERPRISE_MANAGER(NavigationView.ENTERPRISE_VIEW),
 	STORE_MANAGER(NavigationView.STORE_VIEW),
@@ -20,7 +26,4 @@ public enum UserRole {
 	public NavigationView associatedView() {
 		return assocView;
 	}
-	
-	
-	
 }

@@ -13,8 +13,16 @@ import org.cocome.frontendservice.login.Login;
 import org.cocome.frontendservice.navigation.INavigationMenu;
 import org.cocome.frontendservice.navigation.NavigationElement;
 import org.cocome.frontendservice.navigation.NavigationElements;
-import org.cocome.frontendservice.navigation.NavigationViewStates;
+import org.cocome.frontendservice.navigation.NavigationView;
 
+/**
+ * Delegates new NavigationView to NavigationMenu and handles navigation
+ * destinations (remote server URL's) for this View
+ * 
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Named
 @SessionScoped
 public class MicroserviceRedirecter implements Serializable {
@@ -26,53 +34,49 @@ public class MicroserviceRedirecter implements Serializable {
 
 	@Inject
 	INavigationMenu navMenu;
-	
+
 	private String navOutcome;
-	
+
 	private NavigationElements element;
 
 	@PostConstruct
 	public void init() {
 
-		navMenu.changeStateTo(NavigationViewStates.DEFAULT_VIEW);
-	    navOutcome = NavigationElements.DEFAULT.getNavOutcome();
 		
-		 
+		navOutcome = NavigationElements.DEFAULT.getNavOutcome();
+
 	}
 
-	public void redirect(NavigationElement navElement) { // TODO hier überall noch die Parameter anhängen?!
-		
-		
+	public void redirect(NavigationElement navElement) {
 
 		switch (navElement.getNavElementAsEnum()) {
 		case DEFAULT:
-			navMenu.changeStateTo(NavigationViewStates.DEFAULT_VIEW);
+			navMenu.changeStateTo(NavigationView.DEFAULT_VIEW);
 			navOutcome = navElement.getNavOutcome();
 			break;
 		case ENTERPRISE:
-			navMenu.changeStateTo(NavigationViewStates.ENTERPRISE_VIEW);
+			navMenu.changeStateTo(NavigationView.ENTERPRISE_VIEW);
 			navOutcome = navElement.getNavOutcome();
 			break;
 		case ORDERS:
-			navMenu.changeStateTo(NavigationViewStates.ORDERS_VIEW);
+			navMenu.changeStateTo(NavigationView.ORDERS_VIEW);
 			navOutcome = navElement.getNavOutcome();
 			break;
 		case PRODUCTS:
-			navMenu.changeStateTo(NavigationViewStates.PRODUCTS_VIEW);
+			navMenu.changeStateTo(NavigationView.PRODUCTS_VIEW);
 			navOutcome = navElement.getNavOutcome();
 			break;
 		case STORE:
-			navMenu.changeStateTo(NavigationViewStates.STORE_VIEW);
+			navMenu.changeStateTo(NavigationView.STORE_VIEW);
 			navOutcome = navElement.getNavOutcome();
 			break;
 		default:
-			navMenu.changeStateTo(NavigationViewStates.DEFAULT_VIEW); //TODO Better default case?
+			navMenu.changeStateTo(NavigationView.DEFAULT_VIEW); // TODO Better default case?
 			navOutcome = navElement.getNavOutcome();
-			
+
 			break;
 		}
 
-		
 	}
 
 	public String getNavOutcome() {

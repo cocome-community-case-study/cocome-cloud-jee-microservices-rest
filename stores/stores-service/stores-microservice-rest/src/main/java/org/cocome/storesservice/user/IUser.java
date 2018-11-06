@@ -6,6 +6,7 @@ public interface IUser {
 	public String getUsername();
 	
 	
+	
 	public boolean hasPermissionString(String permission);
 	
 	public boolean hasPermission(IPermission permission);

@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import org.cocome.frontendservice.logindata.IUser;
 
 import org.cocome.frontendservice.logindata.UserRole;
-import org.cocome.frontendservice.navigation.NavigationViewStates;
+
 
 
 
@@ -36,9 +36,7 @@ public class LoginEvent {
 		this.user = user;
 	}
 	
-	public NavigationViewStates getRequestedView() {
-		return role.associatedView();
-	}
+	
 
 	public long getStoreID() {
 		return storeID;

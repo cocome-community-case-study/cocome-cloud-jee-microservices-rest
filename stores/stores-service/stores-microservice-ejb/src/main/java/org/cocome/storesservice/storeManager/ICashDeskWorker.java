@@ -9,5 +9,5 @@ interface ICashDeskWorker {
 	
 	void deleteCashdesk(String cashDeskName);
 	
-	Collection<ICashDesk> getAll();
+	Collection<ICashDesk> getAllCashDesks();
 }

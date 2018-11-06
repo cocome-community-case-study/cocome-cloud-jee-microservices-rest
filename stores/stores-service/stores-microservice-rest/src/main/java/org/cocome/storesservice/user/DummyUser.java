@@ -11,10 +11,12 @@ public class DummyUser implements IUser {
 	private String username;
 
 	private HashMap<String, IPermission> permissions;
+	
 
 	public DummyUser(String username) {
 		this.username = username;
 		this.permissions = new HashMap<String, IPermission>();
+		
 
 	}
 
@@ -55,5 +57,7 @@ public class DummyUser implements IUser {
 	public void addPermissions(HashMap<String, IPermission> permissions) {
 		this.permissions.putAll(permissions);
 	}
+
+	
 
 }

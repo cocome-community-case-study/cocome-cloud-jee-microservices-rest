@@ -1,17 +1,14 @@
-package org.cocome.frontendservice.navigation;
+package org.cocome.storesservice.navigation;
 
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-
 /**
- * This class creates the NavigationMenu-Bar of the Frontend-Header.
- * Besides, it stores the current state of the Frontend (OrderMicroserviceView included etc...)
- * We decided to separate the actual State and the NavigationElement in two Enums. This required some more Code but
- * might help for extensions in the future.
- * @author Niko Benkler
- *
+ * Interface representing the navigation menu on the site. 
+ * 
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 public interface INavigationMenu {
 
@@ -21,7 +18,7 @@ public interface INavigationMenu {
 	 * 
 	 * @return the current navigation elements to display
 	 */
-	List<INavigationElement> getNavigationElements();
+	List<INavigationElement> getElements();
 	
 	/**
 	 * Changes the state of the menu to a new state and changes 
@@ -31,20 +28,12 @@ public interface INavigationMenu {
 	 * 
 	 * @param newState - the new state to set
 	 */
-	void changeStateTo(@NotNull NavigationView newState);
+	String changeStateTo(@NotNull NavigationView newState);
 	
-	
-	
-
 	/**
 	 * Returns the current state of this navigation menu.
 	 * 
 	 * @return the current state
 	 */
 	NavigationView getCurrentState();
-
-	
-
-	
-	
 }

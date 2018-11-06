@@ -22,7 +22,7 @@ import org.cocome.frontendservice.logindata.IUser;
 
 import org.cocome.frontendservice.logindata.UserRole;
 import org.cocome.frontendservice.navigation.NavigationElements;
-import org.cocome.frontendservice.navigation.NavigationViewStates;
+import org.cocome.frontendservice.navigation.NavigationView;
 import org.cocome.frontendservice.resolver.MicroserviceRedirecter;
 
 
@@ -140,13 +140,13 @@ public class Login implements Serializable {
 	public void setRequestedRole(UserRole requestedRole) {
 		this.requestedRole = requestedRole;
 	}
-
 	public boolean isStoreRequired() {
-		if (requestedRole.associatedView() != NavigationViewStates.ENTERPRISE_VIEW) {
+		if (requestedRole.associatedView() != NavigationView.ENTERPRISE_VIEW) {
 			return true;
 		}
 		return false;
 	}
+	
 
 	@Produces
 	@javax.enterprise.context.SessionScoped

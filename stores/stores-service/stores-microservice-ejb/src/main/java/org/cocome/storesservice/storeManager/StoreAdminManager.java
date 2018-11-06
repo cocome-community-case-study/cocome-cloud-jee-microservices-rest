@@ -76,7 +76,7 @@ public class StoreAdminManager implements IStoreManagement, IStockAdmin{
 	}
 
 	@Override
-	public Collection<ICashDesk> getAll() {
+	public Collection<ICashDesk> getAllCashDesks() {
 		return cashDesks.values();
 	}
 

@@ -4,16 +4,20 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
+import org.cocome.storesservice.events.UserInformationProcessedEvent;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * This class stores and process UserInformation
+ * 
  * @author Niko Benkler
  * @author Robert Heinrich
  * @author Tobias Haßberg
@@ -21,29 +25,30 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 @Named
 @SessionScoped
-public class UserInformation implements Serializable{
+public class UserInformation implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-    
-    private String userAsJSON;
-    private IUser user =null;
-    
-   
-    
-    
+
+	@Inject
+	Event<UserInformationProcessedEvent> userInfoProcessedEvent;
+
+	private String userAsJSON;
+	private IUser user = null;
+	private UserRole userRole = null;
+
 	private static final Logger LOG = Logger.getLogger(DummyPermission.class);
 
-    public IUser getUser() {
-    	return user;
-    }
-	
-    public boolean isLoggedIn() {
-    	return user !=null;
-    }
+	//TODO was davon ist wichtig?!
+	public IUser getUser() {
+		return user;
+	}
+
+	public boolean isLoggedIn() {
+		return user != null;
+	}
 
 	public String getUserAsJSON() {
 		return userAsJSON;
@@ -52,40 +57,42 @@ public class UserInformation implements Serializable{
 	public void setUserAsJSON(String userAsJSON) {
 		this.userAsJSON = userAsJSON;
 	}
+	public UserRole getUserRole() {
+		return this.userRole;
+	}
 
 	/**
-	 * Processing JSON-String into userPOJO
-	 * and creates new IUser out of it
+	 * Processing JSON-String into userPOJO and creates new IUser out of it
 	 */
 	public void processUIInput() {
-		
+
 		try {
-			
-			UserPOJO userPOJO = new ObjectMapper().readValue(userAsJSON, UserPOJO.class);
+
+			UserDataTO userPOJO = new ObjectMapper().readValue(userAsJSON, UserDataTO.class);
 			this.user = new DummyUser(userPOJO.getUsername());
 			this.user.addPermissions(userPOJO.getPermissions());
+
+			LOG.debug("Deserialization of  UserPOJO with name: " + userPOJO.getUsername() + " and Permissions: "
+					+ userPOJO.getPermissions() + " and UserRole: " + userPOJO.getUserRole() + "successfull");
+
+			userInfoProcessedEvent.fire(new UserInformationProcessedEvent(this.user, userPOJO.getUserRole(), userPOJO.getRequestedView(), userPOJO.getStoreID()));
+
 		} catch (JsonParseException e) {
+			//TODO show error Page
 			LOG.debug("Error parsing JSON!:  " + e.getMessage());
+			LOG.error("Error parsing JSON!:  " + e.getMessage());
 		} catch (JsonMappingException e) {
-			LOG.debug("Error parsing JSON!:  " +e.getMessage());
+			LOG.debug("Error parsing JSON!:  " + e.getMessage());
+			LOG.error("Error parsing JSON!:  " + e.getMessage());
 		} catch (IOException e) {
-			LOG.debug("Error parsing JSON!:  " +e.getMessage());
+			LOG.debug("Error parsing JSON!:  " + e.getMessage());
+			LOG.error("Error parsing JSON!:  " + e.getMessage());
 		}
-		
-		
-		
-		LOG.debug("Processing User with name: " +user.getUsername() + " and Permissions: " + user.getPermissions());
-		
+
 	}
-	
+
 	public void logout() {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 	}
-
-
-
-	
-	
-	
 
 }

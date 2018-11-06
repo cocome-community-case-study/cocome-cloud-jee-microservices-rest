@@ -1,6 +1,6 @@
-package org.cocome.frontendservice.events;
+package org.cocome.storesservice.events;
 
-import org.cocome.frontendservice.navigation.NavigationView;
+import org.cocome.storesservice.navigation.NavigationView;
 
 public class ChangeViewEvent {
 	private NavigationView newViewState;

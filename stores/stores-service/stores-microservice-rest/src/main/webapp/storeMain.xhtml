@@ -12,16 +12,17 @@
 		<ui:insert>
 			<ui:include src="/login/loginFunctionality.xhtml" />
 		</ui:insert>
- 
-	</h:panelGroup>
-    
-    <!-- NO CONTENT BEFORE THIS PANELGROUP AS IT WILL NOT BE RENDERED CORRECTLY AFTER AJAX CALL (except loginFunctionality)-->
-	<h:panelGroup id="page" layout="block" >
 
-             Welcome to Store-Service!
-		<div>Logged in LoginUser #{userInformation.user.username}</div>
-		<div>Logged in LoginUser #{userInformation.user.permissions}</div>
+	</h:panelGroup>
+
+	<!-- NO CONTENT BEFORE THIS PANELGROUP AS IT WILL NOT BE RENDERED CORRECTLY AFTER AJAX CALL (except loginFunctionality)-->
+	<h:panelGroup id="page" layout="block">
+
 		
+		<ui:insert>
+			<ui:include src="/templates/commonTemplate.xhtml" />
+		</ui:insert>
+
 	</h:panelGroup>
 
 	<!-- NO CONTENT BEHIND THIS PANELGROUP AS IT WILL NOT BE RENDERED CORRECTLY AFTER AJAX CALL -->
