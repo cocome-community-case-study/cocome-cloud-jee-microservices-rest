@@ -12,7 +12,13 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-
+/**
+ * This class stores and process UserInformation
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ * @author Tobias Haßberg
+ *
+ */
 @Named
 @SessionScoped
 public class UserInformation implements Serializable{
@@ -22,26 +28,19 @@ public class UserInformation implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-    private UserPOJO userPOJO;
+    
     private String userAsJSON;
+    private IUser user;
     
    
     
     
 	private static final Logger LOG = Logger.getLogger(DummyPermission.class);
 
-
+    public IUser getUser() {
+    	return user;
+    }
 	
-
-	
-	
-	public UserPOJO getUserPOJO() {
-		return userPOJO;
-	}
-
-	public void setUserPOJO(UserPOJO userPOJO) {
-		this.userPOJO = userPOJO;
-	}
 
 	public String getUserAsJSON() {
 		return userAsJSON;
@@ -51,24 +50,28 @@ public class UserInformation implements Serializable{
 		this.userAsJSON = userAsJSON;
 	}
 
+	/**
+	 * Processing JSON-String into userPOJO
+	 * and creates new IUser out of it
+	 */
 	public void processUIInput() {
 		
-		
 		try {
-			LOG.debug("userAsJSON string is: " + userAsJSON);
-			userPOJO = new ObjectMapper().readValue(userAsJSON, UserPOJO.class);
+			
+			UserPOJO userPOJO = new ObjectMapper().readValue(userAsJSON, UserPOJO.class);
+			this.user = new DummyUser(userPOJO.getUsername());
+			this.user.addPermissions(userPOJO.getPermissions());
 		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.debug("Error parsing JSON!:  " + e.getMessage());
 		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.debug("Error parsing JSON!:  " +e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.debug("Error parsing JSON!:  " +e.getMessage());
 		}
 		
-		LOG.debug("Processing User with name: " +userPOJO.getUsername());
+		
+		
+		LOG.debug("Processing User with name: " +user.getUsername() + " and Permissions: " + user.getPermissions());
 		
 	}
 	

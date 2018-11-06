@@ -14,18 +14,17 @@
 		</ui:insert>
  
 	</h:panelGroup>
-
+    
+    <!-- NO CONTENT BEFORE THIS PANELGROUP AS IT WILL NOT BE RENDERED CORRECTLY AFTER AJAX CALL (except loginFunctionality)-->
 	<h:panelGroup id="page" layout="block" >
 
 
-		<div>Logged in LoginUser #{userInformation.userPOJO.username}</div>
-		<div>Logged in LoginUser #{userInformation.userPOJO.permissions}</div>
+		<div>Logged in LoginUser #{userInformation.user.username}</div>
+		<div>Logged in LoginUser #{userInformation.user.permissions}</div>
 		
 	</h:panelGroup>
-   
-   
 
-	<!-- NO CONTENT BEHIN THIS PANELGROUP AS IT WILL NOT BE RENDERED CORRECTLY AFTER AJAX CALL -->
+	<!-- NO CONTENT BEHIND THIS PANELGROUP AS IT WILL NOT BE RENDERED CORRECTLY AFTER AJAX CALL -->
 
 
 
