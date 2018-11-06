@@ -79,13 +79,10 @@ public class UserInformation implements Serializable {
 
 		} catch (JsonParseException e) {
 			//TODO show error Page
-			LOG.debug("Error parsing JSON!:  " + e.getMessage());
 			LOG.error("Error parsing JSON!:  " + e.getMessage());
 		} catch (JsonMappingException e) {
-			LOG.debug("Error parsing JSON!:  " + e.getMessage());
 			LOG.error("Error parsing JSON!:  " + e.getMessage());
 		} catch (IOException e) {
-			LOG.debug("Error parsing JSON!:  " + e.getMessage());
 			LOG.error("Error parsing JSON!:  " + e.getMessage());
 		}
 

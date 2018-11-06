@@ -35,12 +35,12 @@ public class UserDataTO {
 
 	}
 
-//	/**
-//	 * Default Constructor!!! Only for JSON Deserialization!!! DO NOT USE
-//	 */
-//	public UserDataTO() {
-//
-//	}
+	/**
+	 * Default Constructor!!! Only for JSON Deserialization!!! DO NOT USE
+	 */
+	public UserDataTO() {
+
+	}
 
 	public String getUsername() {
 		return username;
