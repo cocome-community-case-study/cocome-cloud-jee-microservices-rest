@@ -30,7 +30,7 @@ public class UserInformation implements Serializable{
 	
     
     private String userAsJSON;
-    private IUser user;
+    private IUser user =null;
     
    
     
@@ -41,6 +41,9 @@ public class UserInformation implements Serializable{
     	return user;
     }
 	
+    public boolean isLoggedIn() {
+    	return user !=null;
+    }
 
 	public String getUserAsJSON() {
 		return userAsJSON;
