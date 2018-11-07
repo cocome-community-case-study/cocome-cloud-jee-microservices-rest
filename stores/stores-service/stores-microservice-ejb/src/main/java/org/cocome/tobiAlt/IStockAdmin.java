@@ -1,4 +1,4 @@
-package org.cocome.storesservice.storeManager;
+package org.cocome.tobiAlt;
 
 public interface IStockAdmin {
 	// rest call to get product item and read out the needed informations

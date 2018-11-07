@@ -1,4 +1,4 @@
-package org.cocome.enterpriseservice.enterpriseManager;
+package org.cocome.tobiAlt;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,8 +15,6 @@ import org.cocome.storesservice.domain.TradingEnterprise;
 import org.cocome.storesservice.repository.StockItemDBRepository;
 import org.cocome.storesservice.repository.StoreDBRepository;
 import org.cocome.storesservice.repository.TradingEnterpriseDBRepository;
-import org.cocome.storesservice.storeManager.IStoreManagement;
-import org.cocome.storesservice.storeManager.StoreAdminManager;
 
 public class EnterpriseManager implements IEnterpriseManager{
 

@@ -2,10 +2,11 @@ package org.cocome.storesservice.cashDesk;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import org.cocome.enterpriseservice.EnterpriseOrganizer;
-import org.cocome.enterpriseservice.IEnterpriseOrganizer;
+
 import org.cocome.storesservice.cashDesk.cashDeskModel.ICashDesk;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.expressLight.ExpressLightStates;
+import org.cocome.tobiAlt.EnterpriseOrganizer;
+import org.cocome.tobiAlt.IEnterpriseOrganizer;
 
 public class CashDeskCommunicator implements ICashDeskManaging{
 

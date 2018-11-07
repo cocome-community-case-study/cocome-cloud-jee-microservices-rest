@@ -1,12 +1,10 @@
-package org.cocome.enterpriseservice;
+package org.cocome.tobiAlt;
 
 import java.util.Collection;
 import java.util.HashMap;
 
 import javax.ejb.EJB;
 
-import org.cocome.enterpriseservice.enterpriseManager.EnterpriseManager;
-import org.cocome.enterpriseservice.enterpriseManager.IEnterpriseManager;
 import org.cocome.storesservice.domain.Store;
 import org.cocome.storesservice.domain.TradingEnterprise;
 import org.cocome.storesservice.repository.TradingEnterpriseDBRepository;

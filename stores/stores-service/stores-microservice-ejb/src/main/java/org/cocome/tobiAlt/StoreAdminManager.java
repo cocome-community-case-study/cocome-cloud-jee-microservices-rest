@@ -1,4 +1,4 @@
-package org.cocome.storesservice.storeManager;
+package org.cocome.tobiAlt;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -7,9 +7,7 @@ import javax.ejb.EJB;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
-import org.cocome.enterpriseservice.enterpriseManager.EnterpriseManager;
-import org.cocome.storageOrganizer.IStorageOrganizerSystem;
-import org.cocome.storageOrganizer.StorageOrganizerSystem;
+
 import org.cocome.storesservice.cashDesk.cashDeskModel.CashDesk;
 import org.cocome.storesservice.cashDesk.cashDeskModel.ICashDesk;
 import org.cocome.storesservice.domain.StockItem;

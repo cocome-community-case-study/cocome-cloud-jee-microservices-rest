@@ -1,8 +1,7 @@
-package org.cocome.enterpriseservice;
+package org.cocome.tobiAlt;
 
 import java.util.Collection;
 
-import org.cocome.enterpriseservice.enterpriseManager.IEnterpriseManager;
 import org.cocome.storesservice.domain.Store;
 import org.cocome.storesservice.domain.TradingEnterprise;
 

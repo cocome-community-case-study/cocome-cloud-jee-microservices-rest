@@ -1,4 +1,4 @@
-package org.cocome.storesservice.storeManager;
+package org.cocome.tobiAlt;
 
 import java.util.Collection;
 

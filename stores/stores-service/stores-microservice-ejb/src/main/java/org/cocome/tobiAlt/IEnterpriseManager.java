@@ -1,9 +1,8 @@
-package org.cocome.enterpriseservice.enterpriseManager;
+package org.cocome.tobiAlt;
 
 import java.util.Collection;
 
 import org.cocome.storesservice.domain.Store;
-import org.cocome.storesservice.storeManager.IStoreManagement;
 
 /**
  * Works on enterprises in form of editing the enterprise structure - creating/deleting etc..

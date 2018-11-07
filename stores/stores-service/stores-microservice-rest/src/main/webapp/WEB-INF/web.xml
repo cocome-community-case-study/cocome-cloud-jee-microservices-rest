@@ -29,11 +29,27 @@
 		<url-pattern>/faces/*</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
-		<welcome-file>faces/main.xhtml</welcome-file>
+		<welcome-file>faces/storeMain.xhtml</welcome-file>
 	</welcome-file-list>
+
 	<error-page>
+		<error-code>404</error-code>
 		<location>/faces/error.xhtml</location>
 	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/faces/error.xhtml</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/faces/error.xhtml</location>
+	</error-page>
+
+
+	<context-param>
+		<param-name>javax.faces.application.CONFIG_FILES</param-name>
+		<param-value>/WEB-INF/faces-config.xml</param-value>
+	</context-param>
 
 	<filter>
 		<filter-name>CorsFilter</filter-name>
@@ -43,9 +59,11 @@
 	<filter-mapping>
 		<filter-name>CorsFilter</filter-name>
 		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>ERROR</dispatcher>
 	</filter-mapping>
-	
-	
+
+
 
 
 

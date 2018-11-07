@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
 
-import org.cocome.storageOrganizer.IStorageOrganizerSystem;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.IScannerAdapter;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.cashBox.CashBox;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.cashBox.ICashBox;
@@ -20,8 +19,9 @@ import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.printer.Pri
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.scanner.IScanner;
 import org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.scanner.Scanner;
 import org.cocome.storesservice.domain.StockItem;
-import org.cocome.storesservice.storeManager.StoreAdminManager;
 import org.cocome.structures.Pair;
+import org.cocome.tobiAlt.IStorageOrganizerSystem;
+import org.cocome.tobiAlt.StoreAdminManager;
 
 public class CashDesk implements ICashDesk, IScannerAdapter{
 	

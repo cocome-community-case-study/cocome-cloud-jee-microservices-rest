@@ -1,4 +1,4 @@
-package org.cocome.storageOrganizer;
+package org.cocome.tobiAlt;
 
 import org.cocome.storesservice.domain.StockItem;
 
