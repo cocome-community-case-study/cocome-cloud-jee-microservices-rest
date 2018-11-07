@@ -114,7 +114,6 @@ a:HOVER {
 	font-size: 12px;
 }
 
-
 .header-bold-text {
 	font-size: 12px;
 	font-weight: bold;
@@ -215,8 +214,18 @@ a:HOVER {
 											errorClass="error-message" fatalClass="error-message"
 											warnClass="error-message" infoClass="info-message" /> <ui:insert
 											name="body">
-					Welcome to Store
-		<div>Logged in LoginUser #{userInformation.user.username}</div>
+											
+											<h:panelGroup rendered ="#{navigationMenu.storeService}">
+											Welcome to Store - Frontend
+											</h:panelGroup>
+											
+											<h:panelGroup rendered ="#{not navigationMenu.storeService}">
+											Welcome Enterprise - Frontend
+											</h:panelGroup>
+											
+
+											<div>Logged in LoginUser
+												#{userInformation.user.username}</div>
 											<div>Logged in LoginUser
 												#{userInformation.user.permissions}</div>
 

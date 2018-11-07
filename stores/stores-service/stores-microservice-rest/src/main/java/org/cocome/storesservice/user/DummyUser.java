@@ -4,6 +4,12 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Basic Class representing a User with UserName and serveral Permission
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 public class DummyUser implements IUser {
 
 	private static final Logger LOG = Logger.getLogger(DummyUser.class);
@@ -11,12 +17,10 @@ public class DummyUser implements IUser {
 	private String username;
 
 	private HashMap<String, IPermission> permissions;
-	
 
 	public DummyUser(String username) {
 		this.username = username;
 		this.permissions = new HashMap<String, IPermission>();
-		
 
 	}
 
@@ -57,7 +61,5 @@ public class DummyUser implements IUser {
 	public void addPermissions(HashMap<String, IPermission> permissions) {
 		this.permissions.putAll(permissions);
 	}
-
-	
 
 }

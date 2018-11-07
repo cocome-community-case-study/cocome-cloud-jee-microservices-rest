@@ -24,7 +24,6 @@ import org.cocome.storesservice.user.IUser;
  * 
  * @author Niko Benkler
  * @author Robert Heinrich
- * @author Tobias Haßberg
  * 
  *         This class handles Navigation between sites for Store and Enterprise!
  *         It determines the Navigation-Elements in the Header according to the
@@ -43,9 +42,15 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	@Inject
 	ILabelResolver labelResolver;
 
-	IUser currentUser;
+	private IUser currentUser;
 
 	private NavigationView navigationState = NavigationView.DEFAULT_VIEW;
+
+	/*
+	 * Saves whether the Proxy-Frontend requests Store oder Enterprise-Service <br>
+	 * true => Store <br> false => Enterprise <br>
+	 */
+	private boolean isStoreService = true;
 
 	@PostConstruct
 	private synchronized void initViewLists() {
@@ -68,6 +73,95 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		STATE_MAP.put(NavigationView.DEFAULT_VIEW, defaultViewList);
 		STATE_MAP = Collections.unmodifiableMap(STATE_MAP);
 
+	}
+
+	/**
+	 * Returns the currents Elements that will appear in Navigation-Header
+	 */
+	@Override
+	public List<INavigationElement> getElements() {
+		if (elements == null || elements.isEmpty()) {
+			elements = new LinkedList<>(STATE_MAP.get(NavigationView.DEFAULT_VIEW));
+		}
+		return elements;
+	}
+
+	@Override
+	public NavigationView getCurrentState() {
+		return navigationState;
+	}
+
+	public boolean isStoreService() {
+		return isStoreService;
+	}
+
+	/**
+	 * Change state to new State. This will remove and add Links/Labels in the
+	 * Navigation Bar based on the user
+	 */
+	@Override
+	public String changeStateTo(@NotNull NavigationView newState) {
+
+		navigationState = newState;
+		elements = new LinkedList<>(STATE_MAP.get(navigationState));
+
+		Iterator<INavigationElement> iterator = elements.iterator();
+
+		if (currentUser == null) {
+			navigationState = NavigationView.DEFAULT_VIEW;
+			elements = STATE_MAP.get(NavigationView.DEFAULT_VIEW);
+
+			FacesContext context = FacesContext.getCurrentInstance();
+			String message = context.getApplication().evaluateExpressionGet(context,
+					"#{strings['navigation.failed.no_user']}", String.class);
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+
+			/*
+			 * Determines whether user will be redirected to StoreService main or
+			 * EnterpriseService Main in case of an Error
+			 */
+			if (isStoreService) {
+				return NavigationElements.STORE_MAIN.getNavigationOutcome();
+			} else {
+				return NavigationElements.ENTERPRISE_MAIN.getNavigationOutcome();
+			}
+
+		}
+
+		while (iterator.hasNext()) {
+			INavigationElement element = iterator.next();
+			if (element.getRequiredPermission() != null
+					&& !currentUser.hasPermissionString(element.getRequiredPermission())) {
+				iterator.remove();
+			}
+		}
+
+		switch (newState) {
+		case CASHPAD_VIEW:
+			return NavigationElements.START_SALE.getNavigationOutcome();
+		case STORE_VIEW:
+			return NavigationElements.STORE_MAIN.getNavigationOutcome();
+		case ENTERPRISE_VIEW:
+			return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
+		default:
+			return NavigationElements.LOGIN.getNavigationOutcome();
+		}
+	}
+
+	public void observeChangeViewEvent(@Observes ChangeViewEvent changeEvent) {
+		changeStateTo(changeEvent.getNewViewState());
+	}
+
+	public void observe(@Observes UserInformationProcessedEvent event) {
+		this.currentUser = event.getUser();
+		this.navigationState = event.getRequestedNavViewState();
+		if (navigationState == NavigationView.ENTERPRISE_VIEW) {
+			this.isStoreService = false;
+		} else {
+			this.isStoreService = true;
+		}
+		// TODO was ist mit der event.storeID()
+		changeStateTo(navigationState);
 	}
 
 	private List<INavigationElement> populateCashpadView() {
@@ -96,7 +190,6 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		enterpriseViewList.add(new NavigationElement(NavigationElements.SHOW_ENTERPRISES, labelResolver));
 		enterpriseViewList.add(new NavigationElement(NavigationElements.CREATE_ENTERPRISE, labelResolver));
 	
-
 		return enterpriseViewList;
 	}
 
@@ -109,71 +202,4 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		return enterpriseViewList;
 	}
 
-	/**
-	 * Returns the currents Elements that will appear in Navigation-Header
-	 */
-	@Override
-	public List<INavigationElement> getElements() {
-		if (elements == null || elements.isEmpty()) {
-			elements = new LinkedList<>(STATE_MAP.get(NavigationView.DEFAULT_VIEW));
-		}
-		return elements;
-	}
-
-	@Override
-	public String changeStateTo(@NotNull NavigationView newState) {
-
-		navigationState = newState;
-		elements = new LinkedList<>(STATE_MAP.get(navigationState));
-
-		Iterator<INavigationElement> iterator = elements.iterator();
-
-		if (currentUser == null) {
-			navigationState = NavigationView.DEFAULT_VIEW;
-			elements = STATE_MAP.get(NavigationView.DEFAULT_VIEW);
-
-			FacesContext context = FacesContext.getCurrentInstance();
-			String message = context.getApplication().evaluateExpressionGet(context,
-					"#{strings['navigation.failed.no_user']}", String.class);
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-			return NavigationElements.ENTERPRISE_MAIN.getNavigationOutcome(); //TODO hier entweder store oder main
-		}
-
-		while (iterator.hasNext()) {
-			INavigationElement element = iterator.next();
-			if (element.getRequiredPermission() != null
-					&& !currentUser.hasPermissionString(element.getRequiredPermission())) {
-				iterator.remove();
-			}
-		}
-
-		switch (newState) {
-		case CASHPAD_VIEW:
-			return NavigationElements.START_SALE.getNavigationOutcome();
-		case STORE_VIEW:
-			return NavigationElements.STORE_MAIN.getNavigationOutcome();
-		case ENTERPRISE_VIEW:
-			return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
-		default:
-			return NavigationElements.LOGIN.getNavigationOutcome();
-		}
-	}
-
-	@Override
-	public NavigationView getCurrentState() {
-		return navigationState;
-	}
-
-	public void observeChangeViewEvent(@Observes ChangeViewEvent changeEvent) {
-		changeStateTo(changeEvent.getNewViewState());
-	}
-	
-	public void observe(@Observes UserInformationProcessedEvent event ) {
-		this.currentUser = event.getUser();
-		this.navigationState = event.getRequestedNavViewState();
-		//TODO was ist mit der event.storeID()
-		changeStateTo(navigationState);
-	}
-	
-	
 }

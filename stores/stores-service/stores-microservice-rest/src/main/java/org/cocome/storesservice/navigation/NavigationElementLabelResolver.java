@@ -10,6 +10,12 @@ import java.io.Serializable;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * This Resolver takes the Navigation-Link and converts it to Label based on String.properties
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @SessionScoped
 public class NavigationElementLabelResolver implements Serializable, ILabelResolver {
 	private static final long serialVersionUID = 7607903884265925992L;
@@ -21,13 +27,16 @@ public class NavigationElementLabelResolver implements Serializable, ILabelResol
 	private void initResourceBundle() {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 	    Locale locale = ctx.getViewRoot().getLocale();
-
+	    
+	    /*
+	     * Load local strings.properties!
+	     */
 		strings = ResourceBundle.getBundle(
 	            "cocome.store.Strings", locale);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.web.frontend.navigation.ILabelResolver#getLabel(java.lang.String)
+	/**
+	 * Get Label from navigation link
 	 */
 	@Override
 	public String getLabel(String navOutcome) {

@@ -16,7 +16,7 @@ public class NavigationElement implements INavigationElement {
 	
 	/**
 	 * 
-	 *
+	 * Contructor to initialize NavigationElement with NavigationElements (Enum) Variable
 	 * @param navElement
 	 * @param resolver
 	 */
@@ -25,7 +25,7 @@ public class NavigationElement implements INavigationElement {
 	}
 	
 	/**
-	 * 
+	 * Constructor to initialize NavigationElement with basic Info
 	 * @param navOutcome
 	 * @param displayText
 	 */
@@ -50,14 +50,14 @@ public class NavigationElement implements INavigationElement {
 	
 	/**
 	 * 
-	 * @param navOutcome
+	 * @param navOutcome  Link to .xhtml-File that belongs to NavigationElement
 	 */
 	public void setNavOutcome(String navOutcome) {
 		this.navOutcome = navOutcome;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.web.frontend.navigation.INavigationElement#getDisplayText()
+	/**
+	 * Text to Display in Navigation-Bar
 	 */
 	@Override
 	public String getDisplayText() {
@@ -75,6 +75,9 @@ public class NavigationElement implements INavigationElement {
 		this.displayText = displayText;
 	}
 
+	/**
+	 * String containing Permission to use this Navigation Link
+	 */
 	@Override
 	public String getRequiredPermission() {
 		return requiredPermission;

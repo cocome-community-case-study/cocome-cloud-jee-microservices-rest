@@ -16,7 +16,10 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
- * This class stores and process UserInformation
+ * This class holds the UserInformation of the current Session <br>
+ * It processes the Input-Messages from the Proxy-Frontend and fires
+ * (distributes) the content to each Bean that requires any Information about
+ * the User, its permission, the requested store or view
  * 
  * @author Niko Benkler
  * @author Robert Heinrich
@@ -41,7 +44,7 @@ public class UserInformation implements Serializable {
 
 	private static final Logger LOG = Logger.getLogger(DummyPermission.class);
 
-	//TODO was davon ist wichtig?!
+	// TODO was davon ist wichtig?!
 	public IUser getUser() {
 		return user;
 	}
@@ -57,6 +60,7 @@ public class UserInformation implements Serializable {
 	public void setUserAsJSON(String userAsJSON) {
 		this.userAsJSON = userAsJSON;
 	}
+
 	public UserRole getUserRole() {
 		return this.userRole;
 	}
@@ -75,10 +79,11 @@ public class UserInformation implements Serializable {
 			LOG.debug("Deserialization of  UserPOJO with name: " + userPOJO.getUsername() + " and Permissions: "
 					+ userPOJO.getPermissions() + " and UserRole: " + userPOJO.getUserRole() + "successfull");
 
-			userInfoProcessedEvent.fire(new UserInformationProcessedEvent(this.user, userPOJO.getUserRole(), userPOJO.getRequestedView(), userPOJO.getStoreID()));
+			userInfoProcessedEvent.fire(new UserInformationProcessedEvent(this.user, userPOJO.getUserRole(),
+					userPOJO.getRequestedView(), userPOJO.getStoreID()));
 
 		} catch (JsonParseException e) {
-			//TODO show error Page
+			// TODO show error Page
 			LOG.error("Error parsing JSON!:  " + e.getMessage());
 		} catch (JsonMappingException e) {
 			LOG.error("Error parsing JSON!:  " + e.getMessage());

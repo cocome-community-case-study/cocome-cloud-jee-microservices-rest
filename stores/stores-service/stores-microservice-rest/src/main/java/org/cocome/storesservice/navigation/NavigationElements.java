@@ -1,5 +1,11 @@
 package org.cocome.storesservice.navigation;
 
+/**
+ * Enum containing all possible Navigation-Links within this Microservice
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 public enum NavigationElements {
 	LOGIN("/login", null),
 	ENTERPRISE_MAIN("/enterpriseMain", null),
