@@ -23,6 +23,7 @@ import org.cocome.frontendservice.logindata.IUser;
 import org.cocome.frontendservice.logindata.UserRole;
 import org.cocome.frontendservice.navigation.NavigationElements;
 import org.cocome.frontendservice.navigation.NavigationView;
+import org.cocome.frontendservice.resolver.IServiceRedirecter;
 import org.cocome.frontendservice.resolver.MicroserviceRedirecter;
 
 
@@ -38,8 +39,8 @@ public class Login implements Serializable {
 	@Inject
 	ICredentialFactory credFactory;
 	
-	//TODO Inject
-	MicroserviceRedirecter microserviceRedirecter;
+	@Inject
+	IServiceRedirecter microserviceRedirecter;
 
 	@Inject
 	Event<LoginEvent> loginEvent;
@@ -63,7 +64,6 @@ public class Login implements Serializable {
 	@PostConstruct
 	private void init() {
 		password = credFactory.createPlainPassword("");
-		microserviceRedirecter  = new MicroserviceRedirecter();
 	}
 
 	public String getUserName() {

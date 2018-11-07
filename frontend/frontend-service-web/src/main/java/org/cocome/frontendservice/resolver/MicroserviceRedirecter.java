@@ -25,7 +25,7 @@ import org.cocome.frontendservice.navigation.NavigationView;
  */
 @Named
 @SessionScoped
-public class MicroserviceRedirecter implements Serializable {
+public class MicroserviceRedirecter implements IServiceRedirecter, Serializable {
 
 	/**
 	* 
