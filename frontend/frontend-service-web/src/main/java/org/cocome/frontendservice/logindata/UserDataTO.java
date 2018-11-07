@@ -5,11 +5,10 @@ import java.util.HashMap;
 import javax.validation.constraints.NotNull;
 
 import org.cocome.frontendservice.navigation.NavigationView;
-
 /**
  * This class represents a simple userdataObject for JSON transmission
- * 
- * @author nikolaus
+ * @author Niko Benkler
+ * @author Robert Heinrich
  *
  */
 

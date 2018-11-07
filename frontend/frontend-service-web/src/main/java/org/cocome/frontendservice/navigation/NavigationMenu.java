@@ -55,6 +55,13 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	private long storeID;
 	private NavigationView currentState;
 
+	private UserDataTO userDataTO;
+
+	/*
+	 * UserDataTO as JSON
+	 */
+	private String userDataAsJSON;
+
 	public UserRole getUserRole() {
 		return userRole;
 	}
@@ -63,12 +70,19 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		return storeID;
 	}
 
-	private UserDataTO userDataTO;
+	@Override
+	public List<INavigationElement> getNavigationElements() {
+		return navElements;
+	}
 
-	/*
-	 * UserDataTO as JSON
-	 */
-	private String userDataAsJSON;
+	@Override
+	public NavigationView getCurrentState() {
+		return currentState;
+	}
+
+	public String getCurrentUserAsJSON() {
+		return userDataAsJSON;
+	}
 
 	@PostConstruct
 	private void initElements() {
@@ -84,11 +98,6 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 
 		navElements.add(ordersNavItem);
 
-	}
-
-	@Override
-	public List<INavigationElement> getNavigationElements() {
-		return navElements;
 	}
 
 	/**
@@ -118,21 +127,12 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 
 	}
 
-	@Override
-	public NavigationView getCurrentState() {
-		return currentState;
-	}
-
 	public void observeLoginEvent(@Observes LoginEvent loginEvent) {
 		this.currentUser = loginEvent.getUser();
 		this.userRole = loginEvent.getRole();
 		this.storeID = loginEvent.getStoreID();
 		changeStateTo(NavigationView.DEFAULT_VIEW);
 
-	}
-
-	public String getCurrentUserAsJSON() {
-		return userDataAsJSON;
 	}
 
 	public void observeLogoutEvent(@Observes LogoutEvent logoutEvent) {

@@ -82,41 +82,6 @@ public class Login implements Serializable {
 		this.password = credFactory.createPlainPassword(password);
 	}
 
-	public String login() {
-		IUser storedUser = authenticator.checkCredential(username, password);
-		String outcome;
-
-		if (storedUser != null) {
-			setLoggedIn(true);
-			user = storedUser;
-			loginEvent.fire(new LoginEvent(storedUser, requestedRole, requestedStoreId)); //TODO implment catching for loginInformation
-			LOG.info(String.format("Successful login: username %s.", getUserName()));
-			outcome = "templates/commonTemplate";
-			
-		} else {
-			FacesContext context = FacesContext.getCurrentInstance();
-			String message = context.getApplication().evaluateExpressionGet(context, "#{strings['login.failed.text']}",
-					String.class);
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-			outcome = NavigationElements.LOGIN.getNavOutcome();
-			LOG.warn(String.format("Failed login: username %s.", getUserName()));
-		}
-		return outcome;
-	}
-
-	public String logout() {
-		username = "";
-		password = credFactory.createPlainPassword("");
-		requestedRole = UserRole.ENTERPRISE_MANAGER;
-		requestedStoreId = 0;
-
-		logoutEvent.fire(new LogoutEvent(user));
-		user = null;
-
-		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-		return NavigationElements.LOGIN.getNavOutcome();
-	}
-
 	public boolean isLoggedIn() {
 		return loggedIn;
 	}
@@ -140,6 +105,10 @@ public class Login implements Serializable {
 	public void setRequestedRole(UserRole requestedRole) {
 		this.requestedRole = requestedRole;
 	}
+	
+	/**
+	 * Determines whether or not the user needs to enter  a storeID
+	 */
 	public boolean isStoreRequired() {
 		if (requestedRole.associatedView() != NavigationView.ENTERPRISE_VIEW) {
 			return true;
@@ -156,5 +125,40 @@ public class Login implements Serializable {
 
 	public void setUser(IUser user) {
 		this.user = user;
+	}
+
+	public String login() {
+		IUser storedUser = authenticator.checkCredential(username, password);
+		String outcome;
+	
+		if (storedUser != null) {
+			setLoggedIn(true);
+			user = storedUser;
+			loginEvent.fire(new LoginEvent(storedUser, requestedRole, requestedStoreId)); //TODO implment catching for loginInformation
+			LOG.info(String.format("Successful login: username %s.", getUserName()));
+			outcome = "templates/commonTemplate";
+			
+		} else {
+			FacesContext context = FacesContext.getCurrentInstance();
+			String message = context.getApplication().evaluateExpressionGet(context, "#{strings['login.failed.text']}",
+					String.class);
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+			outcome = NavigationElements.LOGIN.getNavOutcome();
+			LOG.warn(String.format("Failed login: username %s.", getUserName()));
+		}
+		return outcome;
+	}
+
+	public String logout() {
+		username = "";
+		password = credFactory.createPlainPassword("");
+		requestedRole = UserRole.ENTERPRISE_MANAGER;
+		requestedStoreId = 0;
+	
+		logoutEvent.fire(new LogoutEvent(user));
+		user = null;
+	
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		return NavigationElements.LOGIN.getNavOutcome();
 	}
 }
