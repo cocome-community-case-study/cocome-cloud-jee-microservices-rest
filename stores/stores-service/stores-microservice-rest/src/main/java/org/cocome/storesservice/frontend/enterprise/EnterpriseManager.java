@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.cocome.enterpriseservice.enterpriseQuery.EnterpriseQuery;
 import org.cocome.enterpriseservice.enterpriseQuery.IEnterpriseQuery;
 import org.cocome.storesservice.domain.TradingEnterprise;
+import org.cocome.storesservice.frontend.viewdata.EnterpriseViewData;
 
 /**
  * This class manages the EJB-Bean Access of the backend
@@ -46,23 +47,22 @@ public class EnterpriseManager implements IEnterpriseManager {
 	 */
 	@Override
 	public String createEnterprise(String enterpriseName) {
-		LOG.debug("Trying to enterprise with name " + enterpriseName);
-		LOG.debug("Query ist: " + enterpriseQuery);
+
 		if (enterpriseQuery.createEnterprise(enterpriseName)) {
 
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created the new enterprise!", null));
-			LOG.debug("Sucessfully created Enterprise with name: " + enterpriseName);
+
 			return "show_enterprises";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creating the new enterprise!", null));
-			LOG.debug("Could not created Enterprise with name: " + enterpriseName);
+
 			return "enterpriseMain";
 		}
 
 	}
-	
+
 	/**
 	 * Get all Enterprises stored in the Database
 	 */
@@ -81,6 +81,20 @@ public class EnterpriseManager implements IEnterpriseManager {
 	public String printString() {
 
 		return "printString";
+	}
+
+	@Override
+	public EnterpriseViewData getEnterpriseById(long enterpriseId) {
+		TradingEnterprise enterprise = enterpriseQuery.getEnterpriseById(enterpriseId);
+		if(enterprise == null) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not find Enterprise with Id " + enterpriseId, null));
+			return null;
+		}else {
+			return EnterpriseViewData.fromTradingEnterprise(enterprise);
+			
+		}
+		
 	}
 
 }

@@ -29,7 +29,7 @@ public class CreateEnterpriseView implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3639618966317691562L;
 	private static final Logger LOG = Logger.getLogger(CreateEnterpriseView.class);
 	private String newEnterpriseName;
 

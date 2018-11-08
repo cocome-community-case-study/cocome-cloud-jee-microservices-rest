@@ -11,17 +11,15 @@
 	<ui:composition template="/templates/commonTemplate.xhtml">
 
 		<f:metadata>
-			<f:viewParam name="enterprise_id" value="#{enterpriseInformation.activeEnterprise}"
-				required="true" converter="#{enterpriseConverter}"
-				converterMessage="#{strings['enterprise.conversion.error.text']}"
-				requiredMessage="#{strings['enterprise.required.text']}" />
+			<f:viewParam name="enterprise_id" value="#{enterpriseInformation.activeEnterpriseId}"
+				required="true"/>
 		</f:metadata>
 		
 		<f:ajax render="storeEnterpriseInfo"/>
 
 		<ui:define name="body">
 			<h:form>
-			<h:dataTable value="#{enterpriseInformation.stores}" var="store"
+			<h:dataTable value="#{enterpriseInformation.activeEnterprise.stores}" var="store"
 				styleClass="product-table" headerClass="product-table-header"
 				rowClasses="product-table-odd-row,product-table-even-row"
 				columnClasses="product-table-text-col, product-table-text-col, 

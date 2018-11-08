@@ -19,9 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class abstracts the Database Access. It processes CRUD-Operations Coming
- * from the enterprise-frontend <br>
- * It uses the Entities specified in {@link org.cocome.storesservice.domain}
+ * This class abstracts the Database Access and provides more specific CRUD-Operations. <br>
+ * It uses the Entities specified in {@link org.cocome.storesservice.domain}<br>
+ * 
+ * It handles Queries from the enterprise-frontend
  * 
  * @author Niko Benkler
  * @author Robert Heinrich
@@ -44,8 +45,7 @@ public class EnterpriseQuery implements IEnterpriseQuery, Serializable {
 	public boolean createEnterprise(String enterpriseName) {
 		TradingEnterprise entity = new TradingEnterprise();
 		entity.setName(enterpriseName);
-		// LOG.debug("QUERY: createEnterprise with name " + entity.getName() + " and id:
-		// " + entity.getId());
+		LOG.debug("QUERY: createEnterprise with name " + entity.getName() + " and id: " + entity.getId());
 		return enterpriseRepo.create(entity) != -1;
 
 	}
@@ -64,6 +64,17 @@ public class EnterpriseQuery implements IEnterpriseQuery, Serializable {
 
 		return enterprises;
 
+	}
+
+	@Override
+	public TradingEnterprise getEnterpriseById(long enterpriseId) {
+		LOG.debug("QUERY: Retrieving Enterprise from Database with Id: " +  enterpriseId);
+		TradingEnterprise enterprise = enterpriseRepo.find(enterpriseId);
+		if(enterprise !=null) {
+			LOG.debug("Successfully found enterprise with Id: " +  enterpriseId);
+			return enterprise;
+		}
+		return null;
 	}
 
 }

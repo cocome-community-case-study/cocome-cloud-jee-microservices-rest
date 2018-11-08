@@ -13,5 +13,7 @@ public interface IEnterpriseQuery {
 	public boolean createEnterprise(String enterpriseName);
 	
 	public Collection<TradingEnterprise> getAllEnterprises();
+	
+	public TradingEnterprise getEnterpriseById(long enterpriseId);
 
 }

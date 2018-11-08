@@ -19,20 +19,21 @@
 										</ui:insert></td>
 									<td align="left" width="20%">
 										<table id="storeEnterpriseInfo">
-										<!-- HIER NOCH ÄNDERN DASS DSA NICHTMEHR ANGEZEIGT werden -->
+											<!-- HIER NOCH ÄNDERN DASS DSA NICHTMEHR ANGEZEIGT werden -->
 											<h:panelGroup
 												rendered="#{not empty enterpriseInformation.activeEnterprise}">
 												<tr>
 													<td><h:outputText
 															value="#{strings['header.enterprise.text']}" /></td>
 													<td><h:form>
-															<h:commandLink
-																action="#{navigationMenu.changeStateTo('ENTERPRISE_VIEW')}"
+
+															<h:link outcome="show_stores"
 																value="#{enterpriseInformation.activeEnterprise.name}"
-																rendered="#{login.loggedIn and (login.user.hasPermissionString('enterprise manager'))}" />
-															<h:outputText
-																value="#{enterpriseInformation.activeEnterprise.name}"
-																rendered="#{not (login.user.hasPermissionString('enterprise manager'))}" />
+																title="#{strings['enterprise.table.action.show_stores']}">
+
+																<f:param name="enterprise_id"
+																	value="#{enterpriseInformation.activeEnterpriseId}" />
+															</h:link>
 														</h:form></td>
 												</tr>
 											</h:panelGroup>
@@ -47,7 +48,7 @@
 											</h:panelGroup>
 										</table>
 									</td>
-								
+
 								</tr>
 							</tbody>
 						</table>
