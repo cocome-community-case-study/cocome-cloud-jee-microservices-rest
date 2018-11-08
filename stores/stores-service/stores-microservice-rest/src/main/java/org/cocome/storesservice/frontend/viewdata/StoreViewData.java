@@ -16,17 +16,14 @@ public class StoreViewData {
 	private EnterpriseViewData enterprise;
 	private String name;
 	private String location;
-	private boolean editingEnabled = false;
-	private String newName;
-	private String newLocation;
+	
 
 	public StoreViewData(long id, EnterpriseViewData enterprise, String location, String name) {
 		this.id = id;
-		setEnterprise(enterprise);
+		this.enterprise = enterprise;
 		this.name = name;
 		this.location = location;
-		this.setNewLocation(location);
-		this.setNewName(name);
+		
 	}
 
 	public long getID() {
@@ -53,17 +50,7 @@ public class StoreViewData {
 		this.location = storeLocation;
 	}
 
-	public boolean isEditingEnabled() {
-		return editingEnabled;
-	}
-
-	public void setEditingEnabled(boolean editingEnabled) {
-		if (!editingEnabled) {
-			newName = name;
-			newLocation = location;
-		}
-		this.editingEnabled = editingEnabled;
-	}
+	
 
 	public EnterpriseViewData getEnterprise() {
 		return enterprise;
@@ -73,26 +60,7 @@ public class StoreViewData {
 		this.enterprise = enterprise;
 	}
 
-	public String getNewName() {
-		return newName;
-	}
-
-	public void setNewName(String newName) {
-		this.newName = newName;
-	}
-
-	public String getNewLocation() {
-		return newLocation;
-	}
-
-	public void setNewLocation(String newLocation) {
-		this.newLocation = newLocation;
-	}
-
-	public void updateStoreInformation() {
-		name = newName;
-		location = newLocation;
-	}
+	
 
 	public static StoreViewData fromStore(Store store) {
 		return new StoreViewData(store.getId(), EnterpriseViewData.fromTradingEnterprise(store.getEnterprise()),

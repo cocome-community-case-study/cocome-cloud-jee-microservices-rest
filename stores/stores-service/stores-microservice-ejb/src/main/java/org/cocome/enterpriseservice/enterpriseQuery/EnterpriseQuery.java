@@ -9,7 +9,9 @@ import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.NotNull;
 
+import org.cocome.storesservice.domain.Store;
 import org.cocome.storesservice.domain.TradingEnterprise;
 import org.cocome.storesservice.repository.TradingEnterpriseDBRepository;
 import org.cocome.storesservice.repository.TradingEnterpriseRepository;
@@ -32,7 +34,13 @@ import java.util.Map;
 @Stateless
 public class EnterpriseQuery implements IEnterpriseQuery, Serializable {
 
-	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6903140662512027702L;
+	private final long COULD_NOT_CREATE_ENTITY = -1;
+
 	private Logger LOG = Logger.getLogger(EnterpriseQuery.class);
 
 	@EJB
@@ -42,11 +50,17 @@ public class EnterpriseQuery implements IEnterpriseQuery, Serializable {
 	 * Create enterprise with name @param enterpriseName
 	 */
 	@Override
-	public boolean createEnterprise(String enterpriseName) {
+	public boolean createEnterprise(@NotNull String enterpriseName) {
 		TradingEnterprise entity = new TradingEnterprise();
 		entity.setName(enterpriseName);
-		LOG.debug("QUERY: createEnterprise with name " + entity.getName() + " and id: " + entity.getId());
-		return enterpriseRepo.create(entity) != -1;
+		LOG.debug("QUERY: Try to create Enterprise with name " + entity.getName() + " and id: " + entity.getId());
+		if( enterpriseRepo.create(entity) != COULD_NOT_CREATE_ENTITY) {
+			LOG.debug("QUERY: sucessfully create enterprise with name " + entity.getName() + " and id: " + entity.getId());
+			return true;
+		}else {
+			LOG.error("QUERY: Could not create enterprise with name " + entity.getName() + " and id: " + entity.getId());
+			return false;
+		}
 
 	}
 
@@ -56,24 +70,31 @@ public class EnterpriseQuery implements IEnterpriseQuery, Serializable {
 	@Override
 	public Collection<TradingEnterprise> getAllEnterprises() {
 		Collection<TradingEnterprise> enterprises = enterpriseRepo.all();
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("QUERY: Retrieving ALL Enterprises from database with following [name, Id]: ");
 
 		for (TradingEnterprise enterprise : enterprises) {
-			LOG.debug("QUERY: Retrieving Enterprise from database with name " + enterprise.getName() + " and id: "
-					+ enterprise.getId());
+			sb.append("[ " + enterprise.getName() + " ," + enterprise.getId()  +" ]");
 		}
-
+		LOG.debug(sb.toString());
 		return enterprises;
 
 	}
 
 	@Override
-	public TradingEnterprise getEnterpriseById(long enterpriseId) {
+	public TradingEnterprise getEnterpriseById(@NotNull long enterpriseId) {
 		LOG.debug("QUERY: Retrieving Enterprise from Database with Id: " +  enterpriseId);
 		TradingEnterprise enterprise = enterpriseRepo.find(enterpriseId);
 		if(enterprise !=null) {
-			LOG.debug("Successfully found enterprise with Id: " +  enterpriseId);
+			LOG.debug("QUERY: Successfully found enterprise with Id: " +  enterpriseId);
+			LOG.debug("With stores:");
+			for(Store store :enterprise.getStores()) {
+				LOG.debug("Has store: " +  store.getId());
+			}
 			return enterprise;
 		}
+		LOG.debug("QUERY: Did not find enterprise with Id: " +  enterpriseId);
 		return null;
 	}
 

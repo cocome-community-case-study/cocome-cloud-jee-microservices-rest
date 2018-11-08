@@ -36,7 +36,11 @@ public class TradingEnterpriseDBRepository implements TradingEnterpriseRepositor
 
 	public TradingEnterpriseDBRepository() {
 	}
-
+    
+	/**
+	 * Creation of entity TradingEnterprise <br>
+	 * @return COULD_NOT_CREATE_ENTITY or Id of Tradingenterprise
+	 */
 	@Override
 	public Long create(TradingEnterprise entity) {
 		try {
@@ -48,7 +52,11 @@ public class TradingEnterpriseDBRepository implements TradingEnterpriseRepositor
 		}
 		return entity.getId();
 	}
-
+    
+	/**
+	 * Find enterprise by id
+	 * @return null if no enterprise found; TradingEnterprise else
+	 */
 	@Override
 	public TradingEnterprise find(Long id) {
 		TradingEnterprise enterprise;

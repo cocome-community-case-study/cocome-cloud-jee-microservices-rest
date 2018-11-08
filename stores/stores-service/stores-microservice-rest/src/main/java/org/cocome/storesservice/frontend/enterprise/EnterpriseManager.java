@@ -16,6 +16,7 @@ import org.cocome.enterpriseservice.enterpriseQuery.EnterpriseQuery;
 import org.cocome.enterpriseservice.enterpriseQuery.IEnterpriseQuery;
 import org.cocome.storesservice.domain.TradingEnterprise;
 import org.cocome.storesservice.frontend.viewdata.EnterpriseViewData;
+import org.cocome.storesservice.navigation.NavigationElements;
 
 /**
  * This class manages the EJB-Bean Access of the backend
@@ -53,12 +54,12 @@ public class EnterpriseManager implements IEnterpriseManager {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created the new enterprise!", null));
 
-			return "show_enterprises";
+			return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creating the new enterprise!", null));
 
-			return "enterpriseMain";
+			return NavigationElements.ENTERPRISE_MAIN.getNavigationOutcome();
 		}
 
 	}
@@ -78,10 +79,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 		return enterprises.values();
 	}
 
-	public String printString() {
-
-		return "printString";
-	}
+	
 
 	@Override
 	public EnterpriseViewData getEnterpriseById(long enterpriseId) {

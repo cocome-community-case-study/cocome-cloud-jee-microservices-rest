@@ -9,7 +9,7 @@ package org.cocome.storesservice.navigation;
 public enum NavigationElements {
 	LOGIN("/login", null),
 	ENTERPRISE_MAIN("/enterpriseMain", null),
-	STORE_MAIN("/store/main", null),
+	STORE_MAIN("/storeMain", null),
 	START_SALE("/store/start_sale", "cashier"),
 	ORDER_PRODUCTS("/store/order_products", "stock manager"),
 	SHOW_STOCK("/store/show_stock", "stock manager"),

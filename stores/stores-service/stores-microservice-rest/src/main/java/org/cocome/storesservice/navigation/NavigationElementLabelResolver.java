@@ -5,8 +5,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
-import org.cocome.storesservice.frontend.enterprise.CreateEnterpriseView;
-
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.ResourceBundle;

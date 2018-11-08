@@ -11,10 +11,7 @@
 	<ui:composition template="/templates/commonTemplate.xhtml">
 		<f:metadata>
 			<f:viewParam name="enterprise_id"
-				value="#{enterpriseInformation.activeEnterprise}" required="true"
-				converter="#{enterpriseConverter}"
-				converterMessage="#{strings['enterprise.conversion.error.text']}"
-				requiredMessage="#{strings['enterprise.required.text']}" />
+				value="#{enterpriseInformation.activeEnterpriseId}" />
 		</f:metadata>
 		<ui:define name="body">
 			<h:form>
@@ -23,22 +20,22 @@
 						<td><h:outputText
 								value="#{strings['store.create.name.text']}" /></td>
 						<td colspan="2"><h:inputText value="#{name}" required="true"
-											validatorMessage="#{strings['store.create.validation.name.failed']}">
-								<f:validateLength minimum="3" maximum="30"/>
+								validatorMessage="#{strings['store.create.validation.name.failed']}">
+								<f:validateLength minimum="3" maximum="30" />
 								<f:validateRegex pattern="[^;]*" />
-							</h:inputText>
-						</td>
+							</h:inputText></td>
 					</tr>
 					<tr>
-						<td><h:outputText value="#{strings['store.create.location.text']}" /></td>
+						<td><h:outputText
+								value="#{strings['store.create.location.text']}" /></td>
 						<td colspan="2"><h:inputText value="#{location}"
-								required="true" validatorMessage="#{strings['store.create.validation.location.failed']}">
-								<f:validateLength minimum="3" maximum="30"/>
+								required="true"
+								validatorMessage="#{strings['store.create.validation.location.failed']}">
+								<f:validateLength minimum="3" maximum="30" />
 								<f:validateRegex pattern="#{strings['input.string.regex']}" />
-							</h:inputText>		
-						</td>
+							</h:inputText></td>
 						<td><h:commandButton
-								action="#{storePersistence.createStore(enterpriseInformation.activeEnterpriseID, name, location)}"
+								action="#{storeManager.createStore(name, location, enterpriseInformation.activeEnterpriseId)}"
 								value="#{strings['store.create.button.label']}" /></td>
 					</tr>
 				</table>

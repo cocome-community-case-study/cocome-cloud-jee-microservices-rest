@@ -17,14 +17,14 @@
 						<td><h:outputText
 								value="#{strings['enterprise.create.text']}" /></td>
 						<td><h:inputText
-								value="#{createEnterpriseView.newEnterpriseName}" required="true"
+								value="#{newEnterpriseName}" required="true"
 								validatorMessage="#{strings['enterprise.validation.name.failed']}">
 								<f:validateLength minimum="3" maximum="30"/>
 								<f:validateRegex pattern="#{strings['input.string.regex']}" />
 							</h:inputText>
 						</td>
 						<td><h:commandButton
-								action="#{enterpriseManager.createEnterprise(createEnterpriseView.newEnterpriseName)}"
+								action="#{enterpriseManager.createEnterprise(newEnterpriseName)}"
 								value="#{strings['enterprise.create.button.label']}" /></td>
 					</tr>
 				</table>
