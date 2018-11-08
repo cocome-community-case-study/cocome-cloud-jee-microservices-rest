@@ -17,6 +17,7 @@ public class TradingEnterpriseResourceTest {
 		
 		TradingEnterprise enterprise = new TradingEnterprise();
 		enterprise.setName("Test Enterprise");
+		System.out.println(client);
 		long id = this.client.create(enterprise);
 		enterprise.setId(id);
 		

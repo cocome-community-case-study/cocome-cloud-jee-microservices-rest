@@ -32,6 +32,8 @@ public class TradingEnterprise implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement(name="Id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
 	@XmlElement(name="Name")
@@ -44,8 +46,7 @@ public class TradingEnterprise implements Serializable{
 	/**
 	 * @return id a unique identifier of this TradingEnterprise
 	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	
 	public long getId() {
 		return id;
 	}

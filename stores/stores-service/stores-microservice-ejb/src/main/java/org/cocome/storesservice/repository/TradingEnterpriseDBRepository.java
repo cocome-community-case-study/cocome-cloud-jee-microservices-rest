@@ -2,24 +2,39 @@ package org.cocome.storesservice.repository;
 
 import java.util.Collection;
 
+import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.log4j.Logger;
 import org.cocome.storesservice.domain.TradingEnterprise;
 
-@Remote
+
+
 @Stateless
 public class TradingEnterpriseDBRepository implements TradingEnterpriseRepository {
+	
+	
 	@PersistenceContext(unitName = "InventoryManager")
 	private EntityManager em;
 	
+	private final long COULD_NOT_CREATE_ENTITY = -1;
+	
+	private static final Logger LOG = Logger.getLogger(TradingEnterprise.class);
 	public TradingEnterpriseDBRepository() {}
 
 	@Override
 	public Long create(TradingEnterprise entity) {
-		em.persist(entity);
+		try {
+			em.persist(entity);
+		} catch (Exception e) {
+			LOG.error("Database Error while creating Enterprise with name: " + entity.getName() + e.getMessage());
+			return COULD_NOT_CREATE_ENTITY;
+		}
 		return entity.getId();
 	}
 

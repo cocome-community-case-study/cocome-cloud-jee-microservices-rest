@@ -5,6 +5,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
+import org.cocome.storesservice.frontend.enterprise.CreateEnterpriseView;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -20,6 +21,8 @@ import java.util.ResourceBundle;
 public class NavigationElementLabelResolver implements Serializable, ILabelResolver {
 	private static final long serialVersionUID = 7607903884265925992L;
 	private static final Logger LOG = Logger.getLogger(NavigationElementLabelResolver.class);
+	
+	
 	
 	private ResourceBundle strings;
 	

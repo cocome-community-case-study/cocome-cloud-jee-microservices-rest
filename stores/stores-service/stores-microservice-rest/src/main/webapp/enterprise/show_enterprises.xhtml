@@ -7,9 +7,11 @@
 
 
 <h:body>
+<ui:composition template="/templates/commonTemplate.xhtml">
 
+		<ui:define name="body">
 
-			<h:dataTable value="#{enterpriseInformation.enterprises}" var="enterprise"
+			<h:dataTable value="#{enterpriseManager.enterprises}" var="enterprise"
 				styleClass="product-table" headerClass="product-table-header"
 				rowClasses="product-table-odd-row,product-table-even-row"
 				columnClasses="product-table-text-col, product-table-text-col, 
@@ -36,7 +38,8 @@
 					</h:link>
 				</h:column>
 			</h:dataTable>
-		
+		</ui:define>
+	</ui:composition>
 </h:body>
 
 </html>
