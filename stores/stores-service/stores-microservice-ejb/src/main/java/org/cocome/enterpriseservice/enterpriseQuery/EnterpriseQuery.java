@@ -1,4 +1,4 @@
-package org.cocome.enterpriseservice.enterpriseManager;
+package org.cocome.enterpriseservice.enterpriseQuery;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -18,19 +18,28 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class abstracts the Database Access. It processes CRUD-Operations Coming
+ * from the enterprise-frontend <br>
+ * It uses the Entities specified in {@link org.cocome.storesservice.domain}
+ * 
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Local
 @Stateless
 public class EnterpriseQuery implements IEnterpriseQuery, Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Logger LOG = Logger.getLogger(EnterpriseQuery.class);
 
 	@EJB
 	private TradingEnterpriseRepository enterpriseRepo;
 
+	/**
+	 * Create enterprise with name @param enterpriseName
+	 */
 	@Override
 	public boolean createEnterprise(String enterpriseName) {
 		TradingEnterprise entity = new TradingEnterprise();
@@ -41,6 +50,9 @@ public class EnterpriseQuery implements IEnterpriseQuery, Serializable {
 
 	}
 
+	/**
+	 * Return all existing enterprises
+	 */
 	@Override
 	public Collection<TradingEnterprise> getAllEnterprises() {
 		Collection<TradingEnterprise> enterprises = enterpriseRepo.all();

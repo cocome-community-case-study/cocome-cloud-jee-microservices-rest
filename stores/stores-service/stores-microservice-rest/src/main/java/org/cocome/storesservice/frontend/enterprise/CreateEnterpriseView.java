@@ -12,7 +12,8 @@ import org.apache.log4j.Logger;
 import org.cocome.storesservice.navigation.NavigationElementLabelResolver;
 
 /**
- * Class to temporarily save new EnterprieInformation
+ * Class to temporarily save new EnterprieInformation <br>
+ * It is used while reating a new Enterprise
  * @author Niko Benkler
  * @author Robert Heinrich
  *
@@ -33,12 +34,10 @@ public class CreateEnterpriseView implements Serializable{
 	private String newEnterpriseName;
 
 	public String getNewEnterpriseName() {
-		LOG.debug("New provisionally Enterprise name retrieved: " + newEnterpriseName);
 		return newEnterpriseName;
 	}
 
 	public void setNewEnterpriseName(String newEnterpriseName) {
-		LOG.debug("New provisionally Enterprise name set to: " + newEnterpriseName);
 		this.newEnterpriseName = newEnterpriseName;
 	}
 

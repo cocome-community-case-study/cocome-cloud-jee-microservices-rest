@@ -1,4 +1,4 @@
-package org.cocome.enterpriseservice.enterpriseManager;
+package org.cocome.enterpriseservice.enterpriseQuery;
 
 import java.util.Collection;
 
