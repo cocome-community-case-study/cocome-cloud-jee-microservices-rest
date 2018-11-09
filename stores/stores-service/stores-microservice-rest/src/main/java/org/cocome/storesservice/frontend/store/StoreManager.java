@@ -14,6 +14,7 @@ import javax.inject.Named;
 
 import org.cocome.enterpriseservice.StoreQuery.IStoreQuery;
 import org.cocome.storesservice.domain.Store;
+import org.cocome.storesservice.frontend.enterprise.EnterpriseInformation;
 import org.cocome.storesservice.frontend.viewdata.StoreViewData;
 import org.cocome.storesservice.navigation.NavigationElements;
 
@@ -39,7 +40,9 @@ public class StoreManager implements IStoreManager {
 
 	@Inject
 	StoreInformation storeInfo;
-
+	
+	@Inject
+	EnterpriseInformation enterpriseInfo;
 	/**
 	 * Create store by given name, location and enterpriseId <br>
 	 * Cannot create store without corresponding enterpriseID <br>
@@ -49,11 +52,16 @@ public class StoreManager implements IStoreManager {
 	public String createStore(String storeName, String location, long enterpriseId) {
 
 		if (storeQuery.createStore(storeName, location, enterpriseId)) {
-			// TODO update activeStoreData
+			
+			/*
+			 * Only for security reason <br>
+			 * SHOW_STORES requires an enterpriseId in <metadata> when opened
+			 */
+			enterpriseInfo.setActiveEnterpriseId(enterpriseId);
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created the Store!", null));
 
-			return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
+			return NavigationElements.SHOW_STORES.getNavigationOutcome();
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creating the new Store!", null));
@@ -62,6 +70,9 @@ public class StoreManager implements IStoreManager {
 		}
 	}
 
+	/**
+	 * Get all Stores
+	 */
 	@Override
 	public Collection<StoreViewData> getStores() {
 		this.stores = new HashMap<Long, StoreViewData>();
@@ -72,6 +83,9 @@ public class StoreManager implements IStoreManager {
 		return stores.values();
 	}
 
+	/**
+	 * Get store by given Id
+	 */
 	@Override
 	public StoreViewData getStoreById(long storeId) {
 		Store store = storeQuery.getStoreById(storeId);
@@ -99,6 +113,9 @@ public class StoreManager implements IStoreManager {
 		return storesAsViewData;
 	}
 
+	/**
+	 * Update Store by setting new name and location
+	 */
 	@Override
 	public String updateStore(long storeId, String newName, String newLocation) {
 		// TODO update storelist in active Enterprise!!!
