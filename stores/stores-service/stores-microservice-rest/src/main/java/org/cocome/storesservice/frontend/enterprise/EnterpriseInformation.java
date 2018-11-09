@@ -14,6 +14,13 @@ import org.cocome.storesservice.frontend.store.StoreInformation;
 import org.cocome.storesservice.frontend.viewdata.EnterpriseViewData;
 import org.cocome.storesservice.frontend.viewdata.StoreViewData;
 
+/**
+ * This class holds Information about the currently active Enterprise
+ * 
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Named
 @SessionScoped
 public class EnterpriseInformation implements IEnterpriseInformation, Serializable {
@@ -49,6 +56,11 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 		return activeEnterpriseIdTest;
 	}
 
+	/**
+	 * Set new active enterpriseId <br>
+	 * This will cause to update EnterpriseViewData --> Retrieve enterprise with
+	 * given Id from Database
+	 */
 	@Override
 	public void setActiveEnterpriseId(long enterpriseId) {
 
@@ -65,11 +77,19 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 		return activeEnterprise;
 	}
 
+	/**
+	 * Returns true, if there is currently an active enterprise set
+	 */
 	@Override
 	public boolean isEnterpriseSet() {
 		return activeEnterpriseIdTest != Long.MIN_VALUE;
 	}
 
+	/**
+	 * Set Active Enterprise by directly setting EnterpriseViewData <br>
+	 * This also updates the current activeEnterpriseId. <br>
+	 * Also, it resets the current active Store if there was one set
+	 */
 	@Override
 	public void setActiveEnterprise(EnterpriseViewData enterprise) {
 		switchEnterprise(enterprise.getId());
@@ -79,6 +99,9 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 
 	}
 
+	/**
+	 * Returns all stores that belong to the currently active Enterprise
+	 */
 	@Override
 	public Collection<StoreViewData> getStores() {
 		if (activeEnterpriseIdTest == Long.MIN_VALUE) {
@@ -90,14 +113,16 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 		return activeEnterprise.getStores();
 	}
 
+	/*
+	 * This is needed to reset current active store to null as a change of
+	 * Enterprise need to reset the active store
+	 */
 	private void switchEnterprise(long enterpriseId) {
-		
-		if(storeInformation.isStoreSet() && storeInformation.getActiveStore().getEnterpriseId() != enterpriseId) {
+
+		if (storeInformation.isStoreSet() && storeInformation.getActiveStore().getEnterpriseId() != enterpriseId) {
 			storeInformation.resetStore();
 		}
-		
-		
-		
+
 	}
 
 }

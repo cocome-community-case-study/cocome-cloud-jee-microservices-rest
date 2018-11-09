@@ -22,7 +22,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * Represents a TradingEnterprise in the database.
+ * Represents a TradingEnterprise in the database. <br>
+ * @OneToMany defines, that a Database can have [0..] stores. <br>
+ * The mappedBy-attribute 
  */
 @Entity(name = "TradingEnterprise")
 @Table(name = "tradingenterprise")
@@ -35,7 +37,7 @@ public class TradingEnterprise implements Serializable {
 
 	@XmlElement(name = "Id")
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
 

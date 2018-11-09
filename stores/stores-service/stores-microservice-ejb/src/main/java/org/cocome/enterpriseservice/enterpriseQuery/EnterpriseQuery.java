@@ -24,7 +24,7 @@ import java.util.Map;
  * This class abstracts the Database Access and provides more specific CRUD-Operations. <br>
  * It uses the Entities specified in {@link org.cocome.storesservice.domain}<br>
  * 
- * It handles Queries from the enterprise-frontend
+ * It handles Queries from the enterprise-frontend.
  * 
  * @author Niko Benkler
  * @author Robert Heinrich

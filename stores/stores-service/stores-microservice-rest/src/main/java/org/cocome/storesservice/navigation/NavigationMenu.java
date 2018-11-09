@@ -21,14 +21,13 @@ import org.cocome.storesservice.events.UserInformationProcessedEvent;
 import org.cocome.storesservice.user.IUser;
 
 /**
+ * This class handles Navigation between sites for Store and Enterprise! It
+ * determines the Navigation-Elements in the Header according to the users Role.
+ * <br>
+ * It store the currently logged in user
  * 
  * @author Niko Benkler
  * @author Robert Heinrich
- * 
- *         This class handles Navigation between sites for Store and Enterprise!
- *         It determines the Navigation-Elements in the Header according to the
- *         users Role
- *
  */
 @Named
 @SessionScoped
@@ -91,6 +90,11 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		return navigationState;
 	}
 
+	/**
+	 * States whether the Proxy-Frontend requests Store oder Enterprise-Service <br>
+	 * true => Store <br> false => Enterprise <br>
+	 * @return
+	 */
 	public boolean isStoreService() {
 		return isStoreService;
 	}
@@ -106,7 +110,8 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		elements = new LinkedList<>(STATE_MAP.get(navigationState));
 
 		Iterator<INavigationElement> iterator = elements.iterator();
-
+   
+		//error Case
 		if (currentUser == null) {
 			navigationState = NavigationView.DEFAULT_VIEW;
 			elements = STATE_MAP.get(NavigationView.DEFAULT_VIEW);
@@ -115,6 +120,8 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 			String message = context.getApplication().evaluateExpressionGet(context,
 					"#{strings['navigation.failed.no_user']}", String.class);
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+			
+			
 
 			/*
 			 * Determines whether user will be redirected to StoreService main or
@@ -128,6 +135,9 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 
 		}
 
+		/*
+		 *Removes Header field if the user does not have proper permission 
+		 */
 		while (iterator.hasNext()) {
 			INavigationElement element = iterator.next();
 			if (element.getRequiredPermission() != null
@@ -144,14 +154,25 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		case ENTERPRISE_VIEW:
 			return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
 		default:
-			return NavigationElements.LOGIN.getNavigationOutcome();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Ouups Navigation error occured", null));
+			return "error";
 		}
 	}
 
+	/**
+	 * Change Header according to requested View
+	 * @param changeEvent
+	 */
 	public void observeChangeViewEvent(@Observes ChangeViewEvent changeEvent) {
 		changeStateTo(changeEvent.getNewViewState());
 	}
 
+	
+	/**
+	 * Processes user data from frontend
+	 * @param event
+	 */
 	public void observe(@Observes UserInformationProcessedEvent event) {
 		this.currentUser = event.getUser();
 		this.navigationState = event.getRequestedNavViewState();
@@ -189,7 +210,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		List<INavigationElement> enterpriseViewList = new LinkedList<>();
 		enterpriseViewList.add(new NavigationElement(NavigationElements.SHOW_ENTERPRISES, labelResolver));
 		enterpriseViewList.add(new NavigationElement(NavigationElements.CREATE_ENTERPRISE, labelResolver));
-	
+
 		return enterpriseViewList;
 	}
 

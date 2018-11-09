@@ -36,9 +36,10 @@ public class TradingEnterpriseDBRepository implements TradingEnterpriseRepositor
 
 	public TradingEnterpriseDBRepository() {
 	}
-    
+
 	/**
 	 * Creation of entity TradingEnterprise <br>
+	 * 
 	 * @return COULD_NOT_CREATE_ENTITY or Id of Tradingenterprise
 	 */
 	@Override
@@ -46,15 +47,16 @@ public class TradingEnterpriseDBRepository implements TradingEnterpriseRepositor
 		try {
 			em.persist(entity);
 		} catch (Exception e) {
-			LOG.error("DATABASE: Database Error while creating Enterprise with name: " + entity.getName()
+			LOG.error("DATABASE: Database Error while creating Enterprise with name: " + entity.getName() + "     "
 					+ e.getMessage());
 			return COULD_NOT_CREATE_ENTITY;
 		}
 		return entity.getId();
 	}
-    
+
 	/**
 	 * Find enterprise by id
+	 * 
 	 * @return null if no enterprise found; TradingEnterprise else
 	 */
 	@Override
@@ -63,7 +65,7 @@ public class TradingEnterpriseDBRepository implements TradingEnterpriseRepositor
 		try {
 			enterprise = em.find(TradingEnterprise.class, id);
 		} catch (Exception e) {
-			LOG.error("DATABASE: Database Error while finding Enterprise with Id: " + id);
+			LOG.error("DATABASE: Database Error while finding Enterprise with Id: " + id + "     " + e.getMessage());
 			return null;
 		}
 
@@ -76,20 +78,32 @@ public class TradingEnterpriseDBRepository implements TradingEnterpriseRepositor
 			TradingEnterprise enterprise = em.merge(entity);
 			return enterprise;
 		} catch (Exception e) {
-			LOG.error("DATABASE: Database error while updating Enterprise with Id " + entity.getId());
+			LOG.error("DATABASE: Database error while updating Enterprise with Id " + entity.getId() + "     "
+					+ e.getMessage());
 			return null;
 		}
-		
+
 	}
 
 	@Override
 	public void delete(Long key) {
-		TradingEnterprise entity = find(key);
-		em.remove(entity);
+		try {
+			TradingEnterprise entity = find(key);
+			em.remove(entity);
+		} catch (Exception e) {
+			LOG.error("DATABASE: Could not delete TradinEnterprise with id: " + key + "     " + e.getMessage());
+		}
+
 	}
 
 	@Override
 	public Collection<TradingEnterprise> all() {
-		return em.createQuery("SELECT t FROM TradingEnterprise t", TradingEnterprise.class).getResultList();
+		try {
+			return em.createQuery("SELECT t FROM TradingEnterprise t", TradingEnterprise.class).getResultList();
+		} catch (Exception e) {
+			LOG.error("DATABASE: Database error while retrieving all enterprises" + "     " + e.getMessage());
+			return null;
+		}
+
 	}
 }

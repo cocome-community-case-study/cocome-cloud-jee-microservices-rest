@@ -1,6 +1,5 @@
 package org.cocome.storesservice.frontend.store;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -15,12 +14,17 @@ import javax.inject.Named;
 
 import org.cocome.enterpriseservice.StoreQuery.IStoreQuery;
 import org.cocome.storesservice.domain.Store;
-import org.cocome.storesservice.domain.TradingEnterprise;
-import org.cocome.storesservice.frontend.enterprise.EnterpriseInformation;
-import org.cocome.storesservice.frontend.viewdata.EnterpriseViewData;
 import org.cocome.storesservice.frontend.viewdata.StoreViewData;
 import org.cocome.storesservice.navigation.NavigationElements;
 
+/**
+ * This class is an Interface between frontend and backend. It accesses the
+ * backend on a frontend query and redirects to new Views if needed
+ * 
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Named
 @ApplicationScoped
 public class StoreManager implements IStoreManager {
@@ -32,10 +36,15 @@ public class StoreManager implements IStoreManager {
 
 	@EJB
 	IStoreQuery storeQuery;
-	
+
 	@Inject
 	StoreInformation storeInfo;
 
+	/**
+	 * Create store by given name, location and enterpriseId <br>
+	 * Cannot create store without corresponding enterpriseID <br>
+	 * Redirects to ShowStore View
+	 */
 	@Override
 	public String createStore(String storeName, String location, long enterpriseId) {
 
@@ -92,16 +101,16 @@ public class StoreManager implements IStoreManager {
 
 	@Override
 	public String updateStore(long storeId, String newName, String newLocation) {
-		//TODO update storelist in active Enterprise!!!
-		
-		if(storeQuery.updateStore(storeId, newName, newLocation)) {
+		// TODO update storelist in active Enterprise!!!
+
+		if (storeQuery.updateStore(storeId, newName, newLocation)) {
 			storeInfo.setEditingEnabled(false);
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully updated the Store!", null));
-		}else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Could not update Stores with Id " + storeId, null));
-			
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not update Stores with Id " + storeId, null));
+
 		}
 		return null;
 	}

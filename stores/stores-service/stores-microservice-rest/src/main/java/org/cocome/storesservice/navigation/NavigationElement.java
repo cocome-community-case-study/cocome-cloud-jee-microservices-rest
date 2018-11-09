@@ -16,7 +16,7 @@ public class NavigationElement implements INavigationElement {
 	
 	/**
 	 * 
-	 * Contructor to initialize NavigationElement with NavigationElements (Enum) Variable
+	 * Constructor to initialize NavigationElement with NavigationElements (Enum) Variable
 	 * @param navElement
 	 * @param resolver
 	 */
@@ -40,9 +40,7 @@ public class NavigationElement implements INavigationElement {
 		this(navElement.getNavigationOutcome(), displayText, requiredPermission, labelResolver);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.web.frontend.navigation.INavigationElement#getNavOutcome()
-	 */
+	
 	@Override
 	public String getNavOutcome() {
 		return navOutcome;

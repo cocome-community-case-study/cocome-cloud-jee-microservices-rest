@@ -1,6 +1,5 @@
 package org.cocome.storesservice.domain;
 
-
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -23,14 +22,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * Represents a store in the database.
+ * Represents a store in the database. <br>
+ * The @ManyToOne relationship defines a bidirectional @OneToMany relationship
+ * with the enterprise as on store belong to exactly on enterprise
  *
  * @author Yannick Welsch
  */
-@Entity(name="Store")
-@Table(name="store")
+@Entity(name = "Store")
+@Table(name = "store")
 @XmlRootElement(name = "Store")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Store", propOrder = { "id", "name", "location", "enterprise" })
@@ -40,7 +40,7 @@ public class Store implements Serializable, Comparable<Store> {
 
 	@XmlElement(name = "Id")
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
 
@@ -49,9 +49,13 @@ public class Store implements Serializable, Comparable<Store> {
 
 	@XmlElement(name = "Location")
 	private String location;
-    
+
+	/*
+	 * The @JoinColumn states, that the Tables enterprise and store are joined using
+	 * the enterprise_if field in the store
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "enterprise_id")
+	@JoinColumn(name = "enterprise_id")
 	@XmlElement(name = "Enterprise")
 	private TradingEnterprise enterprise;
 
@@ -59,19 +63,19 @@ public class Store implements Serializable, Comparable<Store> {
 	private Collection<StockItem> stockItems;
 
 	/** Empty constructor. */
-	public Store() {}
+	public Store() {
+	}
 
 	/**
 	 * @return A unique identifier for Store objects
 	 */
-	
+
 	public long getId() {
 		return this.id;
 	}
 
 	/**
-	 * @param id
-	 *            A unique identifier for Store objects
+	 * @param id A unique identifier for Store objects
 	 */
 	public void setId(final long id) {
 		this.id = id;
@@ -88,8 +92,7 @@ public class Store implements Serializable, Comparable<Store> {
 	}
 
 	/**
-	 * @param name
-	 *            the name of the Store
+	 * @param name the name of the Store
 	 */
 	public void setName(final String name) {
 		this.name = name;
@@ -108,8 +111,7 @@ public class Store implements Serializable, Comparable<Store> {
 	/**
 	 * Sets the location of the store.
 	 *
-	 * @param location
-	 *            store location
+	 * @param location store location
 	 */
 	public void setLocation(final String location) {
 		this.location = location;
@@ -124,16 +126,14 @@ public class Store implements Serializable, Comparable<Store> {
 	}
 
 	/**
-	 * @param enterprise
-	 *            The enterprise which the Store belongs to
+	 * @param enterprise The enterprise which the Store belongs to
 	 */
 	public void setEnterprise(final TradingEnterprise enterprise) {
 		this.enterprise = enterprise;
 	}
 
 	/**
-	 * @return
-	 * 		A list of StockItem objects. A StockItem represents a concrete
+	 * @return A list of StockItem objects. A StockItem represents a concrete
 	 *         product in the store including sales price, ...
 	 */
 	@OneToMany(mappedBy = "store", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -142,9 +142,8 @@ public class Store implements Serializable, Comparable<Store> {
 	}
 
 	/**
-	 * @param stockItems
-	 *            A list of StockItem objects. A StockItem represents a concrete
-	 *            product in the store including sales price, ...
+	 * @param stockItems A list of StockItem objects. A StockItem represents a
+	 *                   concrete product in the store including sales price, ...
 	 */
 	public void setStockItems(final Collection<StockItem> stockItems) {
 		this.stockItems = stockItems;
@@ -157,8 +156,7 @@ public class Store implements Serializable, Comparable<Store> {
 
 	@Override
 	public int compareTo(final Store o) {
-		if (this.getEnterprise().getName().equals(o.getEnterprise().getName())
-				&& this.getName().equals(o.getName())
+		if (this.getEnterprise().getName().equals(o.getEnterprise().getName()) && this.getName().equals(o.getName())
 				&& this.getLocation().equals(o.getLocation()))
 			return 0;
 		return 1;

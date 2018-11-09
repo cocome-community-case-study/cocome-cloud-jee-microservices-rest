@@ -8,11 +8,9 @@ import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
-import org.cocome.enterpriseservice.enterpriseQuery.EnterpriseQuery;
 import org.cocome.enterpriseservice.enterpriseQuery.IEnterpriseQuery;
 import org.cocome.storesservice.domain.TradingEnterprise;
 import org.cocome.storesservice.frontend.viewdata.EnterpriseViewData;
@@ -80,7 +78,9 @@ public class EnterpriseManager implements IEnterpriseManager {
 	}
 
 	
-
+    /**
+     * Get Enterprise by given Id
+     */
 	@Override
 	public EnterpriseViewData getEnterpriseById(long enterpriseId) {
 		TradingEnterprise enterprise = enterpriseQuery.getEnterpriseById(enterpriseId);
