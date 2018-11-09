@@ -33,6 +33,7 @@ public class StoreQuery implements IStoreQuery, Serializable {
 
 	public boolean createStore(@NotNull String storeName, @NotNull String storeLocation, @NotNull Long enterpriseId) {
 
+		// find corresponding Enterprise
 		TradingEnterprise enterprise = enterpriseRepo.find(enterpriseId);
 		if (enterprise == null) {
 			LOG.error("QUERY: Could not create Store with name:  " + storeName + ", location: " + storeLocation
@@ -42,19 +43,27 @@ public class StoreQuery implements IStoreQuery, Serializable {
 		}
 		LOG.debug("QUERY: Try to create store with " + storeName + ", location: " + storeLocation
 				+ " in enterprise with Id:  " + enterpriseId);
+
+		// create new Store with enterprise
 		Store store = new Store();
 		store.setLocation(storeLocation);
 		store.setName(storeName);
 		store.setEnterprise(enterprise);
+
+		// persist store
 		if (storeRepo.create(store) == COULD_NOT_CREATE_ENTITY) {
 			LOG.error("QUERY: Error while creating store with " + storeName + ", location: " + storeLocation
 					+ " in enterprise with Id:  " + enterpriseId);
 			return false;
-		} else {
-			LOG.debug("QUERY: Successfully created Store with " + storeName + ", location: " + storeLocation
-					+ " in enterprise with Id:  " + enterpriseId);
-			return true;
 		}
+		LOG.debug("QUERY: Successfully created Store with " + storeName + ", location: " + storeLocation
+				+ " in enterprise with Id:  " + enterpriseId);
+		
+		//update Enterprise
+		enterprise.addStore(store);
+		//enterpriseRepo.update(enterprise);
+
+		return true;
 
 	}
 

@@ -32,6 +32,16 @@ public class StoreInformation implements IStoreInformation, Serializable{
 	 */
 	private StoreViewData activeStore;
 	
+	private boolean editingEnabled = false;
+	
+	public boolean isEditingEnabled() {
+		return editingEnabled;
+	}
+
+	public void setEditingEnabled(boolean editingEnabled) {
+		this.editingEnabled = editingEnabled;
+	}
+
 	@Inject
 	StoreManager storeManager;
 

@@ -13,14 +13,14 @@ import org.cocome.storesservice.domain.Store;
  */
 public class StoreViewData {
 	private long id;
-	private EnterpriseViewData enterprise;
+	private long enterpriseId;
 	private String name;
 	private String location;
 	
 
-	public StoreViewData(long id, EnterpriseViewData enterprise, String location, String name) {
+	public StoreViewData(long id, long enterpriseId, String location, String name) {
 		this.id = id;
-		this.enterprise = enterprise;
+		this.enterpriseId = enterpriseId;
 		this.name = name;
 		this.location = location;
 		
@@ -52,18 +52,18 @@ public class StoreViewData {
 
 	
 
-	public EnterpriseViewData getEnterprise() {
-		return enterprise;
+	public long getEnterpriseId() {
+		return enterpriseId;
 	}
 
-	public void setEnterprise(EnterpriseViewData enterprise) {
-		this.enterprise = enterprise;
+	public void setEnterprise(long enterpriseId) {
+		this.enterpriseId = enterpriseId;
 	}
 
 	
 
 	public static StoreViewData fromStore(Store store) {
-		return new StoreViewData(store.getId(), EnterpriseViewData.fromTradingEnterprise(store.getEnterprise()),
+		return new StoreViewData(store.getId(), store.getEnterprise().getId(),
 				store.getLocation(), store.getName());
 	}
 

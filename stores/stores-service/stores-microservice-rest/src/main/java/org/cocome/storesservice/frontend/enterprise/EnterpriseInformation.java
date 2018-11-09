@@ -92,7 +92,7 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 
 	private void switchEnterprise(long enterpriseId) {
 		
-		if(storeInformation.isStoreSet() && storeInformation.getActiveStore().getEnterprise().getId() != enterpriseId) {
+		if(storeInformation.isStoreSet() && storeInformation.getActiveStore().getEnterpriseId() != enterpriseId) {
 			storeInformation.resetStore();
 		}
 		

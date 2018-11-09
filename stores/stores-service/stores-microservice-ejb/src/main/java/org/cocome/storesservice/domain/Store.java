@@ -6,13 +6,16 @@ import java.util.Collection;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -26,7 +29,8 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author Yannick Welsch
  */
-@Entity
+@Entity(name="Store")
+@Table(name="store")
 @XmlRootElement(name = "Store")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Store", propOrder = { "id", "name", "location", "enterprise" })
@@ -35,6 +39,9 @@ public class Store implements Serializable, Comparable<Store> {
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement(name = "Id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
 
 	@XmlElement(name = "Name")
@@ -42,7 +49,9 @@ public class Store implements Serializable, Comparable<Store> {
 
 	@XmlElement(name = "Location")
 	private String location;
-
+    
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "enterprise_id")
 	@XmlElement(name = "Enterprise")
 	private TradingEnterprise enterprise;
 
@@ -55,8 +64,7 @@ public class Store implements Serializable, Comparable<Store> {
 	/**
 	 * @return A unique identifier for Store objects
 	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	
 	public long getId() {
 		return this.id;
 	}
