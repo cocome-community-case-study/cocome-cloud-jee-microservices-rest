@@ -116,4 +116,20 @@ public class StoreQuery implements IStoreQuery, Serializable {
 
 	}
 
+	@Override
+	public boolean updateStore(@NotNull long storeId, @NotNull String newName,@NotNull  String newLocation) {
+		Store store = storeRepo.find(storeId);
+		store.setId(storeId);
+		store.setLocation(newLocation);
+		store.setName(newName);
+		
+		LOG.debug("QUERY: Trying to update store with id " + store.getId());
+		if(storeRepo.update(store)!= null) {
+			LOG.debug("QUERY: Sucessfully updated store with id: " + store.getId());
+			return true;
+		}else
+			LOG.debug("QUERY: Could not update Store entity with id: " + store.getId());
+		return false;
+	}
+
 }

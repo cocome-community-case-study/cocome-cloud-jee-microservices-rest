@@ -72,7 +72,14 @@ public class TradingEnterpriseDBRepository implements TradingEnterpriseRepositor
 
 	@Override
 	public TradingEnterprise update(TradingEnterprise entity) {
-		return em.merge(entity);
+		try {
+			TradingEnterprise enterprise = em.merge(entity);
+			return enterprise;
+		} catch (Exception e) {
+			LOG.error("DATABASE: Database error while updating Enterprise with Id " + entity.getId());
+			return null;
+		}
+		
 	}
 
 	@Override

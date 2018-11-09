@@ -26,7 +26,7 @@
 					product-table-text-col, product-table-number-col">
 				<h:column>
 					<f:facet name="header">#{strings['store.table.header_id']}</f:facet>
-					#{store.ID}
+					#{store.id}
 				</h:column>
 				<h:column>
 					<f:facet name="header">#{strings['store.table.header_name']}</f:facet>
@@ -48,24 +48,24 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header"></f:facet>
-					<h:commandLink action="#{store.setEditingEnabled(true)}" styleClass="button"
-						title="#{strings['store.table.action.edit_store']}" rendered="#{not store.editingEnabled}">
+					<h:commandLink action="#{storeInformation.setEditingEnabled(true)}" styleClass="button"
+						title="#{strings['store.table.action.edit_store']}" rendered="#{not storeInformation.editingEnabled}">
 						<h:graphicImage value="#{resource['icon:icon_shoppingcart_edit.png']}" styleClass="button"/>						
 					</h:commandLink>
-					<h:commandLink action="#{storePersistence.updateStore(store)}" styleClass="button"
-						title="#{strings['store.table.action.save_store']}" rendered="#{store.editingEnabled}">
+					<h:commandLink action="#{storeManager.updateStore(store.id,newName, newLocation)}" styleClass="button"
+						title="#{strings['store.table.action.save_store']}" rendered="#{storeInformation.editingEnabled}">
 						<h:graphicImage value="#{resource['icon:icon_save.png']}" styleClass="button"/>						
 					</h:commandLink>
-					<h:commandLink action="#{store.setEditingEnabled(false)}" styleClass="button"
-						title="#{strings['store.table.action.edit_store']}" rendered="#{store.editingEnabled}">
+					<h:commandLink action="#{storeInformation.setEditingEnabled(false)}" styleClass="button"
+						title="#{strings['store.table.action.edit_store']}" rendered="#{storeInformation.editingEnabled}">
 						<h:graphicImage value="#{resource['icon:icon_reset.png']}" styleClass="button"/>
 					</h:commandLink>
-					<h:commandLink action="#{storeInformation.switchToStore(store, '/store/main?faces-redirect=true')}" styleClass="button"
-						title="#{strings['store.table.action.goto_store']}" rendered="#{not store.editingEnabled}">
+					<h:commandLink action="#{storeInformation.switchToStore(store)}" styleClass="button"
+						title="#{strings['store.table.action.goto_store']}" rendered="#{not storeInformation.editingEnabled}">
 						<h:graphicImage value="#{resource['icon:icon_shop.png']}" styleClass="button"/>						
 					</h:commandLink>
-					<h:commandLink action="#{storeInformation.switchToStore(store, '/store/show_stock?faces-redirect=true')}" styleClass="button"
-						title="#{strings['store.table.action.goto_stock']}" rendered="#{not store.editingEnabled}">
+					<h:commandLink action="#{storeInformation.switchToStock(store)}" styleClass="button"
+						title="#{strings['store.table.action.goto_stock']}" rendered="#{not storeInformation.editingEnabled}">
 						<h:graphicImage value="#{resource['icon:icon_shoppingcart_add.png']}" styleClass="button"/>
 					</h:commandLink>
 				</h:column>

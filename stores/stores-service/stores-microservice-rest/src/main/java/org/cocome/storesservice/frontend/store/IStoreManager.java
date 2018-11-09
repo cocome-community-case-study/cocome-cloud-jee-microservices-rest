@@ -13,4 +13,6 @@ public String createStore(String storeName, String location, long enterpriseId);
 	public StoreViewData getStoreById(long storeId);
 	
 	public Collection<StoreViewData> getStoresByEnterpriseId(long enterpriseId);
+	
+	public String updateStore(long storeId, String newName, String newLocation);
 }

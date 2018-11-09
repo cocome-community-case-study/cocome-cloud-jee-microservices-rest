@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.validation.constraints.NotNull;
 
 import org.cocome.storesservice.domain.Store;
+import org.cocome.storesservice.domain.TradingEnterprise;
 
 
 public interface IStoreQuery {
@@ -17,5 +18,7 @@ public interface IStoreQuery {
 	public Store getStoreById(@NotNull long storeId);
 	
 	public Collection<Store> getStoresOfEnterprise(@NotNull long enterpriseId);
+	
+	public boolean updateStore(@NotNull long storeId, @NotNull String newName,@NotNull  String newLocation);
 
 }

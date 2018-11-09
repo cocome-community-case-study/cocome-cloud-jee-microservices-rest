@@ -10,11 +10,13 @@ import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.cocome.enterpriseservice.StoreQuery.IStoreQuery;
 import org.cocome.storesservice.domain.Store;
 import org.cocome.storesservice.domain.TradingEnterprise;
+import org.cocome.storesservice.frontend.enterprise.EnterpriseInformation;
 import org.cocome.storesservice.frontend.viewdata.EnterpriseViewData;
 import org.cocome.storesservice.frontend.viewdata.StoreViewData;
 import org.cocome.storesservice.navigation.NavigationElements;
@@ -30,6 +32,9 @@ public class StoreManager implements IStoreManager {
 
 	@EJB
 	IStoreQuery storeQuery;
+	
+	@Inject
+	StoreInformation storeInfo;
 
 	@Override
 	public String createStore(String storeName, String location, long enterpriseId) {
@@ -83,6 +88,22 @@ public class StoreManager implements IStoreManager {
 			storesAsViewData.add(StoreViewData.fromStore(store));
 		}
 		return storesAsViewData;
+	}
+
+	@Override
+	public String updateStore(long storeId, String newName, String newLocation) {
+		//TODO update storelist in active Enterprise!!!
+		
+		if(storeQuery.updateStore(storeId, newName, newLocation)) {
+			storeInfo.setEditingEnabled(false);
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully updated the Store!", null));
+		}else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Could not update Stores with Id " + storeId, null));
+			
+		}
+		return null;
 	}
 
 }

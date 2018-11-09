@@ -44,6 +44,8 @@ public class StoreInformation implements IStoreInformation, Serializable{
 
 	@Inject
 	StoreManager storeManager;
+	
+	
 
 	@Override
 	public long getActiveStoreId() {
@@ -66,7 +68,7 @@ public class StoreInformation implements IStoreInformation, Serializable{
 
 	@Override
 	public void setActiveStore(StoreViewData store) {
-		activeStoreId = store.getID();
+		activeStoreId = store.getId();
 		activeStore = store;
 		LOG.debug("Active store set to: " + activeStoreId);
 		
@@ -82,6 +84,18 @@ public class StoreInformation implements IStoreInformation, Serializable{
 		activeStoreId = Long.MIN_VALUE;
 		LOG.debug("Active store resetted");
 		
+	}
+
+	@Override
+	public String switchToStore(StoreViewData store) {
+		// TODO implement
+		return null;
+	}
+
+	@Override
+	public String switchToStock(StoreViewData store) {
+		// TODO implement
+		return null;
 	}
 
 }

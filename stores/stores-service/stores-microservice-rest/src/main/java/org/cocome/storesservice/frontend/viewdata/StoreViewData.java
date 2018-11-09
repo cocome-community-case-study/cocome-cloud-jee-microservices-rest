@@ -26,11 +26,11 @@ public class StoreViewData {
 		
 	}
 
-	public long getID() {
+	public long getId() {
 		return id;
 	}
 
-	public void setID(long storeID) {
+	public void setId(long storeID) {
 		this.id = storeID;
 	}
 
@@ -75,5 +75,7 @@ public class StoreViewData {
 		}
 		return collection;
 	}
+	
+	
 
 }

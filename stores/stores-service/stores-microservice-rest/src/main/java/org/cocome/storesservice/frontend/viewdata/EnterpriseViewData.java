@@ -52,6 +52,9 @@ public class EnterpriseViewData {
 		return new EnterpriseViewData(enterprise.getId(), enterprise.getName(),
 				StoreViewData.fromStoreCollection(enterprise.getStores()));
 	}
+	
+	
+	
 
 	public Collection<StoreViewData> getStores() {
 		return stores;
