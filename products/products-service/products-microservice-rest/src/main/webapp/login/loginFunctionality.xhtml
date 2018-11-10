@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<script>
+		window.addEventListener('message', receiveMessage, false);
+
+		function receiveMessage(event) {
+			//TODO check for origin
+	
+			document.getElementById('logoutId:logout').click(); //reset Session to delete old data
+			document.getElementById('inputForm:user').value = event.data;
+			document.getElementById('inputForm:processInputButton').click(); //process user input
+		}
+	</script>
+</h:head>
+
+<h:body>
+
+	<!-- This body contains two hidden commandButtons that forward a message from the frontend 
+	(containing a UserPOJO as a JSON) to the backend Bean userINformation  -->
+
+	<h:form id="inputForm" name="inputForm">
+		<!-- This form is for processing the window.postMessage ==> userInformation will be loaded in Backend Bean userInformation -->
+		<h:inputHidden id="user" value="#{userInformation.userAsJSON}" />
+		<h:commandButton id="processInputButton" value="Reset"
+			action="#{userInformation.processUIInput}" style="display: none">
+			<f:ajax execute="@form" render=":page" />
+
+		</h:commandButton>
+
+	</h:form>
+
+
+
+
+
+	<h:form id="logoutId" name="logoutId">
+		<h:commandButton id="logout" value="Reset"
+			action="#{userInformation.logout}" style="display: none">
+			<f:ajax execute="@form" render="@none" />
+		</h:commandButton>
+	</h:form>
+
+
+</h:body>
+
+</html>

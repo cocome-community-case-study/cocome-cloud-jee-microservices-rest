@@ -10,8 +10,7 @@
 
 		<!-- Comment out to not produce always a empty db -->
 		<properties>
-			<property name="javax.persistence.jdbc.user" value="APP" />
-			<property name="javax.persistence.jdbc.password" value="APP" />
+			
 			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
 		</properties>
 	</persistence-unit>

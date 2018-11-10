@@ -100,7 +100,9 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	}
 
 	/**
-	 * Change state to new State. This will remove and add Links/Labels in the
+	 * Change state to new State. <br>
+	 * States in this service can be EnterpriseView, StoreView, CashpasView <br>
+	 *  This will remove and add Links/Labels in the
 	 * Navigation Bar based on the user
 	 */
 	@Override
@@ -156,7 +158,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		default:
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Ouups Navigation error occured", null));
-			return "error";
+			return NavigationElements.ERROR.getNavigationOutcome();
 		}
 	}
 

@@ -1,0 +1,34 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+
+</h:head>
+
+<h:body>
+	<h:panelGroup id="loginFunctionality" layout="block">
+		<ui:insert>
+			<ui:include src="/login/loginFunctionality.xhtml" />
+		</ui:insert>
+ 
+	</h:panelGroup>
+    
+    <!-- NO CONTENT BEFORE THIS PANELGROUP AS IT WILL NOT BE RENDERED CORRECTLY AFTER AJAX CALL (except loginFunctionality)-->
+	<h:panelGroup id="page" layout="block" >
+
+              <ui:insert>
+			<ui:include src="/templates/commonTemplate.xhtml" />
+		</ui:insert>
+		
+	</h:panelGroup>
+
+	<!-- NO CONTENT BEHIND THIS PANELGROUP AS IT WILL NOT BE RENDERED CORRECTLY AFTER AJAX CALL -->
+
+
+
+</h:body>
+
+</html>
