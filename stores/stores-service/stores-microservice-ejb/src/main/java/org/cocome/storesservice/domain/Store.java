@@ -55,7 +55,7 @@ public class Store implements Serializable, Comparable<Store> {
 	 * the enterprise_if field in the store
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "enterprise_id")
+	@JoinColumn(name = "tradingenterprise_id")
 	@XmlElement(name = "Enterprise")
 	private TradingEnterprise enterprise;
 
@@ -136,7 +136,7 @@ public class Store implements Serializable, Comparable<Store> {
 	 * @return A list of StockItem objects. A StockItem represents a concrete
 	 *         product in the store including sales price, ...
 	 */
-	@OneToMany(mappedBy = "store", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
 	public Collection<StockItem> getStockItems() {
 		return this.stockItems;
 	}

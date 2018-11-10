@@ -78,6 +78,7 @@ public class EnterpriseQuery implements IEnterpriseQuery, Serializable {
 			sb.append("[ " + enterprise.getName() + " ," + enterprise.getId()  +" ]");
 		}
 		LOG.debug(sb.toString());
+		
 		return enterprises;
 
 	}
