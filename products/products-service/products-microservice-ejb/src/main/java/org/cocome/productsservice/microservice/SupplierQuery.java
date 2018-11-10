@@ -11,7 +11,7 @@ import org.cocome.productsservice.domain.ProductSupplier;
 import org.cocome.productsservice.repository.ProductRepository;
 import org.cocome.productsservice.repository.ProductSupplierRepository;
 
-public class Suppliermanager implements Suppliermanagement{
+public class SupplierQuery implements ISupplierQuery{
 
 	@EJB
 	private ProductRepository productRepository;

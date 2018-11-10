@@ -2,6 +2,7 @@ package org.cocome.storesservice.repository;
 
 import java.util.Collection;
 
+import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -21,7 +22,7 @@ import org.cocome.storesservice.domain.TradingEnterprise;
  * @author Robert Heinrich
  *
  */
-@Remote
+@Local
 @Stateless
 public class StoreDBRepository implements StoreRepository {
 	@PersistenceContext(unitName = "InventoryManager")

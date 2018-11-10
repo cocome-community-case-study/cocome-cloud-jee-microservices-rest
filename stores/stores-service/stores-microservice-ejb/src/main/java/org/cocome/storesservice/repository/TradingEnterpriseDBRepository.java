@@ -23,7 +23,7 @@ import org.cocome.storesservice.domain.TradingEnterprise;
  * @author Robert Heinrich
  *
  */
-
+@Local
 @Stateless
 public class TradingEnterpriseDBRepository implements TradingEnterpriseRepository {
 

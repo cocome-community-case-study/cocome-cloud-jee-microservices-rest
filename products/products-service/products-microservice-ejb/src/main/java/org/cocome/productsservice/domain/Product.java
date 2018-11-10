@@ -36,7 +36,8 @@ public class Product implements Serializable{
 
 	@XmlTransient
 	private long id;
-
+    
+	//TODO make unique
 	@XmlElement(name = "Barcode")
 	private long barcode;
 

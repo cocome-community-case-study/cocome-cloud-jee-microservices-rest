@@ -4,7 +4,7 @@ import org.cocome.productsservice.domain.ProductSupplier;
 import java.util.Collection;
 import org.cocome.productsservice.domain.Product;
 
-public interface Suppliermanagement {
+public interface ISupplierQuery {
 
 	/*
 	 * find
