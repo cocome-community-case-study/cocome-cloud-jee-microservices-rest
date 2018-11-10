@@ -80,11 +80,13 @@ public class StoreQuery implements IStoreQuery, Serializable {
 				+ " in enterprise with Id:  " + enterpriseId);
 
 		/*
-		 * Updating enterprise automatically done by database
-		 * @see AutomatiChangeTracking
+		 * Updating enterprise automatically done by database, but still doing it for
+		 * security reason
+		 * 
+		 * @see AutomaticChangeTracking
 		 */
 		enterprise.addStore(store);
-		// enterpriseRepo.update(enterprise);
+		enterpriseRepo.update(enterprise);
 
 		return true;
 
