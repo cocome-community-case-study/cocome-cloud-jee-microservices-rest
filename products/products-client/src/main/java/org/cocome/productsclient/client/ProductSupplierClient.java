@@ -37,16 +37,16 @@ public class ProductSupplierClient {
 							 .get(ProductSupplier.class);
 	}
 	
-	public long create(ProductSupplier supplier, long enterpriseId) {
-		Response response = this.webTarget.path("trading-enterprises")
-										 .path(Long.toString(enterpriseId))
-										 .path("product-suppliers")
-										 .request(MediaType.APPLICATION_XML_TYPE)
-										 .post(Entity.xml(supplier));
-		URI uri = URI.create(response.getHeaderString("Location"));
-		Long id = Long.valueOf(uri.getPath().substring(uri.getPath().lastIndexOf('/') + 1));
-		return id;
-	}
+//	public long create(ProductSupplier supplier, long enterpriseId) {
+//		Response response = this.webTarget.path("trading-enterprises")
+//										 .path(Long.toString(enterpriseId))
+//										 .path("product-suppliers")
+//										 .request(MediaType.APPLICATION_XML_TYPE)
+//										 .post(Entity.xml(supplier));
+//		URI uri = URI.create(response.getHeaderString("Location"));
+//		Long id = Long.valueOf(uri.getPath().substring(uri.getPath().lastIndexOf('/') + 1));
+//		return id;
+//	}
 	
 	public boolean update(ProductSupplier supplier) {
 		Response response = this.webTarget.path("product-suppliers")
@@ -64,12 +64,5 @@ public class ProductSupplierClient {
 		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
-	public Collection<ProductSupplier> findByEnterprise(long enterpriseId) {
-		return this.webTarget.path("trading-enterprises")
-									.path(Long.toString(enterpriseId))
-									.path("product-suppliers")
-									.request()
-									.accept(MediaType.APPLICATION_XML_TYPE)
-									.get(new GenericType<Collection<ProductSupplier>> () {});
-	}
+	
 }

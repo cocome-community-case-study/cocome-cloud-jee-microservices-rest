@@ -64,7 +64,7 @@ public class ProductClient {
 		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
-	public Collection<Product> findByEnterprise(long supplierId) {
+	public Collection<Product> findBySupplier(long supplierId) {
 		return this.webTarget.path("product-suppliers")
 									.path(Long.toString(supplierId))
 									.path("products")

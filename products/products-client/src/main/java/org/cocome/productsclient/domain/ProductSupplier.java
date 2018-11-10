@@ -30,8 +30,7 @@ public class ProductSupplier implements Serializable{
 	@XmlElement(name = "Name")
 	private String name;
 	
-	@XmlTransient
-	private long enterpriseId;
+	
 
 	/**
 	 * @return A unique identifier for ProductSupplier objects
@@ -63,13 +62,7 @@ public class ProductSupplier implements Serializable{
 		this.name = name;
 	}
 	
-	public long getEnterpriseId() {
-		return enterpriseId;
-	}
-	
-	public void setEnterpriseId(long enterpriseId) {
-		this.enterpriseId = enterpriseId;
-	}
+
 	
 	@Override
 	public String toString() {

@@ -4,10 +4,13 @@ package org.cocome.productsservice.domain;
 import java.io.Serializable;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -24,20 +27,23 @@ import javax.xml.bind.annotation.XmlType;
  * @author Yannick Welsch
  * @author Nils Sommer
  */
-@Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "barcode" }))
+@Entity(name = "Product")
+@Table(name ="product" , uniqueConstraints = @UniqueConstraint(columnNames = { "barcode" }))
 @XmlRootElement(name = "Product")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Product", propOrder = { "name", "barcode", "purchasePrice", "supplier" })
 public class Product implements Serializable{
 
-	@XmlTransient
+	
 	private static final long serialVersionUID = -2577328715744776645L;
 
-	@XmlTransient
+	@XmlElement(name = "Id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
     
-	//TODO make unique
+	
 	@XmlElement(name = "Barcode")
 	private long barcode;
 
@@ -46,9 +52,13 @@ public class Product implements Serializable{
 
 	@XmlElement(name = "Name")
 	private String name;
-
+    
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "productsupplier_id")
 	@XmlElement(name = "Supplier")
 	private ProductSupplier supplier;
+	
+	
 
 	//
 
@@ -57,11 +67,12 @@ public class Product implements Serializable{
 	 * 
 	 * @return The id.
 	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	
 	public long getId() {
 		return id;
 	}
+    
+	
 
 	/**
 	 * Sets identifier.
@@ -108,7 +119,7 @@ public class Product implements Serializable{
 	/**
 	 * @return The ProductSupplier of this product
 	 */
-	@ManyToOne
+	
 	public ProductSupplier getSupplier() {
 		return supplier;
 	}

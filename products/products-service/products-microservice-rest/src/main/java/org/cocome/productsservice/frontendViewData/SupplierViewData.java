@@ -11,7 +11,7 @@ public class SupplierViewData {
 	private Collection<ProductViewData> products;
 	private long enterpriseId;
 
-	public SupplierViewData(long id, String name, Collection<ProductViewData> products, long enterpriseId) {
+	public SupplierViewData(long id, String name, Collection<ProductViewData> products) {
 
 		this.id = id;
 		this.name = name;
@@ -43,17 +43,11 @@ public class SupplierViewData {
 		this.products = products;
 	}
 
-	public long getEnterpriseId() {
-		return enterpriseId;
-	}
-
-	public void setEnterpriseId(long enterpriseId) {
-		this.enterpriseId = enterpriseId;
-	}
+	
 
 	public static SupplierViewData fromSupplier(ProductSupplier supplier) {
 		return new SupplierViewData(supplier.getId(), supplier.getName(),
-				ProductViewData.fromProductCollection(supplier.getProducts()), supplier.getEnterpriseId());
+				ProductViewData.fromProductCollection(supplier.getProducts()) );
 
 	}
 

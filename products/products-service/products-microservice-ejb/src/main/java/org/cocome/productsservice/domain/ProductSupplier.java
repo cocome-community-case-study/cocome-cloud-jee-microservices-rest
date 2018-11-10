@@ -6,15 +6,18 @@ import java.util.Collection;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
@@ -25,32 +28,35 @@ import javax.xml.bind.annotation.XmlType;
  * @author Yannick Welsch
  * @author Nils Sommer
  */
-@Entity
+@Entity(name= "ProductSupplier")
+@Table(name = "productsupplier")
 @XmlRootElement(name = "Supplier")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Supplier", propOrder = { "name" })
+@XmlType(name = "Supplier", propOrder = { "id", "name", "products" })
 public class ProductSupplier implements Serializable{
 
-	@XmlTransient
+	
 	private static final long serialVersionUID = 1L;
 
-	@XmlTransient
+	@XmlElement(name = "Id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
 
 	@XmlElement(name = "Name")
 	private String name;
 
-	@XmlTransient
+	@XmlElementWrapper(name = "Stores")
+	@XmlElement(name = "Store")
+	@OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Collection<Product> products;
 	
-	@XmlTransient
-	private long enterpriseId;
+	
 
 	/**
 	 * @return A unique identifier for ProductSupplier objects
 	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	public long getId() {
 		return id;
 	}
@@ -82,7 +88,7 @@ public class ProductSupplier implements Serializable{
 	/**
 	 * @return The list of Products provided by the ProductSupplier
 	 */
-	@OneToMany(mappedBy = "supplier", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	
 	public Collection<Product> getProducts() {
 		return products;
 	}
@@ -99,13 +105,7 @@ public class ProductSupplier implements Serializable{
 		this.products = products;
 	}
 	
-	public long getEnterpriseId() {
-		return enterpriseId;
-	}
 	
-	public void setEnterpriseId(long enterpriseId) {
-		this.enterpriseId = enterpriseId;
-	}
 	
 	@Override
 	public String toString() {
