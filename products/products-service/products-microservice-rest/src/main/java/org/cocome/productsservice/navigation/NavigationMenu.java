@@ -20,12 +20,11 @@ import javax.validation.constraints.NotNull;
 import org.cocome.productsservice.events.UserInformationProcessedEvent;
 import org.cocome.productsservice.user.IUser;
 
-
 /**
- * This class handles Navigation between sites for Store and Enterprise! It
+ * This class handles Navigation between sites within ProductsService! It
  * determines the Navigation-Elements in the Header according to the users Role.
  * <br>
- * It store the currently logged in user
+ * 
  * 
  * @author Niko Benkler
  * @author Robert Heinrich
@@ -81,7 +80,6 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	@Override
 	public String changeStateTo(@NotNull NavigationView newState) {
 
-
 		navigationState = newState;
 		elements = new LinkedList<>(STATE_MAP.get(navigationState));
 
@@ -111,7 +109,8 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		}
 
 		/*
-		 * For now only one possible State. <br>
+		 * For now only one possible State. <br> We provide this functionality in case
+		 * we want to have different Headers within this microservice
 		 */
 		switch (newState) {
 		case PRODUCTS_VIEW:
@@ -134,7 +133,6 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		this.currentUser = event.getUser();
 		changeStateTo(event.getRequestedNavViewState());
 
-		
 	}
 
 	/*

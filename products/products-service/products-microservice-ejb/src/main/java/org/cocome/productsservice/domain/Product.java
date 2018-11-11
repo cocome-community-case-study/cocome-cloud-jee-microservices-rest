@@ -1,6 +1,5 @@
 package org.cocome.productsservice.domain;
 
-
 import java.io.Serializable;
 
 import javax.persistence.Basic;
@@ -22,19 +21,21 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * This class represents a Product in the database
+ * This Class represents a product in the database. It has a ManyToOne
+ * Relationship with the Entity ProductSupplier. The Join Column is the
+ * supplier_id
  * 
- * @author Yannick Welsch
- * @author Nils Sommer
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
  */
 @Entity(name = "Product")
-@Table(name ="product" , uniqueConstraints = @UniqueConstraint(columnNames = { "barcode" }))
+@Table(name = "product", uniqueConstraints = @UniqueConstraint(columnNames = { "barcode" }))
 @XmlRootElement(name = "Product")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Product", propOrder = { "name", "barcode", "purchasePrice", "supplier" })
-public class Product implements Serializable{
+public class Product implements Serializable {
 
-	
 	private static final long serialVersionUID = -2577328715744776645L;
 
 	@XmlElement(name = "Id")
@@ -42,8 +43,7 @@ public class Product implements Serializable{
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
-    
-	
+
 	@XmlElement(name = "Barcode")
 	private long barcode;
 
@@ -52,13 +52,11 @@ public class Product implements Serializable{
 
 	@XmlElement(name = "Name")
 	private String name;
-    
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "productsupplier_id")
 	@XmlElement(name = "Supplier")
 	private ProductSupplier supplier;
-	
-	
 
 	//
 
@@ -67,18 +65,15 @@ public class Product implements Serializable{
 	 * 
 	 * @return The id.
 	 */
-	
+
 	public long getId() {
 		return id;
 	}
-    
-	
 
 	/**
 	 * Sets identifier.
 	 * 
-	 * @param id
-	 *            Identifier value.
+	 * @param id Identifier value.
 	 */
 	public void setId(long id) {
 		this.id = id;
@@ -93,8 +88,7 @@ public class Product implements Serializable{
 	}
 
 	/**
-	 * @param barcode
-	 *            The barcode of the product
+	 * @param barcode The barcode of the product
 	 */
 	public void setBarcode(long barcode) {
 		this.barcode = barcode;
@@ -109,8 +103,7 @@ public class Product implements Serializable{
 	}
 
 	/**
-	 * @param name
-	 *            The name of the product
+	 * @param name The name of the product
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -119,14 +112,13 @@ public class Product implements Serializable{
 	/**
 	 * @return The ProductSupplier of this product
 	 */
-	
+
 	public ProductSupplier getSupplier() {
 		return supplier;
 	}
 
 	/**
-	 * @param supplier
-	 *            The ProductSupplier of this product
+	 * @param supplier The ProductSupplier of this product
 	 */
 	public void setSupplier(ProductSupplier supplier) {
 		this.supplier = supplier;
@@ -141,19 +133,16 @@ public class Product implements Serializable{
 	}
 
 	/**
-	 * @param purchasePrice
-	 *            The purchase price of this product
+	 * @param purchasePrice The purchase price of this product
 	 */
 	public void setPurchasePrice(double purchasePrice) {
 		this.purchasePrice = purchasePrice;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "[Class:" + getClass().getSimpleName() + ",Barcode:"
-				+ this.getBarcode() + ",Name:" + this.getName() + ",Supplier:"
-				+ this.getSupplier() + "]";
+		return "[Class:" + getClass().getSimpleName() + ",Barcode:" + this.getBarcode() + ",Name:" + this.getName()
+				+ ",Supplier:" + this.getSupplier() + "]";
 	}
 
 }
-

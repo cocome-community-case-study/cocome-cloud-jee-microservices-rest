@@ -5,6 +5,12 @@ import java.util.LinkedList;
 
 import org.cocome.productsservice.domain.Product;
 
+/**
+ * Product Entity for Frontend. Static Functionality provided to change in/from Product Entity in Backend format
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 public class ProductViewData {
 
 	private long id;

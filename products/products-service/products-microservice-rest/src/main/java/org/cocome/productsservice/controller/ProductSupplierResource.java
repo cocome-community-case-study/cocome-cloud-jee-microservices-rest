@@ -30,7 +30,7 @@ public class ProductSupplierResource {
 	
 	@EJB
 	private ProductRepository productRepository;
-	
+	//TODO Schnittstelle soll Query sein
 	@GET
 	@Path("/{id}")
 	public ProductSupplier find(@PathParam("id") Long id) {

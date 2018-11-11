@@ -1,8 +1,9 @@
 package org.cocome.productsservice.util;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 
 /**
  * This class beautifies the HTTP Error Code message which is displayed in case
@@ -13,7 +14,7 @@ import javax.faces.context.FacesContext;
  * @author Robert Heinrich
  *
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class ErrorHandler {
 

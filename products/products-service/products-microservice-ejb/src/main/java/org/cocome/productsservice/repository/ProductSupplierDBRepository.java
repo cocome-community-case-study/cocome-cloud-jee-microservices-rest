@@ -8,9 +8,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
-import org.cocome.productsservice.domain.Product;
 import org.cocome.productsservice.domain.ProductSupplier;
-
+/**
+ * Basic CRUD-Repository for {@link ProductSupplier} Entity <br>
+ * This class does not do any specific error Handling. Only Database errors are handled
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Local
 @Stateless
 public class ProductSupplierDBRepository implements ProductSupplierRepository {

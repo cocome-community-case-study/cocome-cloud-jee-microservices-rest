@@ -1,6 +1,5 @@
 package org.cocome.productsservice.domain;
 
-
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -23,19 +22,21 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * This class represents a ProductSupplier in the database.
+ * This class represents a product supplier. It has a @OneToMany relationship
+ * with a product. Products and their supplier are independent of any
+ * enterprises, which means, that a product can be sold in any enterprise
  * 
- * @author Yannick Welsch
- * @author Nils Sommer
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
  */
-@Entity(name= "ProductSupplier")
+@Entity(name = "ProductSupplier")
 @Table(name = "productsupplier")
 @XmlRootElement(name = "Supplier")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Supplier", propOrder = { "id", "name", "products" })
-public class ProductSupplier implements Serializable{
+public class ProductSupplier implements Serializable {
 
-	
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement(name = "Id")
@@ -51,8 +52,6 @@ public class ProductSupplier implements Serializable{
 	@XmlElement(name = "Store")
 	@OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Collection<Product> products;
-	
-	
 
 	/**
 	 * @return A unique identifier for ProductSupplier objects
@@ -62,8 +61,7 @@ public class ProductSupplier implements Serializable{
 	}
 
 	/**
-	 * @param id
-	 *            A unique identifier for ProductSupplier objects
+	 * @param id A unique identifier for ProductSupplier objects
 	 */
 	public void setId(long id) {
 		this.id = id;
@@ -78,8 +76,7 @@ public class ProductSupplier implements Serializable{
 	}
 
 	/**
-	 * @param name
-	 *            The name of the ProductSupplier
+	 * @param name The name of the ProductSupplier
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -88,28 +85,24 @@ public class ProductSupplier implements Serializable{
 	/**
 	 * @return The list of Products provided by the ProductSupplier
 	 */
-	
+
 	public Collection<Product> getProducts() {
 		return products;
 	}
-	
+
 	public void addProduct(Product product) {
 		products.add(product);
 	}
 
 	/**
-	 * @param products
-	 *            The list of Products provided by the ProductSupplier
+	 * @param products The list of Products provided by the ProductSupplier
 	 */
 	public void setProducts(Collection<Product> products) {
 		this.products = products;
 	}
-	
-	
-	
+
 	@Override
 	public String toString() {
-		return "[Class:" + getClass().getSimpleName() + ",Id" + getId()
-				+ ",Name:" + this.getName() + "]";
+		return "[Class:" + getClass().getSimpleName() + ",Id" + getId() + ",Name:" + this.getName() + "]";
 	}
 }

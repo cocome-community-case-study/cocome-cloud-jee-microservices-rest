@@ -10,7 +10,13 @@ import javax.persistence.PersistenceContext;
 import org.apache.log4j.Logger;
 import org.cocome.productsservice.domain.Product;
 
-
+/**
+ * Basic CRUD-Repository for {@link Product} Entity <br>
+ * This class does not do any specific error Handling. Only Database errors are handled
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Local
 @Stateless
 public class ProductDBRepository implements ProductRepository {

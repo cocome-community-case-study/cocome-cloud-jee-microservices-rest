@@ -4,6 +4,14 @@ import java.util.Collection;
 
 import org.cocome.productsservice.domain.ProductSupplier;
 
+/**
+ * ProductSupplier Entity for Frontend. Static Functionality provided to change
+ * in/from ProductSupplier Entity in Backend format
+ * 
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 public class SupplierViewData {
 
 	private long id;
@@ -43,11 +51,9 @@ public class SupplierViewData {
 		this.products = products;
 	}
 
-	
-
 	public static SupplierViewData fromSupplier(ProductSupplier supplier) {
 		return new SupplierViewData(supplier.getId(), supplier.getName(),
-				ProductViewData.fromProductCollection(supplier.getProducts()) );
+				ProductViewData.fromProductCollection(supplier.getProducts()));
 
 	}
 

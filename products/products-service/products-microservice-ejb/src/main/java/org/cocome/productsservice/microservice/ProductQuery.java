@@ -12,6 +12,16 @@ import org.cocome.productsservice.domain.ProductSupplier;
 import org.cocome.productsservice.repository.ProductRepository;
 import org.cocome.productsservice.repository.ProductSupplierRepository;
 
+/**
+ * This class abstracts the low functional {@link ProductRepository} and
+ * provides some higher functionality for storing and retrieving products. <br>
+ * It is Stateless, as no session specific Data is stored.
+ * 
+ * 
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Local
 @Stateless
 public class ProductQuery implements IProductQuery {

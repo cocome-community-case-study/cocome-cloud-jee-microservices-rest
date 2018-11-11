@@ -12,20 +12,31 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.cocome.productsservice.domain.Product;
+import org.cocome.productsservice.microservice.ProductQuery;
 import org.cocome.productsservice.repository.ProductRepository;
 
+/**
+ * REST-Controller to access Backend
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @RequestScoped
 @Path("/products")
 public class ProductResource {
 	@EJB
 	private ProductRepository productRepository;
 	
+	@EJB 
+	private ProductQuery productQuery;
+	
 	@GET
 	@Path("/{id}")
 	public Product find(@PathParam("id") Long id) {
-		return productRepository.find(id);
+		return productQuery.findProductByid(id);
+		
 	}
-	
+	//TODO  Schnittstelle soll Query sein!
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
