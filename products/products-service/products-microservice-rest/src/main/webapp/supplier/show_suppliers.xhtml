@@ -11,7 +11,36 @@
 	<ui:composition template="/templates/commonTemplate.xhtml">
 
 		<ui:define name="body">
-			Show Suppliers!
+			<h:dataTable value="#{supplierManager.suppliers}" var="supplier"
+				styleClass="product-table" headerClass="product-table-header"
+				rowClasses="product-table-odd-row,product-table-even-row"
+				columnClasses="product-table-text-col, product-table-text-col, 
+    				product-table-number-col">
+				<h:column>
+					<f:facet name="header">#{strings['supplier.table.header_id']}</f:facet>
+					#{supplier.id}
+				</h:column>
+				<h:column>
+					<f:facet name="header">#{strings['supplier.table.header_name']}</f:facet>
+					#{supplier.name}
+				</h:column>
+				<!--  h:column>
+					<f:facet name="header"></f:facet>
+					<h:form>
+					
+					</h:form>
+					<h:link outcome="show_stores"
+						title="#{strings['enterprise.table.action.show_stores']}">
+						<h:graphicImage value="#{resource['icon:icon_shop.png']}" styleClass="button"/>
+						<f:param name="enterprise_id" value="#{enterprise.id}" />
+					</h:link>
+					<h:link outcome="create_store" 
+						title="#{strings['enterprise.table.action.create_store']}">
+						<h:graphicImage value="#{resource['icon:icon_add.png']}" styleClass="button" />
+						<f:param name="enterprise_id" value="#{enterprise.id}" />
+					</h:link>
+				</h:column-->
+			</h:dataTable>
 		</ui:define>
 	</ui:composition>
 </h:body>

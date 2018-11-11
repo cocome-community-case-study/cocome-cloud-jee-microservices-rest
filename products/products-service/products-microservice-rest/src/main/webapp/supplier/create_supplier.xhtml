@@ -11,8 +11,25 @@
 	<ui:composition template="/templates/commonTemplate.xhtml">
 
 		<ui:define name="body">
-			Create supplier!
-			
+			<h:form>
+				<table>
+					<tr>
+						<td><h:outputText
+								value="#{strings['supplier.create.name.text']}" /></td>
+						<td colspan="2"><h:inputText value="#{name}" required="true"
+											validatorMessage="#{strings['supplier.create.validation.name.failed']}">
+								<f:validateLength minimum="3" maximum="30"/>
+								<f:validateRegex pattern="#{strings['input.string.regex']}" />
+							</h:inputText>
+						</td>
+						<td><h:commandButton
+					action="#{supplierManager.createSupplier(name)}"
+					value="#{strings['supplier.create.button.label']}" /></td>
+					</tr>
+					
+					
+				</table>
+			</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>

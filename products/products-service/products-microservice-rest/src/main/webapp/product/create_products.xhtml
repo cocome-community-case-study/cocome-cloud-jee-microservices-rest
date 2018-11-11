@@ -13,39 +13,60 @@
 		<ui:define name="body">
 			<h:form>
 				<table>
+
 					<tr>
-						<td><h:outputText
-								value="#{strings['product.create.name.text']}" /></td>
-						<td colspan="2"><h:inputText value="#{name}" required="true"
-											validatorMessage="#{strings['product.create.validation.name.failed']}">
-								<f:validateLength minimum="3" maximum="30"/>
-								<f:validateRegex pattern="#{strings['input.string.regex']}" />
-							</h:inputText>
-						</td>
-					</tr>
-					<tr>
-						<td><h:outputText
-								value="#{strings['product.create.barcode.text']}" /></td>
-						<td colspan="2">
-							<h:inputText value="#{barcode}" required="true"
-								converterMessage="#{strings['product.create.validation.barcode.failed']}">
-								<f:converter converterId="javax.faces.Long"/>
-							</h:inputText>
-						</td>
-					</tr>
-					<tr>
-						<td><h:outputText
-								value="#{strings['product.create.purchase_price.text']}" /></td>
+
+						<td>Hier der Asuklapptext</td>
+						
+						<h:selectOneMenu value="#{supplierId}">
+							<f:selectItems value="#{createProductsView.suppliers}"
+								var="currentSupplier" itemValue="#{currentSupplier.id}" itemLabel="#{currentSupplier.name}"></f:selectItems>
+						<f:ajax render="@form" execute="@form"/>
+						</h:selectOneMenu>
+
 						<td>
-							<h:inputText value="#{purchasePrice}" required="true"
-								converterMessage="#{strings['product.create.validation.price.failed']}">
-								<f:converter converterId="javax.faces.Double"/>
-							</h:inputText>
+
+
+							<table>
+								<tr>
+									<td><h:outputText
+											value="#{strings['product.create.name.text']}" /></td>
+									<td colspan="2"><h:inputText value="#{name}"
+											required="true"
+											validatorMessage="#{strings['product.create.validation.name.failed']}">
+											<f:validateLength minimum="3" maximum="30" />
+											<f:validateRegex pattern="#{strings['input.string.regex']}" />
+										</h:inputText></td>
+								</tr>
+								<tr>
+									<td><h:outputText
+											value="#{strings['product.create.barcode.text']}" /></td>
+									<td colspan="2"><h:inputText
+											value="#{barcode}" required="true"
+											converterMessage="#{strings['product.create.validation.barcode.failed']}">
+											<f:converter converterId="javax.faces.Long" />
+											<f:ajax listener ="{createProductsView.checkBarcode(barcode)}" />
+										</h:inputText></td>
+								</tr>
+								<tr>
+									<td><h:outputText
+											value="#{strings['product.create.purchase_price.text']}" /></td>
+									<td><h:inputText value="#{purchasePrice}" required="true"
+											converterMessage="#{strings['product.create.validation.price.failed']}">
+											<f:converter converterId="javax.faces.Double" />
+										</h:inputText></td>
+									<td><h:commandButton
+											action="#{productsManager.createProduct(name, barcode, purchasePrice, supplierId)}"
+											value="#{strings['product.create.button.label']}" /></td>
+								</tr>
+							</table>
 						</td>
-						<td><h:commandButton
-					action="#{enterprisePersistence.createProduct(name, barcode, purchasePrice)}"
-					value="#{strings['product.create.button.label']}" /></td>
+
 					</tr>
+
+
+
+
 				</table>
 			</h:form>
 		</ui:define>

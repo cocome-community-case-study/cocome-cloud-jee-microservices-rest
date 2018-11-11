@@ -10,8 +10,28 @@
 
 	<ui:composition template="/templates/commonTemplate.xhtml">
 
+		
 		<ui:define name="body">
-			Show all Products!
+			<h:dataTable value="#{productsManager.allProducts}" var="product"
+				styleClass="product-table" headerClass="product-table-header"
+				rowClasses="product-table-odd-row,product-table-even-row"
+				columnClasses="product-table-text-col, product-table-text-col, 
+    				product-table-text-col">
+				<h:column>
+					<f:facet name="header">#{strings['product.table.header_barcode']}</f:facet>
+					#{product.barcode}
+				</h:column>
+				<h:column>
+					<f:facet name="header">#{strings['product.table.header_name']}</f:facet>
+					#{product.name}
+				</h:column>
+				<h:column>
+					<f:facet name="header">#{strings['product.table.header_purchase_price']}</f:facet>
+					<h:outputText value="#{product.purchasePrice}">
+						<f:convertNumber type="currency" currencySymbol="€"/>
+					</h:outputText>
+				</h:column>
+			</h:dataTable>
 		</ui:define>
 	</ui:composition>
 </h:body>
