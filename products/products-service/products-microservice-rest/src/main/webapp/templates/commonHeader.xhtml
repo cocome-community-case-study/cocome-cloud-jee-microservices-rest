@@ -18,35 +18,7 @@
 											<ui:include src="/templates/commonNavigation.xhtml" />
 										</ui:insert></td>
 									<td align="left" width="20%">
-										<table id="storeEnterpriseInfo">
-											<!-- HIER NOCH ÄNDERN DASS DSA NICHTMEHR ANGEZEIGT werden -->
-											<h:panelGroup
-												rendered="#{enterpriseInformation.enterpriseSet}">
-												<tr>
-													<td><h:outputText
-															value="#{strings['header.enterprise.text']}" /></td>
-													<td><h:form>
-
-															<h:link outcome="show_stores"
-																value="#{enterpriseInformation.activeEnterprise.name}"
-																title="#{strings['enterprise.table.action.show_stores']}">
-
-																<f:param name="enterprise_id"
-																	value="#{enterpriseInformation.activeEnterpriseId}" />
-															</h:link>
-														</h:form></td>
-												</tr>
-											</h:panelGroup>
-											<h:panelGroup
-												rendered="#{storeInformation.storeSet}">
-												<tr>
-													<td><h:outputText
-															value="#{strings['header.store.text']}" /></td>
-													<td><h:outputText
-															value="#{storeInformation.activeStore.name}" /></td>
-												</tr>
-											</h:panelGroup>
-										</table>
+										
 									</td>
 
 								</tr>

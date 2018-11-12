@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.cocome.productsservice.domain.Product;
-import org.cocome.productsservice.microservice.ProductQuery;
+import org.cocome.productsservice.microservice.IProductQuery;
 import org.cocome.productsservice.repository.ProductRepository;
 
 /**
@@ -24,11 +24,12 @@ import org.cocome.productsservice.repository.ProductRepository;
 @RequestScoped
 @Path("/products")
 public class ProductResource {
+	
 	@EJB
 	private ProductRepository productRepository;
 	
 	@EJB 
-	private ProductQuery productQuery;
+	private IProductQuery productQuery;
 	
 	@GET
 	@Path("/{id}")

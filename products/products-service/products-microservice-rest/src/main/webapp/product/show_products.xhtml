@@ -31,6 +31,10 @@
 						<f:convertNumber type="currency" currencySymbol="€"/>
 					</h:outputText>
 				</h:column>
+				<h:column>
+					<f:facet name="header">#{strings['product.table.header_supplier_id']}</f:facet>
+					#{product.supplierId}
+				</h:column>
 			</h:dataTable>
 		</ui:define>
 	</ui:composition>

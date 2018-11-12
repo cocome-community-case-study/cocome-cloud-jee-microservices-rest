@@ -19,6 +19,7 @@
 						<td>Hier der Asuklapptext</td>
 						
 						<h:selectOneMenu value="#{supplierId}">
+						<f:selectItem itemDisabled="true" itemValue="#{null}"  itemLabel="#{strings['product.select.supplier.text']}"/>
 							<f:selectItems value="#{createProductsView.suppliers}"
 								var="currentSupplier" itemValue="#{currentSupplier.id}" itemLabel="#{currentSupplier.name}"></f:selectItems>
 						<f:ajax render="@form" execute="@form"/>
@@ -41,11 +42,11 @@
 								<tr>
 									<td><h:outputText
 											value="#{strings['product.create.barcode.text']}" /></td>
-									<td colspan="2"><h:inputText
+									<td colspan="2"><h:inputText id="inputBarcode"
 											value="#{barcode}" required="true"
 											converterMessage="#{strings['product.create.validation.barcode.failed']}">
 											<f:converter converterId="javax.faces.Long" />
-											<f:ajax listener ="{createProductsView.checkBarcode(barcode)}" />
+											
 										</h:inputText></td>
 								</tr>
 								<tr>
@@ -56,7 +57,7 @@
 											<f:converter converterId="javax.faces.Double" />
 										</h:inputText></td>
 									<td><h:commandButton
-											action="#{productsManager.createProduct(name, barcode, purchasePrice, supplierId)}"
+											id="createButton" action="#{productsManager.createProduct(name,barcode, purchasePrice, supplierId)}"
 											value="#{strings['product.create.button.label']}" /></td>
 								</tr>
 							</table>
