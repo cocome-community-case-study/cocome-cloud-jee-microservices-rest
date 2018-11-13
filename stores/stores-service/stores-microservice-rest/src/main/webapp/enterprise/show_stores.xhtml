@@ -15,7 +15,7 @@
 				required="true"/>
 		</f:metadata>
 		
-		<f:ajax render="storeEnterpriseInfo"/>
+		<f:ajax render="enterpriseInfo"/>
 
 		<ui:define name="body">
 			<h:form>
@@ -30,42 +30,29 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">#{strings['store.table.header_name']}</f:facet>
-					<h:outputText value="#{store.name}" rendered="#{not storeInformation.editingEnabled}"/>
-					<h:inputText value="#{newName}" rendered="#{storeInformation.editingEnabled}"
-						validatorMessage="#{strings['store.create.validation.name.failed']}">
-						<f:validateLength minimum="3" maximum="30"/>
-						<f:validateRegex pattern="#{strings['input.string.regex']}" />
-					</h:inputText>
+					<h:outputText value="#{store.name}" />
+					
 				</h:column>
 				<h:column>
 					<f:facet name="header">#{strings['store.table.header_loc']}</f:facet>
-					<h:outputText value="#{store.location}" rendered="#{not storeInformation.editingEnabled}"/>
-					<h:inputText value="#{newLocation}" rendered="#{storeInformation.editingEnabled}" 
-						validatorMessage="#{strings['store.create.validation.location.failed']}" >
-						<f:validateLength minimum="3" maximum="30"/>
-						<f:validateRegex pattern="#{strings['input.string.regex']}" />
-					</h:inputText>
+					<h:outputText value="#{store.location}" />
+	
 				</h:column>
 				<h:column>
 					<f:facet name="header"></f:facet>
-					<h:commandLink action="#{storeInformation.setEditingEnabled(true)}" styleClass="button"
-						title="#{strings['store.table.action.edit_store']}" rendered="#{not storeInformation.editingEnabled}">
+					<h:link outcome="edit_store" styleClass="button"
+						title="#{strings['store.table.action.edit_store']}" >
+						<f:param name="store_id" value="#{store.id}"/>
 						<h:graphicImage value="#{resource['icon:icon_shoppingcart_edit.png']}" styleClass="button"/>						
-					</h:commandLink>
-					<h:commandLink action="#{storeManager.updateStore(store.id,newName, newLocation)}" styleClass="button"
-						title="#{strings['store.table.action.save_store']}" rendered="#{storeInformation.editingEnabled}">
-						<h:graphicImage value="#{resource['icon:icon_save.png']}" styleClass="button"/>						
-					</h:commandLink>
-					<h:commandLink action="#{storeInformation.setEditingEnabled(false)}" styleClass="button"
-						title="#{strings['store.table.action.edit_store']}" rendered="#{storeInformation.editingEnabled}">
-						<h:graphicImage value="#{resource['icon:icon_reset.png']}" styleClass="button"/>
-					</h:commandLink>
+					</h:link>
+					
+					
 					<h:commandLink action="#{storeInformation.switchToStore(store)}" styleClass="button"
-						title="#{strings['store.table.action.goto_store']}" rendered="#{not storeInformation.editingEnabled}">
+						title="#{strings['store.table.action.goto_store']}" >
 						<h:graphicImage value="#{resource['icon:icon_shop.png']}" styleClass="button"/>						
 					</h:commandLink>
 					<h:commandLink action="#{storeInformation.switchToStock(store)}" styleClass="button"
-						title="#{strings['store.table.action.goto_stock']}" rendered="#{not storeInformation.editingEnabled}">
+						title="#{strings['store.table.action.goto_stock']}" >
 						<h:graphicImage value="#{resource['icon:icon_shoppingcart_add.png']}" styleClass="button"/>
 					</h:commandLink>
 				</h:column>

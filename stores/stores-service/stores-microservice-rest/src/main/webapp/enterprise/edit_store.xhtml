@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:components="http://java.sun.com/jsf/composite/components">
+
+
+<h:body>
+
+	<ui:composition template="/templates/commonTemplate.xhtml">
+
+		<f:metadata>
+			<f:viewParam name="store_id" required="true" />
+		</f:metadata>
+
+
+		<ui:define name="body">
+			<h:form>
+
+
+
+				<table>
+					<tr>
+						<td><h:outputText value="#{strings['store.table.header_id']}" /></td>
+						<td><h:outputText value="#{store_id}" /></td>
+					</tr>
+					<tr>
+						<td><h:outputText value="#{strings['store.edit.name.text']}" /></td>
+						<td><h:inputText value="#{newName}" required="true"
+								validatorMessage="#{strings['store.create.validation.name.failed']}">
+								<f:validateLength minimum="3" maximum="30" />
+								<f:validateRegex pattern="[^;]*" />
+							</h:inputText></td>
+					</tr>
+
+					<tr>
+						<td><h:outputText
+								value="#{strings['store.edit.location.text']}" /></td>
+						<td><h:inputText value="#{newLocation}" required="true"
+								validatorMessage="#{strings['store.create.validation.name.failed']}">
+								<f:validateLength minimum="3" maximum="30" />
+								<f:validateRegex pattern="[^;]*" />
+							</h:inputText></td>
+						<td><h:commandLink
+								action="#{storeManager.updateStore(store_id,newName, newLocation)}"
+								styleClass="button"
+								title="#{strings['store.table.action.save_store']}">
+								<h:graphicImage value="#{resource['icon:icon_save.png']}"
+									styleClass="button" />
+							</h:commandLink></td>
+					</tr>
+
+
+
+
+				</table>
+
+
+
+
+
+
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

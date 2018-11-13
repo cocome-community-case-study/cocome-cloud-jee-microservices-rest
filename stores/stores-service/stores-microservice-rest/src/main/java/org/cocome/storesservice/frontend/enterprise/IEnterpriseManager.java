@@ -11,4 +11,5 @@ public interface IEnterpriseManager {
 	public Collection<EnterpriseViewData> getEnterprises();
 	
 	public EnterpriseViewData getEnterpriseById(long enterpriseId);
+	
 }

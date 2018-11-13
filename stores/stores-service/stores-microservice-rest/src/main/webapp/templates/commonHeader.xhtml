@@ -18,9 +18,9 @@
 											<ui:include src="/templates/commonNavigation.xhtml" />
 										</ui:insert></td>
 									<td align="left" width="20%">
-										<table id="storeEnterpriseInfo">
+										<table >
 											<!-- HIER NOCH ÄNDERN DASS DSA NICHTMEHR ANGEZEIGT werden -->
-											<h:panelGroup
+											<h:panelGroup id="enterpriseInfo"
 												rendered="#{enterpriseInformation.enterpriseSet}">
 												<tr>
 													<td><h:outputText
@@ -37,7 +37,7 @@
 														</h:form></td>
 												</tr>
 											</h:panelGroup>
-											<h:panelGroup
+											<h:panelGroup id="storeInfo"
 												rendered="#{storeInformation.storeSet}">
 												<tr>
 													<td><h:outputText

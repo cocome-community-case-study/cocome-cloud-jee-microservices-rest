@@ -16,5 +16,6 @@ public interface IEnterpriseInformation {
 	public void setActiveEnterprise(@NotNull EnterpriseViewData enterprise);
 	public Collection<StoreViewData> getStores();
 	boolean isEnterpriseSet();
+	public void refreshEnterpriseInformation();
 	
 }

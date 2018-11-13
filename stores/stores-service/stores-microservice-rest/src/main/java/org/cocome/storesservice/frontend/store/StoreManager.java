@@ -121,7 +121,7 @@ public class StoreManager implements IStoreManager {
 		// TODO update storelist in active Enterprise!!!
 
 		if (storeQuery.updateStore(storeId, newName, newLocation)) {
-			storeInfo.setEditingEnabled(false);
+			enterpriseInfo.refreshEnterpriseInformation();
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully updated the Store!", null));
 		} else {
@@ -129,7 +129,7 @@ public class StoreManager implements IStoreManager {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not update Stores with Id " + storeId, null));
 
 		}
-		return null;
+		return NavigationElements.SHOW_STORES.getNavigationOutcome();
 	}
 
 }

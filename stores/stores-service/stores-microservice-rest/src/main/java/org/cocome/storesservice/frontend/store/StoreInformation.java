@@ -42,29 +42,9 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	 */
 	private StoreViewData activeStore;
 
-	/*
-	 * Used for changeStoreName/Location
-	 */
-	private boolean editingEnabled = false;
+	
 
-	/**
-	 * Used to display fields for editing store
-	 * 
-	 * @return
-	 */
-	public boolean isEditingEnabled() {
-		return editingEnabled;
-	}
-
-	/**
-	 * If set to true, editing field become visible
-	 * 
-	 * @param editingEnabled
-	 */
-	public void setEditingEnabled(boolean editingEnabled) {
-		this.editingEnabled = editingEnabled;
-	}
-
+	
 	@Override
 	public long getActiveStoreId() {
 		return activeStoreId;
@@ -110,7 +90,6 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	public void resetStore() {
 		activeStoreId = Long.MIN_VALUE;
 		activeStore = null;
-		editingEnabled = false;
 		LOG.debug("Active store resetted");
 
 	}

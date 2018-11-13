@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
+import org.cocome.enterpriseservice.enterpriseQuery.EnterpriseQuery;
 import org.cocome.storesservice.frontend.store.StoreInformation;
 import org.cocome.storesservice.frontend.viewdata.EnterpriseViewData;
 import org.cocome.storesservice.frontend.viewdata.StoreViewData;
@@ -37,7 +38,7 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 	 * changes its value, the class automatically updates the corresponding
 	 * EnterpriseViewData
 	 */
-	private long activeEnterpriseIdTest = Long.MIN_VALUE;
+	private long activeEnterpriseId = Long.MIN_VALUE;
 
 	/*
 	 * This field indicates whether there is an active enterprise or not
@@ -53,7 +54,7 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 	@Override
 	public long getActiveEnterpriseId() {
 
-		return activeEnterpriseIdTest;
+		return activeEnterpriseId;
 	}
 
 	/**
@@ -65,8 +66,8 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 	public void setActiveEnterpriseId(long enterpriseId) {
 
 		switchEnterprise(enterpriseId);
-		activeEnterpriseIdTest = enterpriseId;
-		activeEnterprise = enterpriseManager.getEnterpriseById(activeEnterpriseIdTest);
+		activeEnterpriseId = enterpriseId;
+		activeEnterprise = enterpriseManager.getEnterpriseById(activeEnterpriseId);
 		LOG.debug("Active Enterprise set to: " + enterpriseId);
 
 	}
@@ -82,7 +83,7 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 	 */
 	@Override
 	public boolean isEnterpriseSet() {
-		return activeEnterpriseIdTest != Long.MIN_VALUE;
+		return activeEnterpriseId != Long.MIN_VALUE;
 	}
 
 	/**
@@ -93,9 +94,9 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 	@Override
 	public void setActiveEnterprise(EnterpriseViewData enterprise) {
 		switchEnterprise(enterprise.getId());
-		activeEnterpriseIdTest = enterprise.getId();
+		activeEnterpriseId = enterprise.getId();
 		activeEnterprise = enterprise;
-		LOG.debug("Active Enterprise set to: " + activeEnterpriseIdTest);
+		LOG.debug("Active Enterprise set to: " + activeEnterpriseId);
 
 	}
 
@@ -104,10 +105,10 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 	 */
 	@Override
 	public Collection<StoreViewData> getStores() {
-		if (activeEnterpriseIdTest == Long.MIN_VALUE) {
+		if (activeEnterpriseId == Long.MIN_VALUE) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not display Stores of enterprise with Id "
-							+ activeEnterpriseIdTest + ". No Enterprise active!", null));
+							+ activeEnterpriseId + ". No Enterprise active!", null));
 			return null;
 		}
 		return activeEnterprise.getStores();
@@ -123,6 +124,12 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 			storeInformation.resetStore();
 		}
 
+	}
+
+	@Override
+	public void refreshEnterpriseInformation() {
+		activeEnterprise = enterpriseManager.getEnterpriseById(activeEnterpriseId);
+		
 	}
 
 }

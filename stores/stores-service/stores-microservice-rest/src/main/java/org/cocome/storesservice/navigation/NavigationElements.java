@@ -19,7 +19,8 @@ public enum NavigationElements {
 	CREATE_ENTERPRISE("/enterprise/create_enterprise", "enterprise manager"),
 	CREATE_PRODUCT("/enterprise/create_product", "enterprise manager"),
 	SHOW_PRODUCTS("/enterprise/show_products", "enterprise manager"),
-	SHOW_STORES("/enterprise/show_stores", "enterprise manager");
+	SHOW_STORES("/enterprise/show_stores", "enterprise manager"),
+	EDIT_STORE("/enterprise/edit_store","enterprise manager");
 	
 	private String navOutcome;
 	private String permission;
