@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+<h:body>
+    <h2>CoCoME - Error Handling</h2>
+	<br />
+	<h:outputText value="Error Code: #{errorHandler.statusCode}"></h:outputText>
+	<br />
+	<h:outputText value="Error Desscription: #{errorHandler.message}"></h:outputText>
+	<br />
+	<h:outputText value="Exception Type: #{errorHandler.exceptionType}"></h:outputText>
+	<br />
+	<h:outputText value="Exception Calss: #{errorHandler.exception}"></h:outputText>
+	<br />
+	<h:outputText value="Request URI : #{errorHandler.requestURI}"></h:outputText>
+
+</h:body>
+
+</html>
