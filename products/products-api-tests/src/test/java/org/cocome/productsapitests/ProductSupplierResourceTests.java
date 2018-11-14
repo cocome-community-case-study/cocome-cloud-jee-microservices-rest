@@ -5,7 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.cocome.productsclient.client.ProductSupplierClient;
-import org.cocome.productsclient.domain.ProductSupplier;
+
+import org.cocome.productsclient.domain.ProductSupplierTO;
 import org.junit.Test;
 
 public class ProductSupplierResourceTests {
@@ -15,9 +16,9 @@ public class ProductSupplierResourceTests {
 	public void testCreateReadUpdateDelete() {
 		System.out.println("Testing creation of entity");
 		
-		ProductSupplier supplier = new ProductSupplier();
+		ProductSupplierTO supplier = new ProductSupplierTO();
 		supplier.setName("Apfel Computer");
-		long id = this.client.create(supplier, 1);
+		long id = this.client.create(supplier);
 		supplier.setId(id);
 		
 		assertFalse(id == 0);

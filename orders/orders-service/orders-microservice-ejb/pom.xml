@@ -46,11 +46,13 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>org.cocome</groupId>
-			<artifactId>stores-microservice-ejb</artifactId>
-			<version>1.0</version>
-			<scope>provided</scope>
-		</dependency>
+  		<groupId>org.cocome</groupId>
+  		<artifactId>products-client</artifactId>
+  		<version>1.0</version>
+  		<scope>provided</scope>
+  	</dependency>
+		
+	
 	</dependencies>
 
 	<build>

@@ -1,4 +1,4 @@
-package org.cocome.productsservice.microservice;
+package org.cocome.productsservice.supplierquery;
 
 import org.cocome.productsservice.domain.ProductSupplier;
 import java.util.Collection;
@@ -14,6 +14,8 @@ public interface ISupplierQuery {
 	public ProductSupplier findSupplierById(@NotNull long id);
 	
 	public Collection<ProductSupplier> getAllSuppliers();
+	
+	public boolean updateSupplier(@NotNull ProductSupplier supplier);
 	
 	
 	

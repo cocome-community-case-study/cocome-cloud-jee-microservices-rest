@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Product")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Product", propOrder = { "name", "barcode", "purchasePrice", "supplier" })
-public class Product implements Serializable{
+public class ProductTO implements Serializable{
 
 	@XmlTransient
 	private static final long serialVersionUID = -2577328715744776645L;
@@ -36,7 +36,7 @@ public class Product implements Serializable{
 	private String name;
 
 	@XmlElement(name = "Supplier")
-	private ProductSupplier supplier;
+	private ProductSupplierTO supplier;
 
 	//
 
@@ -92,7 +92,7 @@ public class Product implements Serializable{
 	/**
 	 * @return The ProductSupplier of this product
 	 */
-	public ProductSupplier getSupplier() {
+	public ProductSupplierTO getSupplier() {
 		return supplier;
 	}
 
@@ -100,7 +100,7 @@ public class Product implements Serializable{
 	 * @param supplier
 	 *            The ProductSupplier of this product
 	 */
-	public void setSupplier(ProductSupplier supplier) {
+	public void setSupplier(ProductSupplierTO supplier) {
 		this.supplier = supplier;
 	}
 

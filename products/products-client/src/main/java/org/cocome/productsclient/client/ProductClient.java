@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.cocome.productsclient.config.Config;
-import org.cocome.productsclient.domain.Product;
+import org.cocome.productsclient.domain.ProductTO;
 
 public class ProductClient {
 	private final WebTarget webTarget;
@@ -22,22 +22,22 @@ public class ProductClient {
 		this.webTarget = client.target(Config.getBaseUri());
 	}
 	
-	public Collection<Product> findAll() {
+	public Collection<ProductTO> findAll() {
 		return this.webTarget.path("products")
 							 .request()
 							 .accept(MediaType.APPLICATION_XML_TYPE)
-							 .get(new GenericType<Collection<Product>>() {});
+							 .get(new GenericType<Collection<ProductTO>>() {});
 	}
 	
-	public Product find(long id) {
+	public ProductTO find(long id) {
 		return this.webTarget.path("products")
 							 .path(Long.toString(id))
 							 .request()
 							 .accept(MediaType.APPLICATION_XML_TYPE)
-							 .get(Product.class);
+							 .get(ProductTO.class);
 	}
 	
-	public long create(Product product, long supplierId) {
+	public long create(ProductTO product, long supplierId) {
 		Response response = this.webTarget.path("product-suppliers")
 										 .path(Long.toString(supplierId))
 										 .path("products")
@@ -48,28 +48,29 @@ public class ProductClient {
 		return id;
 	}
 	
-	public boolean update(Product store) {
+	public boolean update(ProductTO productTO) {
 		Response response = this.webTarget.path("products")
-			  .path(Long.toString(store.getId()))
+			  .path(Long.toString(productTO.getId()))
 			  .request(MediaType.APPLICATION_XML_TYPE)
-			  .put(Entity.xml(store));
+			  .put(Entity.xml(productTO));
 		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
-	public boolean delete(Product store) {
-		Response response = this.webTarget.path("products")
-			  .path(Long.toString(store.getId()))
+	public boolean delete(ProductTO productTO) {
+		Response response = this.webTarget.path("pro"
+				+ "ducts")
+			  .path(Long.toString(productTO.getId()))
 			  .request()
 			  .delete();
 		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
-	public Collection<Product> findBySupplier(long supplierId) {
+	public Collection<ProductTO> findBySupplier(long supplierId) {
 		return this.webTarget.path("product-suppliers")
 									.path(Long.toString(supplierId))
 									.path("products")
 									.request()
 									.accept(MediaType.APPLICATION_XML_TYPE)
-									.get(new GenericType<Collection<Product>> () {});
+									.get(new GenericType<Collection<ProductTO>> () {});
 	}
 }

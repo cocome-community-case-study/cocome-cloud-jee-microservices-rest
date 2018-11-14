@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Supplier")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Supplier", propOrder = { "name" })
-public class ProductSupplier implements Serializable{
+public class ProductSupplierTO implements Serializable{
 
 	@XmlTransient
 	private static final long serialVersionUID = 1L;

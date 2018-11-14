@@ -1,4 +1,4 @@
-package org.cocome.productsservice.microservice;
+package org.cocome.productsservice.productquery;
 
 import java.util.Collection;
 
@@ -24,5 +24,7 @@ public interface IProductQuery {
 
 	public boolean createProduct(@NotNull String name, @NotNull long barcode, @NotNull double purchasePrice,
 			@NotNull long supplierId);
+	
+	public boolean updateProduct(@NotNull Product product);
 
 }

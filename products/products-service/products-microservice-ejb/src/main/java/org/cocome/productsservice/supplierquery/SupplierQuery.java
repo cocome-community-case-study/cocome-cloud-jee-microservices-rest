@@ -1,4 +1,4 @@
-package org.cocome.productsservice.microservice;
+package org.cocome.productsservice.supplierquery;
 
 import java.util.Collection;
 
@@ -7,6 +7,7 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
+import org.cocome.productsservice.domain.Product;
 import org.cocome.productsservice.domain.ProductSupplier;
 import org.cocome.productsservice.repository.ProductRepository;
 import org.cocome.productsservice.repository.ProductSupplierRepository;
@@ -28,6 +29,8 @@ public class SupplierQuery implements ISupplierQuery {
 
 	@EJB
 	private ProductSupplierRepository supplierRepo;
+	
+	
 
 	private final long COULD_NOT_CREATE_ENTITY = -1;
 
@@ -74,6 +77,20 @@ public class SupplierQuery implements ISupplierQuery {
 		}
 		LOG.debug(sb.toString());
 		return suppliers;
+	}
+
+	@Override
+	public boolean updateSupplier(ProductSupplier supplier) {
+		LOG.debug("QUERY: Trying to update Supplier with name: " + supplier.getName() + "and Id: " + supplier.getId());
+		
+		ProductSupplier supplierUpdate = supplierRepo.update(supplier);
+	
+		if(supplierUpdate == null) {
+			LOG.error("QUERY: Could not update Supplier with name: " + supplier.getName() + "and Id: " + supplier.getId());
+			return false;
+		}
+		LOG.debug("QUERY: Successfully updated Product with name: " + supplier.getName() + "and Id: " + supplier.getId());
+		return true;
 	}
 
 	

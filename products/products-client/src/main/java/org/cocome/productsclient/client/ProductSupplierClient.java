@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.cocome.productsclient.config.Config;
-import org.cocome.productsclient.domain.ProductSupplier;
+import org.cocome.productsclient.domain.ProductSupplierTO;
 
 public class ProductSupplierClient {
 	private final WebTarget webTarget;
@@ -22,33 +22,31 @@ public class ProductSupplierClient {
 		this.webTarget = client.target(Config.getBaseUri());
 	}
 	
-	public Collection<ProductSupplier> findAll() {
+	public Collection<ProductSupplierTO> findAll() {
 		return this.webTarget.path("product-suppliers")
 							 .request()
 							 .accept(MediaType.APPLICATION_XML_TYPE)
-							 .get(new GenericType<Collection<ProductSupplier>> () {});
+							 .get(new GenericType<Collection<ProductSupplierTO>> () {});
 	}
 	
-	public ProductSupplier find(long id) {
+	public ProductSupplierTO find(long id) {
 		return this.webTarget.path("product-suppliers")
 							 .path(Long.toString(id))
 							 .request()
 							 .accept(MediaType.APPLICATION_XML_TYPE)
-							 .get(ProductSupplier.class);
+							 .get(ProductSupplierTO.class);
 	}
 	
-//	public long create(ProductSupplier supplier, long enterpriseId) {
-//		Response response = this.webTarget.path("trading-enterprises")
-//										 .path(Long.toString(enterpriseId))
-//										 .path("product-suppliers")
-//										 .request(MediaType.APPLICATION_XML_TYPE)
-//										 .post(Entity.xml(supplier));
-//		URI uri = URI.create(response.getHeaderString("Location"));
-//		Long id = Long.valueOf(uri.getPath().substring(uri.getPath().lastIndexOf('/') + 1));
-//		return id;
-//	}
+	public long create(ProductSupplierTO supplier) {
+		Response response = this.webTarget.path("product-suppliers")
+										 .request(MediaType.APPLICATION_XML_TYPE)
+										 .post(Entity.xml(supplier));
+		URI uri = URI.create(response.getHeaderString("Location"));
+		Long id = Long.valueOf(uri.getPath().substring(uri.getPath().lastIndexOf('/') + 1));
+		return id;
+	}
 	
-	public boolean update(ProductSupplier supplier) {
+	public boolean update(ProductSupplierTO supplier) {
 		Response response = this.webTarget.path("product-suppliers")
 			  .path(Long.toString(supplier.getId()))
 			  .request(MediaType.APPLICATION_XML_TYPE)
@@ -56,7 +54,7 @@ public class ProductSupplierClient {
 		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
-	public boolean delete(ProductSupplier supplier) {
+	public boolean delete(ProductSupplierTO supplier) {
 		Response response = this.webTarget.path("product-suppliers")
 			  .path(Long.toString(supplier.getId()))
 			  .request()

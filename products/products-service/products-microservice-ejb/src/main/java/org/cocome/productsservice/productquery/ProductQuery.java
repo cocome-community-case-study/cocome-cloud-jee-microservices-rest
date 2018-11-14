@@ -1,10 +1,11 @@
-package org.cocome.productsservice.microservice;
+package org.cocome.productsservice.productquery;
 
 import java.util.Collection;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
+import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
 import org.cocome.productsservice.domain.Product;
@@ -141,6 +142,18 @@ public class ProductQuery implements IProductQuery {
 
 		return true;
 
+	}
+
+	@Override
+	public boolean updateProduct(@NotNull Product product) {
+		LOG.debug("QUERY: Trying to update Product with name: " + product.getName() + "and Id: " + product.getId());
+		Product productUpdate =  productRepo.update(product);
+		if(productUpdate == null) {
+			LOG.error("QUERY: Could not update Product with name: " + product.getName() + "and Id: " + product.getId());
+			return false;
+		}
+		LOG.debug("QUERY: Successfully updated Product with name: " + product.getName() + "and Id: " + product.getId());
+		return true;
 	}
 
 }

@@ -33,7 +33,7 @@
 		<artifactId>jackson-mapper-asl</artifactId>
 		<version>1.9.13</version>
 	</dependency>
-		<dependency>
+			<dependency>
 			<groupId>org.cocome</groupId>
 			<artifactId>stores-microservice-ejb</artifactId>
 			<version>1.0</version>

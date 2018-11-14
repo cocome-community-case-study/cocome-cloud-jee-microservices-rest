@@ -6,20 +6,22 @@ import static org.junit.Assert.assertTrue;
 
 import org.cocome.productsclient.client.ProductClient;
 import org.cocome.productsclient.client.ProductSupplierClient;
-import org.cocome.productsclient.domain.Product;
-import org.cocome.productsclient.domain.ProductSupplier;
+import org.cocome.productsclient.domain.ProductSupplierTO;
+import org.cocome.productsclient.domain.ProductTO;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ProductResourceTests {
 	private ProductClient client = new ProductClient();
-	private ProductSupplier supplier = new ProductSupplier();
+	private ProductSupplierTO supplier = new ProductSupplierTO();
+	private ProductSupplierClient supplierClient = new ProductSupplierClient();
+	
 	
 	@Before
 	public void setup() {
 		ProductSupplierClient supplierClient = new ProductSupplierClient();
 		this.supplier.setName("Apfel Computer");
-		long id = supplierClient.create(this.supplier, 1);
+		long id = supplierClient.create(this.supplier);
 		this.supplier.setId(id);
 	}
 	
@@ -27,7 +29,7 @@ public class ProductResourceTests {
 	public void testCreateReadUpdateDelete() {
 		System.out.println("Testing creation of entity");
 		
-		Product product = new Product();
+		ProductTO product = new ProductTO();
 		product.setName("Laptop");
 		product.setBarcode(12345);
 		product.setPurchasePrice(999.99);

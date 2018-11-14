@@ -11,9 +11,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.cocome.productsclient.domain.ProductSupplierTO;
+import org.cocome.productsclient.domain.ProductTO;
 import org.cocome.productsservice.domain.Product;
-import org.cocome.productsservice.microservice.IProductQuery;
+import org.cocome.productsservice.domain.ProductSupplier;
+import org.cocome.productsservice.productquery.IProductQuery;
 import org.cocome.productsservice.repository.ProductRepository;
+import org.cocome.productsservice.supplierquery.ISupplierQuery;
 
 /**
  * REST-Controller to access Backend
@@ -31,26 +35,68 @@ public class ProductResource {
 	@EJB 
 	private IProductQuery productQuery;
 	
+	@EJB
+	private ISupplierQuery supplierQuery;
+	
+	
 	@GET
 	@Path("/{id}")
-	public Product find(@PathParam("id") Long id) {
-		return productQuery.findProductByid(id);
+	public ProductTO find(@PathParam("id") Long id) {
+		Product product = productQuery.findProductByid(id);
+		return toProductTO(product);
 		
 	}
 	//TODO  Schnittstelle soll Query sein!
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
-	public Response update(@PathParam("id") Long id, Product product) {
-		product.setId(id);
-		productRepository.update(product);
+	public Response update(@PathParam("id") Long id, ProductTO productTO) {
+		Product product = fromProductTO(productTO);
+		productQuery.updateProduct(product);
 		return Response.noContent().build();
 	}
 	
+	//TODO Schnittstelle query
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
 		productRepository.delete(id);
 		return Response.noContent().build();
+	}
+	
+	private  Product fromProductTO(ProductTO productTO) {
+		Product product = productQuery.findProductByid(productTO.getId());
+		product.setName(productTO.getName());
+		product.setBarcode(productTO.getBarcode());
+		product.setPurchasePrice(productTO.getPurchasePrice());
+		product.setSupplier(fromSupplierTO(productTO.getSupplier()));
+		return product;
+	}
+	
+	private  ProductSupplier fromSupplierTO(ProductSupplierTO supplierTO) {
+		ProductSupplier supplier = supplierQuery.findSupplierById(supplierTO.getId());
+		supplier.setName(supplierTO.getName());
+        return supplier;
+		
+		
+	}
+	
+	private ProductTO toProductTO(Product product) {
+		ProductTO productTO = new ProductTO();
+		productTO.setId(product.getId());
+		productTO.setName(product.getName());
+		productTO.setBarcode(product.getBarcode());
+		productTO.setPurchasePrice(product.getPurchasePrice());
+		productTO.setSupplier(toSupplierTO(product.getSupplier()));
+		
+		return productTO;
+		
+	}
+	
+	private ProductSupplierTO toSupplierTO(ProductSupplier supplier) {
+		ProductSupplierTO supplierTO = new ProductSupplierTO();
+		supplierTO.setId(supplier.getId());
+		supplierTO.setName(supplier.getName());
+		return supplierTO;
 	}
 }
