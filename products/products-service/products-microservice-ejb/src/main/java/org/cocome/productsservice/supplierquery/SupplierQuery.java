@@ -58,7 +58,14 @@ public class SupplierQuery implements ISupplierQuery {
 		LOG.debug("QUERY: Retrieving Supplier from Database with Id: " + supplierId);
 		ProductSupplier supplier = supplierRepo.find(supplierId);
 		if (supplier != null) {
-			LOG.debug("QUERY: Successfully found supplier with Id: " + supplierId);
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("QUERY: Successfully found supplier with Id: " + supplierId + " and with Products [id, name, barcode]: ");
+			for(Product product : supplier.getProducts()) {
+				sb.append("[" + product.getId() + ", " + product.getName() +" , " +  product.getBarcode()+ "]");
+			}
+			
+			LOG.debug(sb.toString());
 
 			return supplier;
 		}

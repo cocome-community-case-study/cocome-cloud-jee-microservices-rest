@@ -68,7 +68,16 @@ public class ProductSupplierResource {
 	public Response update(@PathParam("id") Long id, ProductSupplierTO supplierTO) {
 		LOG.debug("REST: Try to update Supplier with Id: " + id);
 		supplierTO.setId(id);
-		ProductSupplier supplier = fromSupplierTO(supplierTO);
+		ProductSupplier supplier = supplierQuery.findSupplierById(id);
+		if(supplier == null) {
+			LOG.debug("REST: Could not update supplier with id: " + id + ".  SUpplier not found!");
+			throw new NotFoundException("Could not update supplier with Id: " + id);
+		}
+		
+		// We need to preserver ProductCollection of supplier
+		supplier = fromSupplierTO(supplierTO, supplier);
+		
+		
 
 		if (supplierQuery.updateSupplier(supplier)) {
 			return Response.noContent().build();
@@ -146,9 +155,7 @@ public class ProductSupplierResource {
 		return supplierTO;
 	}
 
-	public static ProductSupplier fromSupplierTO(ProductSupplierTO supplierTO) {
-		ProductSupplier supplier = new ProductSupplier();
-		supplier.setId(supplierTO.getId());
+	public static ProductSupplier fromSupplierTO(ProductSupplierTO supplierTO, ProductSupplier supplier) {
 		supplier.setName(supplierTO.getName());
 		return supplier;
 	}

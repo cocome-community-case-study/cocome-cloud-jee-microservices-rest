@@ -72,10 +72,10 @@ public class ProductQuery implements IProductQuery {
 		Collection<Product> products = productRepo.all();
 
 		StringBuilder sb = new StringBuilder();
-		sb.append("QUERY: Retrieving ALL Products from database with following [name, Id]: ");
+		sb.append("QUERY: Retrieving ALL Products from database with following [name, Id, supplierName]: ");
 
 		for (Product product : products) {
-			sb.append("[ " + product.getName() + " ," + product.getId() + " ]");
+			sb.append("[ " + product.getName() + " ," + product.getId() +  " ," + product.getSupplier().getName() + " ]");
 		}
 		LOG.debug(sb.toString());
 		return products;
@@ -102,7 +102,7 @@ public class ProductQuery implements IProductQuery {
 	@Override
 	public long createProduct(String name, long barcode, double purchasePrice, long supplierId) {
 		/*
-		 * find corresponding enterprise. If not enterprise found, store cannot be
+		 * find corresponding supplier. If no supplier found, product cannot be
 		 * created as it belongs to exactly one enterprise
 		 */
 		ProductSupplier supplier = supplierRepo.find(supplierId);
@@ -125,11 +125,11 @@ public class ProductQuery implements IProductQuery {
 		// persist store
 		Long productId = productRepo.create(product);
 		if (productId == COULD_NOT_CREATE_ENTITY) {
-			LOG.error("QUERY: Error while creating Product with name: " + name + ", barcode: " + barcode
+			LOG.error("QUERY: Error while creating Product with id: "+ productId + " name: " + name + ", barcode: " + barcode
 					+ " and supplier with Id:  " + supplierId);
 			return COULD_NOT_CREATE_ENTITY;
 		}
-		LOG.debug("QUERY: Successfully created Product with " + name + ", barcode: " + barcode
+		LOG.debug("QUERY: Successfully created Product with id: " + productId + " name: " + name + ", barcode: " + barcode
 				+ " and supplier with Id:  " + supplierId);
 
 		/*
@@ -140,7 +140,8 @@ public class ProductQuery implements IProductQuery {
 		 */
 		supplier.addProduct(product);
 		supplierRepo.update(supplier);
-
+        
+        
 		return productId;
 
 	}

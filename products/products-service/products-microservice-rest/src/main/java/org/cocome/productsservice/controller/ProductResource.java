@@ -1,5 +1,8 @@
 package org.cocome.productsservice.controller;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
@@ -13,8 +16,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.cocome.productsclient.domain.ProductSupplierTO;
 import org.cocome.productsclient.domain.ProductTO;
 import org.cocome.productsservice.domain.Product;
+import org.cocome.productsservice.domain.ProductSupplier;
 import org.cocome.productsservice.productquery.IProductQuery;
 import org.cocome.productsservice.supplierquery.ISupplierQuery;
 
@@ -36,6 +41,15 @@ public class ProductResource {
 	private ISupplierQuery supplierQuery;
 	private static final Logger LOG = Logger.getLogger(ProductResource.class);
 	
+	@GET
+	public Collection<ProductTO> findAll() {
+		LOG.debug("REST: Retrieve all Products");
+		Collection<ProductTO> collection = new LinkedList<ProductTO>();
+		for (Product product : productQuery.getAllProducts()) {
+			collection.add(toProductTO(product));
+		}
+		return collection;
+	}
 	
 	@GET
 	@Path("/{id}")
@@ -54,14 +68,21 @@ public class ProductResource {
 	
 	
 	
-	//TODO  Schnittstelle soll Query sein!
+	
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, ProductTO productTO) {
 		LOG.debug("REST: Try to update Product with Id: " + id);
 		productTO.setId(id);
-		Product product = fromProductTO(productTO);
+		Product product = productQuery.findProductByid(id);
+		if(product== null) {
+			LOG.debug("REST: Could not update Product with id: " + id+ ". Product not found");
+			throw new NotFoundException("Could not update product with Id: " + id+". Product not found");
+		}
+		
+		//We need to preserve ProductSupplier
+		product = fromProductTO(productTO, product);
 
 		if (productQuery.updateProduct(product)) {
 			return Response.noContent().build();
@@ -88,13 +109,10 @@ public class ProductResource {
 	
 	}
 	
-	public static Product fromProductTO(ProductTO productTO) {
-		Product product = new Product();
-		product.setId(productTO.getId());
+	public static Product fromProductTO(ProductTO productTO, Product product) {
 		product.setName(productTO.getName());
 		product.setPurchasePrice(productTO.getPurchasePrice());
 		product.setBarcode(productTO.getBarcode());
-		product.setSupplier(ProductSupplierResource.fromSupplierTO(productTO.getSupplier()));
 		return product;
 
 	}
