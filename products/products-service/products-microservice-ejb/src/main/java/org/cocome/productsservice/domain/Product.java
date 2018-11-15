@@ -31,31 +31,27 @@ import javax.xml.bind.annotation.XmlType;
  */
 @Entity(name = "Product")
 @Table(name = "product", uniqueConstraints = @UniqueConstraint(columnNames = { "barcode" }))
-@XmlRootElement(name = "Product")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Product", propOrder = { "name", "barcode", "purchasePrice", "supplier" })
 public class Product implements Serializable {
 
 	private static final long serialVersionUID = -2577328715744776645L;
 
-	@XmlElement(name = "Id")
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
 
-	@XmlElement(name = "Barcode")
+	
 	private long barcode;
 
-	@XmlElement(name = "PurchasePrice")
+	
 	private double purchasePrice;
 
-	@XmlElement(name = "Name")
+	
 	private String name;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "productsupplier_id")
-	@XmlElement(name = "Supplier")
 	private ProductSupplier supplier;
 
 	//
