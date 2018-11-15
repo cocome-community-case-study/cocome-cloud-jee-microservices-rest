@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -17,14 +18,21 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.log4j.Logger;
+import org.cocome.enterpriseservice.StoreQuery.IStockQuery;
+import org.cocome.enterpriseservice.StoreQuery.IStoreQuery;
+
+import org.cocome.storesclient.domain.StockItemTO;
+import org.cocome.storesclient.domain.StoreTO;
 import org.cocome.storesservice.domain.StockItem;
 import org.cocome.storesservice.domain.Store;
 import org.cocome.storesservice.repository.StockItemRepository;
 import org.cocome.storesservice.repository.StoreRepository;
 
 /**
- * RESTful resource for stores and nested stock items. To create stores or fetch them by their trading enterprise associaton,
- * the TradingEnterpriseResource is used.
+ * RESTful resource for stores and nested stock items. To create stores or fetch
+ * them by their trading enterprise associaton, the TradingEnterpriseResource is
+ * used.
  * 
  * @author Nils Sommer
  *
@@ -32,51 +40,96 @@ import org.cocome.storesservice.repository.StoreRepository;
 @RequestScoped
 @Path("/stores")
 public class StoreResource {
+
 	@EJB
-	private StoreRepository storeRepository;
-	
+	private IStoreQuery storeQuery;
+
 	@EJB
-	private StockItemRepository stockItemRepository;
-	
+	private IStockQuery stockQuery;
+
+	private static final Logger LOG = Logger.getLogger(StoreResource.class);
+
 	@GET
 	@Path("/{id}")
-	public Store find(@PathParam("id") Long id) {
-		return storeRepository.find(id);
+	public StoreTO find(@PathParam("id") Long id) {
+		LOG.debug("REST: Try to find store with id: " + id);
+		Store store = storeQuery.getStoreById(id);
+		if (store != null) {
+			return toStoreTO(store);
+		}
+
+		LOG.debug("REST: Did not find store with id: " + id);
+		throw new NotFoundException("Did not find store with id: " + id);
 	}
-	
+
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
-	public Response update(@PathParam("id") Long id, Store store) {
-		store.setId(id);
-		storeRepository.update(store);
-		return Response.noContent().build();
+	public Response update(@PathParam("id") Long id, StoreTO storeTO) {
+		LOG.debug("REST: Try to update store with name: " + storeTO.getName() + " and id:" + id);
+		Store store = storeQuery.getStoreById(id);
+		if (store == null) {
+			LOG.debug("REST: Could not update Store with name: " + storeTO.getName() + " and id:" + id);
+			throw new NotFoundException("Could not update Store with name: " + storeTO.getName() + " and id:" + id);
+		}
+		// We need to preserve StockItemList
+		storeTO.setId(id);
+		store = fromStoreTO(storeTO, store);
+
+		if (storeQuery.updateStore(store)) {
+			return Response.noContent().build();
+
+		}
+
+		LOG.debug("REST: Could not update Store with name: " + storeTO.getName() + " and id:" + id);
+		throw new NotFoundException("Could not update Store with name: " + storeTO.getName() + " and id:" + id);
 	}
-	
+
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
-		storeRepository.delete(id);
-		return Response.noContent().build();
+		LOG.debug("REST: Trying to delete Store with id: " + id);
+		if (storeQuery.deleteStore(id)) {
+			return Response.noContent().build();
+		}
+		LOG.debug("REST: Could not delete Store with id: " + id);
+		throw new NotFoundException("Could not delete store with Id: " + id);
 	}
-	
+
 	// Creating and fetching nested stock items
-	
+
 	@GET
 	@Path("/{id}/stock-items")
-	public Collection<StockItem> findStockItems(@PathParam("id") Long storeId) {
+	public Collection<StockItemTO> findStockItems(@PathParam("id") Long storeId) {
 		Store store = storeRepository.find(storeId);
 		return store.getStockItems();
 	}
-	
+
 	@POST
 	@Path("/{id}/stock-items")
 	@Consumes(MediaType.APPLICATION_XML)
-	public Response createStockItem(@Context UriInfo uriInfo, @PathParam("id") Long storeId, StockItem stockItem) {
+	public Response createStockItem(@Context UriInfo uriInfo, @PathParam("id") Long storeId, StockItemTO stockItemTO) {
 		Store store = storeRepository.find(storeId);
 		stockItem.setStore(store);
 		Long id = stockItemRepository.create(stockItem);
 		UriBuilder builder = UriBuilder.fromUri(uriInfo.getBaseUri()).path(StockItemResource.class).path(id.toString());
 		return Response.created(builder.build()).build();
 	}
+
+	public static Store fromStoreTO(StoreTO storeTO, Store store) {
+		store.setLocation(storeTO.getLocation());
+		store.setName(storeTO.getName());
+		return store;
+	}
+
+	public static StoreTO toStoreTO(Store store) {
+		StoreTO storeTO = new StoreTO();
+		storeTO.setId(store.getId());
+		storeTO.setLocation(store.getLocation());
+		storeTO.setName(store.getName());
+
+		return storeTO;
+
+	}
+
 }

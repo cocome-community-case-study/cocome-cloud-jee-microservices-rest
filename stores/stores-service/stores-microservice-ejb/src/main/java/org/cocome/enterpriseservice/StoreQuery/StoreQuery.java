@@ -48,7 +48,7 @@ public class StoreQuery implements IStoreQuery, Serializable {
 	 * Relationship, there is no need of updating the corresponding Enterprise
 	 * (setting this store is done automatically)
 	 */
-	public boolean createStore(@NotNull String storeName, @NotNull String storeLocation, @NotNull Long enterpriseId) {
+	public long createStore(@NotNull String storeName, @NotNull String storeLocation, @NotNull Long enterpriseId) {
 
 		/*
 		 * find corresponding enterprise. If not enterprise found, store cannot be
@@ -58,7 +58,7 @@ public class StoreQuery implements IStoreQuery, Serializable {
 		if (enterprise == null) {
 			LOG.error("QUERY: Could not create Store with name:  " + storeName + ", location: " + storeLocation
 					+ " in enterprise with Id:  " + enterpriseId + ".  Enterprise not found!");
-			return false;
+			return COULD_NOT_CREATE_ENTITY;
 
 		}
 		LOG.debug("QUERY: Try to create store with " + storeName + ", location: " + storeLocation
@@ -71,10 +71,11 @@ public class StoreQuery implements IStoreQuery, Serializable {
 		store.setEnterprise(enterprise);
 
 		// persist store
-		if (storeRepo.create(store) == COULD_NOT_CREATE_ENTITY) {
+		long storeId = storeRepo.create(store);
+		if (storeId == COULD_NOT_CREATE_ENTITY) {
 			LOG.error("QUERY: Error while creating store with " + storeName + ", location: " + storeLocation
 					+ " in enterprise with Id:  " + enterpriseId);
-			return false;
+			return COULD_NOT_CREATE_ENTITY;
 		}
 		LOG.debug("QUERY: Successfully created Store with " + storeName + ", location: " + storeLocation
 				+ " in enterprise with Id:  " + enterpriseId);
@@ -88,7 +89,7 @@ public class StoreQuery implements IStoreQuery, Serializable {
 		enterprise.addStore(store);
 		enterpriseRepo.update(enterprise);
 
-		return true;
+		return storeId;
 
 	}
 
@@ -152,8 +153,39 @@ public class StoreQuery implements IStoreQuery, Serializable {
 
 	}
 
+	@Override
+	public boolean deleteStore(long storeId) {
+		LOG.debug("QUERY: Deleting Store from Database with id: " + storeId);
+		
+		if(storeRepo.delete(storeId)) {
+			LOG.debug("QUERY: Successfully deleted store with id: " + storeId);
+			return true;
+			
+		}
+		LOG.debug("QUERY: Did not find Store with id: " + storeId);
+		return false;
+	}
+
 	/**
-	 * Update new StoreName and StoreLocation
+	 * Update Store by giving Store entity
+	 * 
+	 * @return true/false if sucessful or not
+	 */
+	@Override
+	public boolean updateStore(@NotNull Store store) {
+		
+	
+		LOG.debug("QUERY: Trying to update store with id " + store.getId());
+		if (storeRepo.update(store) != null) {
+			LOG.debug("QUERY: Sucessfully updated store with id: " + store.getId());
+			return true;
+		} else
+			LOG.debug("QUERY: Could not update Store entity with id: " + store.getId());
+		return false;
+	}
+
+	/**
+	 * Update Store by giving  new StoreName and StoreLocation
 	 * 
 	 * @return true/false if sucessful or not
 	 */
@@ -172,5 +204,4 @@ public class StoreQuery implements IStoreQuery, Serializable {
 			LOG.debug("QUERY: Could not update Store entity with id: " + store.getId());
 		return false;
 	}
-
 }

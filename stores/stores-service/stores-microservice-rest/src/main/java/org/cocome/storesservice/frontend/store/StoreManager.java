@@ -34,6 +34,8 @@ public class StoreManager implements IStoreManager {
 	 * We might want to do caching here!
 	 */
 	private Map<Long, StoreViewData> stores;
+	
+	private final long COULD_NOT_CREATE_ENTITY = -1;
 
 	@EJB
 	IStoreQuery storeQuery;
@@ -51,7 +53,7 @@ public class StoreManager implements IStoreManager {
 	@Override
 	public String createStore(String storeName, String location, long enterpriseId) {
 
-		if (storeQuery.createStore(storeName, location, enterpriseId)) {
+		if (storeQuery.createStore(storeName, location, enterpriseId) != COULD_NOT_CREATE_ENTITY) {
 			
 			/*
 			 * Only for security reason <br>

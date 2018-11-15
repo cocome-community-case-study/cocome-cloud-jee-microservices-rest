@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name = "Store")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Store", propOrder = { "name", "location" })
-public class Store implements Serializable {
+public class StoreTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -33,7 +33,7 @@ public class Store implements Serializable {
 	private String location;
 
 	/** Empty constructor. */
-	public Store() {}
+	public StoreTO() {}
 
 	/**
 	 * @return A unique identifier for Store objects

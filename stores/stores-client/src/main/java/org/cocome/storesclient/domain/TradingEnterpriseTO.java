@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name = "Enterprise")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Enterprise", propOrder = { "name" })
-public class TradingEnterprise implements Serializable{
+public class TradingEnterpriseTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 

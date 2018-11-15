@@ -33,6 +33,7 @@ public class StockItemDBRepository implements StockItemRepository {
 	public Long create(StockItem entity) {
 		try {
 			em.persist(entity);
+			em.flush();
 			return entity.getId();
 		} catch (Exception e) {
 			LOG.error("DATABASE: Could not create StickItem with productId: " + entity.getProductId() + " and Barcode: "
@@ -67,14 +68,18 @@ public class StockItemDBRepository implements StockItemRepository {
 	}
 
 	@Override
-	public void delete(Long key) {
+	public boolean delete(Long key) {
 		try {
 			StockItem entity = find(key);
-			em.remove(entity);
+			if (entity != null) {
+				em.remove(entity);
+				return true;
+			}
+
 		} catch (Exception e) {
 			LOG.error("DATABASE: Could not delete StockItem with StockItemId: " + key + "     " + e.getMessage());
 		}
-
+		return false;
 	}
 
 	@Override

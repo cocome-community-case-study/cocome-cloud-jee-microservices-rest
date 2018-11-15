@@ -37,6 +37,8 @@ public class EnterpriseManager implements IEnterpriseManager {
 	private Map<Long, EnterpriseViewData> enterprises;
 	private static final Logger LOG = Logger.getLogger(EnterpriseManager.class);
 
+	private final long COULD_NOT_CREATE_ENTITY = -1;
+	
 	@EJB
 	IEnterpriseQuery enterpriseQuery;
 
@@ -47,7 +49,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 	@Override
 	public String createEnterprise(String enterpriseName) {
 
-		if (enterpriseQuery.createEnterprise(enterpriseName)) {
+		if (enterpriseQuery.createEnterprise(enterpriseName) != COULD_NOT_CREATE_ENTITY) {
 
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created the new enterprise!", null));

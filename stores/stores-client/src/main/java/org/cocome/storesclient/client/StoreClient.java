@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.cocome.storesclient.config.Config;
-import org.cocome.storesclient.domain.Store;
+import org.cocome.storesclient.domain.StoreTO;
 
 public class StoreClient {
 	private final WebTarget webTarget;
@@ -23,22 +23,22 @@ public class StoreClient {
 		this.webTarget = client.target(Config.getBaseUri());
 	}
 	
-	public Collection<Store> findAll() {
+	public Collection<StoreTO> findAll() {
 		return this.webTarget.path("stores")
 							 .request()
 							 .accept(MediaType.APPLICATION_XML_TYPE)
-							 .get(new GenericType<Collection<Store>>() {});
+							 .get(new GenericType<Collection<StoreTO>>() {});
 	}
 	
-	public Store find(long id) {
+	public StoreTO find(long id) {
 		return this.webTarget.path("stores")
 							 .path(Long.toString(id))
 							 .request()
 							 .accept(MediaType.APPLICATION_XML_TYPE)
-							 .get(Store.class);
+							 .get(StoreTO.class);
 	}
 	
-	public long create(Store store, long enterpriseId) {
+	public long create(StoreTO store, long enterpriseId) {
 		Response response = this.webTarget.path("trading-enterprises")
 										 .path(Long.toString(enterpriseId))
 										 .path("stores")
@@ -49,7 +49,7 @@ public class StoreClient {
 		return id;
 	}
 	
-	public boolean update(Store store) {
+	public boolean update(StoreTO store) {
 		Response response = this.webTarget.path("stores")
 			  .path(Long.toString(store.getId()))
 			  .request(MediaType.APPLICATION_XML_TYPE)
@@ -57,7 +57,7 @@ public class StoreClient {
 		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
-	public boolean delete(Store store) {
+	public boolean delete(StoreTO store) {
 		Response response = this.webTarget.path("stores")
 			  .path(Long.toString(store.getId()))
 			  .request()
@@ -65,12 +65,12 @@ public class StoreClient {
 		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
-	public Collection<Store> findByEnterprise(long enterpriseId) {
+	public Collection<StoreTO> findByEnterprise(long enterpriseId) {
 		return this.webTarget.path("trading-enterprises")
 									.path(Long.toString(enterpriseId))
 									.path("stores")
 									.request()
 									.accept(MediaType.APPLICATION_XML_TYPE)
-									.get(new GenericType<Collection<Store>>() {});
+									.get(new GenericType<Collection<StoreTO>>() {});
 	}
 }

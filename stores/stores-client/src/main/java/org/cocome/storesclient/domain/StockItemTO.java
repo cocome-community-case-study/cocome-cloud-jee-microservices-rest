@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name = "StockItem")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StockItem", propOrder = { "productId", "store", "salesPrice", "amount", "minStock", "maxStock", "incomingAmount" })
-public class StockItem implements Serializable {
+public class StockItemTO implements Serializable {
 
 	private static final long serialVersionUID = -293179135307588628L;
 	
@@ -46,10 +46,10 @@ public class StockItem implements Serializable {
 	private long productId;
 	
 	@XmlElement(name = "Store")
-	private Store store;
+	private StoreTO store;
 
 	/** Empty constructor. */
-	public StockItem() {}
+	public StockItemTO() {}
 
 	/**
 	 * @return A unique identifier of this StockItem.
@@ -164,7 +164,7 @@ public class StockItem implements Serializable {
 	/**
 	 * @return The store where the StockItem belongs to
 	 */
-	public Store getStore() {
+	public StoreTO getStore() {
 		return this.store;
 	}
 
@@ -172,7 +172,7 @@ public class StockItem implements Serializable {
 	 * @param store
 	 *            The store where the StockItem belongs to
 	 */
-	public void setStore(final Store store) {
+	public void setStore(final StoreTO store) {
 		this.store = store;
 	}
 

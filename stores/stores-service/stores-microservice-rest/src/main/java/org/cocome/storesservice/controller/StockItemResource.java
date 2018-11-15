@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.cocome.storesclient.domain.StockItemTO;
 import org.cocome.storesservice.domain.StockItem;
 import org.cocome.storesservice.repository.StockItemRepository;
 
@@ -35,7 +36,7 @@ public class StockItemResource {
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
-	public Response update(@PathParam("id") Long id, StockItem stockItem) {
+	public Response update(@PathParam("id") Long id, StockItemTO stockItemTO) {
 		stockItem.setId(id);
 		stockItemRepository.update(stockItem);
 		return Response.noContent().build();
@@ -47,4 +48,6 @@ public class StockItemResource {
 		stockItemRepository.delete(id);
 		return Response.noContent().build();
 	}
+	
+	
 }

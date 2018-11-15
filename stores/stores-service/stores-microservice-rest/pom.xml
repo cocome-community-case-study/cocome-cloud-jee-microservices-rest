@@ -40,6 +40,12 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+  		<groupId>org.cocome</groupId>
+  		<artifactId>stores-client</artifactId>
+  		<version>1.0</version>
+  		<scope>compile</scope>
+  	</dependency>
+		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-1.2-api</artifactId>
 		</dependency>

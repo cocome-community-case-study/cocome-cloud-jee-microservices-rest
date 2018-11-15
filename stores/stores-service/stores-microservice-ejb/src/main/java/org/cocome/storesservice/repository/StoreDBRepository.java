@@ -34,6 +34,7 @@ public class StoreDBRepository implements StoreRepository {
 	public Long create(Store entity) {
 		try {
 			em.persist(entity);
+			em.flush();
 			return entity.getId();
 		} catch (Exception e) {
 			LOG.error("DATABASE: Error while creating Store with id: " + entity.getId() + " and name: "
@@ -67,14 +68,18 @@ public class StoreDBRepository implements StoreRepository {
 	}
 
 	@Override
-	public void delete(Long key) {
+	public boolean delete(Long key) {
 		try {
 			Store entity = find(key);
-			em.remove(entity);
+			if (entity != null) {
+				em.remove(entity);
+				return true;
+			}
+
 		} catch (Exception e) {
 			LOG.error("DATABASE: Could not delete store with id: " + key + "     " + e.getMessage());
 		}
-
+		return false;
 	}
 
 	@Override

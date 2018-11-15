@@ -11,10 +11,14 @@ import org.cocome.storesservice.domain.TradingEnterprise;
 
 public interface IEnterpriseQuery {
 	
-	public boolean createEnterprise(@NotNull String enterpriseName);
+	public long createEnterprise(@NotNull String enterpriseName);
 	
 	public Collection<TradingEnterprise> getAllEnterprises();
 	
 	public TradingEnterprise getEnterpriseById(@NotNull long enterpriseId);
+	
+	public boolean deleteEnterprise(@NotNull long enterpriseId);
+	
+	public boolean updateEnterprise(@NotNull TradingEnterprise enterprise);
 
 }

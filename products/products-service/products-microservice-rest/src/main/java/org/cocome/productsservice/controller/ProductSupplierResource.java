@@ -38,6 +38,8 @@ public class ProductSupplierResource {
 	private IProductQuery productQuery;
 
 	private static final Logger LOG = Logger.getLogger(ProductSupplierResource.class);
+	
+	private final long COULD_NOT_CREATE_ENTITY = -1;
 
 	@GET
 	public Collection<ProductSupplierTO> findAll() {
@@ -130,7 +132,10 @@ public class ProductSupplierResource {
 
 		Long productId = productQuery.createProduct(productTO.getName(), productTO.getBarcode(), productTO.getPurchasePrice(),
 				supplierId);
-
+        if(productId == COULD_NOT_CREATE_ENTITY) {
+        	LOG.debug("REST: Coudl not create Product with name: " + productTO.getName());
+        	throw new NotFoundException("Could not create Product with name: " + productTO.getName());
+        }
 		
 		UriBuilder builder = UriBuilder.fromUri(uriInfo.getBaseUri()).path(ProductResource.class)
 				.path(productId.toString());
@@ -142,6 +147,13 @@ public class ProductSupplierResource {
 	public Response createSupplier(@Context UriInfo uriInfo, ProductSupplierTO supplierTO) {
 		LOG.debug("REST: Create supplier with name: " + supplierTO.getName());
 		Long supplierId = supplierQuery.createSupplier(supplierTO.getName());
+		
+		if(supplierId == COULD_NOT_CREATE_ENTITY) {
+			LOG.debug("REST: Could not create Supplier with name: " + supplierTO.getName());
+			throw new NotFoundException("Could not create Supplier with name: " + supplierTO.getName());
+			
+		}
+		
 		UriBuilder builder = UriBuilder.fromUri(uriInfo.getBaseUri()).path(ProductSupplierResource.class)
 				.path(supplierId.toString());
 		LOG.debug("Builder:" + builder.build());
