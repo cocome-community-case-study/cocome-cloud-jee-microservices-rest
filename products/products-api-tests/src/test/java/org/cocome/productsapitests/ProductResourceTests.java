@@ -14,13 +14,14 @@ import org.junit.Test;
 public class ProductResourceTests {
 	private ProductClient client = new ProductClient();
 	private ProductSupplierTO supplier = new ProductSupplierTO();
-	private ProductSupplierClient supplierClient = new ProductSupplierClient();
+	private ProductSupplierClient supplierClient= new ProductSupplierClient();
 	
-	
+	 
 	@Before
-	public void setup() {
-		ProductSupplierClient supplierClient = new ProductSupplierClient();
+	public void setup() { 
+	 
 		this.supplier.setName("Apfel Computer");
+		
 		long id = supplierClient.create(this.supplier);
 		this.supplier.setId(id);
 	}
@@ -33,8 +34,11 @@ public class ProductResourceTests {
 		product.setName("Laptop");
 		product.setBarcode(12345);
 		product.setPurchasePrice(999.99);
+		System.out.println("SupplierId: " + this.supplier.getId());
+
 		long id = this.client.create(product, this.supplier.getId());
 		product.setId(id);
+		System.out.println("Product id is: " + id);
 		
 		assertFalse(id == 0);
 		

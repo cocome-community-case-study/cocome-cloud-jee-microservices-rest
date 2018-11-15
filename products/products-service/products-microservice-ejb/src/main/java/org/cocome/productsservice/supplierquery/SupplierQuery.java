@@ -37,18 +37,19 @@ public class SupplierQuery implements ISupplierQuery {
 	private Logger LOG = Logger.getLogger(SupplierQuery.class);
 
 	@Override
-	public boolean createSupplier(String name) {
+	public long createSupplier(String name) {
 		ProductSupplier entity = new ProductSupplier();
 		entity.setName(name);
 		
-		LOG.debug("QUERY: Try to create Supplier with name " + entity.getName() + " and id: " + entity.getId());
-		if (supplierRepo.create(entity) != COULD_NOT_CREATE_ENTITY) {
+		LOG.debug("QUERY: Try to create Supplier with name " + entity.getName() );
+		Long supplierId = supplierRepo.create(entity);
+		if (supplierId != COULD_NOT_CREATE_ENTITY) {
 			LOG.debug(
-					"QUERY: sucessfully create Supplier with name " + entity.getName() + " and id: " + entity.getId());
-			return true;
+					"QUERY: sucessfully create Supplier with name " + entity.getName() + " and id: " + supplierId);
+			return supplierId;
 		} else {
-			LOG.error("QUERY: Could not create Supplier with name " + entity.getName() + " and id: " + entity.getId());
-			return false;
+			LOG.error("QUERY: Could not create Supplier with name " + entity.getName() + " and id: " + supplierId);
+			return COULD_NOT_CREATE_ENTITY;
 		}
 	}
 
@@ -91,6 +92,18 @@ public class SupplierQuery implements ISupplierQuery {
 		}
 		LOG.debug("QUERY: Successfully updated Product with name: " + supplier.getName() + "and Id: " + supplier.getId());
 		return true;
+	}
+
+	@Override
+	public boolean deleteSupplier(long id) {
+		LOG.debug("QUERY: Deleting Supplier from Database with Id: " + id);
+		
+		if (supplierRepo.delete(id)) {
+			LOG.debug("QUERY: Successfully deleted supplier with Id: " + id);
+			return true;
+		}
+		LOG.debug("QUERY: Did not find supplier with Id: " + id);
+		return false;
 	}
 
 	

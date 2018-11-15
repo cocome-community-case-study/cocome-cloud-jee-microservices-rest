@@ -15,7 +15,7 @@ glassfish_domain="/home/nikolaus/Schreibtisch/payara5/glassfish/domains/"
 
 cd $glassfish_home
 
-./asadmin stop-domain storesmicroservice  ;  
+./asadmin stop-domain productsmicroservice  ;  
 
 
 

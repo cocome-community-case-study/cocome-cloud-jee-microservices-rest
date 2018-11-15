@@ -19,7 +19,7 @@
   		<groupId>org.cocome</groupId>
   		<artifactId>products-client</artifactId>
   		<version>1.0</version>
-  		<scope>provided</scope>
+  		<scope>compile</scope>
   	</dependency>
     <dependency>
       <groupId>junit</groupId>

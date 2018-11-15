@@ -35,6 +35,7 @@ public class SupplierManager implements ISupplierManager {
 	 * We might want to use cacheing here!
 	 */
 	private Map<Long, SupplierViewData> suppliers;
+	private final long COULD_NOT_CREATE_ENTITY = -1;
 
 	/**
 	 * Create supplier. Only name is needed. Products are created afterwards and are
@@ -42,7 +43,7 @@ public class SupplierManager implements ISupplierManager {
 	 */
 	@Override
 	public String createSupplier(String supplierName) {
-		if (supplierQuery.createSupplier(supplierName)) {
+		if (supplierQuery.createSupplier(supplierName)!= COULD_NOT_CREATE_ENTITY) {
 
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created the new supplier!", null));

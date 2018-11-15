@@ -11,17 +11,24 @@ import org.junit.Test;
 
 public class ProductSupplierResourceTests {
 	private ProductSupplierClient client = new ProductSupplierClient();
-	
+	 
 	@Test
 	public void testCreateReadUpdateDelete() {
+		
+		
 		System.out.println("Testing creation of entity");
 		
 		ProductSupplierTO supplier = new ProductSupplierTO();
 		supplier.setName("Apfel Computer");
-		long id = this.client.create(supplier);
-		supplier.setId(id);
+		System.out.println(client);
 		
-		assertFalse(id == 0);
+		
+		long id = this.client.create(supplier);
+		System.out.println(id);
+		supplier.setId(id); 
+		 
+		
+		assertFalse(id == 0); 
 		
 		System.out.println("Testing finding of entity");
 		

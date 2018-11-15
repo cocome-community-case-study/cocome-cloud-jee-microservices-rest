@@ -22,9 +22,11 @@ public interface IProductQuery {
 
 	public Collection<Product> getProductsBySupplier(@NotNull long supplierId);
 
-	public boolean createProduct(@NotNull String name, @NotNull long barcode, @NotNull double purchasePrice,
+	public long createProduct(@NotNull String name, @NotNull long barcode, @NotNull double purchasePrice,
 			@NotNull long supplierId);
 	
 	public boolean updateProduct(@NotNull Product product);
+	
+	public boolean deleteProduct(@NotNull long productId);
 
 }

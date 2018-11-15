@@ -23,10 +23,10 @@ public class ProductSupplierClient {
 	}
 	
 	public Collection<ProductSupplierTO> findAll() {
-		return this.webTarget.path("product-suppliers")
+		return this.webTarget.path("product-suppliers") 
 							 .request()
 							 .accept(MediaType.APPLICATION_XML_TYPE)
-							 .get(new GenericType<Collection<ProductSupplierTO>> () {});
+							 .get(new GenericType<Collection<ProductSupplierTO>> () {}); 
 	}
 	
 	public ProductSupplierTO find(long id) {
@@ -34,7 +34,7 @@ public class ProductSupplierClient {
 							 .path(Long.toString(id))
 							 .request()
 							 .accept(MediaType.APPLICATION_XML_TYPE)
-							 .get(ProductSupplierTO.class);
+							 .get(ProductSupplierTO.class); 
 	}
 	
 	public long create(ProductSupplierTO supplier) {
@@ -43,7 +43,7 @@ public class ProductSupplierClient {
 										 .post(Entity.xml(supplier));
 		URI uri = URI.create(response.getHeaderString("Location"));
 		Long id = Long.valueOf(uri.getPath().substring(uri.getPath().lastIndexOf('/') + 1));
-		return id;
+		return id; 
 	}
 	
 	public boolean update(ProductSupplierTO supplier) {

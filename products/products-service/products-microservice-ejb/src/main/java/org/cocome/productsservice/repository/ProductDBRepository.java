@@ -30,6 +30,7 @@ public class ProductDBRepository implements ProductRepository {
 	public Long create(Product entity) {
 		try {
 			em.persist(entity);
+			em.flush();
 		} catch (Exception e) {
 			LOG.error("DATABASE: Database Error while creating Product with name: " + entity.getName() + "     "
 					+ e.getMessage());
@@ -64,13 +65,18 @@ public class ProductDBRepository implements ProductRepository {
 	}
 
 	@Override
-	public void delete(Long key) {
+	public boolean delete(Long key) {
 		try {
 			Product entity = find(key);
-			em.remove(entity);
+			if(entity!=null) {
+				em.remove(entity);
+				return true;
+			}
+			
 		} catch (Exception e) {
 			LOG.error("DATABASE: Could not delete Product with id: " + key + "     " + e.getMessage());
 		}
+		return false;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:web="http://java.sun.com/xml/ns/javaee" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee"
+	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 	<display-name>cocome.cloud.productsmicroservice</display-name>
@@ -16,8 +17,8 @@
 		<servlet-name>javax.ws.rs.core.Application</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
-	
-	
+
+
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -31,18 +32,18 @@
 		<welcome-file>faces/products_main.xhtml</welcome-file>
 	</welcome-file-list>
 
+
+	<!-- We want to let 404/500 errors though the error handler as a requesting 
+		server needs to get a response -->
+	<!-- error-page> <error-code>404</error-code> <location>/faces/error.xhtml</location> 
+		</error-page> <error-page> <error-code>500</error-code> <location>/faces/error.xhtml</location> 
+		</error-page -->
+
 	<error-page>
-		<error-code>404</error-code>
+		<exception-type>java.lang.Throwable</exception-type>
 		<location>/faces/error.xhtml</location>
 	</error-page>
-	<error-page>
-		<error-code>500</error-code>
-		<location>/faces/error.xhtml</location>
-	</error-page>
-	<error-page>
-		<exception-type>java.lang.Exception</exception-type>
-		<location>/faces/error.xhtml</location>
-	</error-page>
+
 
 
 	<context-param>

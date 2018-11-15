@@ -31,15 +31,16 @@
 	<welcome-file-list>
 		<welcome-file>faces/store_main.xhtml</welcome-file>
 	</welcome-file-list>
-
-	<error-page>
+	
+	<!-- We want to let 404/500 errors though the error handler as a requesting server needs to get a response -->
+	<!--  error-page>
 		<error-code>404</error-code>
 		<location>/faces/error.xhtml</location>
 	</error-page>
 	<error-page>
 		<error-code>500</error-code>
 		<location>/faces/error.xhtml</location>
-	</error-page>
+	</error-page-->
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
 		<location>/faces/error.xhtml</location>

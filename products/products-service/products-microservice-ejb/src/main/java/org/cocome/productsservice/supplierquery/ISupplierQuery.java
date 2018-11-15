@@ -9,13 +9,15 @@ import org.cocome.productsservice.domain.Product;
 
 public interface ISupplierQuery {
 
-	public boolean createSupplier(@NotNull String name);
+	public long createSupplier(@NotNull String name);
 	
 	public ProductSupplier findSupplierById(@NotNull long id);
 	
 	public Collection<ProductSupplier> getAllSuppliers();
 	
 	public boolean updateSupplier(@NotNull ProductSupplier supplier);
+	
+	public boolean deleteSupplier(@NotNull long id);
 	
 	
 	

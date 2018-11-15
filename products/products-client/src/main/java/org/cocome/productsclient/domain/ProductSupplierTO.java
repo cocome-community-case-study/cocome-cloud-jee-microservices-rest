@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "Supplier", propOrder = { "name" })
 public class ProductSupplierTO implements Serializable{
 
-	@XmlTransient
+	
 	private static final long serialVersionUID = 1L;
 
 	@XmlTransient

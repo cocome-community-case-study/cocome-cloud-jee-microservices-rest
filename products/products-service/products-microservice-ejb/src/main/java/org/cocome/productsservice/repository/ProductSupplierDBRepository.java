@@ -9,9 +9,12 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 import org.cocome.productsservice.domain.ProductSupplier;
+
 /**
  * Basic CRUD-Repository for {@link ProductSupplier} Entity <br>
- * This class does not do any specific error Handling. Only Database errors are handled
+ * This class does not do any specific error Handling. Only Database errors are
+ * handled
+ * 
  * @author Niko Benkler
  * @author Robert Heinrich
  *
@@ -23,11 +26,12 @@ public class ProductSupplierDBRepository implements ProductSupplierRepository {
 	private EntityManager em;
 	private static final Logger LOG = Logger.getLogger(ProductSupplierDBRepository.class);
 	private final long COULD_NOT_CREATE_ENTITY = -1;
-	
+
 	@Override
 	public Long create(ProductSupplier entity) {
 		try {
 			em.persist(entity);
+			em.flush();
 		} catch (Exception e) {
 			LOG.error("DATABASE: Database Error while creating ProductSupplier with name: " + entity.getName() + "     "
 					+ e.getMessage());
@@ -62,13 +66,18 @@ public class ProductSupplierDBRepository implements ProductSupplierRepository {
 	}
 
 	@Override
-	public void delete(Long key) {
+	public boolean delete(Long key) {
 		try {
 			ProductSupplier entity = find(key);
-			em.remove(entity);
+			if (entity != null) {
+				em.remove(entity);
+				return true;
+			}
+
 		} catch (Exception e) {
 			LOG.error("DATABASE: Could not delete supplier with id: " + key + "     " + e.getMessage());
 		}
+		return false;
 	}
 
 	@Override

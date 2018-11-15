@@ -24,13 +24,13 @@ public class ProductClient {
 	
 	public Collection<ProductTO> findAll() {
 		return this.webTarget.path("products")
-							 .request()
+							 .request() 
 							 .accept(MediaType.APPLICATION_XML_TYPE)
-							 .get(new GenericType<Collection<ProductTO>>() {});
+							 .get(new GenericType<Collection<ProductTO>>() {}); 
 	}
-	
+	 
 	public ProductTO find(long id) {
-		return this.webTarget.path("products")
+		return this.webTarget.path("products") 
 							 .path(Long.toString(id))
 							 .request()
 							 .accept(MediaType.APPLICATION_XML_TYPE)
@@ -44,7 +44,7 @@ public class ProductClient {
 										 .request(MediaType.APPLICATION_XML_TYPE)
 										 .post(Entity.xml(product));
 		URI uri = URI.create(response.getHeaderString("Location"));
-		Long id = Long.valueOf(uri.getPath().substring(uri.getPath().lastIndexOf('/') + 1));
+		Long id = Long.valueOf(uri.getPath().substring(uri.getPath().lastIndexOf('/') + 1)); 
 		return id;
 	}
 	

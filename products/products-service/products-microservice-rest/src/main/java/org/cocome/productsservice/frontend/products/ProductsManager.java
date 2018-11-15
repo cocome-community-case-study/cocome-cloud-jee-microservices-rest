@@ -45,6 +45,7 @@ public class ProductsManager implements IProductsManager {
 
 	@Inject
 	ISupplierManager supplierManager;
+	private final long COULD_NOT_CREATE_ENTITY = -1;
 
 	/**
 	 * Create Product. All Parameters are required, especially supplierId
@@ -62,7 +63,7 @@ public class ProductsManager implements IProductsManager {
 
 		}
 
-		if (productQuery.createProduct(name, barcode, purchasePrice, supplierId)) {
+		if (productQuery.createProduct(name, barcode, purchasePrice, supplierId)!= COULD_NOT_CREATE_ENTITY) {
 
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created the new Product!", null));

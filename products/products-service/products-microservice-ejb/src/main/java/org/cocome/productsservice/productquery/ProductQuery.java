@@ -100,7 +100,7 @@ public class ProductQuery implements IProductQuery {
 	}
 
 	@Override
-	public boolean createProduct(String name, long barcode, double purchasePrice, long supplierId) {
+	public long createProduct(String name, long barcode, double purchasePrice, long supplierId) {
 		/*
 		 * find corresponding enterprise. If not enterprise found, store cannot be
 		 * created as it belongs to exactly one enterprise
@@ -109,7 +109,7 @@ public class ProductQuery implements IProductQuery {
 		if (supplier == null) {
 			LOG.error("QUERY: Could not create Product with name:  " + name + ", barcode: " + barcode
 					+ " from supplier with Id:  " + supplierId + ".  Supplier not found!");
-			return false;
+			return COULD_NOT_CREATE_ENTITY;
 
 		}
 		LOG.debug("QUERY: Try to create Product with name: " + name + ", barcode: " + barcode
@@ -123,13 +123,14 @@ public class ProductQuery implements IProductQuery {
 		product.setSupplier(supplier);
 
 		// persist store
-		if (productRepo.create(product) == COULD_NOT_CREATE_ENTITY) {
+		Long productId = productRepo.create(product);
+		if (productId == COULD_NOT_CREATE_ENTITY) {
 			LOG.error("QUERY: Error while creating Product with name: " + name + ", barcode: " + barcode
 					+ " and supplier with Id:  " + supplierId);
-			return false;
+			return COULD_NOT_CREATE_ENTITY;
 		}
 		LOG.debug("QUERY: Successfully created Product with " + name + ", barcode: " + barcode
-				+ " and suppliere with Id:  " + supplierId);
+				+ " and supplier with Id:  " + supplierId);
 
 		/*
 		 * Updating enterprise automatically done by database but still doing it for
@@ -140,7 +141,7 @@ public class ProductQuery implements IProductQuery {
 		supplier.addProduct(product);
 		supplierRepo.update(supplier);
 
-		return true;
+		return productId;
 
 	}
 
@@ -154,6 +155,18 @@ public class ProductQuery implements IProductQuery {
 		}
 		LOG.debug("QUERY: Successfully updated Product with name: " + product.getName() + "and Id: " + product.getId());
 		return true;
+	}
+	
+	@Override
+	public boolean deleteProduct(long id) {
+		LOG.debug("QUERY: Deleting Product from Database with Id: " + id);
+		
+		if (productRepo.delete(id)) {
+			LOG.debug("QUERY: Successfully deleted Product with Id: " + id);
+			return true;
+		}
+		LOG.debug("QUERY: Did not find Product with Id: " + id);
+		return false;
 	}
 
 }
