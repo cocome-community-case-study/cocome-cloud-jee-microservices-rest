@@ -39,7 +39,7 @@ public interface Repository<EntityType, KeyType> {
 	 * 
 	 * @param entity the entity
 	 */
-	void delete(KeyType key);
+	boolean delete(KeyType key);
 	
 	/**
 	 * Find all entities of a kind.

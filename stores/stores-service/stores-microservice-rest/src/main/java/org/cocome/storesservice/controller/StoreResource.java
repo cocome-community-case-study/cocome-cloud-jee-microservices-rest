@@ -22,12 +22,8 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.log4j.Logger;
 import org.cocome.storesclient.domain.StockItemTO;
 import org.cocome.storesclient.domain.StoreTO;
-import org.cocome.storesclient.domain.TradingEnterpriseTO;
 import org.cocome.storesservice.domain.StockItem;
 import org.cocome.storesservice.domain.Store;
-import org.cocome.storesservice.domain.TradingEnterprise;
-import org.cocome.storesservice.repository.StockItemRepository;
-import org.cocome.storesservice.repository.StoreRepository;
 import org.cocome.storesserviceservice.StoreQuery.IStockQuery;
 import org.cocome.storesserviceservice.StoreQuery.IStoreQuery;
 

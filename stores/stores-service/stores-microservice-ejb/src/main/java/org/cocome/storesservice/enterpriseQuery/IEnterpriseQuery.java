@@ -2,8 +2,6 @@ package org.cocome.storesservice.enterpriseQuery;
 
 import java.util.Collection;
 
-import javax.ejb.Local;
-import javax.ejb.Remote;
 import javax.validation.constraints.NotNull;
 
 import org.cocome.storesservice.domain.TradingEnterprise;

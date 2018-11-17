@@ -3,7 +3,6 @@ package org.cocome.storesservice.repository;
 import java.util.Collection;
 
 import javax.ejb.Local;
-import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -36,7 +35,7 @@ public class StockItemDBRepository implements StockItemRepository {
 			em.flush();
 			return entity.getId();
 		} catch (Exception e) {
-			LOG.error("DATABASE: Could not create StickItem with productId: " + entity.getProductId() + " and Barcode: "
+			LOG.error("DATABASE: Could not create StockItem with productId: " + entity.getProductId() + " and Barcode: "
 					+ entity.getBarcode());
 			return null;
 		}

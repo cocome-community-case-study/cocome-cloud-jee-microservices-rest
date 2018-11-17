@@ -1,11 +1,10 @@
 package org.cocome.productsservice.supplierquery;
 
-import org.cocome.productsservice.domain.ProductSupplier;
 import java.util.Collection;
 
 import javax.validation.constraints.NotNull;
 
-import org.cocome.productsservice.domain.Product;
+import org.cocome.productsservice.domain.ProductSupplier;
 
 public interface ISupplierQuery {
 

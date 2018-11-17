@@ -16,10 +16,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.cocome.productsclient.domain.ProductSupplierTO;
 import org.cocome.productsclient.domain.ProductTO;
 import org.cocome.productsservice.domain.Product;
-import org.cocome.productsservice.domain.ProductSupplier;
 import org.cocome.productsservice.productquery.IProductQuery;
 import org.cocome.productsservice.supplierquery.ISupplierQuery;
 

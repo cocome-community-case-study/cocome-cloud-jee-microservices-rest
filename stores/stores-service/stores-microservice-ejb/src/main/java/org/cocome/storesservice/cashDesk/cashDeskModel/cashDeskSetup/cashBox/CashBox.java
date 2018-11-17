@@ -1,7 +1,5 @@
 package org.cocome.storesservice.cashDesk.cashDeskModel.cashDeskSetup.cashBox;
 
-import org.cocome.storesservice.cashDesk.cashDeskModel.CashDesk;
-
 //public class CashBox implements ICashBox{
 public class CashBox {
 	

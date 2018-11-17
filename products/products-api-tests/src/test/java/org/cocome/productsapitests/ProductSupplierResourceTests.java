@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.cocome.productsclient.client.ProductSupplierClient;
-
 import org.cocome.productsclient.domain.ProductSupplierTO;
 import org.junit.Test;
 

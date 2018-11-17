@@ -9,7 +9,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.validation.constraints.NotNull;
 
 import org.cocome.productsservice.domain.ProductSupplier;
 import org.cocome.productsservice.frontendViewData.SupplierViewData;

@@ -19,13 +19,13 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name = "OrderEntry")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "OrderEntry", propOrder = { "amount", "productId" })
-public class OrderEntry implements Serializable {
+@XmlType(name = "OrderEntry", propOrder = { "id" ,"amount", "productId" })
+public class OrderEntryTO implements Serializable {
 
 	@XmlTransient
 	private static final long serialVersionUID = -7683436740437770058L;
 
-	@XmlTransient
+	@XmlElement(name="Id")
 	private long id;
 
 	@XmlElement(name = "Amount")
@@ -35,10 +35,10 @@ public class OrderEntry implements Serializable {
 	private long productId;
 
 	@XmlTransient
-	private ProductOrder order;
+	private ProductOrderTO order;
 
 	/** Empty constructor. */
-	public OrderEntry() {}
+	public OrderEntryTO() {}
 
 	/**
 	 * Gets identifier value
@@ -77,7 +77,7 @@ public class OrderEntry implements Serializable {
 	/**
 	 * @return The ProductOrder where the OrderEntry belongs to
 	 */
-	public ProductOrder getOrder() {
+	public ProductOrderTO getOrder() {
 		return this.order;
 	}
 
@@ -85,7 +85,7 @@ public class OrderEntry implements Serializable {
 	 * @param productOrder
 	 *            The ProductOrder where the OrderEntry belongs to
 	 */
-	public void setOrder(final ProductOrder productOrder) {
+	public void setOrder(final ProductOrderTO productOrder) {
 		this.order = productOrder;
 	}
 

@@ -1,13 +1,5 @@
 package org.cocome.storesservice.cashDesk.cashDeskModel;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
-
-
-
 //public class CashDesk implements ICashDesk, IScannerAdapter{
 	public class CashDesk {
 	

@@ -17,13 +17,13 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name = "Product")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Product", propOrder = { "name", "barcode", "purchasePrice", "supplier" })
+@XmlType(name = "Product", propOrder = {"id", "name", "barcode", "purchasePrice", "supplier" })
 public class ProductTO implements Serializable{
 
 	@XmlTransient
 	private static final long serialVersionUID = -2577328715744776645L;
 
-	@XmlTransient
+	@XmlElement
 	private long id;
 
 	@XmlElement(name = "Barcode")

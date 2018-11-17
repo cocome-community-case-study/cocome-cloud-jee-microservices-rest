@@ -1,7 +1,6 @@
 package org.cocome.storesservice.events;
 
 import org.cocome.storesservice.navigation.NavigationView;
-
 /**
  * Event that contains all necessary UserData coming from Frontend-Proxy <br>
  * Fired, as soon as UserData is processed

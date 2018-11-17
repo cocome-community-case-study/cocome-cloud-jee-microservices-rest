@@ -19,12 +19,10 @@ import org.cocome.frontendservice.logindata.IAuthenticator;
 import org.cocome.frontendservice.logindata.ICredential;
 import org.cocome.frontendservice.logindata.ICredentialFactory;
 import org.cocome.frontendservice.logindata.IUser;
-
 import org.cocome.frontendservice.logindata.UserRole;
 import org.cocome.frontendservice.navigation.NavigationElements;
 import org.cocome.frontendservice.navigation.NavigationView;
 import org.cocome.frontendservice.resolver.IServiceRedirecter;
-import org.cocome.frontendservice.resolver.MicroserviceRedirecter;
 
 
 

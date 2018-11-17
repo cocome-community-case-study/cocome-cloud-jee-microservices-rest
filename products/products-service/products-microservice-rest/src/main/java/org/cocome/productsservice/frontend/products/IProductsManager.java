@@ -1,10 +1,10 @@
 package org.cocome.productsservice.frontend.products;
 
+import java.util.Collection;
+
 import javax.validation.constraints.NotNull;
 
 import org.cocome.productsservice.frontendViewData.ProductViewData;
-
-import java.util.Collection;
 
 public interface IProductsManager {
 

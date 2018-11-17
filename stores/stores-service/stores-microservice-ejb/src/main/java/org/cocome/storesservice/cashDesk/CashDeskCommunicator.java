@@ -1,10 +1,5 @@
 package org.cocome.storesservice.cashDesk;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-
-
 //public class CashDeskCommunicator implements ICashDeskManaging{
 	public class CashDeskCommunicator {
 

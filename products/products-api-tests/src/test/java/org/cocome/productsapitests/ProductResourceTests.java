@@ -44,22 +44,22 @@ public class ProductResourceTests {
 		
 		System.out.println("Testing finding of entity");
 		
-		product = this.client.find(product.getId());
-		assertNotNull(product);
-		
-		System.out.println("Testing updating entity");
-		
-		product.setId(id);
-		product.setName("New Name");
-		boolean updateSuccess = this.client.update(product);
-		
-		assertTrue(updateSuccess);
-		
-		System.out.println("Testing deletion of entity");
-		
-		product.setId(id);
-		boolean deleteSuccess = this.client.delete(product);
-		
-		assertTrue(deleteSuccess);
+//		product = this.client.find(product.getId());
+//		assertNotNull(product);
+//		
+//		System.out.println("Testing updating entity");
+//		
+//		product.setId(id);
+//		product.setName("New Name");
+//		boolean updateSuccess = this.client.update(product);
+//		
+//		assertTrue(updateSuccess);
+//		
+//		System.out.println("Testing deletion of entity");
+//		
+//		product.setId(id);
+//		boolean deleteSuccess = this.client.delete(product);
+//		
+//		assertTrue(deleteSuccess);
 	}
 }

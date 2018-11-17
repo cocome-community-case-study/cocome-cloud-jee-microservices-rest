@@ -3,7 +3,6 @@ package org.cocome.frontendservice.events;
 import javax.validation.constraints.NotNull;
 
 import org.cocome.frontendservice.logindata.IUser;
-
 import org.cocome.frontendservice.logindata.UserRole;
 
 

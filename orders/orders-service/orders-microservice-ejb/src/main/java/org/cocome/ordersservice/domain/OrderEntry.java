@@ -4,17 +4,15 @@ package org.cocome.ordersservice.domain;
 import java.io.Serializable;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
+import javax.persistence.Table;
 
 
 /**
@@ -23,37 +21,33 @@ import javax.xml.bind.annotation.XmlType;
  * @author Yannick Welsch
  * @author Nils Sommer
  */
-@Entity
-@XmlRootElement(name = "OrderEntry")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "OrderEntry", propOrder = { "amount", "productId" })
+@Entity(name="OrderEntry")
+@Table(name="orderentry")
 public class OrderEntry implements Serializable {
 
-	@XmlTransient
+	
 	private static final long serialVersionUID = -7683436740437770058L;
 
-	@XmlTransient
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
 
-	@XmlElement(name = "Amount")
+	
 	private long amount;
 
-	@XmlElement(name = "ProductId")
+	
 	private long productId;
 
-	@XmlTransient
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "productorder_id")
 	private ProductOrder order;
 
 	/** Empty constructor. */
 	public OrderEntry() {}
 
-	/**
-	 * Gets identifier value
-	 *
-	 * @return The id.
-	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+
 	public long getId() {
 		return this.id;
 	}
@@ -87,7 +81,7 @@ public class OrderEntry implements Serializable {
 	/**
 	 * @return The ProductOrder where the OrderEntry belongs to
 	 */
-	@ManyToOne
+	
 	public ProductOrder getOrder() {
 		return this.order;
 	}

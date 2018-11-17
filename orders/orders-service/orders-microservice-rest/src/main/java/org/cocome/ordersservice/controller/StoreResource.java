@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -15,28 +16,52 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.log4j.Logger;
+import org.cocome.ordersclient.domain.ProductOrderTO;
 import org.cocome.ordersservice.domain.ProductOrder;
-import org.cocome.ordersservice.repository.ProductOrderRepository;
+import org.cocome.ordersservice.orderquery.IOrderQuery;
+
+
 
 @RequestScoped
 @Path("/stores")
 public class StoreResource {
+	
+	
 	@EJB
-	private ProductOrderRepository orderRepository;
+	IOrderQuery orderQuery;
+	
+	private final long COULD_NOT_CREATE_ENTITY = -1;
+	private static final Logger LOG = Logger.getLogger(StoreResource.class);
 	
 	@GET
 	@Path("/{id}/product-orders")
-	public Collection<ProductOrder> getOrders(@PathParam("id") Long storeId) {
-		// TODO: Implement me!
-		return null;
+	public Collection<ProductOrderTO> getOrders(@PathParam("id") Long storeId) {
+		LOG.debug("REST: Retrieve all order for store with store id: " + storeId);
+		
+		Collection<ProductOrder> orders= orderQuery.getOrdersByStoreId(storeId);
+		if(orders == null) {
+			LOG.debug("REST: Could not retrieve orders for store with storeId: " + storeId);
+			throw new NotFoundException("Could not retrieve orders for store with storeId: " + storeId);
+		}
+		
+		return ProductOrderResource.toProductOrderTOCollection(orders);
 	}
 	
 	@POST
 	@Path("/{id}/product-orders")
 	@Consumes(MediaType.APPLICATION_XML)
-	public Response createOrder(@Context UriInfo uriInfo, @PathParam("id") Long storeId, ProductOrder order) {
-		order.setStoreId(storeId);
-		Long orderId = orderRepository.create(order);
+	public Response createOrder(@Context UriInfo uriInfo, @PathParam("id") Long storeId, ProductOrderTO orderTO) {
+		LOG.debug("REST: Trying to create Order for store with id: " + storeId );
+		
+		Long orderId = orderQuery.createOrder(orderTO.getDeliveryDate(), orderTO.getOrderingDate(), storeId);
+		
+		if(orderId == COULD_NOT_CREATE_ENTITY) {
+			LOG.debug("REST: Could not create Order for Store with storeId " + storeId);
+			throw new NotFoundException("Could not create Order for Store with storeId: " + storeId);
+		}
+		
+		
 		UriBuilder builder = UriBuilder.fromUri(uriInfo.getBaseUri()).path(ProductOrderResource.class).path(orderId.toString());
 		return Response.created(builder.build()).build();
 	}

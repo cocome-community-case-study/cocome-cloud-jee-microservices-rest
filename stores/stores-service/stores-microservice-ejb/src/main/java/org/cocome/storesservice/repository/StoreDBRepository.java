@@ -3,14 +3,12 @@ package org.cocome.storesservice.repository;
 import java.util.Collection;
 
 import javax.ejb.Local;
-import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
 import org.cocome.storesservice.domain.Store;
-import org.cocome.storesservice.domain.TradingEnterprise;
 
 /**
  * This class uses a InventoryManager defined in persistance.xml to access

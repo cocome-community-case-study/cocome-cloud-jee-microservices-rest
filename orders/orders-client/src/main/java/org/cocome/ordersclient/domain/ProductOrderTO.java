@@ -18,13 +18,13 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name = "Order")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Order", propOrder = { "deliveryDate", "orderingDate" })
-public class ProductOrder implements Serializable {
+@XmlType(name = "Order", propOrder = { "id" , "deliveryDate", "orderingDate", "storeId" })
+public class ProductOrderTO implements Serializable {
 
 	@XmlTransient
 	private static final long serialVersionUID = -8340585715760459030L;
 
-	@XmlTransient
+	@XmlElement(name="Id")
 	private long id;
 	
 	@XmlElement(name = "DeliveryDate")
@@ -33,11 +33,11 @@ public class ProductOrder implements Serializable {
 	@XmlElement(name = "OrderingDate")
 	private Date orderingDate;
 	
-	@XmlTransient
+	@XmlElement(name ="StoreId")
 	private long storeId;
 
 	/** Cechkstyle basic constructor. */
-	public ProductOrder() {}
+	public ProductOrderTO() {}
 
 	/**
 	 * @return A unique identifier for ProductOrder objects

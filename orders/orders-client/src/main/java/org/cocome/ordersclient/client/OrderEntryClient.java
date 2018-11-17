@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.cocome.ordersclient.config.Config;
-import org.cocome.ordersclient.domain.OrderEntry;
+import org.cocome.ordersclient.domain.OrderEntryTO;
 
 public class OrderEntryClient {
 	private final WebTarget webTarget;
@@ -22,22 +22,22 @@ public class OrderEntryClient {
 		this.webTarget = client.target(Config.getBaseUri());
 	}
 	
-	public Collection<OrderEntry> findAll() {
+	public Collection<OrderEntryTO> findAll() {
 		return this.webTarget.path("order-entries")
 							 .request()
 							 .accept(MediaType.APPLICATION_XML_TYPE)
-							 .get(new GenericType<Collection<OrderEntry>>() {});
+							 .get(new GenericType<Collection<OrderEntryTO>>() {});
 	}
 	
-	public OrderEntry find(long id) {
+	public OrderEntryTO find(long id) {
 		return this.webTarget.path("order-entries")
 							 .path(Long.toString(id))
 							 .request()
 							 .accept(MediaType.APPLICATION_XML_TYPE)
-							 .get(OrderEntry.class);
+							 .get(OrderEntryTO.class);
 	}
 	
-	public long create(OrderEntry entry, long orderId) {
+	public long create(OrderEntryTO entry, long orderId) {
 		Response response = this.webTarget.path("product-orders")
 										 .path(Long.toString(orderId))
 										 .path("order-entries")
@@ -48,7 +48,7 @@ public class OrderEntryClient {
 		return id;
 	}
 	
-	public boolean update(OrderEntry entry) {
+	public boolean update(OrderEntryTO entry) {
 		Response response = this.webTarget.path("order-entries")
 			  .path(Long.toString(entry.getId()))
 			  .request(MediaType.APPLICATION_XML_TYPE)
@@ -56,7 +56,7 @@ public class OrderEntryClient {
 		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
-	public boolean delete(OrderEntry entry) {
+	public boolean delete(OrderEntryTO entry) {
 		Response response = this.webTarget.path("order-entries")
 			  .path(Long.toString(entry.getId()))
 			  .request()
@@ -64,12 +64,12 @@ public class OrderEntryClient {
 		return response.getStatus() == Response.Status.NO_CONTENT.getStatusCode();
 	}
 	
-	public Collection<OrderEntry> findByOrder(long orderId) {
+	public Collection<OrderEntryTO> findByOrder(long orderId) {
 		return this.webTarget.path("product-orders")
 									.path(Long.toString(orderId))
 									.path("order-entries")
 									.request()
 									.accept(MediaType.APPLICATION_XML_TYPE)
-									.get(new GenericType<Collection<OrderEntry>> () {});
+									.get(new GenericType<Collection<OrderEntryTO>> () {});
 	}
 }

@@ -2,7 +2,6 @@ package org.cocome.storesservice.frontend.store;
 
 import javax.validation.constraints.NotNull;
 
-import org.cocome.storesservice.frontend.viewdata.EnterpriseViewData;
 import org.cocome.storesservice.frontend.viewdata.StoreViewData;
 
 public interface IStoreInformation {

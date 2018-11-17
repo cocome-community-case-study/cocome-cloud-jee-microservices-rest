@@ -1,7 +1,6 @@
 package org.cocome.productsclient.domain;
 
 import java.io.Serializable;
-import java.util.Collection;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -18,13 +17,13 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name = "Supplier")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Supplier", propOrder = { "name" })
+@XmlType(name = "Supplier", propOrder = { "id" ,"name" })
 public class ProductSupplierTO implements Serializable{
 
 	
 	private static final long serialVersionUID = 1L;
 
-	@XmlTransient
+	@XmlElement(name="id")
 	private long id;
 
 	@XmlElement(name = "Name")

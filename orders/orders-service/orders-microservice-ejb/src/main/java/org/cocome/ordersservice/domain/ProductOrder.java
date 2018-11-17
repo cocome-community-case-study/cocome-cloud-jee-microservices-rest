@@ -6,20 +6,15 @@ import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
 
 /**
  * The ProductOrder class represents an ProductOrder of a Store in the database.
@@ -27,38 +22,34 @@ import javax.xml.bind.annotation.XmlType;
  * @author Yannick Welsch
  * @author Nils Sommer
  */
-@Entity
-@XmlRootElement(name = "Order")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Order", propOrder = { "deliveryDate", "orderingDate" })
+@Entity(name="ProductOrder")
+@Table(name="productorder")
 public class ProductOrder implements Serializable {
 
-	@XmlTransient
+
 	private static final long serialVersionUID = -8340585715760459030L;
 
-	@XmlTransient
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
 	
-	@XmlElement(name = "DeliveryDate")
+	
 	private Date deliveryDate;
 	
-	@XmlElement(name = "OrderingDate")
+
 	private Date orderingDate;
 	
-	@XmlTransient
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Collection<OrderEntry> orderEntries;
 	
-	@XmlTransient
+	
 	private long storeId;
 
 	/** Cechkstyle basic constructor. */
 	public ProductOrder() {}
 
-	/**
-	 * @return A unique identifier for ProductOrder objects
-	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+
 	public long getId() {
 		return this.id;
 	}
@@ -74,7 +65,7 @@ public class ProductOrder implements Serializable {
 	/**
 	 * @return A list of OrderEntry objects (pairs of Product-Amount-pairs)
 	 */
-	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	
 	public Collection<OrderEntry> getOrderEntries() {
 		return this.orderEntries;
 	}

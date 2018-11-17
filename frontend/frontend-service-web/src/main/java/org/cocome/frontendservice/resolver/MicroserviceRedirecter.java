@@ -4,12 +4,9 @@ import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.cocome.frontendservice.login.Login;
 import org.cocome.frontendservice.navigation.INavigationMenu;
 import org.cocome.frontendservice.navigation.NavigationElement;
 import org.cocome.frontendservice.navigation.NavigationElements;

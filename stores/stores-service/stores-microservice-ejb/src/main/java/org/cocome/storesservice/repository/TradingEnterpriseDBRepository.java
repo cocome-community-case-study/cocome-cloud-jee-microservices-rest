@@ -3,10 +3,7 @@ package org.cocome.storesservice.repository;
 import java.util.Collection;
 
 import javax.ejb.Local;
-import javax.ejb.Remote;
 import javax.ejb.Stateless;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 

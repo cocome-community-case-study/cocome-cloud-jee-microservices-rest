@@ -1,10 +1,10 @@
 package org.cocome.productsservice.frontend.supplier;
 
+import java.util.Collection;
+
 import javax.validation.constraints.NotNull;
 
 import org.cocome.productsservice.frontendViewData.SupplierViewData;
-
-import java.util.Collection;
 
 
 public interface ISupplierManager {

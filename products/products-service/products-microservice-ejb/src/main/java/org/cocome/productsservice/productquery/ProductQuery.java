@@ -6,7 +6,6 @@ import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.NotFoundException;
 
 import org.apache.log4j.Logger;
 import org.cocome.productsservice.domain.Product;

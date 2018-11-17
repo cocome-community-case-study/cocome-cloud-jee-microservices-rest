@@ -1,13 +1,14 @@
 package org.cocome.productsservice.navigation;
 
+import java.io.Serializable;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
-import java.io.Serializable;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 /**
  * This Resolver takes the Navigation-Link and converts it to Label based on String.properties
