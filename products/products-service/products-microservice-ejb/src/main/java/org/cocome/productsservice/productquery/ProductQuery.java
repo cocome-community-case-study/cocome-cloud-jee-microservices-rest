@@ -42,11 +42,11 @@ public class ProductQuery implements IProductQuery {
 		LOG.debug("QUERY: Retrieving Product from Database with Id: " + id);
 		Product product = productRepo.find(id);
 		if (product != null) {
-			LOG.debug("QUERY: Successfully found supplier with Id: " + id);
+			LOG.debug("QUERY: Successfully found product with Id: " + id);
 
 			return product;
 		}
-		LOG.debug("QUERY: Did not find supplier with Id: " + id);
+		LOG.debug("QUERY: Did not find product with Id: " + id);
 		return null;
 	}
 
@@ -157,6 +157,9 @@ public class ProductQuery implements IProductQuery {
 			return false;
 		}
 
+		product.setName(name);
+		product.setBarcode(barcode);
+		product.setPurchasePrice(purchasePrice);
 		
 		if(productRepo.update(product) == null) {
 			LOG.error("QUERY: Could not update Product with name: " + product.getName() + "and Id: " + product.getId());
