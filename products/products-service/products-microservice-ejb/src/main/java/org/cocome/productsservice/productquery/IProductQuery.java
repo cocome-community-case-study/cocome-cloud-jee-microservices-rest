@@ -25,7 +25,7 @@ public interface IProductQuery {
 	public long createProduct(@NotNull String name, @NotNull long barcode, @NotNull double purchasePrice,
 			@NotNull long supplierId);
 	
-	public boolean updateProduct(@NotNull Product product);
+	public boolean updateProduct(@NotNull long id, @NotNull String name, @NotNull double purchasePrice, @NotNull long barcode);
 	
 	public boolean deleteProduct(@NotNull long productId);
 

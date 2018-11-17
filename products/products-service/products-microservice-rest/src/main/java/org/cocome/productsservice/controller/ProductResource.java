@@ -74,17 +74,9 @@ public class ProductResource {
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, ProductTO productTO) {
 		LOG.debug("REST: Try to update Product with Id: " + id);
-		productTO.setId(id);
-		Product product = productQuery.findProductByid(id);
-		if(product== null) {
-			LOG.debug("REST: Could not update Product with id: " + id+ ". Product not found");
-			throw new NotFoundException("Could not update product with Id: " + id+". Product not found");
-		}
 		
-		//We need to preserve ProductSupplier
-		product = fromProductTO(productTO, product);
-
-		if (productQuery.updateProduct(product)) {
+       
+		if (productQuery.updateProduct(id, productTO.getName(), productTO.getPurchasePrice(), productTO.getBarcode())) {
 			return Response.noContent().build();
 		}
 		LOG.debug("REST: Could not update Product with id: " + id);

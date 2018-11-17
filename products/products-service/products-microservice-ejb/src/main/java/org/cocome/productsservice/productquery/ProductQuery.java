@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.NotFoundException;
 
 import org.apache.log4j.Logger;
 import org.cocome.productsservice.domain.Product;
@@ -147,10 +148,17 @@ public class ProductQuery implements IProductQuery {
 	}
 
 	@Override
-	public boolean updateProduct(@NotNull Product product) {
-		LOG.debug("QUERY: Trying to update Product with name: " + product.getName() + "and Id: " + product.getId());
-		Product productUpdate =  productRepo.update(product);
-		if(productUpdate == null) {
+	public boolean updateProduct(@NotNull long id, @NotNull String name, @NotNull double purchasePrice, @NotNull long barcode) {
+		LOG.debug("QUERY: Trying to update Product with name: " + name + "and Id: " + id);
+		
+		Product product = productRepo.find(id);
+		if(product== null) {
+			LOG.debug("QUERY: Could not update Product with id: " + id+ ". Product not found");
+			return false;
+		}
+
+		
+		if(productRepo.update(product) == null) {
 			LOG.error("QUERY: Could not update Product with name: " + product.getName() + "and Id: " + product.getId());
 			return false;
 		}
@@ -159,7 +167,7 @@ public class ProductQuery implements IProductQuery {
 	}
 	
 	@Override
-	public boolean deleteProduct(long id) {
+	public boolean deleteProduct(@NotNull long id) {
 		LOG.debug("QUERY: Deleting Product from Database with Id: " + id);
 		
 		if (productRepo.delete(id)) {
