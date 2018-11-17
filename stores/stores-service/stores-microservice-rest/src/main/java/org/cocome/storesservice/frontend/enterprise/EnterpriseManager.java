@@ -11,14 +11,14 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
-import org.cocome.enterpriseservice.enterpriseQuery.IEnterpriseQuery;
 import org.cocome.storesservice.domain.TradingEnterprise;
+import org.cocome.storesservice.enterpriseQuery.IEnterpriseQuery;
 import org.cocome.storesservice.frontend.viewdata.EnterpriseViewData;
 import org.cocome.storesservice.navigation.NavigationElements;
 
 /**
  * This class manages the EJB-Bean Access of the backend
- * ({@link org.cocome.enterpriseservice.enterpriseQuery}) <br>
+ * ({@link org.cocome.storesservice.enterpriseQuery}) <br>
  * It converts Frontend specific ViewData/requests into Backend-Format and vice
  * versa. <br>
  * Depending on the request, it navigates to a different outcome

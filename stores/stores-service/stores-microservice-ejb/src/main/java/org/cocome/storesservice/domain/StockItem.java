@@ -3,11 +3,15 @@ package org.cocome.storesservice.domain;
 import java.io.Serializable;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -21,49 +25,46 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author Yannick Welsch
  */
-@Entity
-@XmlRootElement(name = "StockItem")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StockItem", propOrder = { "id", "productId", "store", "salesPrice", "amount", "minStock", "maxStock", "Barcode","incomingAmount" })
+@Entity(name="StockItem")
+@Table(name="stockItem")
 public class StockItem implements Serializable {
 
 	private static final long serialVersionUID = -293179135307588628L;
 	
-	@XmlElement(name = "Id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
 	
-	@XmlElement(name = "SalesPrice")
+
 	private double salesPrice;
 	
-	@XmlElement(name = "Amount")
+	
 	private long amount;
 	
-	@XmlElement(name = "MinStock")
+	
 	private long minStock;
 
-	@XmlElement(name = "MaxStock")
+
 	private long maxStock;
 
-	@XmlElement(name = "Barcode")
+
 	private long barcode;
 	
-	@XmlElement(name = "IncomingAmount")
+	
 	private long incomingAmount;
 		
-	@XmlElement(name = "ProductId")
+	
 	private long productId;
 
-	@XmlElement(name = "Store")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "store_id")
 	private Store store;
 
 	/** Empty constructor. */
 	public StockItem() {}
 
-	/**
-	 * @return A unique identifier of this StockItem.
-	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+
 	public long getId() {
 		return this.id;
 	}
@@ -194,7 +195,6 @@ public class StockItem implements Serializable {
 	/**
 	 * @return The store where the StockItem belongs to
 	 */
-	@ManyToOne
 	public Store getStore() {
 		return this.store;
 	}

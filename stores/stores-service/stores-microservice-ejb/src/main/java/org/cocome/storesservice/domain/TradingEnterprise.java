@@ -28,24 +28,20 @@ import javax.xml.bind.annotation.XmlType;
  */
 @Entity(name = "TradingEnterprise")
 @Table(name = "tradingenterprise")
-@XmlRootElement(name = "Enterprise")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Enterprise", propOrder = { "id", "name", "stores" })
 public class TradingEnterprise implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlElement(name = "Id")
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
 
-	@XmlElement(name = "Name")
+	
 	private String name;
 
-	@XmlElementWrapper(name = "Stores")
-	@XmlElement(name = "Store")
+
 	@OneToMany(mappedBy = "enterprise", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Collection<Store> stores;
 

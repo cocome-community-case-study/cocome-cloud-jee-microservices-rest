@@ -20,12 +20,12 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.log4j.Logger;
-import org.cocome.enterpriseservice.StoreQuery.IStoreQuery;
-import org.cocome.enterpriseservice.enterpriseQuery.IEnterpriseQuery;
 import org.cocome.storesclient.domain.StoreTO;
 import org.cocome.storesclient.domain.TradingEnterpriseTO;
 import org.cocome.storesservice.domain.Store;
 import org.cocome.storesservice.domain.TradingEnterprise;
+import org.cocome.storesservice.enterpriseQuery.IEnterpriseQuery;
+import org.cocome.storesserviceservice.StoreQuery.IStoreQuery;
 
 /**
  * RESTful resource for trading enterprises and nested store resources.
@@ -95,18 +95,9 @@ public class TradingEnterpriseResource {
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, TradingEnterpriseTO tradingEnterpriseTO) {
 		LOG.debug("REST: Try to update Enterprise with Id: " + id);
-		tradingEnterpriseTO.setId(id);
-		TradingEnterprise enterprise = enterpriseQuery.getEnterpriseById(id);
 		
-		if(enterprise == null) {
-			LOG.debug("REST: Could not update Enterprise with id: " + id+ ". Enterprise not found");
-			throw new NotFoundException("Could not update product with Id: " + id+". Product not found");
-		}
 		
-		//We need to preserve StoresList
-		enterprise = fromEnterpriseTO(tradingEnterpriseTO, enterprise);
-		
-		if(enterpriseQuery.updateEnterprise(enterprise)) {
+		if(enterpriseQuery.updateEnterprise(id, tradingEnterpriseTO.getName())) {
 			return Response.noContent().build();
 		}
 		LOG.debug("REST: Could not update Enterprise with id: " + id);
@@ -148,12 +139,14 @@ public class TradingEnterpriseResource {
 	public Response createStore(@Context UriInfo uriInfo, @PathParam("id") Long enterpriseId, StoreTO storeTO) {
 		LOG.debug("REST: Trying to create Store with name: " + storeTO.getName());
 
-		if (enterpriseQuery.getEnterpriseById(enterpriseId) == null) {
-			LOG.debug("REST: Could not create Store. Enterprise not found with id: " + enterpriseId);
-			throw new NotFoundException("Could not find enterprise with Id: " + enterpriseId);
-		}
+		
 
 		Long storeId = storeQuery.createStore(storeTO.getName(), storeTO.getLocation(), enterpriseId);
+		
+		if (storeId == COULD_NOT_CREATE_ENTITY) {
+			LOG.debug("REST: Could not create Store with name: " + storeTO.getName() );
+			throw new NotFoundException("Could not find enterprise with Id: " + enterpriseId);
+		}
 
 		UriBuilder builder = UriBuilder.fromUri(uriInfo.getBaseUri()).path(StoreResource.class)
 				.path(storeId.toString());

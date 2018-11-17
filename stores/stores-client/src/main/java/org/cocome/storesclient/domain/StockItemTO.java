@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement(name = "StockItem")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StockItem", propOrder = { "productId", "store", "salesPrice", "amount", "minStock", "maxStock", "incomingAmount" })
+@XmlType(name = "StockItem", propOrder = { "productId", "store", "barcode" ,"salesPrice", "amount", "minStock", "maxStock", "incomingAmount" })
 public class StockItemTO implements Serializable {
 
 	private static final long serialVersionUID = -293179135307588628L;
@@ -45,11 +45,22 @@ public class StockItemTO implements Serializable {
 	@XmlElement(name = "ProductId")
 	private long productId;
 	
+	@XmlElement(name = "Barcode")
+	private long barcode;
+	
 	@XmlElement(name = "Store")
 	private StoreTO store;
 
 	/** Empty constructor. */
 	public StockItemTO() {}
+
+	public long getBarcode() {
+		return barcode;
+	}
+
+	public void setBarcode(long barcode) {
+		this.barcode = barcode;
+	}
 
 	/**
 	 * @return A unique identifier of this StockItem.

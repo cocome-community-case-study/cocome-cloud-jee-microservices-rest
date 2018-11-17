@@ -31,23 +31,20 @@ import javax.xml.bind.annotation.XmlType;
  */
 @Entity(name = "Store")
 @Table(name = "store")
-@XmlRootElement(name = "Store")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Store", propOrder = { "id", "name", "location", "enterprise" })
 public class Store implements Serializable, Comparable<Store> {
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlElement(name = "Id")
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
 
-	@XmlElement(name = "Name")
+
 	private String name;
 
-	@XmlElement(name = "Location")
+	
 	private String location;
 
 	/*
@@ -56,10 +53,9 @@ public class Store implements Serializable, Comparable<Store> {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "tradingenterprise_id")
-	@XmlElement(name = "Enterprise")
 	private TradingEnterprise enterprise;
 
-	@XmlTransient
+	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Collection<StockItem> stockItems;
 
 	/** Empty constructor. */
@@ -120,7 +116,6 @@ public class Store implements Serializable, Comparable<Store> {
 	/**
 	 * @return The enterprise which the Store belongs to
 	 */
-	@ManyToOne
 	public TradingEnterprise getEnterprise() {
 		return this.enterprise;
 	}

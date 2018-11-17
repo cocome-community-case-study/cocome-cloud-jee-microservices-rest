@@ -12,11 +12,11 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.cocome.enterpriseservice.StoreQuery.IStoreQuery;
 import org.cocome.storesservice.domain.Store;
 import org.cocome.storesservice.frontend.enterprise.EnterpriseInformation;
 import org.cocome.storesservice.frontend.viewdata.StoreViewData;
 import org.cocome.storesservice.navigation.NavigationElements;
+import org.cocome.storesserviceservice.StoreQuery.IStoreQuery;
 
 /**
  * This class is an Interface between frontend and backend. It accesses the

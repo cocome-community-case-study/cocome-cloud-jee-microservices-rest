@@ -1,4 +1,4 @@
-package org.cocome.enterpriseservice.StoreQuery;
+package org.cocome.storesserviceservice.StoreQuery;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -77,17 +77,10 @@ public class StoreQuery implements IStoreQuery, Serializable {
 					+ " in enterprise with Id:  " + enterpriseId);
 			return COULD_NOT_CREATE_ENTITY;
 		}
-		LOG.debug("QUERY: Successfully created Store with " + storeName + ", location: " + storeLocation
+		LOG.debug("QUERY: Successfully created Store with name: " + storeName + ", storeId: " + storeId + ", location: " + storeLocation
 				+ " in enterprise with Id:  " + enterpriseId);
 
-		/*
-		 * Updating enterprise automatically done by database, but still doing it for
-		 * security reason
-		 * 
-		 * @see AutomaticChangeTracking
-		 */
-		enterprise.addStore(store);
-		enterpriseRepo.update(enterprise);
+		
 
 		return storeId;
 
@@ -156,52 +149,41 @@ public class StoreQuery implements IStoreQuery, Serializable {
 	@Override
 	public boolean deleteStore(long storeId) {
 		LOG.debug("QUERY: Deleting Store from Database with id: " + storeId);
-		
-		if(storeRepo.delete(storeId)) {
+
+		if (storeRepo.delete(storeId)) {
 			LOG.debug("QUERY: Successfully deleted store with id: " + storeId);
 			return true;
-			
+
 		}
-		LOG.debug("QUERY: Did not find Store with id: " + storeId);
+		LOG.debug("QUERY: Could not delete Store with id: " + storeId);
 		return false;
 	}
 
 	/**
-	 * Update Store by giving Store entity
-	 * 
-	 * @return true/false if sucessful or not
-	 */
-	@Override
-	public boolean updateStore(@NotNull Store store) {
-		
-	
-		LOG.debug("QUERY: Trying to update store with id " + store.getId());
-		if (storeRepo.update(store) != null) {
-			LOG.debug("QUERY: Sucessfully updated store with id: " + store.getId());
-			return true;
-		} else
-			LOG.debug("QUERY: Could not update Store entity with id: " + store.getId());
-		return false;
-	}
-
-	/**
-	 * Update Store by giving  new StoreName and StoreLocation
+	 * Update Store by giving new StoreName and StoreLocation
 	 * 
 	 * @return true/false if sucessful or not
 	 */
 	@Override
 	public boolean updateStore(@NotNull long storeId, @NotNull String newName, @NotNull String newLocation) {
+		LOG.debug("QUERY: Trying to update store with id " + storeId);
 		Store store = storeRepo.find(storeId);
-		store.setId(storeId);
+
+		if (store == null) {
+			LOG.debug("QUERY: Could not update Store with id: " + storeId + ". Store not found!");
+			return false;
+		}
+		
 		store.setLocation(newLocation);
 		store.setName(newName);
 
-		LOG.debug("QUERY: Trying to update store with id " + store.getId());
+		;
 		if (storeRepo.update(store) != null) {
 			LOG.debug("QUERY: Sucessfully updated store with id: " + store.getId());
 			return true;
 		} else
 			LOG.debug("QUERY: Could not update Store entity with id: " + store.getId());
 		return false;
+
 	}
 }

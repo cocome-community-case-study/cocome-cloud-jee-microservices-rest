@@ -1,4 +1,4 @@
-package org.cocome.enterpriseservice.enterpriseQuery;
+package org.cocome.storesservice.enterpriseQuery;
 
 import java.util.Collection;
 
@@ -19,6 +19,7 @@ public interface IEnterpriseQuery {
 	
 	public boolean deleteEnterprise(@NotNull long enterpriseId);
 	
-	public boolean updateEnterprise(@NotNull TradingEnterprise enterprise);
+	public boolean updateEnterprise(@NotNull long id, @NotNull String name);
+	
 
 }

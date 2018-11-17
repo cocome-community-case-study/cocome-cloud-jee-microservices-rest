@@ -1,6 +1,7 @@
 package org.cocome.storesservice.controller;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -19,15 +20,16 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.log4j.Logger;
-import org.cocome.enterpriseservice.StoreQuery.IStockQuery;
-import org.cocome.enterpriseservice.StoreQuery.IStoreQuery;
-
 import org.cocome.storesclient.domain.StockItemTO;
 import org.cocome.storesclient.domain.StoreTO;
+import org.cocome.storesclient.domain.TradingEnterpriseTO;
 import org.cocome.storesservice.domain.StockItem;
 import org.cocome.storesservice.domain.Store;
+import org.cocome.storesservice.domain.TradingEnterprise;
 import org.cocome.storesservice.repository.StockItemRepository;
 import org.cocome.storesservice.repository.StoreRepository;
+import org.cocome.storesserviceservice.StoreQuery.IStockQuery;
+import org.cocome.storesserviceservice.StoreQuery.IStoreQuery;
 
 /**
  * RESTful resource for stores and nested stock items. To create stores or fetch
@@ -47,8 +49,23 @@ public class StoreResource {
 	@EJB
 	private IStockQuery stockQuery;
 
+	private final long COULD_NOT_CREATE_ENTITY = -1;
 	private static final Logger LOG = Logger.getLogger(StoreResource.class);
 
+	
+	@GET
+	public Collection<StoreTO> findAll() {
+		LOG.debug("REST: Retrieve all Enterprises");
+		Collection<StoreTO> collection = new LinkedList<StoreTO>();
+		
+		for(Store store : storeQuery.getAllStores()) {
+			collection.add(toStoreTO(store));
+		}
+
+		return collection;
+	}
+	
+	
 	@GET
 	@Path("/{id}")
 	public StoreTO find(@PathParam("id") Long id) {
@@ -67,16 +84,8 @@ public class StoreResource {
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, StoreTO storeTO) {
 		LOG.debug("REST: Try to update store with name: " + storeTO.getName() + " and id:" + id);
-		Store store = storeQuery.getStoreById(id);
-		if (store == null) {
-			LOG.debug("REST: Could not update Store with name: " + storeTO.getName() + " and id:" + id);
-			throw new NotFoundException("Could not update Store with name: " + storeTO.getName() + " and id:" + id);
-		}
-		// We need to preserve StockItemList
-		storeTO.setId(id);
-		store = fromStoreTO(storeTO, store);
-
-		if (storeQuery.updateStore(store)) {
+	
+		if (storeQuery.updateStore(id, storeTO.getName(), storeTO.getLocation())) {
 			return Response.noContent().build();
 
 		}
@@ -101,17 +110,35 @@ public class StoreResource {
 	@GET
 	@Path("/{id}/stock-items")
 	public Collection<StockItemTO> findStockItems(@PathParam("id") Long storeId) {
-		Store store = storeRepository.find(storeId);
-		return store.getStockItems();
+		LOG.debug("REST: Found ALL stock items of store with id: " + storeId);
+		Store store = storeQuery.getStoreById(storeId);
+
+		if (store == null) {
+			throw new NotFoundException("Could not find Stock items. Store with id: " + storeId + " does not exist");
+		}
+		Collection<StockItemTO> collection = new LinkedList<StockItemTO>();
+
+		for (StockItem item : store.getStockItems()) {
+			collection.add(StockItemResource.toStockItemTo(item));
+		}
+		return collection;
 	}
 
 	@POST
 	@Path("/{id}/stock-items")
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response createStockItem(@Context UriInfo uriInfo, @PathParam("id") Long storeId, StockItemTO stockItemTO) {
-		Store store = storeRepository.find(storeId);
-		stockItem.setStore(store);
-		Long id = stockItemRepository.create(stockItem);
+		LOG.debug("REST:Trying to create stockItem with productId: " + stockItemTO.getProductId() + " in store with id: " + storeId);
+
+		
+		Long id = stockQuery.createStockItem(stockItemTO.getSalesPrice(), stockItemTO.getAmount(),
+				stockItemTO.getMinStock(), stockItemTO.getMaxStock(), stockItemTO.getBarcode(),
+				stockItemTO.getIncomingAmount(), stockItemTO.getProductId(), storeId);
+       if(id == COULD_NOT_CREATE_ENTITY) {
+    	   LOG.debug("REST: Could not create stockItem with productId: " + stockItemTO.getProductId());
+    	   throw new NotFoundException("Could not create stockItem with productId: " + stockItemTO.getProductId());
+       }
+	
 		UriBuilder builder = UriBuilder.fromUri(uriInfo.getBaseUri()).path(StockItemResource.class).path(id.toString());
 		return Response.created(builder.build()).build();
 	}
