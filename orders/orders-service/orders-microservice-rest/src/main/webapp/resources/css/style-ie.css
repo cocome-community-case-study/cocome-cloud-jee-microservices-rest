@@ -1,0 +1,97 @@
+.solidblockmenu{
+
+margin: 0;
+padding: 0;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:11px;
+color:#ffffff;
+width: 100%;
+overflow: hidden;
+margin-bottom: 1em;
+border-width: 1px 0;
+
+}
+
+.solidblockmenu li{
+
+display: inline;
+
+}
+
+.solidblockmenu li a{
+margin-top:2px;
+text-align:center;
+min-width:60px;
+border-left:1px solid #01C5FF;
+border-right:1px solid #01C5FF;
+height:50px;
+float: left;
+color: white;
+padding-top:18px;
+text-decoration: none;
+padding-left:20px;
+padding-right:20px;
+}
+
+.solidblockmenu li a:visited{
+color: white;
+}
+
+.solidblockmenu li a:hover, .solidblockmenu li .current{
+color: white;
+border-left:1px solid #01C5FF;
+border-right:1px solid #01C5FF;
+background:#007CAA;
+}
+
+.sale-desc
+{
+  font-family: Tahoma;
+  font-size: 11px;
+  color: #535353;
+  text-align:left;
+  width:200px;
+  margin-left: -125px;
+  padding-top: 10px;
+}
+
+
+
+
+
+
+
+
+
+.frame{
+width:128px; text-align:left; padding-left:8px;
+}
+
+
+.product-title
+{
+  font-family: Tahoma;
+  font-size: 13px;
+  color: #0098C9;
+  font-weight: bold;
+}
+
+.product-price
+{
+  font-family: Tahoma;
+  font-size: 11px;
+  color: #0098C9;
+}
+
+.product-compare
+{
+  font-family: Tahoma;
+  font-size: 11px;
+  color: #535353;
+}
+
+.separator
+{
+  width: 170px;
+  height: 8px;
+}

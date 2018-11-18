@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
 import org.cocome.productsservice.frontend.supplier.ISupplierManager;
-import org.cocome.productsservice.frontendViewData.ProductViewData;
+import org.cocome.productsservice.frontend.viewdata.ProductViewData;
 import org.cocome.productsservice.navigation.NavigationElements;
 import org.cocome.productsservice.productquery.IProductQuery;
 

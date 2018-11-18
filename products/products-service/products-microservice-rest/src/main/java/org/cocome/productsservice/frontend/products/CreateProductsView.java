@@ -16,8 +16,8 @@ import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 import org.cocome.productsservice.frontend.supplier.ISupplierManager;
-import org.cocome.productsservice.frontendViewData.ProductViewData;
-import org.cocome.productsservice.frontendViewData.SupplierViewData;
+import org.cocome.productsservice.frontend.viewdata.ProductViewData;
+import org.cocome.productsservice.frontend.viewdata.SupplierViewData;
 
 /**
  * This class is used while creating a Product. It provides a list of the

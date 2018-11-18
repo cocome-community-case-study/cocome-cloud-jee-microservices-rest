@@ -43,6 +43,8 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	ILabelResolver labelResolver;
 
 	private IUser currentUser;
+	
+	private long activeStoreId;
 
 	private NavigationView navigationState = NavigationView.DEFAULT_VIEW;
 
@@ -145,8 +147,15 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	public void observe(@Observes UserInformationProcessedEvent event) {
 		this.currentUser = event.getUser();
 		this.navigationState = event.getRequestedNavViewState();
-		// TODO was ist mit der event.storeID()
+		
+		//TODO Check if store exists
+		this.activeStoreId = event.getStoreID();
+		
 		changeStateTo(navigationState);
+	}
+
+	public long getActiveStoreId() {
+		return activeStoreId;
 	}
 
 	/*

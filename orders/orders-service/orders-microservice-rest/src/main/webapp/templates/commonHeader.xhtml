@@ -18,7 +18,15 @@
 											<ui:include src="/templates/commonNavigation.xhtml" />
 										</ui:insert></td>
 									<td align="left" width="20%">
+										<table id="storeEnterpriseInfo">
 										
+											<h:panelGroup >
+											<tr>
+												<td><h:outputText value="#{strings['header.store.text']}"/></td>
+												<td><h:outputText value="#{navigationMenu.activeStoreId}"/></td>
+											</tr>
+											</h:panelGroup>
+										</table>
 									</td>
 
 								</tr>

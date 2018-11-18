@@ -11,7 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import org.cocome.productsservice.domain.ProductSupplier;
-import org.cocome.productsservice.frontendViewData.SupplierViewData;
+import org.cocome.productsservice.frontend.viewdata.SupplierViewData;
 import org.cocome.productsservice.navigation.NavigationElements;
 import org.cocome.productsservice.supplierquery.ISupplierQuery;
 

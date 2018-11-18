@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import javax.validation.constraints.NotNull;
 
-import org.cocome.productsservice.frontendViewData.ProductViewData;
+import org.cocome.productsservice.frontend.viewdata.ProductViewData;
 
 public interface IProductsManager {
 

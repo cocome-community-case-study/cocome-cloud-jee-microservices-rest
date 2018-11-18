@@ -1,4 +1,4 @@
-package org.cocome.productsservice.frontendViewData;
+package org.cocome.productsservice.frontend.viewdata;
 
 import java.util.Collection;
 import java.util.LinkedList;
