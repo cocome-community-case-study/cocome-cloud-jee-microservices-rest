@@ -80,7 +80,12 @@ public class StoreQuery implements IStoreQuery, Serializable {
 		LOG.debug("QUERY: Successfully created Store with name: " + storeName + ", storeId: " + storeId + ", location: " + storeLocation
 				+ " in enterprise with Id:  " + enterpriseId);
 
-		
+		/*
+		 * Updating enterprise automatically done by database
+		 * @see AutomatiChangeTracking
+		 */
+		enterprise.addStore(store);
+		// enterpriseRepo.update(enterprise);
 
 		return storeId;
 

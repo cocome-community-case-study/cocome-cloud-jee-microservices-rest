@@ -69,13 +69,34 @@ a:HOVER {
 	padding-top: 10px;
 }
 
-.order-items-table-header {
-	text-align: left;
+.product-table-header-center {
+	text-align: center;
 	font-size: 12px;
+	background: none repeat scroll 0 0 #E5E5E5;
 	border-bottom: 1px solid #BBBBBB;
 	padding: 5px;
 	padding-bottom: 8px;
 	padding-top: 10px;
+}
+
+.product-items-table-header {
+	text-align: left;
+	font-size: 10px;
+	font-weight: bold;
+	border-bottom: 1px solid #BBBBBB;
+	padding: 5px;
+	padding-top: 0px;
+	padding-bottom: 4px;
+}
+
+.order-items-table-header {
+	text-align: left;
+	font-size: 10px;
+	font-weight: bold;
+	border-bottom: 1px solid #BBBBBB;
+	padding: 5px;
+	padding-bottom: 4px;
+	padding-top: 30px;
 }
 
 .order-items-table-header-right {
@@ -163,10 +184,12 @@ a:HOVER {
 
 .wizard-button-right {
 	text-align: right;
+	margin: 5px;
 }
 
 .wizard-button-left {
 	text-align: left;
+	margin: 5px;
 }
 
 .input-number {
@@ -206,14 +229,14 @@ a:HOVER {
 				<tr>
 					<td width="100%">
 						<table width="98%"
-							style="padding-top: 20px; padding-bottom: 20px;" align="center"
+							style="padding-top: 10px; padding-bottom: 20px;" align="center"
 							cellpadding="0" cellspacing="0" border="0">
 							<tbody>
 								<tr>
 									<td align="center" width="80%" valign="middle"><h:messages
 											errorClass="error-message" fatalClass="error-message"
-											warnClass="error-message" infoClass="info-message" /> <ui:insert
-											name="body">
+											warnClass="error-message" infoClass="info-message">
+										</h:messages> <ui:insert name="body">
 											
 											Welcome to Orders - Frontend!
 

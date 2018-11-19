@@ -7,9 +7,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -22,7 +24,7 @@ import org.cocome.ordersservice.navigation.NavigationElements;
 import org.cocome.ordersservice.navigation.NavigationMenu;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class CreateOrderView implements Serializable {
 
 	@Inject
@@ -85,15 +87,15 @@ public class CreateOrderView implements Serializable {
 		}
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully submitted the order!", null));
-		return NavigationElements.ORDERS_MAIN.getNavigationOutcome();
+		return NavigationElements.SHOW_ORDERS.getNavigationOutcome();
 	}
 
-	// TODO can this be solved with a scope definition?
-	public String cancelOrder() {
+	
+	public void resetOrder() {
 		entries.clear();
 		activeStoreId = -1;
 		orderId = -1;
-		return NavigationElements.ORDERS_MAIN.getNavigationOutcome();
+		//return NavigationElements.ORDERS_MAIN.getNavigationOutcome();
 
 	}
 	

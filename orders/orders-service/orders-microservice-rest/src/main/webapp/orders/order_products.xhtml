@@ -13,131 +13,124 @@
 		<ui:define name="body">
 
 
-			
-				<h:panelGroup id="productHeader" layout="block" >
-					<h:form id="productHeaderForm">
-						<tr>
-							<td colspan="6"><h:outputText
-									value="#{strings['order.show_order.add_new_product']}">
-								</h:outputText></td>
-						</tr>
-					</h:form>
-				</h:panelGroup>
-				<!-- __________________________________________________________________________________________________________ -->
-				<h:panelGroup layout="block" >
 
-					<tr>
-						<td colspan="7"><h:dataTable
-								value="#{productsManager.allProducts}" var="product"
-								styleClass="product-table" headerClass="product-table-header"
-								rowClasses="product-table-odd-row,product-table-even-row"
-								columnClasses="product-table-text-col, product-table-text-col, 
+			<h:panelGroup id="productHeader" layout="block"
+				styleClass="product-items-table-header">
+				<h:form id="productHeaderForm">
+					<h:outputText
+						value="#{strings['order.show_order.add_new_product']}">
+					</h:outputText>
+				</h:form>
+			</h:panelGroup>
+			<!-- __________________________________________________________________________________________________________ -->
+
+
+			<h:panelGroup layout="block">
+
+				<h:dataTable value="#{productsManager.allProducts}" var="product"
+					styleClass="product-table" headerClass="product-table-header"
+					rowClasses="product-table-odd-row,product-table-even-row"
+					columnClasses="product-table-text-col, product-table-text-col, 
     				product-table-number-col, product-table-number-col, 
     				product-table-number-col, product-table-number-col,
     				product-table-number-col, product-table-text-col">
 
-								<h:column>
-									<f:facet name="header">#{strings['product.table.header_id']}</f:facet>
+					<h:column>
+						<f:facet name="header">#{strings['product.table.header_id']}</f:facet>
 					         #{product.id}
 					</h:column>
-								<h:column>
-									<f:facet name="header">#{strings['product.table.header_name']}</f:facet>
+					<h:column>
+						<f:facet name="header">#{strings['product.table.header_name']}</f:facet>
 					#{product.name}
 					</h:column>
-								<h:column headerClass="product-table-header-right">
-									<f:facet name="header">#{strings['product.create.purchaseprice.text']}</f:facet>
+					<h:column headerClass="product-table-header-right">
+						<f:facet name="header">#{strings['product.create.purchaseprice.text']}</f:facet>
 					#{product.purchasePrice}
 					</h:column>
-								<h:column headerClass="product-table-header-right">
-									<f:facet name="header">#{strings['product.create.supplierid.text']}</f:facet>
+					<h:column headerClass="product-table-header-right">
+						<f:facet name="header">#{strings['product.create.supplierid.text']}</f:facet>
 					#{product.supplierId}
 					</h:column>
 
 
-								<h:column headerClass="product-table-header-right">
-									<h:form id="orderAmount">
-										<f:facet name="header">#{strings['product.create.orderamount.text']}</f:facet>
+					<h:column headerClass="product-table-header-center">
+					<f:facet name="header">#{strings['product.create.orderamount.text']}</f:facet>
+						<h:form id="orderAmount">
+							
 
-										<h:inputText value="#{orderAmount}" styleClass="input-number">
-											<f:convertNumber integerOnly="true" />
-										</h:inputText>
-										<h:commandButton
-											action="#{createOrderView.addProductToOrder(product, orderAmount)}"
-											value="#{strings['order.show_order.add_product.label']}">
-											<f:ajax execute="@form" render=":orderTable" />
-										</h:commandButton>
-									</h:form>
-								</h:column>
-							</h:dataTable></td>
-					</tr>
-				</h:panelGroup>
-				<!-- __________________________________________________________________________________________________-->
-
-
-			
-
-
-
-
-
-			<h:panelGroup id="orderHeader" layout="block" >
-
-				<tr>
-					<td><h:outputText value="#{strings['order.show_order.title']}" /></td>
-					<td colspan="5" />
-				</tr>
-
+							<h:inputText value="#{orderAmount}" styleClass="input-number">
+								<f:convertNumber integerOnly="true" />
+							</h:inputText>
+							<h:commandButton
+								action="#{createOrderView.addProductToOrder(product, orderAmount)}"
+								value="#{strings['order.show_order.add_product.label']}">
+								<f:ajax execute="@form" render=":orderTable" />
+							</h:commandButton>
+						</h:form>
+					</h:column>
+				</h:dataTable>
 
 			</h:panelGroup>
-			
-			<h:panelGroup id="order" layout="block" >
-          
+			<!-- __________________________________________________________________________________________________-->
 
 
-				<tr>
-					<td colspan="7"><h:dataTable id="orderTable"
-							value="#{createOrderView.currentEntries}" var="entry"
-							styleClass="product-table" headerClass="product-table-header"
-							rowClasses="product-table-odd-row,product-table-even-row"
-							columnClasses="product-table-text-col, product-table-text-col, 
+
+
+
+
+
+
+			<h:panelGroup id="orderHeader" layout="block"
+				styleClass="order-items-table-header">
+				<h:outputText value="#{strings['order.show_order.title']}" />
+			</h:panelGroup>
+
+
+
+			<h:panelGroup id="order" layout="block ">
+
+
+
+				<h:dataTable id="orderTable"
+					value="#{createOrderView.currentEntries}" var="entry"
+					styleClass="product-table" headerClass="product-table-header"
+					rowClasses="product-table-odd-row,product-table-even-row"
+					columnClasses="product-table-text-col, product-table-text-col, 
     				product-table-number-col, product-table-number-col, 
     				product-table-number-col, product-table-number-col,
     				product-table-number-col, product-table-text-col">
-							<h:column>
-								<f:facet name="header">#{strings['product.table.header_id']}</f:facet>
+					<h:column>
+						<f:facet name="header">#{strings['product.table.header_id']}</f:facet>
 					         #{entry.productId}
 					</h:column>
 
 
-							<h:column>
-								<f:facet name="header">#{strings['product.create.orderamount.text']}</f:facet>
+					<h:column>
+						<f:facet name="header">#{strings['product.create.orderamount.text']}</f:facet>
 					#{entry.amount}
 					</h:column>
 
 
 
-						</h:dataTable></td>
-				</tr>
+				</h:dataTable>
 
 
 			</h:panelGroup>
 
-			<h:panelGroup id="orderFunctions" layout="block" >
-				<tr>
 
-					<td align="right"><h:commandButton
-							action="#{stockOrderView.deselectProduct()}"
-							value="#{strings['stock.order.wizard.back']}"
-							styleClass="wizard-button-left" /> <h:commandButton
-							action="#{stockOrderView.cancelOrder()}"
-							value="#{strings['stock.order.wizard.cancel']}"
-							styleClass="wizard-button-right" /> <h:commandButton
-							action="#{stockOrderView.submitOrder()}"
-							value="#{strings['stock.order.wizard.submit']}"
-							styleClass="wizard-button-right" /></td>
 
-				</tr>
 
+			<h:panelGroup id="orderFunctions" layout="block"
+				style="margin-top:40px">
+				<h:form>
+
+					<h:commandButton action="#{createOrderView.resetOrder()}"
+						value="#{strings['stock.order.wizard.cancel']}"
+						styleClass="wizard-button-right" />
+					<h:commandButton action="#{createOrderView.submitOrder()}"
+						value="#{strings['stock.order.wizard.submit']}"
+						styleClass="wizard-button-right" />
+				</h:form>
 			</h:panelGroup>
 
 

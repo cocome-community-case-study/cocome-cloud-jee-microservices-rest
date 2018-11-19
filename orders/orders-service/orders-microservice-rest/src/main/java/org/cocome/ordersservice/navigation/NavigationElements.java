@@ -11,7 +11,8 @@ public enum NavigationElements {
 	ERROR("/error", null),
 	ORDERS_MAIN("/orders_main", null),
 	ORDER_PRODUCTS("/orders/order_products", "store manager"),
-	RECEIVE_PRODUCTS("/orders/receive_products", "stock manager");
+	RECEIVE_PRODUCTS("/orders/receive_products", "stock manager"),
+	SHOW_ORDERS("/orders/show_orders" , "stock manager");
 	
 	private String navOutcome;
 	private String permission;

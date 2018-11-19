@@ -1,12 +1,15 @@
 package org.cocome.ordersservice.frontend.products;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -27,8 +30,16 @@ import org.cocome.ordersservice.productquery.IProductQuery;
  *
  */
 @Named
-@ApplicationScoped
-public class ProductsManager implements IProductsManager {
+@SessionScoped
+public class ProductsManager implements IProductsManager, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4378791480143435358L;
+
+
+
 
 	/**
 	 * We might want to do Caching here
@@ -45,6 +56,11 @@ public class ProductsManager implements IProductsManager {
 	 * Create Product. All Parameters are required, especially supplierId
 	 *
 	 */
+	
+	@PostConstruct
+	private void postConstruct() {
+		products = ProductViewData.fromProductCollection(productQuery.getAllProducts());
+	}
 
 
 	/**
@@ -52,7 +68,7 @@ public class ProductsManager implements IProductsManager {
 	 */
 	@Override
 	public Collection<ProductViewData> getAllProducts() {
-		products = ProductViewData.fromProductCollection(productQuery.getAllProducts());
+		
 		return products;
 
 	}
