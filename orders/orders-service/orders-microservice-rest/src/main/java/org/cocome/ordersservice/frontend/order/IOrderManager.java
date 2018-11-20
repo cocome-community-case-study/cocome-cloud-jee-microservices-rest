@@ -17,5 +17,7 @@ public interface IOrderManager {
 	
 	OrderViewData findOrderById(@NotNull long orderId);
 	
+	boolean rollInOrder(OrderViewData order);
+	
 
 }

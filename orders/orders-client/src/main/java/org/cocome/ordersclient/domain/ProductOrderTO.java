@@ -1,6 +1,7 @@
 package org.cocome.ordersclient.domain;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name = "Order")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Order", propOrder = { "id" , "deliveryDate", "orderingDate", "storeId" })
+@XmlType(name = "Order", propOrder = { "id" , "deliveryDate", "orderingDate", "storeId", "entries" })
 public class ProductOrderTO implements Serializable {
 
 	@XmlTransient
@@ -35,6 +36,17 @@ public class ProductOrderTO implements Serializable {
 	
 	@XmlElement(name ="StoreId")
 	private long storeId;
+	
+	@XmlElement(name="OrderEntries")
+	private Collection<OrderEntryTO> entries;  
+
+	public Collection<OrderEntryTO> getEntries() {
+		return entries;
+	}
+
+	public void setEntries(Collection<OrderEntryTO> entries) {
+		this.entries = entries;
+	}
 
 	/** Cechkstyle basic constructor. */
 	public ProductOrderTO() {}

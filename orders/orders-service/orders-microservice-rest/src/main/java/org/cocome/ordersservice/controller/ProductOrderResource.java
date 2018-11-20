@@ -119,6 +119,7 @@ public class ProductOrderResource {
 		orderTO.setDeliveryDate(order.getDeliveryDate());
 		orderTO.setOrderingDate(order.getOrderingDate());
 		orderTO.setStoreId(order.getStoreId());
+		orderTO.setEntries(OrderEntryResource.toEntryTOCollection(order.getOrderEntries()));
 		
 		
 		return orderTO;

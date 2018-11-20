@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name = "OrderEntry")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "OrderEntry", propOrder = { "id" ,"amount", "productId" })
+@XmlType(name = "OrderEntry", propOrder = { "id" ,"amount", "productId", "orderId" })
 public class OrderEntryTO implements Serializable {
 
 	@XmlTransient
@@ -34,8 +34,16 @@ public class OrderEntryTO implements Serializable {
 	@XmlElement(name = "ProductId")
 	private long productId;
 
-	@XmlTransient
-	private ProductOrderTO order;
+	@XmlElement(name="OrderId")
+	private long orderId;
+
+	public long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(long orderId) {
+		this.orderId = orderId;
+	}
 
 	/** Empty constructor. */
 	public OrderEntryTO() {}
@@ -74,20 +82,7 @@ public class OrderEntryTO implements Serializable {
 		this.amount = amount;
 	}
 
-	/**
-	 * @return The ProductOrder where the OrderEntry belongs to
-	 */
-	public ProductOrderTO getOrder() {
-		return this.order;
-	}
-
-	/**
-	 * @param productOrder
-	 *            The ProductOrder where the OrderEntry belongs to
-	 */
-	public void setOrder(final ProductOrderTO productOrder) {
-		this.order = productOrder;
-	}
+	
 
 	/**
 	 * @return The product which is ordered
@@ -107,7 +102,7 @@ public class OrderEntryTO implements Serializable {
 	@Override
 	public String toString() {
 		return "[Class:" + this.getClass().getSimpleName() + ",Id" + this.getId()
-				+ ",ProductId:" + this.productId + ",ProductOrder:" + this.order + "]";
+				+ ",ProductId:" + this.productId + ",ProductOrder:" + this.orderId + "]";
 	}
 
 }

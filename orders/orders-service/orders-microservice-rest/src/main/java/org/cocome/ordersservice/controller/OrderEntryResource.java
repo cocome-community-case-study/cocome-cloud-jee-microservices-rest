@@ -78,7 +78,7 @@ public class OrderEntryResource {
 		entryTO.setAmount(entry.getAmount());
 		entryTO.setId(entry.getId());
 		entryTO.setProductId(entry.getProductId());
-		entryTO.setOrder(ProductOrderResource.toProductOrderTO(entry.getOrder()));
+		entryTO.setOrderId(entry.getOrder().getId());
 		return entryTO;
 
 	}

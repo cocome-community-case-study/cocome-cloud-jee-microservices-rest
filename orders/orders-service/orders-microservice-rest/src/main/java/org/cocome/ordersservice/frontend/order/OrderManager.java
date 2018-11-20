@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
+import org.cocome.ordersservice.controller.ProductOrderResource;
 import org.cocome.ordersservice.domain.ProductOrder;
 import org.cocome.ordersservice.frontend.viewdata.OrderViewData;
 import org.cocome.ordersservice.navigation.NavigationElements;
@@ -23,6 +24,8 @@ public class OrderManager implements IOrderManager, Serializable {
 
 	@EJB
 	IOrderQuery orderQuery;
+	
+	ProductOrderResource resource = new ProductOrderResource();
 
 	private static final long serialVersionUID = 8498016353431902188L;
 
@@ -32,6 +35,7 @@ public class OrderManager implements IOrderManager, Serializable {
 	public Collection<OrderViewData> getOrdersByStoreId(@NotNull long storeId) {
 		 
 		Collection<ProductOrder> orders = orderQuery.getOrdersByStoreId(storeId);
+		
 		
 		if(orders == null) {
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -86,6 +90,12 @@ public class OrderManager implements IOrderManager, Serializable {
 		}
 		
 		return OrderViewData.fromOrder(order);
+	}
+
+	@Override
+	public boolean rollInOrder(OrderViewData order) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

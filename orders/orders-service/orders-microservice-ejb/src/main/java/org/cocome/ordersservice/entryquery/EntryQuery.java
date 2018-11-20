@@ -51,25 +51,40 @@ public class EntryQuery implements IEntryQuery, Serializable {
 	public long createEntry(long orderId, long productId, long amount) {
 		LOG.debug("QUERY: Trying to create Entry for order with orderId: " + orderId + " , productId: " + productId
 				+ " and amount: " + amount);
+		
+		//find corresponding order
 		ProductOrder order = orderRepo.find(orderId);
 		if (order == null) {
 			LOG.debug("QUERY: Could not create Entry for order with orderId: " + orderId + " , productId: " + productId
 					+ " and amount: " + amount + ". Order does not exist!");
 			return COULD_NOT_CREATE_ENTITY;
 		}
+		
+		//create new entry
 		OrderEntry entry = new OrderEntry();
 		entry.setOrder(order);
 		entry.setAmount(amount);
 		entry.setProductId(productId);
-
+		
+		
+        //persist entry
 		long entryId = entryRepo.create(entry);
+		
 		if (entryId == COULD_NOT_CREATE_ENTITY) {
 			LOG.debug("QUERY: Could not create Entry with orderId: " + orderId + " , productId: " + productId
 					+ " and amount: " + amount);
 			return COULD_NOT_CREATE_ENTITY;
 		}
+		
 		LOG.debug("QUERY: Sucessfully created Entry for order with orderId: " + order.getId() + " , productId: " + productId
 				+ " and amount: " + amount);
+		
+		//update order 
+		order.addToOrder(entry);
+		orderRepo.update(order);
+		
+		
+		
 		return entryId;
 	}
 

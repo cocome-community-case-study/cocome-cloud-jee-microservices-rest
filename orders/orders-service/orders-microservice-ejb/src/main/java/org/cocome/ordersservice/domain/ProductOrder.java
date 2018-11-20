@@ -8,6 +8,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,13 +35,15 @@ public class ProductOrder implements Serializable {
 	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
 	
-	
+	@Basic
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date deliveryDate;
 	
-
+	@Basic
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date orderingDate;
 	
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch=FetchType.EAGER)
 	private Collection<OrderEntry> orderEntries;
 	
 	
@@ -89,8 +92,6 @@ public class ProductOrder implements Serializable {
 	/**
 	 * @return The date of ordering.
 	 */
-	@Basic
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getOrderingDate() {
 		return this.orderingDate;
 	}
@@ -108,8 +109,6 @@ public class ProductOrder implements Serializable {
 	 *
 	 * @return The date of order fulfillment.
 	 */
-	@Basic
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getDeliveryDate() {
 		return this.deliveryDate;
 	}
@@ -141,7 +140,7 @@ public class ProductOrder implements Serializable {
 
 	@Override
 	public String toString() {
-		return "[Class:" + this.getClass().getSimpleName() + ",Id:" + this.getId() + ",StoreId:" + this.getStoreId() + "]";
+		return "[Class:" + this.getClass().getSimpleName() + ",Id:" + this.getId() + ",StoreId:" + this.getStoreId() + " Entries: "  + this.getOrderEntries().toString() + "]";
 	}
 
 }

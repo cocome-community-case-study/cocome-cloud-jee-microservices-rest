@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:components="http://java.sun.com/jsf/composite/components">
+
+
+<h:body>
+
+	<ui:composition template="/templates/commonTemplate.xhtml">
+
+		<ui:define name="body">
+
+			<table width="100%">
+				<tr>
+					<td align="left"><h:form>
+							<table>
+								<tr>
+									<td><h:outputText
+											value="#{strings['receive.order_id.text']}" /></td>
+									<td><h:inputText value="#{orderID}"
+											styleClass="input-number"
+											validatorMessage="#{strings['receive.validation.orderid.failed']}">
+											<f:validateRegex pattern="^[1-9]\d*$"></f:validateRegex>
+										</h:inputText> <h:commandButton
+											action="#{receiveOrderView.loadOrder(orderID)}"
+											value="#{strings['receive.find_order.label']}"></h:commandButton>
+									</td>
+								</tr>
+							</table>
+						</h:form></td>
+					<td align="right"><h:form>
+							<h:commandButton action="#{receiveOrderView.loadAllOrders()}"
+								value="#{strings['receive.find_all.label']}" />
+						</h:form></td>
+				</tr>
+			</table>
+			<div style="height: 20px;"></div>
+			<h:form>
+				<h:dataTable var="order" value="#{receiveOrderView.orders}"
+					styleClass="product-table" headerClass="product-table-header"
+					rowClasses="product-table-odd-row,product-table-even-row"
+					columnClasses="product-table-text-col, product-table-text-col, 
+    					product-table-text-col, product-table-text-col, product-table-text-col"
+					rendered="#{not empty receiveOrderView.orders}">
+					<h:column>
+						<f:facet name="header">#{strings['receive.table.header_order_id']}</f:facet>
+    						#{order.id}
+    					</h:column>
+					<h:column>
+						<f:facet name="header">#{strings['receive.table.header_order_date']}</f:facet>
+    						#{order.orderingDate}
+    					</h:column>
+					<h:column>
+						<f:facet name="header">#{strings['receive.table.header_status']}</f:facet>
+						<h:outputText value="#{strings['receive.order_status.arrived']}"
+							rendered="#{order.deliveryDate.compareTo(order.orderingDate) ge 0}" />
+						<h:outputText value="#{strings['receive.order_status.pending']}"
+							rendered="#{order.deliveryDate.compareTo(order.orderingDate) lt 0}" />
+					</h:column>
+					<h:column>
+						<h:dataTable value="#{order.entries}" var="orderEntry"
+							styleClass="product-table" headerClass="order-items-table-header"
+							rowClasses="product-table-odd-row,product-table-even-row"
+							columnClasses="product-table-text-col, product-table-text-col, 
+    				product-table-number-col">
+							<h:column>
+								<f:facet name="header">#{strings['product.table.header_id']}</f:facet>
+					#{orderEntry.productId}
+					</h:column>
+
+							<h:column>
+								<f:facet name="header">#{strings['product.create.orderamount.text']}</f:facet>
+					#{orderEntry.amount}
+					</h:column>
+						</h:dataTable>
+					</h:column>
+					<h:column>
+						<h:commandLink action="#{receiveOrderView.rollInOrder(order)}"
+							styleClass="button"
+							title="#{strings['receive.action.roll_in.label']}">
+							<h:graphicImage value="#{resource['icon:icon_gear_check.png']}"
+								styleClass="button" />
+						</h:commandLink>
+					</h:column>
+				</h:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

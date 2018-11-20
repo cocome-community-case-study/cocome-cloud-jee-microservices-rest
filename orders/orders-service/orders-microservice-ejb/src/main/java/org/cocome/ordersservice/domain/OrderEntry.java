@@ -65,7 +65,6 @@ public class OrderEntry implements Serializable {
 	/**
 	 * @return The amount of ordered products
 	 */
-	@Basic
 	public long getAmount() {
 		return this.amount;
 	}
@@ -86,9 +85,7 @@ public class OrderEntry implements Serializable {
 		return this.order;
 	}
 	
-	public void addToOrder(OrderEntry oEntry) {
-				
-	}
+	
 
 	/**
 	 * @param productOrder
@@ -116,7 +113,7 @@ public class OrderEntry implements Serializable {
 	@Override
 	public String toString() {
 		return "[Class:" + this.getClass().getSimpleName() + ",Id" + this.getId()
-				+ ",ProductId:" + this.productId + ",ProductOrder:" + this.order + "]";
+				+ ",ProductId:" + this.productId + ",ProductOrderId:" + this.order.getId() + "]";
 	}
 
 }

@@ -153,7 +153,8 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		
 		changeStateTo(navigationState);
 	}
-
+    
+	@Override
 	public long getActiveStoreId() {
 		return activeStoreId;
 	}
@@ -164,7 +165,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	private List<INavigationElement> populateOrdersView() {
 		List<INavigationElement> enterpriseViewList = new LinkedList<>();
 		enterpriseViewList.add(new NavigationElement(NavigationElements.ORDER_PRODUCTS, labelResolver));
-		enterpriseViewList.add(new NavigationElement(NavigationElements.RECEIVE_PRODUCTS, labelResolver));
+		enterpriseViewList.add(new NavigationElement(NavigationElements.RECEIVE_ORDER, labelResolver));
 
 		return enterpriseViewList;
 	}

@@ -19,6 +19,7 @@ public class OrderQuery implements IOrderQuery, Serializable {
 
 	@EJB
 	OrderEntryRepository entryRepo;
+	
 
 	@EJB
 	ProductOrderRepository orderRepo;
@@ -112,13 +113,15 @@ public class OrderQuery implements IOrderQuery, Serializable {
 		order.setDeliveryDate(deliveryDate);
 		order.setOrderingDate(orderingDate);
 		order.setStoreId(storeId);
+		
+		
 
 		long orderId = orderRepo.create(order);
 		if (orderId == COULD_NOT_CREATE_ENTITY) {
 			LOG.error("QUERY: Could not create Order for store with storeId: " + storeId);
 			return COULD_NOT_CREATE_ENTITY;
 		}
-		LOG.debug("QUERY: Successfully created Order for Store with storeId: " + storeId);
+		LOG.debug("QUERY: Successfully created Order for Store with storeId: " + storeId + " Having ID " + orderId);
 
 		return orderId;
 	}
