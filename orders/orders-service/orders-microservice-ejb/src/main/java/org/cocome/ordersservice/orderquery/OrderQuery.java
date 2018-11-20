@@ -3,15 +3,25 @@ package org.cocome.ordersservice.orderquery;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import javax.ejb.CreateException;
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 
 import org.apache.log4j.Logger;
+import org.cocome.ordersservice.domain.OrderEntry;
 import org.cocome.ordersservice.domain.ProductOrder;
+import org.cocome.ordersservice.exceptions.QueryException;
 import org.cocome.ordersservice.repository.OrderEntryRepository;
 import org.cocome.ordersservice.repository.ProductOrderRepository;
+import org.cocome.productsclient.client.ProductClient;
+import org.cocome.productsclient.domain.ProductTO;
+import org.cocome.storesclient.client.StockItemClient;
+import org.cocome.storesclient.domain.StockItemTO;
+import org.cocome.storesclient.exception.MicroserviceException;
 
 @Local
 @Stateless
@@ -19,7 +29,6 @@ public class OrderQuery implements IOrderQuery, Serializable {
 
 	@EJB
 	OrderEntryRepository entryRepo;
-	
 
 	@EJB
 	ProductOrderRepository orderRepo;
@@ -27,11 +36,15 @@ public class OrderQuery implements IOrderQuery, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -3723414108809787295L;
-	private Logger LOG = Logger.getLogger(OrderQuery.class);
+	private final Logger LOG = Logger.getLogger(OrderQuery.class);
 	private final long COULD_NOT_CREATE_ENTITY = -1;
 
+	// Initialize SearchValues and Clients for Rest Query
+	private final StockItemClient stockClient = new StockItemClient();
+	private final ProductClient productclient = new ProductClient();
+
 	@Override
-	public ProductOrder findOrderById(long id) {
+	public ProductOrder findOrderById(long id) throws QueryException {
 		LOG.debug("QUERY: Retrieving Order from Database with id: " + id);
 		ProductOrder order = orderRepo.find(id);
 
@@ -40,7 +53,7 @@ public class OrderQuery implements IOrderQuery, Serializable {
 			return order;
 		}
 		LOG.debug("QUERY: Did not find order with id: " + id);
-		return null;
+		throw new QueryException("Did not find order with id: " + id);
 	}
 
 	@Override
@@ -58,43 +71,46 @@ public class OrderQuery implements IOrderQuery, Serializable {
 	}
 
 	@Override
-	public boolean updateOrder(long id, Date deliveryDate, Date orderingDate) {
+	public void updateOrder(long id, Date deliveryDate, Date orderingDate) throws QueryException {
 		LOG.debug("QUERY: Trying to update Ordert with id: " + id);
 
 		ProductOrder order = orderRepo.find(id);
 		if (order == null) {
 			LOG.debug("QUERY: Could not update Order with id: " + id + ". Order not found");
-			return false;
+			throw new QueryException("Could not update Order with id: " + id + ". Order not found");
 		}
 
 		if (orderRepo.update(order) == null) {
 			LOG.error("QUERY: Could not update Order with Id: " + order.getId());
-			return false;
+			throw new QueryException("Could not update Order with id: " + id );
 		}
+		
 		LOG.debug("QUERY: Successfully updated Order with  Id: " + order.getId());
-		return true;
+		
 	}
 
 	@Override
-	public boolean deleteOrder(long id) {
+	public void deleteOrder(long id) throws QueryException {
 		LOG.debug("QUERY: Deleting Order from Database with Id: " + id);
 
 		if (orderRepo.delete(id)) {
 			LOG.debug("QUERY: Successfully deleted Order with Id: " + id);
-			return true;
+			return;
 		}
+		
 		LOG.debug("QUERY: Did not find Order with Id: " + id);
-		return false;
+		throw new QueryException("Did not find Order with Id: " +id);
+		
 	}
 
 	@Override
-	public Collection<ProductOrder> getOrdersByStoreId(long storeId) {
+	public Collection<ProductOrder> getOrdersByStoreId(long storeId) throws QueryException {
 		// TODO: Further improvement --> Do SQL statement in Repo
 		LOG.debug("QUERY: Retrieving Orders from Database with storeId: " + storeId);
 		Collection<ProductOrder> orders = orderRepo.all();
 
 		if (orders == null) { // Database error, Prevent NullPointer Access when doing removeIf
-          return null;
+			throw new QueryException("An error occured while retrieving Orders from Repository");
 		}
 		orders.removeIf(order -> order.getStoreId() != storeId);
 
@@ -106,24 +122,105 @@ public class OrderQuery implements IOrderQuery, Serializable {
 	}
 
 	@Override
-	public long createOrder(Date deliveryDate, Date orderingDate, long storeId) {
+	public long createOrder(Date deliveryDate, Date orderingDate, long storeId) throws CreateException {
 		LOG.debug("QUERY: Trying to create Order for store with storeId: " + storeId);
 
 		ProductOrder order = new ProductOrder();
 		order.setDeliveryDate(deliveryDate);
 		order.setOrderingDate(orderingDate);
 		order.setStoreId(storeId);
-		
-		
 
 		long orderId = orderRepo.create(order);
 		if (orderId == COULD_NOT_CREATE_ENTITY) {
 			LOG.error("QUERY: Could not create Order for store with storeId: " + storeId);
-			return COULD_NOT_CREATE_ENTITY;
+			throw new CreateException("Could not create Order for store with store id: " + storeId);
+			
 		}
 		LOG.debug("QUERY: Successfully created Order for Store with storeId: " + storeId + " Having ID " + orderId);
 
 		return orderId;
+	}
+
+	@Override
+	public void rollInOrder(long orderId) throws MicroserviceException, QueryException {
+		LOG.debug("QUERY: Trying to roll in order with orderId: " + orderId);
+
+		// find corresponding order
+		ProductOrder order = orderRepo.find(orderId);
+		if (order == null) {
+			LOG.debug("QUERY: Could not roll in Order with orderID: " + orderId + ". Order not found!");
+			throw new QueryException("Could not roll in Order with orderID: " + orderId + ". Order not found!");
+		}
+
+		long storeId = order.getStoreId();
+
+		/*
+		 * Find all stockItems that are already in stock. We want to add the ordered
+		 * amount to the available amount <br> Convert to map as we need a reliable
+		 * search
+		 */
+		Map<Long, StockItemTO> availableStock = stockClient.findByStore(storeId).stream()
+				.collect(Collectors.toMap(StockItemTO::getProductId, item -> item));
+
+		/*
+		 * We iterate over the Order entries. In case one of the ordered products is
+		 * already in stock, we simply update the corresponding item. If it is not in
+		 * stock we need to create one
+		 */
+		for (OrderEntry entry : order.getOrderEntries()) {
+			StockItemTO stockItem = availableStock.get(entry.getProductId());
+
+			if (stockItem == null) {
+				createNewStockItem(entry, storeId);
+			} else {
+				updateStockItem(stockItem, entry);
+			}
+
+		}
+
+		// TODO: What if one transaction fails? Rollback the other ones? Just leave it
+		// as it is?
+
+	}
+
+	private void updateStockItem(StockItemTO stockItem, OrderEntry entry) throws MicroserviceException {
+		long newAmount = stockItem.getAmount() + entry.getAmount();
+		stockItem.setAmount(newAmount);
+		stockClient.update(stockItem);
+		
+
+	}
+
+	private void createNewStockItem(OrderEntry entry, long storeID) throws MicroserviceException {
+
+		// Get ProductInformation to create StockItem
+		ProductTO productInformation = getProductById(entry.getProductId());
+
+		StockItemTO newStockItem = new StockItemTO();
+
+		// set product infos
+		newStockItem.setBarcode(productInformation.getBarcode());
+		newStockItem.setProductId(productInformation.getId());
+		newStockItem.setSalesPrice(productInformation.getPurchasePrice());
+
+		// set default infos
+		newStockItem.setMinStock(0);
+		newStockItem.setMaxStock(999); // can be adjusted afterwards in store service
+		newStockItem.setIncomingAmount(0);
+
+		// set the ordered amount
+		newStockItem.setAmount(entry.getAmount());
+
+		stockClient.create(newStockItem, storeID);
+
+	}
+
+	/*
+	 * REST Query to productsservice to get productInformation
+	 */
+	private ProductTO getProductById(long productId) {
+
+		return productclient.find(productId);
 	}
 
 }

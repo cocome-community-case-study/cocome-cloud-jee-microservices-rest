@@ -68,6 +68,9 @@ public class StockQuery implements IStockQuery, Serializable {
 		LOG.debug("QUERY: Successfully created StockItem with product id:" + item.getProductId() + " in store with id "
 				+ item.getStore().getId());
 		
+		//update store
+		store.addStockItems(item);
+		
 		return stockItemId;
 	}
 

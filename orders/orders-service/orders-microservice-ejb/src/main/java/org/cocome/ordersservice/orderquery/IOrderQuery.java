@@ -3,23 +3,28 @@ package org.cocome.ordersservice.orderquery;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.ejb.CreateException;
 import javax.validation.constraints.NotNull;
 
 import org.cocome.ordersservice.domain.ProductOrder;
+import org.cocome.ordersservice.exceptions.QueryException;
+import org.cocome.storesclient.exception.MicroserviceException;
 
 public interface IOrderQuery {
 	
-	ProductOrder findOrderById(@NotNull long id);
+	ProductOrder findOrderById(@NotNull long id) throws QueryException;
 	
 	Collection<ProductOrder> getAllOrders();
 	
-	boolean updateOrder(@NotNull long id, @NotNull Date deliveryDate, @NotNull Date orderingDate);
+	void updateOrder(@NotNull long id, @NotNull Date deliveryDate, @NotNull Date orderingDate) throws QueryException;
 	
-	boolean deleteOrder(@NotNull long id);
+	void deleteOrder(@NotNull long id) throws QueryException;
 	
-	Collection<ProductOrder> getOrdersByStoreId(@NotNull long storeId);
+	Collection<ProductOrder> getOrdersByStoreId(@NotNull long storeId) throws QueryException;
 	
-	long createOrder(@NotNull Date deliveryDate, @NotNull Date orderingDate, @NotNull long storeId);
+	long createOrder(@NotNull Date deliveryDate, @NotNull Date orderingDate, @NotNull long storeId) throws CreateException;
+	
+	void rollInOrder(long orderId) throws MicroserviceException, QueryException ;
 	
 	
 

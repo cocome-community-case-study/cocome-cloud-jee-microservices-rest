@@ -58,6 +58,12 @@
   		<version>1.0</version>
   		<scope>compile</scope>
   	</dependency>
+  		<dependency>
+  		<groupId>org.cocome</groupId>
+  		<artifactId>stores-client</artifactId>
+  		<version>1.0</version>
+  		<scope>compile</scope>
+  	</dependency>
 		
 	
 	</dependencies>

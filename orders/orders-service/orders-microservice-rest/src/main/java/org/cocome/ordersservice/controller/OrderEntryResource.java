@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import org.cocome.ordersclient.domain.OrderEntryTO;
 import org.cocome.ordersservice.domain.OrderEntry;
 import org.cocome.ordersservice.entryquery.IEntryQuery;
+import org.cocome.ordersservice.exceptions.QueryException;
 
 @RequestScoped
 @Path("/order-entries")
@@ -54,11 +55,17 @@ public class OrderEntryResource {
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, OrderEntryTO entryTO) {
 		LOG.debug("REST: Trying to update entry with id: " + id);
-		if (entryQuery.updateEntry(id, entryTO.getAmount())) {
-			return Response.noContent().build();
+		
+		try {
+			entryQuery.updateEntry(id, entryTO.getAmount());
+		} catch (QueryException e) {
+			LOG.debug("REST: Could not update Entry with id: " + id);
+			throw new NotFoundException(e.getMessage());
 		}
-		LOG.debug("REST: Could not update Entry with id: " + id);
-		throw new NotFoundException("Could not update Entry with id: " + id);
+		return Response.noContent().build();
+		
+		
+		
 
 	}
 
@@ -66,11 +73,17 @@ public class OrderEntryResource {
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
 		LOG.debug("REST: Trying to delete Entry with id: " + id);
-		if (entryQuery.deleteEntry(id)) {
-			return Response.noContent().build();
+		
+		try {
+			entryQuery.deleteEntry(id);
+		} catch (QueryException e) {
+			LOG.debug("REST: Could not delete Entry with id: " + id);
+			throw new NotFoundException(e.getMessage());
 		}
-		LOG.debug("REST: Could not delete Entry with id: " + id);
-		throw new NotFoundException("Could not delete Entry with Id: " + id);
+		return Response.noContent().build();
+		
+	
+		
 	}
 
 	public static OrderEntryTO toEntryTO(OrderEntry entry) {

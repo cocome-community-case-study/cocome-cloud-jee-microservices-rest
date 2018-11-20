@@ -15,9 +15,11 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.cocome.ordersservice.exceptions.QueryException;
 import org.cocome.ordersservice.frontend.viewdata.OrderViewData;
 import org.cocome.ordersservice.navigation.INavigationMenu;
 import org.cocome.ordersservice.navigation.NavigationElements;
+import org.cocome.storesclient.exception.MicroserviceException;
 
 @Named
 @ViewScoped
@@ -43,21 +45,30 @@ public class ReceiveOrderView implements Serializable {
 
 	public void loadAllOrders() {
 
-		orders = orderManager.getOrdersByStoreId(navMenu.getActiveStoreId())
-				.stream()
-				.collect(Collectors
-				.toMap(OrderViewData::getId, item -> item));
+		try {
+			orders = orderManager.getOrdersByStoreId(navMenu.getActiveStoreId()).stream()
+					.collect(Collectors.toMap(OrderViewData::getId, item -> item));
+		} catch (QueryException e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+		}
+
+		if (orders.isEmpty()) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "No Orders available for this Store", null));
+		}
 
 	}
 
 	public void loadOrder(long orderId) {
-		OrderViewData order = orderManager.findOrderById(orderId);
-		if (order == null) {
-
-			return;
+		OrderViewData order;
+		try {
+			order = orderManager.findOrderById(orderId);
+			orders.put(order.getId(), order);
+		} catch (QueryException e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
 		}
-
-		orders.put(order.getId(), order);
 
 	}
 
@@ -66,15 +77,19 @@ public class ReceiveOrderView implements Serializable {
 	}
 
 	public String rollInOrder(OrderViewData order) {
-		if (orderManager.rollInOrder(order)) {
 
+		try {
+			orderManager.rollInOrder(order.getId());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Order was rolled in successfully! ", null));
-		} else {
+		} catch (MicroserviceException e) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while rolling in the order! ", null));
-
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+		} catch (QueryException e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
 		}
-		return NavigationElements.ORDERS_MAIN.getNavigationOutcome(); // TODO other navigation?
+
+		return NavigationElements.EMPTY_PAGE.getNavigationOutcome();
 	}
 }

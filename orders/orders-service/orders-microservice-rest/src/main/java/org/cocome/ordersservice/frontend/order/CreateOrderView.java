@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import javax.ejb.CreateException;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -78,16 +79,28 @@ public class CreateOrderView implements Serializable {
 		activeStoreId = menu.getActiveStoreId();
 
 		// persist order
-		orderId = orderManager.createOrder(new Date(), new Date(), activeStoreId);
-
-		// persist the entries
-		for (OrderEntry entry : entries.values()) {
-			//TODO Error Handling!
-			entryManager.createEntry(orderId, entry.getProductId(), entry.getAmount());
+		try {
+			
+			// persist order
+			orderId = orderManager.createOrder(new Date(), new Date(), activeStoreId);
+			
+			// persist the entries
+			for (OrderEntry entry : entries.values()) {
+				//TODO Error Handling!
+				entryManager.createEntry(orderId, entry.getProductId(), entry.getAmount());
+			}
+		
+		
+		} catch (CreateException e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+			return NavigationElements.EMPTY_PAGE.getNavigationOutcome();
 		}
+
+	
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully submitted the order!", null));
-		return NavigationElements.SHOW_ORDERS.getNavigationOutcome();
+		return NavigationElements.EMPTY_PAGE.getNavigationOutcome();
 	}
 
 	

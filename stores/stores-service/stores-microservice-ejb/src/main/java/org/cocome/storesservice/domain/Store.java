@@ -2,6 +2,7 @@ package org.cocome.storesservice.domain;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.LinkedList;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -134,8 +135,15 @@ public class Store implements Serializable, Comparable<Store> {
 	 * @param stockItems A list of StockItem objects. A StockItem represents a
 	 *                   concrete product in the store including sales price, ...
 	 */
-	public void setStockItems(final Collection<StockItem> stockItems) {
+	public void setStockItems(Collection<StockItem> stockItems) {
 		this.stockItems = stockItems;
+	}
+	
+	public void addStockItems(StockItem item) {
+		if(stockItems == null) {
+			stockItems = new LinkedList<StockItem>();
+		}
+		stockItems.add(item);
 	}
 
 	@Override

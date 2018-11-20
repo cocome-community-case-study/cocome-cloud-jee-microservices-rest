@@ -51,6 +51,8 @@ public class EntryViewData {
 	
 	
 	
+	
+	
 
 
 }

@@ -118,10 +118,10 @@ public class StoreQuery implements IStoreQuery, Serializable {
 		LOG.debug("QUERY: Retrieving Store from Database with Id: " + storeId);
 		Store store = storeRepo.find(storeId);
 		if (store != null) {
-			LOG.debug("QUERY: Successfully found enterprise with Id: " + storeId);
+			LOG.debug("QUERY: Successfully found store with Id: " + storeId);
 			return store;
 		}
-		LOG.debug("QUERY: Did not find enterprise with Id: " + storeId);
+		LOG.debug("QUERY: Did not find store with Id: " + storeId);
 		return null;
 	}
 
