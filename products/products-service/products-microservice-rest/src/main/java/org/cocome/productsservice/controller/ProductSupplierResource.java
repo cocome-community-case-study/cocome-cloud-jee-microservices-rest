@@ -24,6 +24,8 @@ import org.cocome.productsclient.domain.ProductSupplierTO;
 import org.cocome.productsclient.domain.ProductTO;
 import org.cocome.productsservice.domain.Product;
 import org.cocome.productsservice.domain.ProductSupplier;
+import org.cocome.productsservice.exceptions.CreateException;
+import org.cocome.productsservice.exceptions.QueryException;
 import org.cocome.productsservice.productquery.IProductQuery;
 import org.cocome.productsservice.supplierquery.ISupplierQuery;
 
@@ -38,8 +40,6 @@ public class ProductSupplierResource {
 	private IProductQuery productQuery;
 
 	private static final Logger LOG = Logger.getLogger(ProductSupplierResource.class);
-	
-	private final long COULD_NOT_CREATE_ENTITY = -1;
 
 	@GET
 	public Collection<ProductSupplierTO> findAll() {
@@ -55,12 +55,14 @@ public class ProductSupplierResource {
 	@Path("/{id}")
 	public ProductSupplierTO find(@PathParam("id") Long id) {
 		LOG.debug("REST: Trying to find supplier with id: " + id);
-		ProductSupplier supplier = supplierQuery.findSupplierById(id);
-		if (supplier != null) {
+		ProductSupplier supplier;
+		try {
+			supplier = supplierQuery.findSupplierById(id);
 			return toSupplierTO(supplier);
+		} catch (QueryException e) {
+			LOG.debug("REST: " + e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
-		LOG.debug("REST: Did not find Supplier with id: " + id);
-		throw new NotFoundException("Could not find supplier with Id: " + id);
 
 	}
 
@@ -68,35 +70,35 @@ public class ProductSupplierResource {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, ProductSupplierTO supplierTO) {
+
 		LOG.debug("REST: Try to update Supplier with Id: " + id);
 		supplierTO.setId(id);
-		ProductSupplier supplier = supplierQuery.findSupplierById(id);
-		if(supplier == null) {
-			LOG.debug("REST: Could not update supplier with id: " + id + ".  SUpplier not found!");
-			throw new NotFoundException("Could not update supplier with Id: " + id);
-		}
-		
-		// We need to preserver ProductCollection of supplier
-		supplier = fromSupplierTO(supplierTO, supplier);
-		
-		
 
-		if (supplierQuery.updateSupplier(supplier)) {
+		try {
+			ProductSupplier supplier = supplierQuery.findSupplierById(id);
+			supplier = fromSupplierTO(supplierTO, supplier);
+			supplierQuery.updateSupplier(supplier);
 			return Response.noContent().build();
+		} catch (QueryException e) {
+			LOG.debug("REST: Could not update supplier with id: " + id);
+			throw new NotFoundException(e.getMessage());
 		}
-		LOG.debug("REST: Could not update supplier with id: " + id);
-		throw new NotFoundException("Could not update supplier with Id: " + id);
+
 	}
 
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
 		LOG.debug("REST: Try to delete supplier with id: " + id);
-		if (supplierQuery.deleteSupplier(id)) {
+
+		try {
+			supplierQuery.deleteSupplier(id);
 			return Response.noContent().build();
+
+		} catch (QueryException e) {
+			LOG.debug("REST: " + e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
-		LOG.debug("REST: Could not delete supplier with id: " + id);
-		throw new NotFoundException("Could not delete supplier with Id: " + id);
 
 	}
 
@@ -104,10 +106,13 @@ public class ProductSupplierResource {
 	@Path("/{id}/products")
 	public Collection<ProductTO> getProductsBySupplierId(@PathParam("id") Long supplierId) {
 		LOG.debug("REST: Trying to find Products from supplier with id: " + supplierId);
-		ProductSupplier supplier = supplierQuery.findSupplierById(supplierId);
-		if (supplier == null) {
-			LOG.debug("REST: Did not find Supplier with id: " + supplierId);
-			throw new NotFoundException("Could not find supplier with Id: " + supplierId);
+
+		ProductSupplier supplier;
+		try {
+			supplier = supplierQuery.findSupplierById(supplierId);
+		} catch (QueryException e) {
+			LOG.debug("REST: " + e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
 
 		Collection<ProductTO> collection = new LinkedList<ProductTO>();
@@ -125,39 +130,46 @@ public class ProductSupplierResource {
 	public Response createProduct(@Context UriInfo uriInfo, @PathParam("id") Long supplierId, ProductTO productTO) {
 
 		LOG.debug("REST: Trying to create Product for supplier with supplier id: " + supplierId);
-		if (supplierQuery.findSupplierById(supplierId) == null) {
-			LOG.debug("REST: Could not create Product. Supplier not found with id: " + supplierId);
-			throw new NotFoundException("Could not find supplier with Id: " + supplierId);
+
+		try {
+
+			// find supplier for coresponsing product
+			supplierQuery.findSupplierById(supplierId);
+
+			// create Product
+			Long productId = productQuery.createProduct(productTO.getName(), productTO.getBarcode(),
+					productTO.getPurchasePrice(), supplierId);
+
+			// return product id
+			UriBuilder builder = UriBuilder.fromUri(uriInfo.getBaseUri()).path(ProductResource.class)
+					.path(productId.toString());
+			return Response.created(builder.build()).build();
+
+		} catch (QueryException | CreateException e) {
+			LOG.debug("REST: " + e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
 
-		Long productId = productQuery.createProduct(productTO.getName(), productTO.getBarcode(), productTO.getPurchasePrice(),
-				supplierId);
-        if(productId == COULD_NOT_CREATE_ENTITY) {
-        	LOG.debug("REST: Coudl not create Product with name: " + productTO.getName());
-        	throw new NotFoundException("Could not create Product with name: " + productTO.getName());
-        }
-		
-		UriBuilder builder = UriBuilder.fromUri(uriInfo.getBaseUri()).path(ProductResource.class)
-				.path(productId.toString());
-		return Response.created(builder.build()).build();
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response createSupplier(@Context UriInfo uriInfo, ProductSupplierTO supplierTO) {
 		LOG.debug("REST: Create supplier with name: " + supplierTO.getName());
-		Long supplierId = supplierQuery.createSupplier(supplierTO.getName());
-		
-		if(supplierId == COULD_NOT_CREATE_ENTITY) {
-			LOG.debug("REST: Could not create Supplier with name: " + supplierTO.getName());
+
+		Long supplierId;
+		try {
+			supplierId = supplierQuery.createSupplier(supplierTO.getName());
+			UriBuilder builder = UriBuilder.fromUri(uriInfo.getBaseUri()).path(ProductSupplierResource.class)
+					.path(supplierId.toString());
+			LOG.debug("Builder:" + builder.build());
+			return Response.created(builder.build()).build();
+		} catch (CreateException e) {
+
+			LOG.debug("REST: " + e.getMessage());
 			throw new NotFoundException("Could not create Supplier with name: " + supplierTO.getName());
-			
 		}
-		
-		UriBuilder builder = UriBuilder.fromUri(uriInfo.getBaseUri()).path(ProductSupplierResource.class)
-				.path(supplierId.toString());
-		LOG.debug("Builder:" + builder.build());
-		return Response.created(builder.build()).build();
+
 	}
 
 	public static ProductSupplierTO toSupplierTO(ProductSupplier supplier) {
@@ -171,7 +183,5 @@ public class ProductSupplierResource {
 		supplier.setName(supplierTO.getName());
 		return supplier;
 	}
-
-	
 
 }

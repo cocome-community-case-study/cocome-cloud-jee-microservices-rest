@@ -1,6 +1,6 @@
 package org.cocome.storesclient.exception;
 
-public class MicroserviceException extends Exception  {
+public class StoreRestException extends Exception  {
 
 	/**
 	 * 
@@ -8,7 +8,7 @@ public class MicroserviceException extends Exception  {
 	private static final long serialVersionUID = -7500224905593796581L;
 
 	
-	public MicroserviceException(String message) {
+	public StoreRestException(String message) {
 		super(message);
 	}
 }

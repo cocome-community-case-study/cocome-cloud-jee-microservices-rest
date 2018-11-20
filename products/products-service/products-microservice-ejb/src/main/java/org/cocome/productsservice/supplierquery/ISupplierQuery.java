@@ -2,21 +2,24 @@ package org.cocome.productsservice.supplierquery;
 
 import java.util.Collection;
 
+
 import javax.validation.constraints.NotNull;
 
 import org.cocome.productsservice.domain.ProductSupplier;
+import org.cocome.productsservice.exceptions.CreateException;
+import org.cocome.productsservice.exceptions.QueryException;
 
 public interface ISupplierQuery {
 
-	public long createSupplier(@NotNull String name);
+	public long createSupplier(@NotNull String name) throws CreateException;
 	
-	public ProductSupplier findSupplierById(@NotNull long id);
+	public ProductSupplier findSupplierById(@NotNull long id) throws QueryException;
 	
 	public Collection<ProductSupplier> getAllSuppliers();
 	
-	public boolean updateSupplier(@NotNull ProductSupplier supplier);
+	public void updateSupplier(@NotNull ProductSupplier supplier) throws QueryException;
 	
-	public boolean deleteSupplier(@NotNull long id);
+	public void deleteSupplier(@NotNull long id) throws QueryException;
 	
 	
 	

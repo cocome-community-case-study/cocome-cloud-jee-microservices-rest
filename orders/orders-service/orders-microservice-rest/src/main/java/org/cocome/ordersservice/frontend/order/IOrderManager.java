@@ -8,7 +8,8 @@ import javax.validation.constraints.NotNull;
 
 import org.cocome.ordersservice.exceptions.QueryException;
 import org.cocome.ordersservice.frontend.viewdata.OrderViewData;
-import org.cocome.storesclient.exception.MicroserviceException;
+import org.cocome.productsclient.exception.ProductsRestException;
+import org.cocome.storesclient.exception.StoreRestException;
 
 public interface IOrderManager {
 	
@@ -20,7 +21,7 @@ public interface IOrderManager {
 	
 	OrderViewData findOrderById(@NotNull long orderId) throws QueryException;
 	
-	void rollInOrder(long orderId) throws MicroserviceException, QueryException;
+	void rollInOrder(long orderId) throws ProductsRestException, QueryException, StoreRestException;
 	
 
 }

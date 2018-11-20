@@ -19,7 +19,8 @@ import org.cocome.ordersservice.exceptions.QueryException;
 import org.cocome.ordersservice.frontend.viewdata.OrderViewData;
 import org.cocome.ordersservice.navigation.INavigationMenu;
 import org.cocome.ordersservice.navigation.NavigationElements;
-import org.cocome.storesclient.exception.MicroserviceException;
+import org.cocome.productsclient.exception.ProductsRestException;
+import org.cocome.storesclient.exception.StoreRestException;
 
 @Named
 @ViewScoped
@@ -82,13 +83,10 @@ public class ReceiveOrderView implements Serializable {
 			orderManager.rollInOrder(order.getId());
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Order was rolled in successfully! ", null));
-		} catch (MicroserviceException e) {
+		} catch (ProductsRestException  | QueryException  | StoreRestException e ) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
-		} catch (QueryException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
-		}
+		} 
 
 		return NavigationElements.EMPTY_PAGE.getNavigationOutcome();
 	}

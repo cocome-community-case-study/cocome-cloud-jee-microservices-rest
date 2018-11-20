@@ -8,7 +8,9 @@ import javax.validation.constraints.NotNull;
 
 import org.cocome.ordersservice.domain.ProductOrder;
 import org.cocome.ordersservice.exceptions.QueryException;
-import org.cocome.storesclient.exception.MicroserviceException;
+import org.cocome.productsclient.exception.ProductsRestException;
+import org.cocome.storesclient.exception.StoreRestException;
+
 
 public interface IOrderQuery {
 	
@@ -24,7 +26,7 @@ public interface IOrderQuery {
 	
 	long createOrder(@NotNull Date deliveryDate, @NotNull Date orderingDate, @NotNull long storeId) throws CreateException;
 	
-	void rollInOrder(long orderId) throws MicroserviceException, QueryException ;
+	void rollInOrder(long orderId) throws StoreRestException, QueryException, ProductsRestException ;
 	
 	
 

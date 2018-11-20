@@ -19,9 +19,11 @@ import org.cocome.ordersservice.repository.OrderEntryRepository;
 import org.cocome.ordersservice.repository.ProductOrderRepository;
 import org.cocome.productsclient.client.ProductClient;
 import org.cocome.productsclient.domain.ProductTO;
+import org.cocome.productsclient.exception.ProductsRestException;
 import org.cocome.storesclient.client.StockItemClient;
 import org.cocome.storesclient.domain.StockItemTO;
-import org.cocome.storesclient.exception.MicroserviceException;
+import org.cocome.storesclient.exception.StoreRestException;
+
 
 @Local
 @Stateless
@@ -142,7 +144,7 @@ public class OrderQuery implements IOrderQuery, Serializable {
 	}
 
 	@Override
-	public void rollInOrder(long orderId) throws MicroserviceException, QueryException {
+	public void rollInOrder(long orderId) throws QueryException, StoreRestException, ProductsRestException {
 		LOG.debug("QUERY: Trying to roll in order with orderId: " + orderId);
 
 		// find corresponding order
@@ -183,7 +185,7 @@ public class OrderQuery implements IOrderQuery, Serializable {
 
 	}
 
-	private void updateStockItem(StockItemTO stockItem, OrderEntry entry) throws MicroserviceException {
+	private void updateStockItem(StockItemTO stockItem, OrderEntry entry) throws StoreRestException {
 		long newAmount = stockItem.getAmount() + entry.getAmount();
 		stockItem.setAmount(newAmount);
 		stockClient.update(stockItem);
@@ -191,7 +193,7 @@ public class OrderQuery implements IOrderQuery, Serializable {
 
 	}
 
-	private void createNewStockItem(OrderEntry entry, long storeID) throws MicroserviceException {
+	private void createNewStockItem(OrderEntry entry, long storeID) throws StoreRestException, ProductsRestException {
 
 		// Get ProductInformation to create StockItem
 		ProductTO productInformation = getProductById(entry.getProductId());
@@ -218,7 +220,7 @@ public class OrderQuery implements IOrderQuery, Serializable {
 	/*
 	 * REST Query to productsservice to get productInformation
 	 */
-	private ProductTO getProductById(long productId) {
+	private ProductTO getProductById(long productId) throws org.cocome.productsclient.exception.ProductsRestException  {
 
 		return productclient.find(productId);
 	}

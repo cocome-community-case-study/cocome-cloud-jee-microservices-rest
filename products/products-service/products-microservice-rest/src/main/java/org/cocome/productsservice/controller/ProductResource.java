@@ -18,11 +18,13 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.cocome.productsclient.domain.ProductTO;
 import org.cocome.productsservice.domain.Product;
+import org.cocome.productsservice.exceptions.QueryException;
 import org.cocome.productsservice.productquery.IProductQuery;
 import org.cocome.productsservice.supplierquery.ISupplierQuery;
 
 /**
  * REST-Controller to access Backend
+ * 
  * @author Niko Benkler
  * @author Robert Heinrich
  *
@@ -30,15 +32,14 @@ import org.cocome.productsservice.supplierquery.ISupplierQuery;
 @RequestScoped
 @Path("/products")
 public class ProductResource {
-	
-	
-	@EJB 
+
+	@EJB
 	private IProductQuery productQuery;
-	
+
 	@EJB
 	private ISupplierQuery supplierQuery;
 	private static final Logger LOG = Logger.getLogger(ProductResource.class);
-	
+
 	@GET
 	public Collection<ProductTO> findAll() {
 		LOG.debug("REST: Retrieve all Products");
@@ -48,57 +49,59 @@ public class ProductResource {
 		}
 		return collection;
 	}
-	
+
 	@GET
 	@Path("/{id}")
 	public ProductTO find(@PathParam("id") Long id) {
-		
+
 		LOG.debug("REST: Trying to find Product with id: " + id);
-		Product product = productQuery.findProductByid(id);
-		if (product != null) {
+
+		try {
+			Product product = productQuery.findProductByid(id);
 			return toProductTO(product);
+		} catch (QueryException e) {
+			LOG.debug("REST: " + e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
-		LOG.debug("REST: Did not find Product with id: " + id);
-		throw new NotFoundException("Could not find Product with Id: " + id);	
-		
-		
+
 	}
-	
-	
-	
-	
+
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, ProductTO productTO) {
 		LOG.debug("REST: Try to update Product with Id: " + id);
-		
-       
-		if (productQuery.updateProduct(id, productTO.getName(), productTO.getPurchasePrice(), productTO.getBarcode())) {
+
+		try {
+			productQuery.updateProduct(id, productTO.getName(), productTO.getPurchasePrice(), productTO.getBarcode());
 			return Response.noContent().build();
+		} catch (QueryException e) {
+			LOG.debug("REST: " + e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
-		LOG.debug("REST: Could not update Product with id: " + id);
-		throw new NotFoundException("Could not update product with Id: " + id);
-		
-		
+
 	}
-	
-	
+
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
-		
-		
 		LOG.debug("REST: Try to delete product with id: " + id);
-		if (productQuery.deleteProduct(id)) {
-			return Response.noContent().build();
-		}
-		LOG.debug("REST: Could not delete product with id: " + id);
-		throw new NotFoundException("Could not delete product with Id: " + id);
 		
+		try {
+			productQuery.deleteProduct(id);
+			return Response.noContent().build();
+		} catch (QueryException e) {
+			LOG.debug("REST: " + e.getMessage());
+			throw new NotFoundException(e.getMessage());
+
+		}
+
+		
+	
+	
 	
 	}
-	
+
 	public static Product fromProductTO(ProductTO productTO, Product product) {
 		product.setName(productTO.getName());
 		product.setPurchasePrice(productTO.getPurchasePrice());
@@ -106,9 +109,7 @@ public class ProductResource {
 		return product;
 
 	}
-	
-	
-	
+
 	public static ProductTO toProductTO(Product product) {
 		ProductTO productTO = new ProductTO();
 		productTO.setId(product.getId());
@@ -116,10 +117,9 @@ public class ProductResource {
 		productTO.setBarcode(product.getBarcode());
 		productTO.setPurchasePrice(product.getPurchasePrice());
 		productTO.setSupplier(ProductSupplierResource.toSupplierTO(product.getSupplier()));
-		
+
 		return productTO;
-		
+
 	}
-	
-	
+
 }

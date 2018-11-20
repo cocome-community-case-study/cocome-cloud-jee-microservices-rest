@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import org.cocome.productsservice.domain.ProductSupplier;
+import org.cocome.productsservice.exceptions.CreateException;
 import org.cocome.productsservice.frontend.viewdata.SupplierViewData;
 import org.cocome.productsservice.navigation.NavigationElements;
 import org.cocome.productsservice.supplierquery.ISupplierQuery;
@@ -34,7 +35,7 @@ public class SupplierManager implements ISupplierManager {
 	 * We might want to use cacheing here!
 	 */
 	private Map<Long, SupplierViewData> suppliers;
-	private final long COULD_NOT_CREATE_ENTITY = -1;
+	
 
 	/**
 	 * Create supplier. Only name is needed. Products are created afterwards and are
@@ -42,18 +43,22 @@ public class SupplierManager implements ISupplierManager {
 	 */
 	@Override
 	public String createSupplier(String supplierName) {
-		if (supplierQuery.createSupplier(supplierName)!= COULD_NOT_CREATE_ENTITY) {
-
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created the new supplier!", null));
+		
+		
+		try {
+			supplierQuery.createSupplier(supplierName);
+			new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created the new supplier!", null);
 
 			return NavigationElements.SHOW_SUPPLIERS.getNavigationOutcome();
-		} else {
+		} catch (CreateException e) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creating the new enterprise!", null));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
 
 			return NavigationElements.PRODUCTS_MAIN.getNavigationOutcome();
 		}
+		
+		
+		
 	}
 
 	/**

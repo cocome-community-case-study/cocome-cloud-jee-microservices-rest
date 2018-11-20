@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import org.apache.log4j.Logger;
 import org.cocome.ordersservice.frontend.viewdata.ProductViewData;
 import org.cocome.ordersservice.productquery.IProductQuery;
+import org.cocome.productsclient.exception.ProductsRestException;
 
 
 /**
@@ -57,10 +58,7 @@ public class ProductsManager implements IProductsManager, Serializable {
 	 *
 	 */
 	
-	@PostConstruct
-	private void postConstruct() {
-		products = ProductViewData.fromProductCollection(productQuery.getAllProducts());
-	}
+	
 
 
 	/**
@@ -69,6 +67,15 @@ public class ProductsManager implements IProductsManager, Serializable {
 	@Override
 	public Collection<ProductViewData> getAllProducts() {
 		
+		//Init Product only once
+		if(products == null) {
+			try {
+				products = ProductViewData.fromProductCollection(productQuery.getAllProducts());
+			} catch (ProductsRestException e) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+			}
+		}
 		return products;
 
 	}

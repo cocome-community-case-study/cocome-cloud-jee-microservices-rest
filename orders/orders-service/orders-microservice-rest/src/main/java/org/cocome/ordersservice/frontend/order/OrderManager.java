@@ -20,7 +20,8 @@ import org.cocome.ordersservice.frontend.viewdata.OrderViewData;
 import org.cocome.ordersservice.frontend.viewdata.ProductViewData;
 import org.cocome.ordersservice.navigation.NavigationElements;
 import org.cocome.ordersservice.orderquery.IOrderQuery;
-import org.cocome.storesclient.exception.MicroserviceException;
+import org.cocome.productsclient.exception.ProductsRestException;
+import org.cocome.storesclient.exception.StoreRestException;
 
 @Named
 @ApplicationScoped
@@ -82,7 +83,7 @@ public class OrderManager implements IOrderManager, Serializable {
 	}
 
 	@Override
-	public void rollInOrder(long orderId) throws MicroserviceException, QueryException {
+	public void rollInOrder(long orderId) throws ProductsRestException, QueryException, StoreRestException {
 		
 			orderQuery.rollInOrder(orderId);
 		

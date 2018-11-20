@@ -14,6 +14,7 @@ import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
+import org.cocome.productsservice.exceptions.CreateException;
 import org.cocome.productsservice.frontend.supplier.ISupplierManager;
 import org.cocome.productsservice.frontend.viewdata.ProductViewData;
 import org.cocome.productsservice.navigation.NavigationElements;
@@ -45,7 +46,7 @@ public class ProductsManager implements IProductsManager {
 
 	@Inject
 	ISupplierManager supplierManager;
-	private final long COULD_NOT_CREATE_ENTITY = -1;
+
 
 	/**
 	 * Create Product. All Parameters are required, especially supplierId
@@ -62,19 +63,22 @@ public class ProductsManager implements IProductsManager {
 			return NavigationElements.CREATE_PRODUCT.getNavigationOutcome();
 
 		}
-
-		if (productQuery.createProduct(name, barcode, purchasePrice, supplierId)!= COULD_NOT_CREATE_ENTITY) {
-
+		
+		try {
+			productQuery.createProduct(name, barcode, purchasePrice, supplierId);
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created the new Product!", null));
 
 			return NavigationElements.SHOW_PRODUCTS.getNavigationOutcome();
-		} else {
+			
+		} catch (CreateException e) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creating the new Product!", null));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
 
 			return NavigationElements.PRODUCTS_MAIN.getNavigationOutcome();
 		}
+
+		
 
 	}
 

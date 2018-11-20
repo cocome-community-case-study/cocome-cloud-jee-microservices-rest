@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 
 import org.cocome.storesclient.config.Config;
 import org.cocome.storesclient.domain.StoreTO;
-import org.cocome.storesclient.exception.MicroserviceException;
+import org.cocome.storesclient.exception.StoreRestException;
 
 public class StoreClient {
 	private final WebTarget webTarget;
@@ -25,34 +25,34 @@ public class StoreClient {
 		this.webTarget = client.target(Config.getBaseUri());
 	}
 
-	public Collection<StoreTO> findAll() throws MicroserviceException {
+	public Collection<StoreTO> findAll() throws StoreRestException {
 		try {
 			return this.webTarget.path("stores").request().accept(MediaType.APPLICATION_XML_TYPE)
 					.get(new GenericType<Collection<StoreTO>>() {
 					});
 
 		} catch (NotFoundException e) {
-			throw new MicroserviceException(e.getResponse().readEntity(String.class)); 
+			throw new StoreRestException(e.getResponse().readEntity(String.class)); 
 		} catch (ProcessingException e) {
-			throw new MicroserviceException("Connection to storesservice refused!");
+			throw new StoreRestException("Connection to storesservice refused!");
 		}
 
 	}
 
-	public StoreTO find(long id) throws MicroserviceException {
+	public StoreTO find(long id) throws StoreRestException {
 		try {
 			return this.webTarget.path("stores").path(Long.toString(id)).request()
 					.accept(MediaType.APPLICATION_XML_TYPE).get(StoreTO.class);
 
 		} catch (NotFoundException e) {
-			throw new MicroserviceException(e.getResponse().readEntity(String.class));
+			throw new StoreRestException(e.getResponse().readEntity(String.class));
 		} catch (ProcessingException e) {
-			throw new MicroserviceException("Connection to storesservice refused!");
+			throw new StoreRestException("Connection to storesservice refused!");
 		}
 
 	}
 
-	public long create(StoreTO store, long enterpriseId) throws MicroserviceException {
+	public long create(StoreTO store, long enterpriseId) throws StoreRestException {
 		try {
 			Response response = this.webTarget.path("trading-enterprises").path(Long.toString(enterpriseId))
 					.path("stores").request(MediaType.APPLICATION_XML_TYPE).post(Entity.xml(store));
@@ -60,47 +60,47 @@ public class StoreClient {
 			Long id = Long.valueOf(uri.getPath().substring(uri.getPath().lastIndexOf('/') + 1));
 			return id;
 		} catch (NotFoundException e) {
-			throw new MicroserviceException(e.getResponse().readEntity(String.class));
+			throw new StoreRestException(e.getResponse().readEntity(String.class));
 		} catch (ProcessingException e) {
-			throw new MicroserviceException("Connection to storesservice refused!");
+			throw new StoreRestException("Connection to storesservice refused!");
 		}
 
 	}
 
-	public void update(StoreTO store) throws MicroserviceException {
+	public void update(StoreTO store) throws StoreRestException {
 		try {
 			this.webTarget.path("stores").path(Long.toString(store.getId())).request(MediaType.APPLICATION_XML_TYPE)
 					.put(Entity.xml(store));
 
 		} catch (NotFoundException e) {
-			throw new MicroserviceException(e.getResponse().readEntity(String.class));
+			throw new StoreRestException(e.getResponse().readEntity(String.class));
 		} catch (ProcessingException e) {
-			throw new MicroserviceException("Connection to storesservice refused!");
+			throw new StoreRestException("Connection to storesservice refused!");
 		} 
 
 	}
 
-	public void delete(StoreTO store) throws MicroserviceException {
+	public void delete(StoreTO store) throws StoreRestException {
 		try {
 			this.webTarget.path("stores").path(Long.toString(store.getId())).request().delete();
 			
 		} catch (NotFoundException e) {
-			throw new MicroserviceException(e.getResponse().readEntity(String.class));
+			throw new StoreRestException(e.getResponse().readEntity(String.class));
 		} catch (ProcessingException e) {
-			throw new MicroserviceException("Connection to storesservice refused!");
+			throw new StoreRestException("Connection to storesservice refused!");
 		}
 
 	}
 
-	public Collection<StoreTO> findByEnterprise(long enterpriseId) throws MicroserviceException {
+	public Collection<StoreTO> findByEnterprise(long enterpriseId) throws StoreRestException {
 		try {
 			return this.webTarget.path("trading-enterprises").path(Long.toString(enterpriseId)).path("stores").request()
 					.accept(MediaType.APPLICATION_XML_TYPE).get(new GenericType<Collection<StoreTO>>() {
 					});
 		} catch (NotFoundException e) {
-			throw new MicroserviceException(e.getResponse().readEntity(String.class));
+			throw new StoreRestException(e.getResponse().readEntity(String.class));
 		} catch (ProcessingException e) {
-			throw new MicroserviceException("Connection to storesservice refused!");
+			throw new StoreRestException("Connection to storesservice refused!");
 		}
 		
 	}
