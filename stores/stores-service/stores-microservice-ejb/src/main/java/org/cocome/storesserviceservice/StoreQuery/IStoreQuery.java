@@ -5,21 +5,23 @@ import java.util.Collection;
 import javax.validation.constraints.NotNull;
 
 import org.cocome.storesservice.domain.Store;
+import org.cocome.storesservice.exceptions.CreateException;
+import org.cocome.storesservice.exceptions.QueryException;
 
 public interface IStoreQuery {
 
-	long createStore(@NotNull String storeName, @NotNull String storeLocation, @NotNull Long enterpriseId);
+	long createStore(@NotNull String storeName, @NotNull String storeLocation, @NotNull Long enterpriseId) throws CreateException;
 
 	Collection<Store> getAllStores();
 
-	Store getStoreById(@NotNull long storeId);
+	Store getStoreById(@NotNull long storeId) throws QueryException;
 
-	Collection<Store> getStoresOfEnterprise(@NotNull long enterpriseId);
+	Collection<Store> getStoresOfEnterprise(@NotNull long enterpriseId) throws QueryException;
 
-	boolean updateStore(@NotNull long storeId, @NotNull String newName, @NotNull String newLocation);
+	void updateStore(@NotNull long storeId, @NotNull String newName, @NotNull String newLocation) throws QueryException;
 
 	
 
-	boolean deleteStore(long storeId);
+	void deleteStore(long storeId) throws QueryException;
 
 }

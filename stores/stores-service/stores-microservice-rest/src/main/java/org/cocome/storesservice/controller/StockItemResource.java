@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.cocome.storesclient.domain.StockItemTO;
 import org.cocome.storesservice.domain.StockItem;
+import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesserviceservice.StoreQuery.IStockQuery;
 
 /**
@@ -51,11 +52,12 @@ public class StockItemResource {
 	public StockItemTO find(@PathParam("id") Long id) {
 		LOG.debug("REST: Trying to find StockItem with id: " + id);
 
-		StockItem item = stockQuery.getStockItemById(id);
-
-		if (item == null) {
-			LOG.debug("REST: Could not find StockItem with id: " + id);
-			throw new NotFoundException("Could not find StockItem with id: " + id);
+		StockItem item;
+		try {
+			item = stockQuery.getStockItemById(id);
+		} catch (QueryException e) {
+			LOG.debug("REST: "+e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
 		return toStockItemTo(item);
 
@@ -67,25 +69,39 @@ public class StockItemResource {
 	public Response update(@PathParam("id") Long id, StockItemTO stockItemTO) {
 		LOG.debug("REST: Try to update StockItem with id" + id);
 
-		if (stockQuery.updateStockeItem(id, stockItemTO.getSalesPrice(), stockItemTO.getAmount(),
-				stockItemTO.getMinStock(), stockItemTO.getMaxStock(), stockItemTO.getBarcode(),
-				stockItemTO.getIncomingAmount())) {
-			return Response.noContent().build();
+		try {
+			stockQuery.updateStockeItem(id, stockItemTO.getSalesPrice(), stockItemTO.getAmount(),
+					stockItemTO.getMinStock(), stockItemTO.getMaxStock(), stockItemTO.getBarcode(),
+					stockItemTO.getIncomingAmount());
+		} catch (QueryException e) {
+			LOG.debug("REST: "+e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
+		
+		
+		
+			return Response.noContent().build();
+		
 
-		LOG.debug("REST: Could not update StockItem with id: " + id);
-		throw new NotFoundException("Could not update StockItem with Id: " + id );
+		
 	}
 
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
 		LOG.debug("REST: Try to delete StockItem with Id: " + id);
-		if(stockQuery.deleteStockItem(id)) {
-			return Response.noContent().build();
+		
+		try {
+			stockQuery.deleteStockItem(id);
+		} catch (QueryException e) {
+			LOG.debug("REST: "+e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
-		LOG.debug("REST: Could not delete StockItem with id: " + id);
-		throw new NotFoundException("Could not delete StockItem with Id: " + id );
+		
+		
+			return Response.noContent().build();
+		
+		
 	}
 
 	public static StockItem fromStockItemTO(StockItemTO itemTO, StockItem item) {

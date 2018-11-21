@@ -2,6 +2,7 @@ package org.cocome.storesservice.frontend.store;
 
 import java.util.Collection;
 
+import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesservice.frontend.viewdata.StoreViewData;
 
 public interface IStoreManager {
@@ -9,7 +10,7 @@ public String createStore(String storeName, String location, long enterpriseId);
 	
 	public Collection<StoreViewData> getStores();
 	
-	public StoreViewData getStoreById(long storeId);
+	public StoreViewData getStoreById(long storeId) throws QueryException;
 	
 	public Collection<StoreViewData> getStoresByEnterpriseId(long enterpriseId);
 	

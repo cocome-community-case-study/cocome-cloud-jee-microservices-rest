@@ -5,6 +5,8 @@ import java.util.Collection;
 import javax.validation.constraints.NotNull;
 
 import org.cocome.storesservice.domain.StockItem;
+import org.cocome.storesservice.exceptions.CreateException;
+import org.cocome.storesservice.exceptions.QueryException;
 
 public interface IStockQuery {
 
@@ -12,13 +14,13 @@ public interface IStockQuery {
 
 	long createStockItem(@NotNull double salesPrice, @NotNull long amount, @NotNull long minStock,
 			@NotNull long maxStock, @NotNull long barcode, @NotNull long incomingAmount, @NotNull long productId,
-			@NotNull long storeId);
+			@NotNull long storeId) throws CreateException;
 
 	Collection<StockItem> getAllStockItems();
 
-	StockItem getStockItemById(@NotNull long stockItemId);
+	StockItem getStockItemById(@NotNull long stockItemId) throws QueryException;
 
-	Collection<StockItem> getStockItemsByStore(@NotNull long storeId);
+	Collection<StockItem> getStockItemsByStore(@NotNull long storeId) throws QueryException;
 
 	
 
@@ -34,9 +36,10 @@ public interface IStockQuery {
 	 * @param barcode
 	 * @param incomingAmount
 	 * @return
+	 * @throws QueryException 
 	 */
-	boolean updateStockeItem(@NotNull long id, @NotNull double salesPrice, @NotNull long amount, @NotNull long minStock,
-			@NotNull long maxStock, @NotNull long barcode, @NotNull long incomingAmount);
+	void updateStockeItem(@NotNull long id, @NotNull double salesPrice, @NotNull long amount, @NotNull long minStock,
+			@NotNull long maxStock, @NotNull long barcode, @NotNull long incomingAmount) throws QueryException;
 
-	boolean deleteStockItem(@NotNull long stockItemId);
+	void deleteStockItem(@NotNull long stockItemId) throws QueryException;
 }

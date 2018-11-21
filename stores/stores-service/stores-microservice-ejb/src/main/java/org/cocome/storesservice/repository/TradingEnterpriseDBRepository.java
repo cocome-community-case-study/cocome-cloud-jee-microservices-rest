@@ -27,7 +27,7 @@ public class TradingEnterpriseDBRepository implements TradingEnterpriseRepositor
 	@PersistenceContext(unitName = "InventoryManager")
 	private EntityManager em;
 
-	private final long COULD_NOT_CREATE_ENTITY = -1;
+	
 
 	private static final Logger LOG = Logger.getLogger(TradingEnterprise.class);
 
@@ -37,7 +37,7 @@ public class TradingEnterpriseDBRepository implements TradingEnterpriseRepositor
 	/**
 	 * Creation of entity TradingEnterprise <br>
 	 * 
-	 * @return COULD_NOT_CREATE_ENTITY or Id of Tradingenterprise
+	 * @return Id of Tradingenterprise
 	 */
 	@Override
 	public Long create(TradingEnterprise entity) {
@@ -47,7 +47,7 @@ public class TradingEnterpriseDBRepository implements TradingEnterpriseRepositor
 		} catch (Exception e) {
 			LOG.error("DATABASE: Database Error while creating Enterprise with name: " + entity.getName() + "     "
 					+ e.getMessage());
-			return COULD_NOT_CREATE_ENTITY;
+			return null;
 		}
 		return entity.getId();
 	}

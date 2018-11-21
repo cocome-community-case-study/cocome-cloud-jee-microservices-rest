@@ -53,20 +53,7 @@ public class ProductsManager implements IProductsManager, Serializable {
 	@EJB
 	IProductQuery productQuery;
 
-	/**
-	 * Create Product. All Parameters are required, especially supplierId
-	 *
-	 */
 	
-	@PostConstruct
-	private void postConstruct() {
-		try {
-			products = ProductViewData.fromProductCollection(productQuery.getAllProducts());
-		} catch (ProductsRestException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
-		}
-	}
 
 
 	/**

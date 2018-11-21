@@ -5,19 +5,21 @@ import java.util.Collection;
 import javax.validation.constraints.NotNull;
 
 import org.cocome.storesservice.domain.TradingEnterprise;
+import org.cocome.storesservice.exceptions.CreateException;
+import org.cocome.storesservice.exceptions.QueryException;
 
 
 public interface IEnterpriseQuery {
 	
-	public long createEnterprise(@NotNull String enterpriseName);
+	public long createEnterprise(@NotNull String enterpriseName) throws CreateException;
 	
 	public Collection<TradingEnterprise> getAllEnterprises();
 	
-	public TradingEnterprise getEnterpriseById(@NotNull long enterpriseId);
+	public TradingEnterprise getEnterpriseById(@NotNull long enterpriseId) throws QueryException;
 	
-	public boolean deleteEnterprise(@NotNull long enterpriseId);
+	public void deleteEnterprise(@NotNull long enterpriseId) throws QueryException;
 	
-	public boolean updateEnterprise(@NotNull long id, @NotNull String name);
+	public void updateEnterprise(@NotNull long id, @NotNull String name) throws QueryException;
 	
 
 }

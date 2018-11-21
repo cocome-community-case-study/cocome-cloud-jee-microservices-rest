@@ -2,6 +2,7 @@ package org.cocome.storesservice.frontend.enterprise;
 
 import java.util.Collection;
 
+import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesservice.frontend.viewdata.EnterpriseViewData;
 
 public interface IEnterpriseManager {
@@ -10,6 +11,6 @@ public interface IEnterpriseManager {
 	
 	public Collection<EnterpriseViewData> getEnterprises();
 	
-	public EnterpriseViewData getEnterpriseById(long enterpriseId);
+	public EnterpriseViewData getEnterpriseById(long enterpriseId) throws QueryException;
 	
 }

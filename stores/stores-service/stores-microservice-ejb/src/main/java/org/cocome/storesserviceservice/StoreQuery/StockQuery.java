@@ -11,9 +11,10 @@ import javax.ejb.Stateless;
 import org.apache.log4j.Logger;
 import org.cocome.storesservice.domain.StockItem;
 import org.cocome.storesservice.domain.Store;
+import org.cocome.storesservice.exceptions.CreateException;
+import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesservice.repository.StockItemRepository;
 import org.cocome.storesservice.repository.StoreRepository;
-
 
 @Local
 @Stateless
@@ -24,7 +25,6 @@ public class StockQuery implements IStockQuery, Serializable {
 	 */
 	private static final long serialVersionUID = 1263704023914164538L;
 	private Logger LOG = Logger.getLogger(StockQuery.class);
-	private final long COULD_NOT_CREATE_ENTITY = -1;
 
 	@EJB
 	private StoreRepository storeRepo;
@@ -32,22 +32,21 @@ public class StockQuery implements IStockQuery, Serializable {
 	@EJB
 	private StockItemRepository stockRepo;
 
-
-
 	@Override
 	public long createStockItem(double salesPrice, long amount, long minStock, long maxStock, long barcode,
-			long incomingAmount, long productId, long storeId) {
-		LOG.debug("QUERY: Trying to create stock item with product id:" + productId + " in store with id: "
-				+ storeId);
-		
+			long incomingAmount, long productId, long storeId) throws CreateException {
+		LOG.debug("QUERY: Trying to create stock item with product id:" + productId + " in store with id: " + storeId);
+
+		// find corresponding Store
 		Store store = storeRepo.find(storeId);
 		if (store == null) {
 			LOG.error("QUERY: Could not create stock item with product id:" + productId + " in store with id: "
 					+ storeId + ". Store not found!");
-			return COULD_NOT_CREATE_ENTITY;
+			throw new CreateException("QUERY: Could not create stock item with product id:" + productId
+					+ " in store with id: " + storeId + ". Store not found!");
 		}
 
-		// Create Items
+		// Create Item
 		StockItem item = new StockItem();
 		item.setAmount(amount);
 		item.setBarcode(barcode);
@@ -58,19 +57,25 @@ public class StockQuery implements IStockQuery, Serializable {
 		item.setSalesPrice(salesPrice);
 		item.setStore(store);
 
-		long stockItemId = stockRepo.create(item);
-		if (stockItemId == COULD_NOT_CREATE_ENTITY) {
+		Long stockItemId = stockRepo.create(item);
+		if (stockItemId == null) {
 			LOG.error("QUERY: Could not create stock item with product id:" + item.getProductId() + " in store with id:"
 					+ item.getStore().getId());
-			return COULD_NOT_CREATE_ENTITY;
+			throw new CreateException("QUERY: Could not create stock item with product id:" + item.getProductId()
+					+ " in store with id:" + item.getStore().getId());
 		}
 
 		LOG.debug("QUERY: Successfully created StockItem with product id:" + item.getProductId() + " in store with id "
 				+ item.getStore().getId());
-		
-		//update store
+
+		/*
+		 * Updating stock automatically done by database
+		 * 
+		 * @see AutomatiChangeTracking
+		 */
 		store.addStockItems(item);
-		
+		// storeRepo.update(store);
+
 		return stockItemId;
 	}
 
@@ -90,12 +95,14 @@ public class StockQuery implements IStockQuery, Serializable {
 	}
 
 	@Override
-	public StockItem getStockItemById(long stockItemId) {
+	public StockItem getStockItemById(long stockItemId) throws QueryException {
 		LOG.debug("QUERY: Get StockItem with id: " + stockItemId);
+
 		StockItem item = stockRepo.find(stockItemId);
 		if (item == null) {
-			LOG.debug("QUERY: DId not fin StockItem with ID " + stockItemId);
-			return null;
+			LOG.debug("QUERY: Did not find StockItem with ID " + stockItemId);
+			throw new QueryException("Did not find StockItem with Id: " + stockItemId);
+
 		}
 		LOG.debug("QUERY: Successfully found StockItem with Id: " + stockItemId);
 		return item;
@@ -103,15 +110,27 @@ public class StockQuery implements IStockQuery, Serializable {
 	}
 
 	@Override
-	public Collection<StockItem> getStockItemsByStore(long storeId) {
+	public Collection<StockItem> getStockItemsByStore(long storeId) throws QueryException {
 		LOG.debug("Trying to find all Stock items of store with id: " + storeId);
+
+		// find corresponding Store
 		Store store = storeRepo.find(storeId);
 		if (store == null) {
 			LOG.debug("QUERY: Cannot retrieve Stock items of store with id: " + storeId + ". Store not Found!");
-			return null;
+			throw new QueryException("Cannot retrieve Stock items of store with id: " + storeId + ". Store not Found!");
 		}
-		Collection<StockItem> collection = new LinkedList<StockItem>();
 
+		// get Stock Items
+		Collection<StockItem> stockItems = store.getStockItems();
+
+		/*
+		 * Make sure that we do not get a null pointer is item list was not initialized
+		 */
+		if (stockItems == null) {
+			stockItems = new LinkedList<StockItem>();
+		}
+
+		// Logging
 		StringBuilder sb = new StringBuilder();
 		sb.append("QUERY: Found following StockItem in Store with Id: " + storeId + " [product, Id]: ");
 
@@ -120,46 +139,48 @@ public class StockQuery implements IStockQuery, Serializable {
 		}
 		LOG.debug(sb.toString());
 
-		return collection;
+		return stockItems;
 	}
 
-	
-
 	@Override
-	public boolean updateStockeItem(long id, double salesPrice, long amount, long minStock, long maxStock,
-			long barcode, long incomingAmount) {
+	public void updateStockeItem(long id, double salesPrice, long amount, long minStock, long maxStock, long barcode,
+			long incomingAmount) throws QueryException {
 		LOG.debug("Trying to update StockItem wit id: " + id);
+		
+		//Find Item
 		StockItem item = stockRepo.find(id);
-		if(item == null) {
-			LOG.debug("QUERY: Could not update StockItem with id:" + id   +". Item not found! ");
-			return false;
+		if (item == null) {
+			LOG.debug("QUERY: Could not update StockItem with id:" + id + ". Item not found! ");
+			throw new QueryException("Could not update StockItem with id:" + id + ". Item not found! ");
 		}
+		//Set new values
 		item.setSalesPrice(salesPrice);
 		item.setAmount(amount);
 		item.setMinStock(minStock);
 		item.setMaxStock(maxStock);
 		item.setBarcode(barcode);
 		item.setIncomingAmount(incomingAmount);
-		
 
-		
-		if (stockRepo.update(item) != null) {
-			LOG.debug("QUERY: Successfully updated StockItem with id: " + item.getId());
-			return true;
+		if (stockRepo.update(item) == null) {
+			LOG.debug("QUERY: Could not update StockItem with id: " + item.getId());
+			throw new QueryException("Could not update StockItem with id: " + item.getId());
+			
 		}
-		LOG.debug("QUERY: Could not update StockItem with id: " + item.getId());
-		return false;
+
+		LOG.debug("QUERY: Successfully updated StockItem with id: " + item.getId());
+		
 	}
 
 	@Override
-	public boolean deleteStockItem(long stockItemId) {
+	public void deleteStockItem(long stockItemId) throws QueryException {
 		LOG.debug("QUERY: Deleting StockItem from Database with id: " + stockItemId);
-		if(stockRepo.delete(stockItemId)) {
+		
+		if (stockRepo.delete(stockItemId)) {
 			LOG.debug("QUERY: Successfully deleted StockItem with id: " + stockItemId);
-			return true;
+			return;
 		}
 		LOG.debug("QUERY: Could not delete StockItem with id: " + stockItemId);
-		return false;
+		throw new QueryException("Could not delete StockItem with id: " + stockItemId);
 	}
 
 }

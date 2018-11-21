@@ -47,11 +47,11 @@
 					</h:link>
 					
 					
-					<h:commandLink action="#{storeInformation.switchToStore(store)}" styleClass="button"
+					<h:commandLink action="#{storeInformation.switchToStore(store.id)}" styleClass="button"
 						title="#{strings['store.table.action.goto_store']}" >
 						<h:graphicImage value="#{resource['icon:icon_shop.png']}" styleClass="button"/>						
 					</h:commandLink>
-					<h:commandLink action="#{storeInformation.switchToStock(store)}" styleClass="button"
+					<h:commandLink action="#{storeInformation.switchToStock(store.id)}" styleClass="button"
 						title="#{strings['store.table.action.goto_stock']}" >
 						<h:graphicImage value="#{resource['icon:icon_shoppingcart_add.png']}" styleClass="button"/>
 					</h:commandLink>

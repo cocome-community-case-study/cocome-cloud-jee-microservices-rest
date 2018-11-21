@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
+import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesservice.frontend.store.StoreInformation;
 import org.cocome.storesservice.frontend.viewdata.EnterpriseViewData;
 import org.cocome.storesservice.frontend.viewdata.StoreViewData;
@@ -63,10 +64,18 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 	 */
 	@Override
 	public void setActiveEnterpriseId(long enterpriseId) {
+		//reset StoreInformation
+		resetStoreInfo(enterpriseId);
+		
+		try {
+			activeEnterprise = enterpriseManager.getEnterpriseById(enterpriseId);
+			activeEnterpriseId = enterpriseId;
+		} catch (QueryException e) {
+			activeEnterpriseId = Long.MIN_VALUE;
+			LOG.error("Could not set Enterprise");
+		}
+		
 
-		switchEnterprise(enterpriseId);
-		activeEnterpriseId = enterpriseId;
-		activeEnterprise = enterpriseManager.getEnterpriseById(activeEnterpriseId);
 		LOG.debug("Active Enterprise set to: " + enterpriseId);
 
 	}
@@ -92,7 +101,7 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 	 */
 	@Override
 	public void setActiveEnterprise(EnterpriseViewData enterprise) {
-		switchEnterprise(enterprise.getId());
+		resetStoreInfo(enterprise.getId());
 		activeEnterpriseId = enterprise.getId();
 		activeEnterprise = enterprise;
 		LOG.debug("Active Enterprise set to: " + activeEnterpriseId);
@@ -117,17 +126,23 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 	 * This is needed to reset current active store to null as a change of
 	 * Enterprise need to reset the active store
 	 */
-	private void switchEnterprise(long enterpriseId) {
+	private void resetStoreInfo(long enterpriseId) {
 
-		if (storeInformation.isStoreSet() && storeInformation.getActiveStore().getEnterpriseId() != enterpriseId) {
+		if (storeInformation.isStoreSet()) {
 			storeInformation.resetStore();
 		}
 
 	}
 
 	@Override
-	public void refreshEnterpriseInformation() {
-		activeEnterprise = enterpriseManager.getEnterpriseById(activeEnterpriseId);
+	public void refreshEnterpriseInformation()  {
+		try {
+			activeEnterprise = enterpriseManager.getEnterpriseById(activeEnterpriseId);
+		} catch (QueryException e) {
+			resetStoreInfo(activeEnterpriseId);
+			activeEnterpriseId = Long.MIN_VALUE;
+		}
+		
 		
 	}
 

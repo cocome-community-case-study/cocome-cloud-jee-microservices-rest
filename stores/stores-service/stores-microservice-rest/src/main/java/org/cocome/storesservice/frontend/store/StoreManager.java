@@ -13,6 +13,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.cocome.storesservice.domain.Store;
+import org.cocome.storesservice.exceptions.CreateException;
+import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesservice.frontend.enterprise.EnterpriseInformation;
 import org.cocome.storesservice.frontend.viewdata.StoreViewData;
 import org.cocome.storesservice.navigation.NavigationElements;
@@ -34,17 +36,18 @@ public class StoreManager implements IStoreManager {
 	 * We might want to do caching here!
 	 */
 	private Map<Long, StoreViewData> stores;
+
 	
-	private final long COULD_NOT_CREATE_ENTITY = -1;
 
 	@EJB
 	IStoreQuery storeQuery;
 
 	@Inject
 	StoreInformation storeInfo;
-	
+
 	@Inject
 	EnterpriseInformation enterpriseInfo;
+
 	/**
 	 * Create store by given name, location and enterpriseId <br>
 	 * Cannot create store without corresponding enterpriseID <br>
@@ -53,23 +56,21 @@ public class StoreManager implements IStoreManager {
 	@Override
 	public String createStore(String storeName, String location, long enterpriseId) {
 
-		if (storeQuery.createStore(storeName, location, enterpriseId) != COULD_NOT_CREATE_ENTITY) {
-			
-			/*
-			 * Only for security reason <br>
-			 * SHOW_STORES requires an enterpriseId in <metadata> when opened
-			 */
-			enterpriseInfo.setActiveEnterpriseId(enterpriseId);
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created the Store!", null));
-
-			return NavigationElements.SHOW_STORES.getNavigationOutcome();
-		} else {
+		try {
+			storeQuery.createStore(storeName, location, enterpriseId);
+		} catch (CreateException e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creating the new Store!", null));
 
 			return NavigationElements.ENTERPRISE_MAIN.getNavigationOutcome();
 		}
+
+		enterpriseInfo.setActiveEnterpriseId(enterpriseId);
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created the Store!", null));
+
+		return NavigationElements.SHOW_STORES.getNavigationOutcome();
+
 	}
 
 	/**
@@ -77,42 +78,40 @@ public class StoreManager implements IStoreManager {
 	 */
 	@Override
 	public Collection<StoreViewData> getStores() {
-		this.stores = new HashMap<Long, StoreViewData>();
 
-		for (Store store : storeQuery.getAllStores()) {
-			stores.put(store.getId(), StoreViewData.fromStore(store));
-		}
-		return stores.values();
+		return StoreViewData.fromStoreCollection(storeQuery.getAllStores());
+
 	}
 
 	/**
 	 * Get store by given Id
+	 * 
+	 * @throws QueryException
 	 */
 	@Override
-	public StoreViewData getStoreById(long storeId) {
+	public StoreViewData getStoreById(long storeId) throws QueryException {
+
 		Store store = storeQuery.getStoreById(storeId);
 
-		if (store == null) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not find Store with Id " + storeId, null));
-			return null;
-		} else {
-			return StoreViewData.fromStore(store);
-		}
+		return StoreViewData.fromStore(store);
+
 	}
 
 	@Override
 	public Collection<StoreViewData> getStoresByEnterpriseId(long enterpriseId) {
-		Collection<StoreViewData> storesAsViewData = new LinkedList<StoreViewData>();
-		Collection<Store> stores = storeQuery.getStoresOfEnterprise(enterpriseId);
-		if (stores == null) {
+
+		Collection<Store> stores;
+		try {
+			stores = storeQuery.getStoresOfEnterprise(enterpriseId);
+		} catch (QueryException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Could not find Stores of enterprise with Id " + enterpriseId, null));
+			// return empty (but initialized!) List
+			return new LinkedList<StoreViewData>();
 		}
-		for (Store store : stores) {
-			storesAsViewData.add(StoreViewData.fromStore(store));
-		}
-		return storesAsViewData;
+
+		return StoreViewData.fromStoreCollection(stores);
+
 	}
 
 	/**
@@ -120,18 +119,24 @@ public class StoreManager implements IStoreManager {
 	 */
 	@Override
 	public String updateStore(long storeId, String newName, String newLocation) {
-		// TODO update storelist in active Enterprise!!!
+		
 
-		if (storeQuery.updateStore(storeId, newName, newLocation)) {
-			enterpriseInfo.refreshEnterpriseInformation();
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully updated the Store!", null));
-		} else {
+		try {
+			storeQuery.updateStore(storeId, newName, newLocation);
+		} catch (QueryException e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not update Stores with Id " + storeId, null));
-
+			return NavigationElements.SHOW_STORES.getNavigationOutcome();
 		}
+
+		//Reload Enterprise
+		enterpriseInfo.refreshEnterpriseInformation();
+		
+		//Logging
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully updated the Store!", null));
 		return NavigationElements.SHOW_STORES.getNavigationOutcome();
+
 	}
 
 }

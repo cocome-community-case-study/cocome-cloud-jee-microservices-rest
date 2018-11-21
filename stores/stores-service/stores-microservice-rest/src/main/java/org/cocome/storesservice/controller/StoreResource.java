@@ -26,6 +26,8 @@ import org.cocome.storesclient.domain.StockItemTO;
 import org.cocome.storesclient.domain.StoreTO;
 import org.cocome.storesservice.domain.StockItem;
 import org.cocome.storesservice.domain.Store;
+import org.cocome.storesservice.exceptions.CreateException;
+import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesserviceservice.StoreQuery.IStockQuery;
 import org.cocome.storesserviceservice.StoreQuery.IStoreQuery;
 
@@ -66,13 +68,16 @@ public class StoreResource {
 	@Path("/{id}")
 	public StoreTO find(@PathParam("id") Long id) {
 		LOG.debug("REST: Try to find store with id: " + id);
-		Store store = storeQuery.getStoreById(id);
-		if (store != null) {
-			return toStoreTO(store);
+		Store store;
+		try {
+			store = storeQuery.getStoreById(id);
+		} catch (QueryException e) {
+			LOG.debug("REST: " + e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
 
-		LOG.debug("REST: Did not find store with id: " + id);
-		throw new NotFoundException("Did not find store with id: " + id);
+		return toStoreTO(store);
+
 	}
 
 	@PUT
@@ -81,24 +86,31 @@ public class StoreResource {
 	public Response update(@PathParam("id") Long id, StoreTO storeTO) {
 		LOG.debug("REST: Try to update store with name: " + storeTO.getName() + " and id:" + id);
 
-		if (storeQuery.updateStore(id, storeTO.getName(), storeTO.getLocation())) {
-			return Response.noContent().build();
-
+		try {
+			storeQuery.updateStore(id, storeTO.getName(), storeTO.getLocation());
+		} catch (QueryException e) {
+			LOG.debug("REST: " + e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
 
-		LOG.debug("REST: Could not update Store with name: " + storeTO.getName() + " and id:" + id);
-		throw new NotFoundException("Could not update Store with name: " + storeTO.getName() + " and id:" + id);
+		return Response.noContent().build();
+
 	}
 
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
 		LOG.debug("REST: Trying to delete Store with id: " + id);
-		if (storeQuery.deleteStore(id)) {
-			return Response.noContent().build();
+
+		try {
+			storeQuery.deleteStore(id);
+		} catch (QueryException e) {
+			LOG.debug("REST: " + e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
-		LOG.debug("REST: Could not delete Store with id: " + id);
-		throw new NotFoundException("Could not delete store with Id: " + id);
+
+		return Response.noContent().build();
+
 	}
 
 	// Creating and fetching nested stock items
@@ -107,16 +119,16 @@ public class StoreResource {
 	@Path("/{id}/stock-items")
 	public Collection<StockItemTO> findStockItems(@PathParam("id") Long storeId) {
 		LOG.debug("REST: Trying to find ALL stock items of store with id: " + storeId);
-		Store store = storeQuery.getStoreById(storeId);
 
-		if (store == null) {
-			LOG.debug("REST: Could not find Stock items. Store with id: " + storeId + " does not exist");
+		Store store;
+		try {
+			store = storeQuery.getStoreById(storeId);
+		} catch (QueryException e) {
+			LOG.debug("REST: " + e.getMessage());
 
-			
-			throw new NotFoundException("Could not find Stock items. Store with id: " + storeId + " does not exist");
-					
-
+			throw new NotFoundException(e.getMessage());
 		}
+
 		Collection<StockItemTO> collection = new LinkedList<StockItemTO>();
 
 		for (StockItem item : store.getStockItems()) {
@@ -132,12 +144,14 @@ public class StoreResource {
 		LOG.debug("REST:Trying to create stockItem with productId: " + stockItemTO.getProductId()
 				+ " in store with id: " + storeId);
 
-		Long id = stockQuery.createStockItem(stockItemTO.getSalesPrice(), stockItemTO.getAmount(),
-				stockItemTO.getMinStock(), stockItemTO.getMaxStock(), stockItemTO.getBarcode(),
-				stockItemTO.getIncomingAmount(), stockItemTO.getProductId(), storeId);
-		if (id == COULD_NOT_CREATE_ENTITY) {
-			LOG.debug("REST: Could not create stockItem with productId: " + stockItemTO.getProductId());
-			throw new NotFoundException("Could not create stockItem with productId: " + stockItemTO.getProductId());
+		Long id;
+		try {
+			id = stockQuery.createStockItem(stockItemTO.getSalesPrice(), stockItemTO.getAmount(),
+					stockItemTO.getMinStock(), stockItemTO.getMaxStock(), stockItemTO.getBarcode(),
+					stockItemTO.getIncomingAmount(), stockItemTO.getProductId(), storeId);
+		} catch (CreateException e) {
+			LOG.debug("REST: " + e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
 
 		UriBuilder builder = UriBuilder.fromUri(uriInfo.getBaseUri()).path(StockItemResource.class).path(id.toString());

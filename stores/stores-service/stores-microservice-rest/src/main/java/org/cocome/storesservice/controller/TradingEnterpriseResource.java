@@ -25,6 +25,8 @@ import org.cocome.storesclient.domain.TradingEnterpriseTO;
 import org.cocome.storesservice.domain.Store;
 import org.cocome.storesservice.domain.TradingEnterprise;
 import org.cocome.storesservice.enterpriseQuery.IEnterpriseQuery;
+import org.cocome.storesservice.exceptions.CreateException;
+import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesserviceservice.StoreQuery.IStoreQuery;
 
 /**
@@ -36,9 +38,9 @@ import org.cocome.storesserviceservice.StoreQuery.IStoreQuery;
 @RequestScoped
 @Path("/trading-enterprises")
 public class TradingEnterpriseResource {
-    
+
 	private final long COULD_NOT_CREATE_ENTITY = -1;
-	
+
 	@EJB
 	private IEnterpriseQuery enterpriseQuery;
 
@@ -51,8 +53,8 @@ public class TradingEnterpriseResource {
 	public Collection<TradingEnterpriseTO> findAll() {
 		LOG.debug("REST: Retrieve all Enterprises");
 		Collection<TradingEnterpriseTO> collection = new LinkedList<TradingEnterpriseTO>();
-		
-		for(TradingEnterprise enterprise : enterpriseQuery.getAllEnterprises()) {
+
+		for (TradingEnterprise enterprise : enterpriseQuery.getAllEnterprises()) {
 			collection.add(toEnterpriseTO(enterprise));
 		}
 
@@ -62,29 +64,32 @@ public class TradingEnterpriseResource {
 	@GET
 	@Path("/{id}")
 	public TradingEnterpriseTO find(@PathParam("id") Long id) {
-		LOG.debug("REST: Trying to find Enterprise with id: " +id);
-		TradingEnterprise enterprise = enterpriseQuery.getEnterpriseById(id);
-		if(enterprise == null) {
-			LOG.debug("REST: Could not find enterprise with id: " + id);
-			throw new NotFoundException("Could not find enterprise with id: " + id);
+		LOG.debug("REST: Trying to find Enterprise with id: " + id);
+
+		TradingEnterprise enterprise;
+		try {
+			enterprise = enterpriseQuery.getEnterpriseById(id);
+		} catch (QueryException e) {
+			LOG.debug("REST: " + e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
-		
+
 		return toEnterpriseTO(enterprise);
 	}
-    
-	
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response create(@Context UriInfo uriInfo, TradingEnterpriseTO tradingEnterpriseTO) {
-		LOG.debug("REST: Trying to create enterprise with name: " +tradingEnterpriseTO.getName());
-	    Long id = enterpriseQuery.createEnterprise(tradingEnterpriseTO.getName());
-	    
-	    if(id == COULD_NOT_CREATE_ENTITY) {
-	    	LOG.debug("REST: Could not create Enterprise with name: " + tradingEnterpriseTO.getName());
-			throw new NotFoundException(" Could not create Enterprise with name: " + tradingEnterpriseTO.getName());
-	    }
-	    
+		LOG.debug("REST: Trying to create enterprise with name: " + tradingEnterpriseTO.getName());
+
+		Long id;
+		try {
+			id = enterpriseQuery.createEnterprise(tradingEnterpriseTO.getName());
+		} catch (CreateException e) {
+			LOG.debug("REST: " + e.getMessage());
+			throw new NotFoundException(e.getMessage());
+		}
+
 		UriBuilder builder = UriBuilder.fromUri(uriInfo.getBaseUri()).path(TradingEnterpriseResource.class)
 				.path(id.toString());
 		return Response.created(builder.build()).build();
@@ -95,35 +100,45 @@ public class TradingEnterpriseResource {
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response update(@PathParam("id") Long id, TradingEnterpriseTO tradingEnterpriseTO) {
 		LOG.debug("REST: Try to update Enterprise with Id: " + id);
-		
-		
-		if(enterpriseQuery.updateEnterprise(id, tradingEnterpriseTO.getName())) {
-			return Response.noContent().build();
+
+		try {
+			enterpriseQuery.updateEnterprise(id, tradingEnterpriseTO.getName());
+		} catch (QueryException e) {
+
+			LOG.debug("REST: " +e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
-		LOG.debug("REST: Could not update Enterprise with id: " + id);
-		throw new NotFoundException("Could not update enterprise with Id: " + id);
+
+		return Response.noContent().build();
 	}
 
 	@DELETE
 	@Path("/{id}")
 	public Response deleteEnterprise(@PathParam("id") Long id) {
 		LOG.debug("REST: Try do delete enterprise with id:  " + id);
-		if (enterpriseQuery.deleteEnterprise(id)) {
-			return Response.noContent().build();
+
+		try {
+			enterpriseQuery.deleteEnterprise(id);
+		} catch (QueryException e) {
+			LOG.debug("REST: " + e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
 
-		LOG.debug("REST: Could not delete enterprise with id: " + id);
-		throw new NotFoundException("Could not delete enterprise with Id: " + id);
+		return Response.noContent().build();
 	}
-
-	
 
 	@GET
 	@Path("/{id}/stores")
 	public Collection<StoreTO> findStores(@PathParam("id") Long enterpriseId) {
 		LOG.debug("REST: Try to retrieve Stores from enterprise with Id: " + enterpriseId);
 
-		TradingEnterprise tradingEnterprise = enterpriseQuery.getEnterpriseById(enterpriseId);
+		TradingEnterprise tradingEnterprise;
+		try {
+			tradingEnterprise = enterpriseQuery.getEnterpriseById(enterpriseId);
+		} catch (QueryException e) {
+			LOG.debug("REST:" +  e.getMessage());
+			throw new NotFoundException(e.getMessage());
+		}
 
 		Collection<StoreTO> collection = new LinkedList<StoreTO>();
 		for (Store store : tradingEnterprise.getStores()) {
@@ -139,14 +154,15 @@ public class TradingEnterpriseResource {
 	public Response createStore(@Context UriInfo uriInfo, @PathParam("id") Long enterpriseId, StoreTO storeTO) {
 		LOG.debug("REST: Trying to create Store with name: " + storeTO.getName());
 
-		
-
-		Long storeId = storeQuery.createStore(storeTO.getName(), storeTO.getLocation(), enterpriseId);
-		
-		if (storeId == COULD_NOT_CREATE_ENTITY) {
-			LOG.debug("REST: Could not create Store with name: " + storeTO.getName() );
-			throw new NotFoundException("Could not find enterprise with Id: " + enterpriseId);
+		Long storeId;
+		try {
+			storeId = storeQuery.createStore(storeTO.getName(), storeTO.getLocation(), enterpriseId);
+		} catch (CreateException e) {
+			LOG.debug("REST: "+ e.getMessage());
+			throw new NotFoundException(e.getMessage());
 		}
+
+		
 
 		UriBuilder builder = UriBuilder.fromUri(uriInfo.getBaseUri()).path(StoreResource.class)
 				.path(storeId.toString());

@@ -1,13 +1,19 @@
 package org.cocome.storesservice.frontend.store;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
+import org.cocome.storesservice.exceptions.QueryException;
+import org.cocome.storesservice.frontend.viewdata.StockItemViewData;
 import org.cocome.storesservice.frontend.viewdata.StoreViewData;
+import org.cocome.storesservice.navigation.NavigationElements;
 
 /**
  * This class holds information about the currently active store <br>
@@ -42,9 +48,6 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	 */
 	private StoreViewData activeStore;
 
-	
-
-	
 	@Override
 	public long getActiveStoreId() {
 		return activeStoreId;
@@ -53,12 +56,14 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	/**
 	 * Setting an activeStore by Id causes an store query to get the corresponding
 	 * store from the backend
+	 * 
+	 * @throws QueryException
 	 */
 	@Override
-	public void setActiveStoreId(long storeId) {
+	public void setActiveStoreId(long storeId) throws QueryException {
 		LOG.debug("Active Store set to: " + storeId);
-		activeStoreId = storeId;
 		activeStore = storeManager.getStoreById(storeId);
+		activeStoreId = storeId;
 
 	}
 
@@ -67,8 +72,14 @@ public class StoreInformation implements IStoreInformation, Serializable {
 		return activeStore;
 	}
 
+	public Collection<StockItemViewData> getStockItems() {
+
+		return null;
+	}
+
 	/**
-	 * Setting activeStore directly by passing its ViewData does not cause a backend Query
+	 * Setting activeStore directly by passing its ViewData does not cause a backend
+	 * Query
 	 */
 	@Override
 	public void setActiveStore(StoreViewData store) {
@@ -95,15 +106,31 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	}
 
 	@Override
-	public String switchToStore(StoreViewData store) {
-		// TODO implement
-		return null;
+	public String switchToStore(long storeId) {
+		try {
+			setActiveStoreId(storeId);
+			return NavigationElements.STORE_MAIN.getNavigationOutcome(); // TODO straight to store?
+		} catch (QueryException e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not find Store with Id " + storeId, null));
+			return NavigationElements.STORE_MAIN.getNavigationOutcome();
+		}
+
 	}
 
 	@Override
-	public String switchToStock(StoreViewData store) {
-		// TODO implement
-		return null;
+	public String switchToStock(long storeId) {
+		try {
+			setActiveStoreId(storeId);
+			return NavigationElements.SHOW_STOCK.getNavigationOutcome();
+		} catch (QueryException e) {
+
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not find Store with Id " + storeId, null));
+			return NavigationElements.STORE_MAIN.getNavigationOutcome();
+
+		}
+
 	}
 
 }

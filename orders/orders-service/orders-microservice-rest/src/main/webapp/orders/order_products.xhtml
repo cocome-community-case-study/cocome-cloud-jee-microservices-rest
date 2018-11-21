@@ -5,24 +5,19 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:components="http://java.sun.com/jsf/composite/components">
 
-
+<f:metadata>
+	<f:viewAction action="#{productsManager.loadProducts}" />
+</f:metadata>
 <h:body>
+
 
 	<ui:composition template="/templates/commonTemplate.xhtml">
 
+
+
 		<ui:define name="body">
 
-            <h:panelGroup>
-            <h:form>
-            
-            <h:commandButton action="#{productsManager.loadProducts}"
-						value="#{strings['stock.order.wizard.loadproducts']}"
-						styleClass="wizard-button-left">
-            
-            </h:commandButton>
-            </h:form>
-            
-            </h:panelGroup>
+
 
 			<h:panelGroup id="productHeader" layout="block"
 				styleClass="product-items-table-header">
@@ -36,7 +31,7 @@
 
 
 			<h:panelGroup id="products" layout="block">
-			
+
 
 				<h:dataTable id="productTable"
 					value="#{productsManager.allProducts}" var="product"
@@ -145,7 +140,7 @@
 						styleClass="wizard-button-right" />
 				</h:form>
 			</h:panelGroup>
-			
+
 
 		</ui:define>
 	</ui:composition>

@@ -13,6 +13,8 @@ import javax.inject.Named;
 import org.apache.log4j.Logger;
 import org.cocome.storesservice.domain.TradingEnterprise;
 import org.cocome.storesservice.enterpriseQuery.IEnterpriseQuery;
+import org.cocome.storesservice.exceptions.CreateException;
+import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesservice.frontend.viewdata.EnterpriseViewData;
 import org.cocome.storesservice.navigation.NavigationElements;
 
@@ -35,9 +37,9 @@ public class EnterpriseManager implements IEnterpriseManager {
 	 * We might want to use cacheing here!
 	 */
 	private Map<Long, EnterpriseViewData> enterprises;
-	private static final Logger LOG = Logger.getLogger(EnterpriseManager.class);
 
-	private final long COULD_NOT_CREATE_ENTITY = -1;
+
+
 	
 	@EJB
 	IEnterpriseQuery enterpriseQuery;
@@ -49,18 +51,23 @@ public class EnterpriseManager implements IEnterpriseManager {
 	@Override
 	public String createEnterprise(String enterpriseName) {
 
-		if (enterpriseQuery.createEnterprise(enterpriseName) != COULD_NOT_CREATE_ENTITY) {
-
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created the new enterprise!", null));
-
-			return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
-		} else {
+		
+		try {
+			enterpriseQuery.createEnterprise(enterpriseName);
+		} catch (CreateException e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creating the new enterprise!", null));
 
 			return NavigationElements.ENTERPRISE_MAIN.getNavigationOutcome();
 		}
+		
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created the new enterprise!", null));
+
+		return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
+		
+		
+		
 
 	}
 
@@ -72,6 +79,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 
 		this.enterprises = new HashMap<Long, EnterpriseViewData>();
 
+		
 		for (TradingEnterprise enterprise : enterpriseQuery.getAllEnterprises()) {
 			enterprises.put(enterprise.getId(), EnterpriseViewData.fromTradingEnterprise(enterprise));
 		}
@@ -82,18 +90,17 @@ public class EnterpriseManager implements IEnterpriseManager {
 	
     /**
      * Get Enterprise by given Id
+     * @throws QueryException 
      */
 	@Override
-	public EnterpriseViewData getEnterpriseById(long enterpriseId) {
+	public EnterpriseViewData getEnterpriseById(long enterpriseId) throws QueryException {
+		
 		TradingEnterprise enterprise = enterpriseQuery.getEnterpriseById(enterpriseId);
-		if(enterprise == null) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not find Enterprise with Id " + enterpriseId, null));
-			return null;
-		}else {
-			return EnterpriseViewData.fromTradingEnterprise(enterprise);
-			
-		}
+		
+		return EnterpriseViewData.fromTradingEnterprise(enterprise);
+		
+		
+		
 		
 	}
 
