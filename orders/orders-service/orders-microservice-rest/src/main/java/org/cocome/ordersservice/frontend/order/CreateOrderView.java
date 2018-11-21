@@ -77,6 +77,12 @@ public class CreateOrderView implements Serializable {
 	 */
 	public String submitOrder() {
 		activeStoreId = menu.getActiveStoreId();
+		
+		if(entries.isEmpty()) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Please add something to your order!", null));
+			return NavigationElements.ORDER_PRODUCTS.getNavigationOutcome();
+		}
 
 		// persist order
 		try {
@@ -110,6 +116,10 @@ public class CreateOrderView implements Serializable {
 		orderId = -1;
 		//return NavigationElements.ORDERS_MAIN.getNavigationOutcome();
 
+	}
+	
+	public void loadProducts() {
+		
 	}
 	
 	public Collection<EntryViewData> getCurrentEntries(){

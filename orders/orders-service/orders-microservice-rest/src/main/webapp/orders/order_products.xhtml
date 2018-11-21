@@ -12,7 +12,17 @@
 
 		<ui:define name="body">
 
-
+            <h:panelGroup>
+            <h:form>
+            
+            <h:commandButton action="#{productsManager.loadProducts}"
+						value="#{strings['stock.order.wizard.loadproducts']}"
+						styleClass="wizard-button-left">
+            
+            </h:commandButton>
+            </h:form>
+            
+            </h:panelGroup>
 
 			<h:panelGroup id="productHeader" layout="block"
 				styleClass="product-items-table-header">
@@ -25,9 +35,11 @@
 			<!-- __________________________________________________________________________________________________________ -->
 
 
-			<h:panelGroup layout="block">
+			<h:panelGroup id="products" layout="block">
+			
 
-				<h:dataTable value="#{productsManager.allProducts}" var="product"
+				<h:dataTable id="productTable"
+					value="#{productsManager.allProducts}" var="product"
 					styleClass="product-table" headerClass="product-table-header"
 					rowClasses="product-table-odd-row,product-table-even-row"
 					columnClasses="product-table-text-col, product-table-text-col, 
@@ -54,9 +66,9 @@
 
 
 					<h:column headerClass="product-table-header-center">
-					<f:facet name="header">#{strings['product.create.orderamount.text']}</f:facet>
+						<f:facet name="header">#{strings['product.create.orderamount.text']}</f:facet>
 						<h:form id="orderAmount">
-							
+
 
 							<h:inputText value="#{orderAmount}" styleClass="input-number">
 								<f:convertNumber integerOnly="true" />
@@ -69,6 +81,7 @@
 						</h:form>
 					</h:column>
 				</h:dataTable>
+
 
 			</h:panelGroup>
 			<!-- __________________________________________________________________________________________________-->
@@ -132,7 +145,7 @@
 						styleClass="wizard-button-right" />
 				</h:form>
 			</h:panelGroup>
-
+			
 
 		</ui:define>
 	</ui:composition>
