@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -14,11 +15,13 @@ import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 import org.cocome.storesservice.domain.StockItem;
+import org.cocome.storesservice.events.ChangeViewEvent;
 import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesservice.frontend.stock.StockManager;
 import org.cocome.storesservice.frontend.viewdata.StockItemViewData;
 import org.cocome.storesservice.frontend.viewdata.StoreViewData;
 import org.cocome.storesservice.navigation.NavigationElements;
+import org.cocome.storesservice.navigation.NavigationView;
 
 /**
  * This class holds information about the currently active store <br>
@@ -43,6 +46,9 @@ public class StoreInformation implements IStoreInformation, Serializable {
 
 	@Inject
 	StockManager stockManager;
+	
+	@Inject
+	Event<ChangeViewEvent> changeViewevent;
 
 	/*
 	 * This field indicates the id of the active store. As soon as this field
@@ -149,6 +155,8 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	public String switchToStock(long storeId) {
 		try {
 			setActiveStoreId(storeId);
+			changeViewevent.fire(new ChangeViewEvent(NavigationView.STORE_VIEW));
+			
 			return NavigationElements.SHOW_STOCK.getNavigationOutcome();
 		} catch (QueryException e) {
 

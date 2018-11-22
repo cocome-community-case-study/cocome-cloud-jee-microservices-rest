@@ -153,8 +153,10 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		case CASHPAD_VIEW:
 			return NavigationElements.START_SALE.getNavigationOutcome();
 		case STORE_VIEW:
+			isStoreService = true;
 			return NavigationElements.STORE_MAIN.getNavigationOutcome();
 		case ENTERPRISE_VIEW:
+			isStoreService = false;
 			return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
 		default:
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -179,11 +181,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	public void observe(@Observes UserInformationProcessedEvent event) {
 		this.currentUser = event.getUser();
 		this.navigationState = event.getRequestedNavViewState();
-		if (navigationState == NavigationView.ENTERPRISE_VIEW) {
-			this.isStoreService = false;
-		} else {
-			this.isStoreService = true;
-		}
+		
 		// TODO was ist mit der event.storeID()
 		changeStateTo(navigationState);
 	}
