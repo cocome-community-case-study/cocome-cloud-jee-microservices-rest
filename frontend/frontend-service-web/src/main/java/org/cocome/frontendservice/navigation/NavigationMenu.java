@@ -46,10 +46,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	private final NavigationElement productsNavItem = new NavigationElement(NavigationElements.PRODUCTS);
 	private final NavigationElement ordersNavItem = new NavigationElement(NavigationElements.ORDERS);
 	private final NavigationElement reportsNavItem = new NavigationElement(NavigationElements.REPORTS);
-	// private final NavigationElement loginNavItem = new
-	// NavigationElement(NavigationElements.LOGIN);
-	// private final NavigationElement defaultNavItem = new
-	// NavigationElement(NavigationElements.DEFAULT);
+
 
 	private IUser currentUser;
 	private UserRole userRole;

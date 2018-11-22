@@ -115,11 +115,6 @@ public class EnterpriseManager implements IEnterpriseManager, Serializable {
 	public Collection<EnterpriseViewData> getEnterprises() {
 
 		loadEnterprises();
-		if (enterprises.isEmpty()) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "No Enterprises available!", null));
-
-		}
 
 		return enterprises.values();
 	}

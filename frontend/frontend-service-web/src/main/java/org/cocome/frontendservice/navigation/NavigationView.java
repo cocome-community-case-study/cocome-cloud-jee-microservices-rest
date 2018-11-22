@@ -12,6 +12,7 @@ public enum NavigationView {
 	STORE_VIEW,
 	PRODUCTS_VIEW,
 	ORDERS_VIEW,
-	DEFAULT_VIEW, 
+	DEFAULT_VIEW,
+	REPORTS_VIEW,
     LOGIN;
 }

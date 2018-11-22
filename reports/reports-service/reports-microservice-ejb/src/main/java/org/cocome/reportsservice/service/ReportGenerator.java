@@ -1,6 +1,8 @@
 package org.cocome.reportsservice.service;
 
+import org.cocome.productsclient.exception.ProductsRestException;
 import org.cocome.reportsservice.domain.Report;
+import org.cocome.storesclient.exception.StoreRestException;
 
 /**
  * Provides methods for generating enterprise reports.
@@ -18,8 +20,9 @@ public interface ReportGenerator {
 	 * 
 	 * @param enterpriseId the enterprise entity identifier for which to generate report
 	 * @return Report transfer object containing mean time to delivery information
+	 * @throws StoreRestException 
 	 */
-	Report getEnterpriseDeliveryReport(long enterpriseId);
+	Report getEnterpriseDeliveryReport(long enterpriseId) throws StoreRestException;
 	
 	/**
 	 * Generates report of available stock for all products in the specified
@@ -27,8 +30,10 @@ public interface ReportGenerator {
 	 * 
 	 * @param storeId the store entity identifier for which to generate report
 	 * @return Report transfer object containing store stock information.
+	 * @throws ProductsRestException 
+	 * @throws StoreRestException 
 	 */
-	Report getStoreStockReport(long storeId);
+	Report getStoreStockReport(long storeId) throws StoreRestException, ProductsRestException;
 	
 	/**
 	 * Generates report of available stock for all products in all stores
@@ -36,6 +41,8 @@ public interface ReportGenerator {
 	 * 
 	 * @param enterpriseId the enterprise entity identifier for which to generate report
 	 * @return Report transfer object containing enterprise stock information
+	 * @throws ProductsRestException 
+	 * @throws StoreRestException 
 	 */
-	Report getEnterpriseStockReport(long enterpriseId);
+	Report getEnterpriseStockReport(long enterpriseId) throws StoreRestException, ProductsRestException;
 }

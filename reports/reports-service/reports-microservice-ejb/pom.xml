@@ -29,6 +29,11 @@
 			<artifactId>jboss-javaee-all-6.0</artifactId>
 			<scope>provided</scope>
 		</dependency>
+			<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>2.0.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
@@ -42,13 +47,13 @@
 			<groupId>org.cocome</groupId>
 			<artifactId>stores-client</artifactId>
 			<version>1.0</version>
-			<scope>provided</scope>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.cocome</groupId>
 			<artifactId>products-client</artifactId>
 			<version>1.0</version>
-			<scope>provided</scope>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 

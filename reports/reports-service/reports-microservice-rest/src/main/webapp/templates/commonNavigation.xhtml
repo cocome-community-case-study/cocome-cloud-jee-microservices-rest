@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<body>
+	<ui:composition>
+		<table width="100%" class="navigation-table">
+			<tbody>
+				<tr>
+					<td><ui:repeat value="#{navigationMenu.elements}"
+							var="navElement">
+
+							<h:link outcome="#{navElement.navOutcome}"
+								value="#{navElement.displayText}"
+								styleClass="#{view.viewId eq (navElement.navOutcome += '.xhtml')? 'active-nav-element nav-element' : 'nav-element'}" />
+
+						</ui:repeat></td>
+				</tr>
+			</tbody>
+		</table>
+	</ui:composition>
+</body>
+
+</html>

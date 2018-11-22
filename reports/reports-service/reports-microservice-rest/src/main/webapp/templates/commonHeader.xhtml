@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<body>
+	<ui:composition>
+		<table id="headerTable" width="800px" class="headerTable">
+			<tbody>
+
+				<tr>
+					<td colspan="3">
+						<table width="100%">
+							<tbody>
+								<tr class="header-bold-text">
+									<td align="left" width="65%"><ui:insert name="navigation">
+											<ui:include src="/templates/commonNavigation.xhtml" />
+										</ui:insert></td>
+									<td align="left" width="20%">
+										
+									</td>
+
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</ui:composition>
+</body>
+</html>

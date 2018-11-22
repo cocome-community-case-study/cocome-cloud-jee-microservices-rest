@@ -29,31 +29,7 @@
 											<ui:include src="/templates/commonNavigation.xhtml" />
 										</ui:insert>
 									</td>
-									<td align="left" width="20%">
-										<table id="storeEnterpriseInfo">
-											<h:panelGroup rendered="#{not empty enterpriseInformation.activeEnterprise}">
-											<tr>
-												<td><h:outputText value="#{strings['header.enterprise.text']}" 
-													/></td>
-												<td>
-													<h:form>
-													<h:commandLink action="#{navigationMenu.changeStateTo('ENTERPRISE_VIEW')}" 
-														value="#{enterpriseInformation.activeEnterprise.name}"
-														rendered="#{login.loggedIn and (login.user.hasPermissionString('enterprise manager'))}"/>
-													<h:outputText value="#{enterpriseInformation.activeEnterprise.name}"
-														rendered="#{not (login.user.hasPermissionString('enterprise manager'))}"/>
-													</h:form>
-												</td>
-											</tr>
-											</h:panelGroup>
-											<h:panelGroup rendered="#{not empty storeInformation.activeStore}">
-											<tr>
-												<td><h:outputText value="#{strings['header.store.text']}"/></td>
-												<td><h:outputText value="#{storeInformation.activeStore.name}"/></td>
-											</tr>
-											</h:panelGroup>
-										</table>
-									</td>
+									
 									<td align="right" width="15%">
 										<h:form>
 										<h:panelGroup id="loginAccount">

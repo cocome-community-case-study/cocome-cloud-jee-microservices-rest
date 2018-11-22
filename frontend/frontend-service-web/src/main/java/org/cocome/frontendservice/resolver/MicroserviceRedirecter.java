@@ -67,6 +67,11 @@ public class MicroserviceRedirecter implements IServiceRedirecter, Serializable 
 			navMenu.changeStateTo(NavigationView.STORE_VIEW);
 			navOutcome = navElement.getNavOutcome();
 			break;
+		case REPORTS:
+			navMenu.changeStateTo(NavigationView.REPORTS_VIEW);
+			navOutcome = navElement.getNavOutcome();
+			break;
+		
 		default:
 			navMenu.changeStateTo(NavigationView.DEFAULT_VIEW); // TODO Better default case?
 			navOutcome = navElement.getNavOutcome();

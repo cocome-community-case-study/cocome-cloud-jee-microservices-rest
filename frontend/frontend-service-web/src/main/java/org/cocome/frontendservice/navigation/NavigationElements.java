@@ -9,7 +9,7 @@ public enum NavigationElements {
 	STORE("http://localhost:8880/storesmicroservice/faces/store_main.xhtml","Store"),
 	PRODUCTS("http://localhost:8980/productsmicroservice/faces/products_main.xhtml","Products"),
 	ORDERS("http://localhost:8780/ordersmicroservice/faces/orders_main.xhtml","Orders"),
-	REPORTS("http://localhost:8580/frontendservice/faces/store/order_products.xhtml","Reports");
+	REPORTS("http://localhost:8680/reportsmicroservice/faces/reports_main.xhtml","Reports");
 	
 	
 	private String navOutcome;
