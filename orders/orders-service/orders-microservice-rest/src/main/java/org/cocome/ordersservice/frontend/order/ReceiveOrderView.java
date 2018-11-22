@@ -81,13 +81,18 @@ public class ReceiveOrderView implements Serializable {
 
 		try {
 			orderManager.rollInOrder(order.getId());
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Order was rolled in successfully! ", null));
+			
 		} catch (ProductsRestException  | QueryException  | StoreRestException e ) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
 		} 
-
+		
+		
+		
+		
+		
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Order was rolled in successfully! ", null));
 		return NavigationElements.EMPTY_PAGE.getNavigationOutcome();
 	}
 }

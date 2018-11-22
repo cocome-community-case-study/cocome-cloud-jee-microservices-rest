@@ -16,9 +16,9 @@
 
 					<tr>
 
-						<td>Hier der Asuklapptext</td>
 						
-						<h:selectOneMenu value="#{supplierId}">
+						
+						<h:selectOneMenu value="#{supplierId}" required="true" requiredMessage="#{strings['product.select.supplier.text']}">
 						<f:selectItem itemDisabled="true" itemValue="#{null}"  itemLabel="#{strings['product.select.supplier.text']}"/>
 							<f:selectItems value="#{createProductsView.suppliers}"
 								var="currentSupplier" itemValue="#{currentSupplier.id}" itemLabel="#{currentSupplier.name}"></f:selectItems>
@@ -33,7 +33,7 @@
 									<td><h:outputText
 											value="#{strings['product.create.name.text']}" /></td>
 									<td colspan="2"><h:inputText value="#{name}"
-											required="true"
+											required="true" requiredMessage="Value for Name is required" 
 											validatorMessage="#{strings['product.create.validation.name.failed']}">
 											<f:validateLength minimum="3" maximum="30" />
 											<f:validateRegex pattern="#{strings['input.string.regex']}" />
@@ -43,7 +43,7 @@
 									<td><h:outputText
 											value="#{strings['product.create.barcode.text']}" /></td>
 									<td colspan="2"><h:inputText id="inputBarcode"
-											value="#{barcode}" required="true"
+											value="#{barcode}" required="true" requiredMessage="Value for Barcode is required" 
 											converterMessage="#{strings['product.create.validation.barcode.failed']}">
 											<f:converter converterId="javax.faces.Long" />
 											
@@ -52,7 +52,7 @@
 								<tr>
 									<td><h:outputText
 											value="#{strings['product.create.purchase_price.text']}" /></td>
-									<td><h:inputText value="#{purchasePrice}" required="true"
+									<td><h:inputText value="#{purchasePrice}" required="true" requiredMessage="Value for Purchase Price is required" 
 											converterMessage="#{strings['product.create.validation.price.failed']}">
 											<f:converter converterId="javax.faces.Double" />
 										</h:inputText></td>

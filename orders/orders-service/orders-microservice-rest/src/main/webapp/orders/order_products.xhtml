@@ -65,8 +65,9 @@
 						<h:form id="orderAmount">
 
 
-							<h:inputText value="#{orderAmount}" styleClass="input-number">
-								<f:convertNumber integerOnly="true" />
+							<h:inputText value="#{orderAmount}" styleClass="input-number"
+								validatorMessage="#{strings['product.validation.amount.failed']}">
+								<f:validateLongRange minimum="1" />
 							</h:inputText>
 							<h:commandButton
 								action="#{createOrderView.addProductToOrder(product, orderAmount)}"

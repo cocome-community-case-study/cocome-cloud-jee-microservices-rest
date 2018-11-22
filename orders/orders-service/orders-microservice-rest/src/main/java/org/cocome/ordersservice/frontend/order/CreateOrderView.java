@@ -105,7 +105,7 @@ public class CreateOrderView implements Serializable {
 
 	
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully submitted the order!", null));
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully submitted the order! Order Id is: " + orderId, null));
 		return NavigationElements.EMPTY_PAGE.getNavigationOutcome();
 	}
 

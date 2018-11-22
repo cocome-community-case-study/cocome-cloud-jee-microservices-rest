@@ -180,8 +180,9 @@ public class OrderQuery implements IOrderQuery, Serializable {
 
 		}
 
-		// TODO: What if one transaction fails? Rollback the other ones? Just leave it
-		// as it is?
+		
+		//delete Order after successful rolled in
+		orderRepo.delete(orderId);
 
 	}
 
