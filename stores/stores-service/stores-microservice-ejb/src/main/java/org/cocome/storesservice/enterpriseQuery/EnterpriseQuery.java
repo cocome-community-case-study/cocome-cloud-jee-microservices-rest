@@ -67,10 +67,15 @@ public class EnterpriseQuery implements IEnterpriseQuery, Serializable {
 
 	/**
 	 * Return all existing enterprises
+	 * @throws QueryException 
 	 */
 	@Override
-	public Collection<TradingEnterprise> getAllEnterprises() {
+	public Collection<TradingEnterprise> getAllEnterprises() throws QueryException {
 		Collection<TradingEnterprise> enterprises = enterpriseRepo.all();
+
+		if (enterprises == null) {
+			throw new QueryException("Sorry, a Database Error occured!");
+		}
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("QUERY: Retrieving ALL Enterprises from database with following [name, Id]: ");

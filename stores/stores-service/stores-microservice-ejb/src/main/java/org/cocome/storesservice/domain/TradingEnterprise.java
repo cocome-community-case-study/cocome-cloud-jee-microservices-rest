@@ -30,7 +30,7 @@ public class TradingEnterprise implements Serializable {
 	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
 
-	
+	@Column(name="name")
 	private String name;
 
 

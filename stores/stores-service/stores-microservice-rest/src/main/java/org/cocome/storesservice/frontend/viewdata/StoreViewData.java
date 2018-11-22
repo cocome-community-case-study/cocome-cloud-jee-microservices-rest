@@ -17,6 +17,8 @@ public class StoreViewData {
 	private String name;
 	private String location;
 	
+	
+	
 
 	public StoreViewData(long id, long enterpriseId, String location, String name) {
 		this.id = id;

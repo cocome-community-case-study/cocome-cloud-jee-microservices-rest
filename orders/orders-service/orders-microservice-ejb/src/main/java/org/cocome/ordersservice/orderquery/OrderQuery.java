@@ -204,6 +204,7 @@ public class OrderQuery implements IOrderQuery, Serializable {
 		newStockItem.setBarcode(productInformation.getBarcode());
 		newStockItem.setProductId(productInformation.getId());
 		newStockItem.setSalesPrice(productInformation.getPurchasePrice());
+		newStockItem.setName(productInformation.getName());
 
 		// set default infos
 		newStockItem.setMinStock(0);

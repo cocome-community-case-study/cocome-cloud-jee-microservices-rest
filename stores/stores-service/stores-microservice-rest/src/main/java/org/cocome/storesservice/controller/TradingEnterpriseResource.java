@@ -53,8 +53,17 @@ public class TradingEnterpriseResource {
 	public Collection<TradingEnterpriseTO> findAll() {
 		LOG.debug("REST: Retrieve all Enterprises");
 		Collection<TradingEnterpriseTO> collection = new LinkedList<TradingEnterpriseTO>();
-
-		for (TradingEnterprise enterprise : enterpriseQuery.getAllEnterprises()) {
+		Collection<TradingEnterprise> enterprises;
+		
+		
+		try {
+		enterprises =  enterpriseQuery.getAllEnterprises();
+		} catch (QueryException e) {
+			LOG.debug("REST: " + e.getMessage());
+			throw new NotFoundException(e.getMessage());
+		}
+		
+		for (TradingEnterprise enterprise : enterprises) {
 			collection.add(toEnterpriseTO(enterprise));
 		}
 

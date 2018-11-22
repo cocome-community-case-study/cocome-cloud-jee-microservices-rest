@@ -100,12 +100,14 @@ public class TradingEnterpriseDBRepository implements TradingEnterpriseRepositor
 
 	@Override
 	public Collection<TradingEnterprise> all() {
+		Collection<TradingEnterprise> query ;
 		try {
-			return em.createQuery("SELECT t FROM TradingEnterprise t", TradingEnterprise.class).getResultList();
+			 query = em.createQuery("SELECT t FROM TradingEnterprise t", TradingEnterprise.class).getResultList();
 		} catch (Exception e) {
 			LOG.error("DATABASE: Database error while retrieving all enterprises" + "     " + e.getMessage());
 			return null;
 		}
+		return query;
 
 	}
 }

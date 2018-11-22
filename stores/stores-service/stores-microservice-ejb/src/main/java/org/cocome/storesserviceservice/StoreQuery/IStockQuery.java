@@ -14,7 +14,7 @@ public interface IStockQuery {
 
 	long createStockItem(@NotNull double salesPrice, @NotNull long amount, @NotNull long minStock,
 			@NotNull long maxStock, @NotNull long barcode, @NotNull long incomingAmount, @NotNull long productId,
-			@NotNull long storeId) throws CreateException;
+			@NotNull long storeId, @NotNull String name) throws CreateException;
 
 	Collection<StockItem> getAllStockItems();
 
@@ -39,7 +39,7 @@ public interface IStockQuery {
 	 * @throws QueryException 
 	 */
 	void updateStockeItem(@NotNull long id, @NotNull double salesPrice, @NotNull long amount, @NotNull long minStock,
-			@NotNull long maxStock, @NotNull long barcode, @NotNull long incomingAmount) throws QueryException;
+			@NotNull long maxStock, @NotNull long barcode, @NotNull long incomingAmount, @NotNull String name) throws QueryException;
 
 	void deleteStockItem(@NotNull long stockItemId) throws QueryException;
 }

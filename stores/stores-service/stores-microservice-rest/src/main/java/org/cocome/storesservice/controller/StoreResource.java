@@ -148,7 +148,7 @@ public class StoreResource {
 		try {
 			id = stockQuery.createStockItem(stockItemTO.getSalesPrice(), stockItemTO.getAmount(),
 					stockItemTO.getMinStock(), stockItemTO.getMaxStock(), stockItemTO.getBarcode(),
-					stockItemTO.getIncomingAmount(), stockItemTO.getProductId(), storeId);
+					stockItemTO.getIncomingAmount(), stockItemTO.getProductId(), storeId, stockItemTO.getName());
 		} catch (CreateException e) {
 			LOG.debug("REST: " + e.getMessage());
 			throw new NotFoundException(e.getMessage());

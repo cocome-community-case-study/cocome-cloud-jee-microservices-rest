@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name = "StockItem")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StockItem", propOrder = { "id" , "productId", "store", "barcode" ,"salesPrice", "amount", "minStock", "maxStock", "incomingAmount" })
+@XmlType(name = "StockItem", propOrder = { "id" , "productId", "name" , "storeId", "barcode" ,"salesPrice", "amount", "minStock", "maxStock", "incomingAmount" })
 public class StockItemTO implements Serializable {
 
 	private static final long serialVersionUID = -293179135307588628L;
@@ -48,8 +48,11 @@ public class StockItemTO implements Serializable {
 	@XmlElement(name = "Barcode")
 	private long barcode;
 	
-	@XmlElement(name = "Store")
-	private StoreTO store;
+	@XmlElement(name = "StoreId")
+	private long storeId;
+	
+	@XmlElement(name="name")
+	private String name;
 
 	/** Empty constructor. */
 	public StockItemTO() {}
@@ -67,6 +70,14 @@ public class StockItemTO implements Serializable {
 	 */
 	public long getId() {
 		return this.id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -175,16 +186,16 @@ public class StockItemTO implements Serializable {
 	/**
 	 * @return The store where the StockItem belongs to
 	 */
-	public StoreTO getStore() {
-		return this.store;
+	public long getStoreId() {
+		return this.storeId;
 	}
 
 	/**
 	 * @param store
 	 *            The store where the StockItem belongs to
 	 */
-	public void setStore(final StoreTO store) {
-		this.store = store;
+	public void setStoreId(final long storeId) {
+		this.storeId = storeId;
 	}
 
 	@Override

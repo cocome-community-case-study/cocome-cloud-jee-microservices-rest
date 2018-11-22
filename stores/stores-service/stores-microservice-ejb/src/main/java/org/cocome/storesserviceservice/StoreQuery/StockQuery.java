@@ -34,7 +34,7 @@ public class StockQuery implements IStockQuery, Serializable {
 
 	@Override
 	public long createStockItem(double salesPrice, long amount, long minStock, long maxStock, long barcode,
-			long incomingAmount, long productId, long storeId) throws CreateException {
+			long incomingAmount, long productId, long storeId, String name) throws CreateException {
 		LOG.debug("QUERY: Trying to create stock item with product id:" + productId + " in store with id: " + storeId);
 
 		// find corresponding Store
@@ -56,6 +56,7 @@ public class StockQuery implements IStockQuery, Serializable {
 		item.setProductId(productId);
 		item.setSalesPrice(salesPrice);
 		item.setStore(store);
+		item.setName(name);
 
 		Long stockItemId = stockRepo.create(item);
 		if (stockItemId == null) {
@@ -144,7 +145,7 @@ public class StockQuery implements IStockQuery, Serializable {
 
 	@Override
 	public void updateStockeItem(long id, double salesPrice, long amount, long minStock, long maxStock, long barcode,
-			long incomingAmount) throws QueryException {
+			long incomingAmount, String name) throws QueryException {
 		LOG.debug("Trying to update StockItem wit id: " + id);
 		
 		//Find Item
@@ -160,6 +161,7 @@ public class StockQuery implements IStockQuery, Serializable {
 		item.setMaxStock(maxStock);
 		item.setBarcode(barcode);
 		item.setIncomingAmount(incomingAmount);
+		item.setName(name);
 
 		if (stockRepo.update(item) == null) {
 			LOG.debug("QUERY: Could not update StockItem with id: " + item.getId());

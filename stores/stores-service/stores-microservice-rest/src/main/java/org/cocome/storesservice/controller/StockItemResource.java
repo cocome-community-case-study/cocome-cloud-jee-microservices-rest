@@ -72,7 +72,7 @@ public class StockItemResource {
 		try {
 			stockQuery.updateStockeItem(id, stockItemTO.getSalesPrice(), stockItemTO.getAmount(),
 					stockItemTO.getMinStock(), stockItemTO.getMaxStock(), stockItemTO.getBarcode(),
-					stockItemTO.getIncomingAmount());
+					stockItemTO.getIncomingAmount(), stockItemTO.getName());
 		} catch (QueryException e) {
 			LOG.debug("REST: "+e.getMessage());
 			throw new NotFoundException(e.getMessage());
@@ -126,9 +126,9 @@ public class StockItemResource {
 		itemTO.setMinStock(item.getMinStock());
 		itemTO.setProductId(item.getProductId());
 		itemTO.setSalesPrice(item.getSalesPrice());
-		itemTO.setStore(StoreResource.toStoreTO(item.getStore()));
+		itemTO.setStoreId(item.getStore().getId());
 		itemTO.setBarcode(item.getBarcode());
-
+		itemTO.setName(item.getName());
 		return itemTO;
 
 	}

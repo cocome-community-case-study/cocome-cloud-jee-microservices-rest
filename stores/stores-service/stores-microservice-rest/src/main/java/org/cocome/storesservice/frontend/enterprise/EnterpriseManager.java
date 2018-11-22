@@ -78,9 +78,17 @@ public class EnterpriseManager implements IEnterpriseManager {
 	public Collection<EnterpriseViewData> getEnterprises() {
 
 		this.enterprises = new HashMap<Long, EnterpriseViewData>();
-
+        Collection<TradingEnterprise> query;
+		try {
+			query = enterpriseQuery.getAllEnterprises();
+		} catch (QueryException e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+			
+			return enterprises.values();
+		}
 		
-		for (TradingEnterprise enterprise : enterpriseQuery.getAllEnterprises()) {
+		for (TradingEnterprise enterprise : query) {
 			enterprises.put(enterprise.getId(), EnterpriseViewData.fromTradingEnterprise(enterprise));
 		}
 

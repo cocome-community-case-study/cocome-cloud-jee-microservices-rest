@@ -51,6 +51,8 @@ public class StockItem implements Serializable {
 		
 	
 	private long productId;
+	
+	private String name;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "store_id")
@@ -79,6 +81,16 @@ public class StockItem implements Serializable {
 	public long getAmount() {
 		return this.amount;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 	/**
 	 * @param amount

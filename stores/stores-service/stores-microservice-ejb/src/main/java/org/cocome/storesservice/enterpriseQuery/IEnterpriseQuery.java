@@ -13,7 +13,7 @@ public interface IEnterpriseQuery {
 	
 	public long createEnterprise(@NotNull String enterpriseName) throws CreateException;
 	
-	public Collection<TradingEnterprise> getAllEnterprises();
+	public Collection<TradingEnterprise> getAllEnterprises() throws QueryException;
 	
 	public TradingEnterprise getEnterpriseById(@NotNull long enterpriseId) throws QueryException;
 	
