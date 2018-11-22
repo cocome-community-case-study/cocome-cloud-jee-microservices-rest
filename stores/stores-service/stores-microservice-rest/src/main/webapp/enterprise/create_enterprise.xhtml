@@ -17,7 +17,7 @@
 						<td><h:outputText
 								value="#{strings['enterprise.create.text']}" /></td>
 						<td><h:inputText
-								value="#{newEnterpriseName}" required="true"
+								value="#{newEnterpriseName}" required="true" requiredMessage="Please insert Enterprise Name"
 								validatorMessage="#{strings['enterprise.validation.name.failed']}">
 								<f:validateLength minimum="3" maximum="30"/>
 								<f:validateRegex pattern="#{strings['input.string.regex']}" />

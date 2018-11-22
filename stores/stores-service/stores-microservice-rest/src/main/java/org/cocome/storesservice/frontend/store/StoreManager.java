@@ -1,5 +1,6 @@
 package org.cocome.storesservice.frontend.store;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -7,6 +8,7 @@ import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -29,8 +31,15 @@ import org.cocome.storesserviceservice.StoreQuery.IStoreQuery;
  *
  */
 @Named
-@ApplicationScoped
-public class StoreManager implements IStoreManager {
+@SessionScoped
+public class StoreManager implements IStoreManager, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7574478612005212704L;
+
+
 
 	/*
 	 * We might want to do caching here!

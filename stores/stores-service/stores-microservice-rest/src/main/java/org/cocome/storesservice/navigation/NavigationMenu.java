@@ -93,7 +93,9 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 
 	/**
 	 * States whether the Proxy-Frontend requests Store oder Enterprise-Service <br>
-	 * true => Store <br> false => Enterprise <br>
+	 * true => Store <br>
+	 * false => Enterprise <br>
+	 * 
 	 * @return
 	 */
 	public boolean isStoreService() {
@@ -103,8 +105,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	/**
 	 * Change state to new State. <br>
 	 * States in this service can be EnterpriseView, StoreView, CashpasView <br>
-	 *  This will remove and add Links/Labels in the
-	 * Navigation Bar based on the user
+	 * This will remove and add Links/Labels in the Navigation Bar based on the user
 	 */
 	@Override
 	public String changeStateTo(@NotNull NavigationView newState) {
@@ -113,8 +114,8 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		elements = new LinkedList<>(STATE_MAP.get(navigationState));
 
 		Iterator<INavigationElement> iterator = elements.iterator();
-   
-		//error Case
+
+		// error Case
 		if (currentUser == null) {
 			navigationState = NavigationView.DEFAULT_VIEW;
 			elements = STATE_MAP.get(NavigationView.DEFAULT_VIEW);
@@ -123,8 +124,6 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 			String message = context.getApplication().evaluateExpressionGet(context,
 					"#{strings['navigation.failed.no_user']}", String.class);
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-			
-			
 
 			/*
 			 * Determines whether user will be redirected to StoreService main or
@@ -139,7 +138,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		}
 
 		/*
-		 *Removes Header field if the user does not have proper permission 
+		 * Removes Header field if the user does not have proper permission
 		 */
 		while (iterator.hasNext()) {
 			INavigationElement element = iterator.next();
@@ -151,6 +150,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 
 		switch (newState) {
 		case CASHPAD_VIEW:
+			isStoreService = true;
 			return NavigationElements.START_SALE.getNavigationOutcome();
 		case STORE_VIEW:
 			isStoreService = true;
@@ -159,30 +159,35 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 			isStoreService = false;
 			return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
 		default:
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Ouups Navigation error occured", null));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ouups Navigation error occured", null));
 			return NavigationElements.ERROR.getNavigationOutcome();
 		}
 	}
 
 	/**
 	 * Change Header according to requested View
+	 * 
 	 * @param changeEvent
 	 */
 	public void observeChangeViewEvent(@Observes ChangeViewEvent changeEvent) {
 		changeStateTo(changeEvent.getNewViewState());
 	}
 
-	
 	/**
 	 * Processes user data from frontend
+	 * 
 	 * @param event
 	 */
 	public void observe(@Observes UserInformationProcessedEvent event) {
 		this.currentUser = event.getUser();
 		this.navigationState = event.getRequestedNavViewState();
-		
-		// TODO was ist mit der event.storeID()
+
+		/*
+		 * StoreInformation also has an Observe ==> event.getStoreID is catched directly
+		 * at this class
+		 */
+
 		changeStateTo(navigationState);
 	}
 
@@ -199,8 +204,6 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		List<INavigationElement> storeViewList = new LinkedList<>();
 		storeViewList.add(new NavigationElement(NavigationElements.START_SALE, labelResolver));
 		storeViewList.add(new NavigationElement(NavigationElements.SHOW_STOCK, labelResolver));
-		storeViewList.add(new NavigationElement(NavigationElements.STOCK_REPORT, labelResolver));
-		storeViewList.add(new NavigationElement(NavigationElements.RECEIVE_PRODUCTS, labelResolver));
 		return storeViewList;
 	}
 

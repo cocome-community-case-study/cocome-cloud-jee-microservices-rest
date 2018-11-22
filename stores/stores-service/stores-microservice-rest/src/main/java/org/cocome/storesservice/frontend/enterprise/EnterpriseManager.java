@@ -1,11 +1,13 @@
 package org.cocome.storesservice.frontend.enterprise;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -30,17 +32,20 @@ import org.cocome.storesservice.navigation.NavigationElements;
  *
  */
 @Named
-@ApplicationScoped
-public class EnterpriseManager implements IEnterpriseManager {
+@SessionScoped
+public class EnterpriseManager implements IEnterpriseManager, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8414021992178376298L;
 
 	/*
-	 * We might want to use cacheing here!
+	 * We do caching here! See loadEnterprises()
 	 */
 	private Map<Long, EnterpriseViewData> enterprises;
+	boolean listUpToDate = false;
 
-
-
-	
 	@EJB
 	IEnterpriseQuery enterpriseQuery;
 
@@ -51,7 +56,6 @@ public class EnterpriseManager implements IEnterpriseManager {
 	@Override
 	public String createEnterprise(String enterpriseName) {
 
-		
 		try {
 			enterpriseQuery.createEnterprise(enterpriseName);
 		} catch (CreateException e) {
@@ -61,13 +65,46 @@ public class EnterpriseManager implements IEnterpriseManager {
 			return NavigationElements.ENTERPRISE_MAIN.getNavigationOutcome();
 		}
 		
+		//Refresh EnterpriseList
+		listUpToDate = false;
+		
+
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully created the new enterprise!", null));
 
 		return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
-		
-		
-		
+
+	}
+
+	/**
+	 * Cache Enterprises in Frontend to reduce traffic!
+	 */
+	private void loadEnterprises() {
+
+		/*
+		 * If enterprises List has changed--> return <br>
+		 * Else do backend Query
+		 */
+		if (listUpToDate) {
+			return;
+		}
+
+		this.enterprises = new HashMap<Long, EnterpriseViewData>();
+		Collection<TradingEnterprise> query;
+		try {
+			query = enterpriseQuery.getAllEnterprises();
+		} catch (QueryException e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+
+			return;
+		}
+
+		for (TradingEnterprise enterprise : query) {
+			enterprises.put(enterprise.getId(), EnterpriseViewData.fromTradingEnterprise(enterprise));
+		}
+
+		listUpToDate = true;
 
 	}
 
@@ -77,41 +114,28 @@ public class EnterpriseManager implements IEnterpriseManager {
 	@Override
 	public Collection<EnterpriseViewData> getEnterprises() {
 
-		this.enterprises = new HashMap<Long, EnterpriseViewData>();
-        Collection<TradingEnterprise> query;
-		try {
-			query = enterpriseQuery.getAllEnterprises();
-		} catch (QueryException e) {
+		loadEnterprises();
+		if (enterprises.isEmpty()) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
-			
-			return enterprises.values();
-		}
-		
-		for (TradingEnterprise enterprise : query) {
-			enterprises.put(enterprise.getId(), EnterpriseViewData.fromTradingEnterprise(enterprise));
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "No Enterprises available!", null));
+
 		}
 
 		return enterprises.values();
 	}
 
-	
-    /**
-     * Get Enterprise by given Id
-     * @throws QueryException 
-     */
+	/**
+	 * Get Enterprise by given Id
+	 * 
+	 * @throws QueryException
+	 */
 	@Override
 	public EnterpriseViewData getEnterpriseById(long enterpriseId) throws QueryException {
-		
-		TradingEnterprise enterprise = enterpriseQuery.getEnterpriseById(enterpriseId);
-		
-		return EnterpriseViewData.fromTradingEnterprise(enterprise);
-		
-		
-		
-		
-	}
 
-	
+		TradingEnterprise enterprise = enterpriseQuery.getEnterpriseById(enterpriseId);
+
+		return EnterpriseViewData.fromTradingEnterprise(enterprise);
+
+	}
 
 }

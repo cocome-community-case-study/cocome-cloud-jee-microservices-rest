@@ -19,7 +19,7 @@
 					<tr>
 						<td><h:outputText
 								value="#{strings['store.create.name.text']}" /></td>
-						<td colspan="2"><h:inputText value="#{name}" required="true"
+						<td colspan="2"><h:inputText value="#{name}" required="true" requiredMessage="Please provide Store Name"
 								validatorMessage="#{strings['store.create.validation.name.failed']}">
 								<f:validateLength minimum="3" maximum="30" />
 								<f:validateRegex pattern="[^;]*" />
@@ -29,7 +29,7 @@
 						<td><h:outputText
 								value="#{strings['store.create.location.text']}" /></td>
 						<td colspan="2"><h:inputText value="#{location}"
-								required="true"
+								required="true" requiredMessage="Please provide Location"
 								validatorMessage="#{strings['store.create.validation.location.failed']}">
 								<f:validateLength minimum="3" maximum="30" />
 								<f:validateRegex pattern="#{strings['input.string.regex']}" />

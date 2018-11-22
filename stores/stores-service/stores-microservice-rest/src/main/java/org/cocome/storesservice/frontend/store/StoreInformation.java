@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -16,6 +17,7 @@ import javax.inject.Named;
 import org.apache.log4j.Logger;
 import org.cocome.storesservice.domain.StockItem;
 import org.cocome.storesservice.events.ChangeViewEvent;
+import org.cocome.storesservice.events.UserInformationProcessedEvent;
 import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesservice.frontend.stock.StockManager;
 import org.cocome.storesservice.frontend.viewdata.StockItemViewData;
@@ -46,7 +48,7 @@ public class StoreInformation implements IStoreInformation, Serializable {
 
 	@Inject
 	StockManager stockManager;
-	
+
 	@Inject
 	Event<ChangeViewEvent> changeViewevent;
 
@@ -142,7 +144,8 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	public String switchToStore(long storeId) {
 		try {
 			setActiveStoreId(storeId);
-			return NavigationElements.STORE_MAIN.getNavigationOutcome(); // TODO straight to store?
+			changeViewevent.fire(new ChangeViewEvent(NavigationView.STORE_VIEW));
+			return NavigationElements.WELCOME_STORE.getNavigationOutcome(); 
 		} catch (QueryException e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not find Store with Id " + storeId, null));
@@ -156,7 +159,7 @@ public class StoreInformation implements IStoreInformation, Serializable {
 		try {
 			setActiveStoreId(storeId);
 			changeViewevent.fire(new ChangeViewEvent(NavigationView.STORE_VIEW));
-			
+
 			return NavigationElements.SHOW_STOCK.getNavigationOutcome();
 		} catch (QueryException e) {
 
@@ -192,6 +195,25 @@ public class StoreInformation implements IStoreInformation, Serializable {
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully updated StockItem", null));
 		updateStockItemList(updatedItem);
 
+	}
+
+	/**
+	 * Process Login Information to set active store
+	 * 
+	 * @param event
+	 */
+	public void observe(@Observes UserInformationProcessedEvent event) {
+		//Only set store if not enterprise view required
+		if(event.getRequestedNavViewState() == NavigationView.ENTERPRISE_VIEW) {
+			return;
+		}
+		
+		try {
+			setActiveStoreId(event.getStoreID());
+		} catch (QueryException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Login for Store with id: " + event.getStoreID() + " not possible. Store does not exist", null));
+		}
 	}
 
 	/*

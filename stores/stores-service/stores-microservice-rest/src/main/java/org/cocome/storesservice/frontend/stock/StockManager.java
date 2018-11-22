@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import org.cocome.storesservice.domain.StockItem;
@@ -13,7 +14,7 @@ import org.cocome.storesservice.frontend.viewdata.StockItemViewData;
 import org.cocome.storesserviceservice.StoreQuery.IStockQuery;
 
 @Named
-@ApplicationScoped
+@SessionScoped
 public class StockManager implements IStockManager, Serializable {
 
 	/**
