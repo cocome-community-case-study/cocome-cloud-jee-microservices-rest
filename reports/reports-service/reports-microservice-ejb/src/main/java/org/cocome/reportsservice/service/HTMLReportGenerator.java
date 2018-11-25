@@ -3,6 +3,7 @@ package org.cocome.reportsservice.service;
 import java.util.Collection;
 import java.util.Formatter;
 
+import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
@@ -28,9 +29,11 @@ import org.cocome.storesclient.exception.StoreRestException;
  * </a>.
  *
  */
-@Remote
+@Local
 @Stateless
 public class HTMLReportGenerator implements ReportGenerator {
+	
+	
 	private TradingEnterpriseClient enterpriseClient = new TradingEnterpriseClient();
 	private StoreClient storeClient = new StoreClient();
 	private StockItemClient stockItemClient = new StockItemClient();
@@ -40,6 +43,7 @@ public class HTMLReportGenerator implements ReportGenerator {
 	
 	@Override
 	public Report getEnterpriseDeliveryReport(long enterpriseId) throws StoreRestException {
+		
 		final TradingEnterpriseTO enterprise = this.enterpriseClient.find(enterpriseId);
 		final Formatter report = new Formatter();
 		appendReportHeader(report);

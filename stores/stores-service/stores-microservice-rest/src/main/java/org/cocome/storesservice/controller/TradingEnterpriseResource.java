@@ -39,7 +39,7 @@ import org.cocome.storesserviceservice.StoreQuery.IStoreQuery;
 @Path("/trading-enterprises")
 public class TradingEnterpriseResource {
 
-	private final long COULD_NOT_CREATE_ENTITY = -1;
+	
 
 	@EJB
 	private IEnterpriseQuery enterpriseQuery;

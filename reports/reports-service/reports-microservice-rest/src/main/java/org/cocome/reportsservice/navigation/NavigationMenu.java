@@ -46,11 +46,6 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 
 	private NavigationView navigationState = NavigationView.DEFAULT_VIEW;
 
-	/*
-	 * Saves whether the Proxy-Frontend requests Store oder Enterprise-Service <br>
-	 * true => Store <br> false => Enterprise <br>
-	 */
-	private boolean isStoreService = true;
 
 	@PostConstruct
 	private synchronized void initViewLists() {
@@ -85,16 +80,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		return navigationState;
 	}
 
-	/**
-	 * States whether the Proxy-Frontend requests Store oder Enterprise-Service <br>
-	 * true => Store <br>
-	 * false => Enterprise <br>
-	 * 
-	 * @return
-	 */
-	public boolean isStoreService() {
-		return isStoreService;
-	}
+
 
 	/**
 	 * Change state to new State. <br>
@@ -134,7 +120,6 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 
 		switch (newState) {
 		case REPORTS_VIEW:
-			isStoreService = true;
 			return NavigationElements.REPORTS_MAIN.getNavigationOutcome();
 
 		default:
