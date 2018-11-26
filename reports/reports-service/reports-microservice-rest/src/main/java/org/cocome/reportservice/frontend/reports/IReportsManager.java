@@ -15,8 +15,20 @@ public interface IReportsManager {
 	
 	String getStoreStockReport();
 	
-	String getEnterpriseStockReport(long enterpriseId);
+	
 	
 	Collection<EnterpriseViewData> getEnterprises();
+
+
+
+	boolean isEnterpriseSet();
+
+	void setEnterpriseSet(boolean enterpriseSet);
+
+	long getActiveEnterpriseId();
+
+	void setActiveEnterpriseId(long activeEnterpriseId);
+
+	String getEnterpriseStockReport();
 
 }

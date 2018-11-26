@@ -2,110 +2,251 @@
 
 
 
-#--------------------------------------------------------------------------------------------------------------------------------------
+frontend_settings="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/frontend/settings.xml"
+frontend_pom="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/frontend/pom.xml"
 
-cocome_adapter_settings="/home/cocome/Desktop/CoCoMEXPPU/cocome-cloud-jee-service-adapter-xppu_integration/settings.xml"
-cocome_adapter_pom="/home/cocome/Desktop/CoCoMEXPPU/cocome-cloud-jee-service-adapter-xppu_integration/pom.xml"
-
-cocome_settings="/home/cocome/Desktop/CoCoMEXPPU/cocome-cloud-jee-platform-migration-xppu_integration/cocome-maven-project/settings.xml"
-cocome_pom="/home/cocome/Desktop/CoCoMEXPPU/cocome-cloud-jee-platform-migration-xppu_integration/cocome-maven-project/pom.xml"
-
-glassfish_home="/opt/payara/bin"
-glassfish_domain="/opt/payara/glassfish/domains"
+reports_settings="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/reports/reports-service/settings.xml"
+ reports_pom="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/reports/reports-service/pom.xml"
 
 
 
-cocome_cli="/home/cocome/Desktop/CoCoMEXPPU/cocome-cloud-jee-platform-migration-xppu_integration/cocome-maven-project/cloud-cli-frontend/"
+ stores_settings="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/stores/stores-service/settings.xml"
+ stores_pom="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/stores/stores-service/pom.xml"
+
+ orders_settings="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/orders/orders-service/settings.xml"
+orders_pom="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/orders/orders-service/pom.xml"
 
 
-#--------------------------------------------------------------------------------------------------------------------------------------
+ products_settings="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/products/products-service/settings.xml"
+ products_pom="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/products/products-service/pom.xml"
 
 
-#------------------------------------(re-)deploy adapter------------------------------------------------------------------------------
-cd $glassfish_home
 
-#start to execute clean --> this will wipe out the database
-./asadmin start-domain adapter ; 
-
-mvn -s $cocome_adapter_settings clean post-clean -f $cocome_adapter_pom ;
-
-./asadmin stop-domain adapter ; 
-
-cd $glassfish_domain
-
-#wipe out old data
-rm -rf adapter\applications\* ;
-rm -rf adapter\generated\* ;
-rm -rf adapter\osgi-cache\* ;
-
-cd $glassfish_home
  
-./asadmin start-domain adapter ; 
-#undeploy if adapter is still in cache
-./asadmin undeploy service-adapter-ear --port 8248 ;
-#deploy 
-mvn -s $cocome_adapter_settings install -f $cocome_adapter_pom -DskipTests
-
-echo "(re-)deployment adapter finished"
+glassfish_home="/home/nikolaus/Schreibtisch/payara5/bin/"
+glassfish_domain="/home/nikolaus/Schreibtisch/payara5/glassfish/domains/"
 
 
 
-#------------------------------------(re-deploy cocome)------------------------------------------------------------------------------
-#stop domains if there are still running
+
 cd $glassfish_home
-./asadmin stop-domain registry ; 
-./asadmin stop-domain web ; 
-./asadmin stop-domain store ; 
-./asadmin stop-domain enterprise ; 
-./asadmin stop-domain plant ; 
+./asadmin stop-domain frontendmicroservice ;
+
 
 
 
 cd $glassfish_domain
-#wipe out old data
-rm -rf enterprise\applications\* ;
-rm -rf enterprise\generated\* ;
-rm -rf enterprise\osgi-cache\* ;
 
-rm -rf registry\applications\* ;
-rm -rf registry\generated\* ;
-rm -rf registry\osgi-cache\* ;
+rm -rf frontendmicroservice/applications/* ;
+rm -rf frontendmicroservice/generated/* ;
+rm -rf frontendmicroservice/osgi-cache/* ;
 
-rm -rf store\applications\* ;
-rm -rf store\generated\* ;
-rm -rf store\osgi-cache\* ;
 
-rm -rf web\applications\* ;
-rm -rf web\generated\* ;
-rm -rf web\osgi-cache\* ;
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Osgi-cache deleted!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 
-rm -rf plant\applications\* ;
-rm -rf plant\generated\* ;
-rm -rf plant\osgi-cache\* ;
+cd $glassfish_home
+./asadmin start-domain frontendmicroservice ;
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Domains Started!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+ mvn -s $frontend_settings clean post-clean -f $frontend_pom ;
+
+
+ echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Cleaning done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+
+./asadmin undeploy frontend-service-ear --port 8548 ;
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Undeployment done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+
+mvn -s $frontend_settings install -f $frontend_pom ;
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!install done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+echo "Redeployment successful if mvn build was successfull!!!!!!"
+
+cd $glassfish_home
+
+./asadmin stop-domain reportsmicroservice  ;  
+
+
+
+
+cd $glassfish_domain
+
+
+
+rm -rf reportsmicroservice/applications/* ;
+rm -rf reportsmicroservice/generated/* ;
+rm -rf reportsmicroservice/osgi-cache/* ;
+
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Osgi-cache deleted!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+cd $glassfish_home
+
+./asadmin start-domain reportsmicroservice  ;  
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Domains Started!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+ mvn -s $reports_settings clean post-clean -f $reports_pom ;
+
+ echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Cleaning done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+
+./asadmin undeploy reports-microservice-ear --port 8648 ;
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Undeployment done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+
+mvn -s $reports_settings install -f $reports_pom ;
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!install done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+echo "Redeployment successful if mvn build was successfull!!!!!!"
+
 
 
 cd $glassfish_home
-./asadmin start-domain registry ; 
-./asadmin start-domain web ; 
-./asadmin start-domain store ; 
-./asadmin start-domain enterprise ; 
-./asadmin start-domain plant ; 
 
-#undeploy if jar-files are still in glassfish cache
-./asadmin undeploy store-logic-ear --port 8148 ;
-./asadmin undeploy cloud-registry-service --port 8448 ;
-./asadmin undeploy enterprise-logic-ear --port 8348 ;
-./asadmin undeploy plant-logic-ear --port 8548 ;
-./asadmin undeploy cloud-web-frontend --port 8048 ;
+./asadmin stop-domain storesmicroservice  ;  
 
-#build and deploy cocome
-mvn -s $cocome_settings install -f $cocome_pom -DskipTests
 
-::------------------------------------fill database------------------------------------------------------------------------------
-cd $cocome_cli
-mvn clean install
-mvn exec:java -f $cocome_cli
-echo "database filled"
 
-echo Redeployment successful if mvn build was successfull!!!!!!
-pause
+
+cd $glassfish_domain
+
+
+
+rm -rf storesmicroservice/applications/* ;
+rm -rf storesmicroservice/generated/* ;
+rm -rf storesmicroservice/osgi-cache/* ;
+
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Osgi-cache deleted!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+cd $glassfish_home
+
+./asadmin start-domain storesmicroservice  ;  
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Domains Started!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+ mvn -s $stores_settings clean post-clean -f $stores_pom ;
+
+ echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Cleaning done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+
+./asadmin undeploy stores-microservice-ear --port 8848 ;
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Undeployment done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+
+mvn -s $stores_settings install -f $stores_pom ;
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!install done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+echo "Redeployment successful if mvn build was successfull!!!!!!"
+
+cd $glassfish_home
+
+./asadmin stop-domain ordersmicroservice  ;  
+
+
+
+
+cd $glassfish_domain
+
+
+
+rm -rf ordersmicroservice/applications/* ;
+rm -rf ordersmicroservice/generated/* ;
+rm -rf ordermicroservice/osgi-cache/* ;
+
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Osgi-cache deleted!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+cd $glassfish_home
+
+./asadmin start-domain ordersmicroservice  ;  
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Domains Started!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+ mvn -s $orders_settings clean post-clean -f $orders_pom ;
+
+ echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Cleaning done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+
+./asadmin undeploy orders-microservice-ear --port 8748 ;
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Undeployment done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+
+mvn -s $orders_settings install -f $orders_pom ;
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!install done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+echo "Redeployment successful if mvn build was successfull!!!!!!"
+
+
+cd $glassfish_home
+
+./asadmin stop-domain productsmicroservice  ;  
+
+
+
+
+cd $glassfish_domain
+
+
+
+rm -rf storesmicroservice/applications/* ;
+rm -rf storesmicroservice/generated/* ;
+rm -rf storesmicroservice/osgi-cache/* ;
+
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Osgi-cache deleted!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+cd $glassfish_home
+
+./asadmin start-domain productsmicroservice  ;  
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Domains Started!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+ mvn -s $products_settings clean post-clean -f $products_pom ;
+
+ echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Cleaning done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+
+./asadmin undeploy products-microservice-ear --port 8948 ;
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Undeployment done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+
+mvn -s $products_settings install -f $products_pom ;
+
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!install done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+echo "Redeployment successful if mvn build was successfull!!!!!!"
+
+
+
+

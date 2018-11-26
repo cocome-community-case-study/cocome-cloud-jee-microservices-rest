@@ -11,6 +11,7 @@ public enum NavigationElements {
 	REPORTS_MAIN("/reports_main", null),
 	ENTERPRISE_STOCK("/reports/enterprisestock_report", "enterprise manager"),
 	STORE_STOCK("/reports/storestock_report", "stock manager"),
+	BLANK("/reports/blank" ,null),
 	ENTERPRISE_DELIVERY("/reports/enterprise_delivery", "enterprise manager");
 	
 	private String navOutcome;

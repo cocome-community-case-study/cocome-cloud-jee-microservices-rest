@@ -156,7 +156,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	}
 
 	/*
-	 * NavigationElements for EnterpriseView
+	 * NavigationElements 
 	 */
 	private List<INavigationElement> populateReportsView() {
 		List<INavigationElement> reportsViewList = new LinkedList<>();

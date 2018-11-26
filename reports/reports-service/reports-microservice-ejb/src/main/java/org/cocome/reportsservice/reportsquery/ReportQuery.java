@@ -36,7 +36,7 @@ public class ReportQuery implements IReportsQuery {
 	}
 
 	@Override
-	public Report getStoreStockReport(long storeId) throws QueryException  {
+	public Report getStoreStockReport(long storeId) throws QueryException {
 		LOG.debug("QUERY: Try to get Store Report for Store with id: " + storeId);
 
 		try {
@@ -44,7 +44,7 @@ public class ReportQuery implements IReportsQuery {
 		} catch (ProductsRestException | StoreRestException e) {
 			LOG.error("QUERY: Could could not create store report for store with id: " + storeId);
 			throw new QueryException(e.getMessage());
-		} 
+		}
 	}
 
 	@Override
@@ -55,20 +55,34 @@ public class ReportQuery implements IReportsQuery {
 		} catch (ProductsRestException | StoreRestException e) {
 			LOG.error("QUERY: Could not create enterprise report for enterprise with id: " + enterpriseId);
 			throw new QueryException(e.getMessage());
-		} 
+		}
 	}
 
 	@Override
-	public Collection<TradingEnterpriseTO> getAllEnterprises() throws QueryException  {
+	public Collection<TradingEnterpriseTO> getAllEnterprises() throws QueryException {
 		LOG.debug("QUERY: Try to get alle enterprises!");
 		TradingEnterpriseClient enterpriseClient = new TradingEnterpriseClient();
-
+		Collection<TradingEnterpriseTO> collection;
 		try {
-			return enterpriseClient.findAll();
+			collection = enterpriseClient.findAll();
+			
+
 		} catch (StoreRestException e) {
 			LOG.error("QUERY: Could not get all enterprises");
 			throw new QueryException(e.getMessage());
 		}
+		
+		//Logging
+		StringBuilder sb = new StringBuilder();
+		sb.append("QUERY: Successfully found all enterprises: [id,name] ");
+		for(TradingEnterpriseTO enterpriseTO : collection) {
+			sb.append("[" + enterpriseTO.getId() + ","  +enterpriseTO.getName() +"]");
+		}
+		LOG.debug(sb.toString());
+		
+		
+
+		return collection;
 	}
 
 }

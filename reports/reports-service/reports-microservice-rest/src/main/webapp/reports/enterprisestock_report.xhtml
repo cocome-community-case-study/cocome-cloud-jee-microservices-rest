@@ -13,20 +13,53 @@
 
 		<ui:define name="body">
 
-			
-		
-			
-			<h:panelGroup >
-				
-					<h:outputText value="Welcome to Enterprise Stock Report" />
-					
-				
+			<h:panelGroup layout="block">
+				<h:form id="selectEnterprise">
+
+
+
+					<h:selectOneMenu value="#{reportsManager.activeEnterpriseId}"
+						required="true"
+						requiredMessage="#{strings['enterprise.select.text']}">
+						<f:selectItem itemValue="#{null}"
+							itemLabel="#{strings['enterprise.select.text']}" />
+						<f:selectItems value="#{reportsManager.enterprises}"
+							var="enterprise" itemValue="#{enterprise.id}"
+							itemLabel="#{enterprise.name}"></f:selectItems>
+						<f:ajax render=":showEnterpriseReport" execute="@form" />
+					</h:selectOneMenu>
+
+
+
+
+
+				</h:form>
+
+
 			</h:panelGroup>
-			
-			
-			
-			
-			
+
+
+
+
+
+			<h:panelGroup id="showEnterpriseReport" layout="block" style="padding-top: 4px">
+
+				<h:panelGroup rendered="#{reportsManager.enterpriseSet}">
+					<h:outputText value="#{reportsManager.enterpriseStockReport}"   escape="false" />
+				</h:panelGroup>
+
+
+
+
+
+			</h:panelGroup>
+
+
+
+
+
+
+
 
 
 		</ui:define>
