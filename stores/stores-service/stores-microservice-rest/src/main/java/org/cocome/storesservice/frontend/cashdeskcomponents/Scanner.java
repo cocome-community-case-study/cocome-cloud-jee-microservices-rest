@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.cocome.storesservice.events.ProductBarcodeScannedEvent;
-import org.cocome.storesservice.exceptions.NoSuchProductException;
+
 import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesservice.frontend.stock.IStockManager;
 import org.cocome.storesservice.frontend.store.IStoreManager;

@@ -12,11 +12,16 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
+import org.cocome.storesservice.events.CashAmountEnteredEvent;
+import org.cocome.storesservice.events.ChangeAmountCalculatedEvent;
+import org.cocome.storesservice.events.InsufficientCashAmountEvent;
 import org.cocome.storesservice.events.InvalidProductBarcodeEvent;
 import org.cocome.storesservice.events.ProductOutOfStockEvent;
 import org.cocome.storesservice.events.RunningTotalChangedEvent;
-
+import org.cocome.storesservice.events.SaleSuccessEvent;
+import org.cocome.storesservice.events.SaleUnsuccessfulEvent;
 import org.cocome.storesservice.exceptions.QueryException;
+import org.cocome.storesservice.exceptions.UpdateException;
 import org.cocome.storesservice.frontend.stock.IStockManager;
 import org.cocome.storesservice.frontend.viewdata.StockItemViewData;
 import org.cocome.storesservice.events.InvalidProductBarcodeEvent;
@@ -42,6 +47,21 @@ public class CashBox implements ICashBox, Serializable{
 	
 	@Inject 
 	Event<ProductOutOfStockEvent> productOutOfStockEvent;
+	
+	@Inject 
+	Event<InsufficientCashAmountEvent> insufficientCashAmountEvents;
+	
+	@Inject 
+	Event<CashAmountEnteredEvent> cashAmountEnteredEvents;
+	
+	@Inject 
+	Event<ChangeAmountCalculatedEvent> changeAmountCalculatedEvents;
+	
+	@Inject 
+	Event<SaleSuccessEvent> saleSuccessEvent;
+	
+	@Inject 
+	Event<SaleUnsuccessfulEvent> saleUnsuccessEvent;
 	
 	private static final long serialVersionUID = 3992593730770915195L;
 	private String barcode;
@@ -145,6 +165,7 @@ public class CashBox implements ICashBox, Serializable{
 		if(addItemToSale(item)) {
 			final double price = item.getSalesPrice();
 			this.runningTotal = this.computeNewRunningTotal(price);
+			
 			this.sendRunningTotalChangedEvent(item.getName(), price);
 		}//else is covered by productoutofStockEvent
 		
@@ -152,6 +173,41 @@ public class CashBox implements ICashBox, Serializable{
 
 	}
 	
+	@Override
+	public void enterCashAmount(double cashAmount) throws UpdateException {
+		final double change = this.computeChangeAmount(cashAmount);
+		if (Math.signum(change) >= 0) {
+			
+			try {
+				makeSale();
+			} catch (QueryException e) {
+				
+				saleUnsuccessEvent.fire(new SaleUnsuccessfulEvent());
+				throw new UpdateException("An error occured while finishing the sale!");
+				
+			}
+			cashAmountEnteredEvents.fire(new CashAmountEnteredEvent(cashAmount));
+			changeAmountCalculatedEvents.fire(new ChangeAmountCalculatedEvent(change));
+			saleSuccessEvent.fire(new SaleSuccessEvent());
+
+		} else {
+			
+			insufficientCashAmountEvents.fire(new InsufficientCashAmountEvent(cashAmount, runningTotal));
+			
+		}
+		
+	}
+	
+	
+	private void makeSale() throws QueryException {
+		/*
+		 * It might happen, that some Stock Items are already updated and some not. But we are not interested in fancy rollback mechanisms
+		 */
+		for(StockItemViewData item: saleProducts) {
+			stockManager.updateStockItem(item);
+		}
+	}
+
 	private boolean addItemToSale(StockItemViewData stockItem) {
 		
 		// Check if StockItem Exists and reduce amount
@@ -194,6 +250,11 @@ public class CashBox implements ICashBox, Serializable{
 			double salePrice) {
 		runningTotalChangedEvents.fire(new RunningTotalChangedEvent(
 				productName, salePrice, this.runningTotal));
+	}
+	
+	private double computeChangeAmount(final double amount) {
+		final double changeAmount = amount - this.runningTotal;
+		return Math.rint(100 * changeAmount) / 100;
 	}
 
 }

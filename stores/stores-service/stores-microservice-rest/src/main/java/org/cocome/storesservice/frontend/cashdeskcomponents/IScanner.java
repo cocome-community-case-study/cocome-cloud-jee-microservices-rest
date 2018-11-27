@@ -1,6 +1,6 @@
 package org.cocome.storesservice.frontend.cashdeskcomponents;
 
-import org.cocome.storesservice.exceptions.NoSuchProductException;
+
 
 import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesservice.frontend.viewdata.StockItemViewData;

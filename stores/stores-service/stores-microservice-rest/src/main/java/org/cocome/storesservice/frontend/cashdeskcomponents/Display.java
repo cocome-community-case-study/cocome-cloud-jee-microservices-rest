@@ -16,7 +16,7 @@ public class Display implements IDisplay, Serializable{
 	private String displayString = "Welcome";
 
 	@Override
-	public void addDisplayLine(String line) {
+	public void setDisplayLine(String line) {
 		displayString = line;
 	}
 
@@ -27,7 +27,7 @@ public class Display implements IDisplay, Serializable{
 
 	@Override
 	public void resetDisplayLine() {
-		displayString = "Hello Word";
+		displayString = "Welcome";
 	}
 
 	@Override
@@ -38,5 +38,11 @@ public class Display implements IDisplay, Serializable{
 	@Override
 	public void removeLastDigit() {
 		 displayString = displayString.substring(0, displayString.length() - 1);
+	}
+
+	@Override
+	public void addDisplayLine(String line) {
+		this.displayString += "\n" + line;
+		
 	}
 }

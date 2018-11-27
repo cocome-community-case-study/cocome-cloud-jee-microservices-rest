@@ -13,9 +13,10 @@ import javax.inject.Named;
 import org.apache.log4j.Logger;
 import org.cocome.storesservice.events.SaleStartedEvent;
 import org.cocome.storesservice.events.StartCashPaymentEvent;
-import org.cocome.storesservice.exceptions.NoSuchProductException;
+
 
 import org.cocome.storesservice.exceptions.QueryException;
+import org.cocome.storesservice.exceptions.UpdateException;
 import org.cocome.storesservice.frontend.cashdeskcomponents.ICashBox;
 import org.cocome.storesservice.frontend.cashdeskcomponents.ICashDesk;
 import org.cocome.storesservice.frontend.cashdeskcomponents.IDisplay;
@@ -68,10 +69,7 @@ public class CashDeskView implements Serializable {
 		return resetSale();
 	}
 
-	private void updateDisplayAndPrinter() {
-		updateDisplayMessage();
-		updatePrinterOutput();
-	}
+
 
 	private String getSalePageRedirectOutcome() {
 		return NavigationElements.START_SALE.getNavigationOutcome();
@@ -155,53 +153,31 @@ public class CashDeskView implements Serializable {
 		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", errorString));
 	}
 
-	public void updateDisplayMessage() {
-//		String cashDeskName = cashDesk.getCashDeskName();
-//		long storeID = storeInformation.getActiveStoreID();
-//
-//		String displayMessage = "";
-//
-//		try {
-//			displayMessage = cashDeskDAO.getDisplayMessage(cashDeskName, storeID);
-//		} catch (UnhandledException_Exception | NotInDatabaseException_Exception e) {
-//			addFacesError(Messages.getLocalizedMessage("cashdesk.error.display.retrieve"));
-//		}
-//		
-//		cashDesk.setDisplayMessage(displayMessage);
-	}
+
 
 	public String enterCashAmount(double cashAmount) {
-//		String cashDeskName = cashDesk.getCashDeskName();
-//		long storeID = storeInformation.getActiveStoreID();
-//
-//		try {
-//			cashDeskDAO.enterCashAmount(cashDeskName, storeID, cashAmount);
-//		} catch (UnhandledException_Exception | NotInDatabaseException_Exception | IllegalCashDeskStateException_Exception e) {
-//			addFacesError(String.format(Messages.getLocalizedMessage("cashdesk.error.cash_pay.failed"), e.getMessage()));
-//		}
-//		
-//		updateDisplayAndPrinter();
-//		updateExpressMode();
+	
+		try {
+			cashbox.enterCashAmount(cashAmount);
+		} catch (UpdateException e) {
+			addFacesError(e.getMessage());
+		}
+		
 		return getSalePageRedirectOutcome();
 	}
 
 	public String enterCardInfo(String cardInfo, int pin) {
-//		String cashDeskName = cashDesk.getCashDeskName();
-//		long storeID = storeInformation.getActiveStoreID();
-//
-//		try {
-//			cashDeskDAO.enterCardInfo(cashDeskName, storeID, cardInfo, pin);
-//		} catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception
-//				| NotInDatabaseException_Exception e) {
-//			addFacesError(
-//					String.format(Messages.getLocalizedMessage("cashdesk.error.card_pay.failed"), e.getMessage()));
-//		}
-//		updateDisplayAndPrinter();
-//		updateExpressMode();
+
 		return getSalePageRedirectOutcome();
 	}
 
 	public String startCashPayment() {
+		
+		//Payment running
+		if(cashDesk.isCardPayment() || cashDesk.isCashPayment()) {
+			
+			return getSalePageRedirectOutcome();
+		}
 		
 		startCashPaymentEvent.fire(new StartCashPaymentEvent());
 		
@@ -272,11 +248,8 @@ public class CashDeskView implements Serializable {
 			return getSalePageRedirectOutcome();
 		}
 		long activeStoreId = storeInformation.getActiveStoreId();
-	
-		
 			scanner.submitBarcode(barcode, activeStoreId);
-		
-		
+
 		return getSalePageRedirectOutcome();
 		
 
@@ -304,19 +277,5 @@ public class CashDeskView implements Serializable {
 		cashbox.removeLastDigit();
 	}
 
-	public void updatePrinterOutput() {
-//		String cashDeskName = cashDesk.getCashDeskName();
-//		long storeID = storeInformation.getActiveStoreID();
-//
-//		String[] printerOutput;
-//
-//		try {
-//			printerOutput = cashDeskDAO.getPrinterOutput(cashDeskName, storeID);
-//		} catch (UnhandledException_Exception | NotInDatabaseException_Exception e) {
-//			addFacesError(
-//					String.format(Messages.getLocalizedMessage("cashdesk.error.printer.retrieve"), e.getMessage()));
-//			printerOutput = EMPTY_OUTPUT;
-//		}
-//		cashDesk.setPrinterOutput(printerOutput);
-	}
+	
 }

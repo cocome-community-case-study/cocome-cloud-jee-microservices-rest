@@ -9,8 +9,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
+import org.cocome.storesservice.events.CashAmountEnteredEvent;
+import org.cocome.storesservice.events.ChangeAmountCalculatedEvent;
 import org.cocome.storesservice.events.RunningTotalChangedEvent;
 import org.cocome.storesservice.events.SaleStartedEvent;
+import org.cocome.storesservice.events.SaleSuccessEvent;
 import org.cocome.storesservice.events.StartCashPaymentEvent;
 import org.cocome.storesservice.frontend.cashdeskcomponents.IPrinter;
 
@@ -27,7 +30,7 @@ public class PrinterEventHandler implements Serializable {
 
 	@Inject
 	IPrinter printer;
-	
+
 	private double runningTotal;
 
 	private static final Logger LOG = Logger.getLogger(PrinterEventHandler.class);
@@ -39,25 +42,56 @@ public class PrinterEventHandler implements Serializable {
 	}
 
 	public void onEvent(@Observes RunningTotalChangedEvent event) {
-		runningTotal += event.getRunningTotal();
+		runningTotal = event.getRunningTotal();
 		LOG.debug("FRONTEND: Printer new runningTotal: " + runningTotal);
 		this.printProductInfo(event.getProductName(), event.getProductPrice());
 	}
-	
+
 	public void onEvent(@Observes StartCashPaymentEvent event) {
-		LOG.debug("FRONTEND: Display start Cash Payment");
+		LOG.debug("FRONTEND: Printer start Cash Payment");
 		printSaleTotal(this.runningTotal);
-		
-		
+
 	}
 
+	public void onEvent(@Observes CashAmountEnteredEvent event) {
+		final double cashAmount = event.getCashAmount();
+		LOG.debug("FRONTEND: Printer CashAmountEntered " + cashAmount);
+		this.printCashAmount(cashAmount);
+
+	}
+
+	public void onEvent(@Observes ChangeAmountCalculatedEvent event) {
+		final double changeAmount = event.getChangeAmount();
+		LOG.debug("FRONTEND: Printer changeamount calcuatet " + changeAmount);
+		this.printChangeAmount(changeAmount);
+
+	}
+	
+	public void onEvent(@Observes SaleSuccessEvent event) {
+		LOG.debug("FRONTEND: Printer Sale success" );
+		this.finishPrintout();
+		
+	}
+	
+	private void finishPrintout() {
+		this.printer.addPrinterOutput(DELIMITER);
+		this.printer.addPrinterOutput("Thank you for your purchase!\n");
+	}
+
+	private void printChangeAmount(final double changeAmount) {
+		this.printer.addPrinterOutput("Change amount: " + changeAmount);
+	}
+
+	private void printCashAmount(final double cashAmount) {
+		this.printer.addPrinterOutput("Cash received: " + cashAmount + "\n");
+	}
 
 	private void printSaleTotal(final double total) {
 		this.printer.addPrinterOutput(DELIMITER);
 		this.printer.addPrinterOutput("Total: " + this.round(total) + "\n");
-		
+
 	}
-	
+
 	private double round(final double value) {
 		return Math.rint(100 * value) / 100;
 	}

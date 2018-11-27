@@ -1,5 +1,6 @@
 package org.cocome.storesservice.frontend.cashdeskcomponents;
 
+import org.cocome.storesservice.exceptions.UpdateException;
 
 public interface ICashBox {
 	
@@ -17,4 +18,6 @@ public interface ICashBox {
 	double getRunningTotal();
 	void setRunningTotal(double runningTotal);
 	void addItemToSale(long barcode, long storeId);
+
+	void enterCashAmount(double cashAmount) throws UpdateException;
 }

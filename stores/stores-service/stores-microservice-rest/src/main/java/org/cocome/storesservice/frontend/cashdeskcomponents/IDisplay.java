@@ -1,7 +1,7 @@
 package org.cocome.storesservice.frontend.cashdeskcomponents;
 
 public interface IDisplay {
-	void addDisplayLine(String line);
+	void setDisplayLine(String line);
 	
 	void addToDisplayLine(char toAdd);
 	
@@ -10,4 +10,6 @@ public interface IDisplay {
 	String getDisplayLine();
 	
 	void resetDisplayLine();
+	
+	void addDisplayLine(String line);
 }
