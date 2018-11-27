@@ -42,4 +42,8 @@ public interface IStockQuery {
 			@NotNull long maxStock, @NotNull long barcode, @NotNull long incomingAmount, @NotNull String name) throws QueryException;
 
 	void deleteStockItem(@NotNull long stockItemId) throws QueryException;
+
+	StockItem getStockItemByIdAndStore(long stockItemId, long storeId) throws QueryException;
+
+	StockItem getStockItemByBarcodeAndStore(long barcode, long storeId) throws QueryException;
 }

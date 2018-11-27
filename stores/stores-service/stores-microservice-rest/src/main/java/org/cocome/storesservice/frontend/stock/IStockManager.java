@@ -12,4 +12,6 @@ public interface IStockManager {
 	
 	void updateStockItem(StockItemViewData item) throws QueryException;
 
+	StockItemViewData getStockItemByBarcodeAndStoreId(long barcode, long storeId) throws QueryException;
+
 }

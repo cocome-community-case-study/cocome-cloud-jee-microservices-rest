@@ -55,10 +55,10 @@
 													<tr>
 														<td><h:outputText
 																value="#{strings['cashdesk.payment.cash.label']}" /></td>
-														<td><h:inputText value="#{cashAmount}"
-																validator="#{numberValidator.validatePositiveDouble}" 
+														<td><h:inputText value="#{cashAmount}" />
+																<!--  validator="#{numberValidator.validatePositiveDouble}" 
 																styleClass="input-number"
-																validatorMessage="#{strings['cashdesk.validation.amount.failed']}"/></td>
+																validatorMessage="#{strings['cashdesk.validation.amount.failed']}"--></td>
 													</tr>
 													<tr>
 														<td><h:commandButton id="pay-sum"
@@ -167,7 +167,7 @@
 																		disabled="#{cashDeskView.barcode == ''}" /></td>
 																<td><h:commandButton
 																		value="#{strings['cashdesk.barcode.numpad.0']}"
-																		action="cashDeskView.addDigitToBarcode('0')"
+																		action="#{cashDeskView.addDigitToBarcode('0')}"
 																		styleClass="numpad-button" /></td>
 																<td><h:commandButton
 																		value="#{strings['cashdesk.barcode.numpad.backspace']}"

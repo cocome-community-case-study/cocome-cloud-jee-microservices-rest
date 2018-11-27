@@ -8,7 +8,7 @@ import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesservice.frontend.viewdata.StockItemViewData;
 import org.cocome.storesservice.frontend.viewdata.StoreViewData;
 
-interface IStoreInformation {
+public interface IStoreInformation {
 	long getActiveStoreId();
 
 	void setActiveStoreId(long storeId) throws QueryException;

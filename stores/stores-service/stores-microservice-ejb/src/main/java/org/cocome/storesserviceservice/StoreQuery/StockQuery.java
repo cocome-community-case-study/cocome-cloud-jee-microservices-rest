@@ -94,6 +94,51 @@ public class StockQuery implements IStockQuery, Serializable {
 		LOG.debug(sb.toString());
 		return items;
 	}
+	
+	@Override
+	public StockItem getStockItemByIdAndStore(long stockItemId, long storeId) throws QueryException {
+		LOG.debug("QUERY: Get StockItem with id: " + stockItemId +" from store with id: " + storeId);
+		StockItem item  = stockRepo.find(stockItemId);
+		if (item == null) {
+			LOG.debug("QUERY: Did not find StockItem with ID " + stockItemId);
+			throw new QueryException("Did not find StockItem with id: " + stockItemId);
+
+		}
+		
+		if(item.getStore().getId() != storeId) {
+			LOG.debug("QUERY: StockItem found, but does not belong to store with id:  " + stockItemId);
+			throw new QueryException("Did not find StockItem with id " + stockItemId);
+		}
+		return item;
+
+	}
+	
+
+	@Override
+	public StockItem getStockItemByBarcodeAndStore(long barcode, long storeId) throws QueryException {
+		LOG.debug("QUERY: Get StockItem with barcode: " + barcode +" from store with id: " + storeId);
+		
+		StockItem item = null;
+		
+		for(StockItem it : this.getStockItemsByStore(storeId)) {
+			if(it.getBarcode() == barcode) {
+				item = it; //Barcode is unique!
+				break;
+				
+			}
+		}
+
+		if (item == null) {
+			LOG.debug("QUERY: Did not find StockItem with barcode " + barcode);
+			throw new QueryException("Did not find StockItem with Barcode: " + barcode);
+
+		}
+		
+	
+		return item;
+
+	}
+
 
 	@Override
 	public StockItem getStockItemById(long stockItemId) throws QueryException {

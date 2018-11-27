@@ -39,7 +39,12 @@ public class StockManager implements IStockManager, Serializable {
 		stockQuery.updateStockeItem(item.getId(), item.getSalesPrice(), item.getAmount(), item.getMinStock(),
 				item.getMaxStock(), item.getBarcode(), item.getIncomingAmount(), item.getName());
 
-		
+	}
+
+	@Override
+	public StockItemViewData getStockItemByBarcodeAndStoreId(long barcode, long storeId) throws QueryException {
+
+		return StockItemViewData.fromStockItem(stockQuery.getStockItemByBarcodeAndStore(barcode, storeId));
 	}
 
 }
