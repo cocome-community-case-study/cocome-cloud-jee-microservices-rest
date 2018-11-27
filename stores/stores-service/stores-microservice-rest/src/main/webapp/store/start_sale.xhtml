@@ -37,8 +37,8 @@
 									<tr>
 										<td align="left" style="vertical-align: top;"><b>#{strings['cashdesk.express_mode.label']}</b>
 											<h:graphicImage value="#{resource['image:blackBall.png']}"
-												rendered="#{not cashDeskView.inExpressMode}" 
-												styleClass="cashdesk-express-light"/> <h:graphicImage
+												rendered="#{not cashDeskView.inExpressMode}"
+												styleClass="cashdesk-express-light" /> <h:graphicImage
 												value="#{resource['image:greenBall.png']}"
 												rendered="#{cashDeskView.inExpressMode}"
 												styleClass="cashdesk-express-light" /></td>
@@ -55,8 +55,7 @@
 													<tr>
 														<td><h:outputText
 																value="#{strings['cashdesk.payment.cash.label']}" /></td>
-														<td><h:inputText value="#{cashAmount}" />
-																<!--  validator="#{numberValidator.validatePositiveDouble}" 
+														<td><h:inputText value="#{cashAmount}" /> <!--  validator="#{numberValidator.validatePositiveDouble}" 
 																styleClass="input-number"
 																validatorMessage="#{strings['cashdesk.validation.amount.failed']}"--></td>
 													</tr>
@@ -66,26 +65,27 @@
 																value="#{strings['cashdesk.payment.button.cash.label']}" /></td>
 													</tr>
 												</table>
-											</h:panelGroup> <h:panelGroup rendered="#{cashDeskView.cardPayment}">
+											</h:panelGroup> 
+											<h:panelGroup rendered="#{cashDeskView.cardPayment}">
 												<table>
 													<tr>
 														<td><h:outputText
 																value="#{strings['cashdesk.payment.card.number.label']}" />
-															<h:inputText id="cardInfo" value="#{cardInfo}" styleClass="input-number" 
+															<h:inputText id="cardInfo" value="#{cardInfo}"
+																styleClass="input-number"
 																validatorMessage="#{strings['cashdesk.validation.card.failed']}">
-																<f:validateLongRange minimum="0" maximum="9999999999"/>
-															</h:inputText>
-															</td>
+																<f:validateLongRange minimum="0" maximum="9999999999" />
+															</h:inputText></td>
 													</tr>
 
 													<tr>
 														<td><h:outputText
 																value="#{strings['cashdesk.payment.card.pin.label']}" />
-															<h:inputText id="pin" value="#{pin}" styleClass="input-number"
-															validatorMessage="#{strings['cashdesk.validation.card.failed']}">
-																<f:validateLongRange minimum="0" maximum="99999999"/>
-															</h:inputText>
-															</td>
+															<h:inputText id="pin" value="#{pin}"
+																styleClass="input-number"
+																validatorMessage="#{strings['cashdesk.validation.card.failed']}">
+																<f:validateLongRange minimum="0" maximum="99999999" />
+															</h:inputText></td>
 													</tr>
 
 													<tr>
@@ -104,7 +104,7 @@
 									<tr>
 										<td align="center"><b>#{strings['cashdesk.sale.product.barcode.label']}</b>
 											<h:inputText id="barcodetext" style="width:145px"
-												value="#{cashDeskView.barcode}"/></td>
+												value="#{cashDeskView.barcode}" /></td>
 									</tr>
 									<tr>
 										<td><h:commandButton style="width: 350px"
@@ -180,17 +180,18 @@
 												</tr>
 											</table>
 											<table align="center" width="100%">
-									<tr>
-										<td><h:dataTable value="#{cashDeskView.printerOutput}"
-												var="printerLine" styleClass="product-table"
-												rowClasses="product-table-odd-row, product-table-even-row"
-												columnClasses="center-text" width="50%" rendered="#{cashDeskView.saleStarted}">
-												<h:column>
-													<h:outputText value="#{printerLine}" />
-												</h:column>
-											</h:dataTable></td>
-									</tr>
-								</table>
+												<tr>
+													<td><h:dataTable value="#{cashDeskView.printerOutput}"
+															var="printerLine" styleClass="product-table"
+															rowClasses="product-table-odd-row, product-table-even-row"
+															columnClasses="center-text" width="50%"
+															rendered="#{cashDeskView.saleStarted}">
+															<h:column>
+																<h:outputText value="#{printerLine}" />
+															</h:column>
+														</h:dataTable></td>
+												</tr>
+											</table>
 										</td>
 									</tr>
 								</table>

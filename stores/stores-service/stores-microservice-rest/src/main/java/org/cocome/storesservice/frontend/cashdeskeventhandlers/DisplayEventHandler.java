@@ -12,6 +12,7 @@ import org.cocome.storesservice.events.InvalidProductBarcodeEvent;
 import org.cocome.storesservice.events.ProductOutOfStockEvent;
 import org.cocome.storesservice.events.RunningTotalChangedEvent;
 import org.cocome.storesservice.events.SaleStartedEvent;
+import org.cocome.storesservice.events.StartCashPaymentEvent;
 import org.cocome.storesservice.frontend.cashdeskcomponents.IDisplay;
 
 @Named
@@ -48,6 +49,13 @@ public class DisplayEventHandler implements Serializable {
 		LOG.debug("FRONTEND: Display  Item out of stock: " );
 		this.display.addDisplayLine(event.getEvetText());
 	}
+	
+	public void onEvent(@Observes StartCashPaymentEvent event) {
+		LOG.debug("FRONTEND: Display start Cash Payment");
+		this.display.addDisplayLine("Start Cash Payment");
+		
+	}
+
 
 	
 }

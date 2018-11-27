@@ -47,10 +47,6 @@ public class CashDesk implements Serializable, ICashDesk {
 	private boolean saleStarted = false;
 	private boolean cashPayment = false;
 	private boolean cardPayment = false;
-
-
-	
-
 	private boolean inExpressMode = false;
 	
 

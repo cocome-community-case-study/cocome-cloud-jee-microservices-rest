@@ -12,6 +12,7 @@ import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 import org.cocome.storesservice.events.SaleStartedEvent;
+import org.cocome.storesservice.events.StartCashPaymentEvent;
 import org.cocome.storesservice.exceptions.NoSuchProductException;
 
 import org.cocome.storesservice.exceptions.QueryException;
@@ -58,6 +59,9 @@ public class CashDeskView implements Serializable {
 	
 	@Inject 
 	Event<SaleStartedEvent> saleStartedEvents;
+	
+	@Inject
+	Event<StartCashPaymentEvent> startCashPaymentEvent;
 
 	public String submitCashDeskName() {
 		updateExpressMode(); //TODO 
@@ -198,26 +202,15 @@ public class CashDeskView implements Serializable {
 	}
 
 	public String startCashPayment() {
-//		String cashDeskName = cashDesk.getCashDeskName();
-//		long storeID = storeInformation.getActiveStoreID();
-//
-//		try {
-//			cashDeskDAO.startCashPayment(cashDeskName, storeID);
-//			cashDesk.setAllItemsRegistered(true);
-//			cashDesk.setCashPayment(true);
-//			cashDesk.setCardPayment(false);
-//		} catch (NotInDatabaseException_Exception | ProductOutOfStockException_Exception | UnhandledException_Exception
-//				| IllegalCashDeskStateException_Exception | IllegalInputException_Exception e) {
-//			addFacesError(String.format(Messages.getLocalizedMessage("cashdesk.error.start_cash_pay.failed"),
-//					e.getMessage()));
-//		}
-//
-//		updateDisplayAndPrinter();
-
+		
+		startCashPaymentEvent.fire(new StartCashPaymentEvent());
+		
 		return getSalePageRedirectOutcome();
 	}
 
 	public String startCardPayment() {
+		
+		//TODO check if expressmode
 //		String cashDeskName = cashDesk.getCashDeskName();
 //		long storeID = storeInformation.getActiveStoreID();
 //
