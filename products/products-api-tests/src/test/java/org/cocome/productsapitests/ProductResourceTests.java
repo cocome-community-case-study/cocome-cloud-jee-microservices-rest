@@ -1,8 +1,6 @@
 package org.cocome.productsapitests;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.cocome.productsclient.client.ProductClient;
 import org.cocome.productsclient.client.ProductSupplierClient;

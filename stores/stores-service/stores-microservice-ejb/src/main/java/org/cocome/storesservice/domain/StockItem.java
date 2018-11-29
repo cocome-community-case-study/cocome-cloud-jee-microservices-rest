@@ -13,45 +13,39 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
 /**
- * Represents a concrete product in the, store including sales price,
- * amount, ...
+ * Represents a StockItem Domain Object. Has @ManyToOne relationship with Store
+ * for fast query property
+ * 
+ * @author Niko Benkler
+ * @author Robert Heinrich
  *
- * @author Yannick Welsch
  */
-@Entity(name="StockItem")
-@Table(name="stockItem")
+@Entity(name = "StockItem")
+@Table(name = "stockItem")
 public class StockItem implements Serializable {
 
 	private static final long serialVersionUID = -293179135307588628L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
-	
 
 	private double salesPrice;
-	
-	
-	private long amount;
-	
-	
-	private long minStock;
 
+	private long amount;
+
+	private long minStock;
 
 	private long maxStock;
 
-
 	private long barcode;
-	
-	
+
 	private long incomingAmount;
-		
-	
+
 	private long productId;
-	
+
 	private String name;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -59,16 +53,15 @@ public class StockItem implements Serializable {
 	private Store store;
 
 	/** Empty constructor. */
-	public StockItem() {}
-
+	public StockItem() {
+	}
 
 	public long getId() {
 		return this.id;
 	}
 
 	/**
-	 * @param id
-	 *            a unique identifier of this StockItem
+	 * @param id a unique identifier of this StockItem
 	 */
 	public void setId(final long id) {
 		this.id = id;
@@ -86,27 +79,23 @@ public class StockItem implements Serializable {
 		return name;
 	}
 
-
 	public void setName(String name) {
 		this.name = name;
 	}
 
-
 	/**
-	 * @param amount
-	 *            the currently available amount of items of a product
+	 * @param amount the currently available amount of items of a product
 	 */
 	public void setAmount(final long amount) {
 		this.amount = amount;
 	}
-	
+
 	public long getBarcode() {
 		return barcode;
 	}
-	
+
 	/**
-	 * @param amount
-	 *            the Barcode of a product
+	 * @param amount the Barcode of a product
 	 */
 	public void setBarcode(final long barcode) {
 		this.barcode = barcode;
@@ -123,20 +112,17 @@ public class StockItem implements Serializable {
 	}
 
 	/**
-	 * This method enables the definition of the maximum capacity of a product
-	 * in a store.
+	 * This method enables the definition of the maximum capacity of a product in a
+	 * store.
 	 *
-	 * @param maxStock
-	 *            the maximum capacity of a product in a store
+	 * @param maxStock the maximum capacity of a product in a store
 	 */
 	public void setMaxStock(final long maxStock) {
 		this.maxStock = maxStock;
 	}
 
 	/**
-	 * @return
-	 * 		The minimum amount of products which has to be available in a
-	 *         store.
+	 * @return The minimum amount of products which has to be available in a store.
 	 */
 	@Basic
 	public long getMinStock() {
@@ -144,9 +130,8 @@ public class StockItem implements Serializable {
 	}
 
 	/**
-	 * @param minStock
-	 *            the minimum amount of products which has to be available in a
-	 *            store
+	 * @param minStock the minimum amount of products which has to be available in a
+	 *                 store
 	 */
 	public void setMinStock(final long minStock) {
 		this.minStock = minStock;
@@ -161,8 +146,7 @@ public class StockItem implements Serializable {
 	}
 
 	/**
-	 * @param salesPrice
-	 *            the sales price of the StockItem
+	 * @param salesPrice the sales price of the StockItem
 	 */
 	public void setSalesPrice(final double salesPrice) {
 		this.salesPrice = salesPrice;
@@ -171,8 +155,8 @@ public class StockItem implements Serializable {
 	/**
 	 * Required for UC 8
 	 *
-	 * @return incomingAmount
-	 *         the amount of products that will be delivered in the near future
+	 * @return incomingAmount the amount of products that will be delivered in the
+	 *         near future
 	 */
 	@Basic
 	public long getIncomingAmount() {
@@ -184,17 +168,16 @@ public class StockItem implements Serializable {
 	 * <p>
 	 * Required for UC 8
 	 *
-	 * @param incomingAmount
-	 *            the absolute amount (no delta) of incoming products
+	 * @param incomingAmount the absolute amount (no delta) of incoming products
 	 */
 	public void setIncomingAmount(final long incomingAmount) {
 		this.incomingAmount = incomingAmount;
 	}
-	
+
 	public void setProductId(long productId) {
 		this.productId = productId;
 	}
-	
+
 	public long getProductId() {
 		return this.productId;
 	}
@@ -207,8 +190,7 @@ public class StockItem implements Serializable {
 	}
 
 	/**
-	 * @param store
-	 *            The store where the StockItem belongs to
+	 * @param store The store where the StockItem belongs to
 	 */
 	public void setStore(final Store store) {
 		this.store = store;
@@ -217,8 +199,8 @@ public class StockItem implements Serializable {
 	@Override
 	public String toString() {
 //		return "[Class:" + this.getClass().getSimpleName() + ",Id" + this.getId() + ",Store:" + this.getStore() + ",Product:" + this.getProduct() + "]";
-		return "[Class:" + this.getClass().getSimpleName() + ",Id" + this.getId() + ",Store:" + this.getStore().getId() + "]";
+		return "[Class:" + this.getClass().getSimpleName() + ",Id" + this.getId() + ",Store:" + this.getStore().getId()
+				+ "]";
 	}
 
 }
-

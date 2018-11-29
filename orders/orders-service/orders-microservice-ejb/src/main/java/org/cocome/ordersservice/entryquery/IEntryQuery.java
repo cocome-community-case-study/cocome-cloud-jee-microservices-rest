@@ -18,7 +18,7 @@ public interface IEntryQuery {
 	
 	void updateEntry(@NotNull long id, @NotNull long amount) throws QueryException;
 	
-	OrderEntry findEntryById(@NotNull long id);
+	OrderEntry findEntryById(@NotNull long id) throws QueryException;
 	
 	void deleteEntry(@NotNull long id) throws QueryException;
 	

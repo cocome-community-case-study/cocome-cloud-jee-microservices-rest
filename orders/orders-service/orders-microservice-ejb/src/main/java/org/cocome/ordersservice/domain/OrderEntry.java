@@ -3,7 +3,6 @@ package org.cocome.ordersservice.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,9 +16,9 @@ import javax.persistence.Table;
 
 /**
  * Represents a single product order entry in the database.
+ * @author Niko Benkler
+ * @author Robert Heinrich
  *
- * @author Yannick Welsch
- * @author Nils Sommer
  */
 @Entity(name="OrderEntry")
 @Table(name="orderentry")

@@ -13,11 +13,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
@@ -158,17 +156,14 @@ public class StoreResource {
 		return Response.created(builder.build()).build();
 	}
 
-	public static Store fromStoreTO(StoreTO storeTO, Store store) {
-		store.setLocation(storeTO.getLocation());
-		store.setName(storeTO.getName());
-		return store;
-	}
+	
 
 	public static StoreTO toStoreTO(Store store) {
 		StoreTO storeTO = new StoreTO();
 		storeTO.setId(store.getId());
 		storeTO.setLocation(store.getLocation());
 		storeTO.setName(store.getName());
+		storeTO.setEnterpriseId(store.getEnterprise().getId());
 
 		return storeTO;
 

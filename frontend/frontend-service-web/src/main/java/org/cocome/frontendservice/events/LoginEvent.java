@@ -1,13 +1,17 @@
 package org.cocome.frontendservice.events;
 
+
 import javax.validation.constraints.NotNull;
 
 import org.cocome.frontendservice.logindata.IUser;
 import org.cocome.frontendservice.logindata.UserRole;
 
-
-
-
+/**
+ * Emitted when user Logs in
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 public class LoginEvent {
 	private IUser user;
 	private UserRole role;

@@ -6,56 +6,57 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
-
-
 /**
- * Represents a concrete product in the, store including sales price,
- * amount, ...
+ * Represents a Stock Item Object as Transfer Object. It only has a reference to
+ * the store it belongs to
+ * 
+ * @author Niko Benkler
+ * @author Robert Heinrich
  *
- * @author Yannick Welsch
  */
 @XmlRootElement(name = "StockItem")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StockItem", propOrder = { "id" , "productId", "name" , "storeId", "barcode" ,"salesPrice", "amount", "minStock", "maxStock", "incomingAmount" })
+@XmlType(name = "StockItem", propOrder = { "id", "productId", "name", "storeId", "barcode", "salesPrice", "amount",
+		"minStock", "maxStock", "incomingAmount" })
 public class StockItemTO implements Serializable {
 
 	private static final long serialVersionUID = -293179135307588628L;
-	
+
 	@XmlElement
 	private long id;
-	
+
 	@XmlElement(name = "SalesPrice")
 	private double salesPrice;
-	
+
 	@XmlElement(name = "Amount")
 	private long amount;
-	
+
 	@XmlElement(name = "MinStock")
 	private long minStock;
-	
+
 	@XmlElement(name = "MaxStock")
 	private long maxStock;
-	
+
 	@XmlElement(name = "IncomingAmount")
 	private long incomingAmount;
-		
+
 	@XmlElement(name = "ProductId")
 	private long productId;
-	
+
 	@XmlElement(name = "Barcode")
 	private long barcode;
-	
+
 	@XmlElement(name = "StoreId")
 	private long storeId;
-	
-	@XmlElement(name="name")
+
+	@XmlElement(name = "name")
 	private String name;
 
 	/** Empty constructor. */
-	public StockItemTO() {}
+	public StockItemTO() {
+	}
 
 	public long getBarcode() {
 		return barcode;
@@ -81,8 +82,7 @@ public class StockItemTO implements Serializable {
 	}
 
 	/**
-	 * @param id
-	 *            a unique identifier of this StockItem
+	 * @param id a unique identifier of this StockItem
 	 */
 	public void setId(final long id) {
 		this.id = id;
@@ -112,27 +112,25 @@ public class StockItemTO implements Serializable {
 	}
 
 	/**
-	 * This method enables the definition of the maximum capacity of a product
-	 * in a store.
+	 * This method enables the definition of the maximum capacity of a product in a
+	 * store.
 	 *
-	 * @param maxStock
-	 *            the maximum capacity of a product in a store
+	 * @param maxStock the maximum capacity of a product in a store
 	 */
 	public void setMaxStock(final long maxStock) {
 		this.maxStock = maxStock;
 	}
 
 	/**
-	 * @return
-	 * 		The minimum amount of products which has to be available in a
-	 *         store.
+	 * @return The minimum amount of products which has to be available in a store.
 	 */
 	public long getMinStock() {
 		return this.minStock;
 	}
 
 	/**
-	 * @param minStock the minimum amount of products which has to be available in a store
+	 * @param minStock the minimum amount of products which has to be available in a
+	 *                 store
 	 */
 	public void setMinStock(final long minStock) {
 		this.minStock = minStock;
@@ -146,8 +144,7 @@ public class StockItemTO implements Serializable {
 	}
 
 	/**
-	 * @param salesPrice
-	 *            the sales price of the StockItem
+	 * @param salesPrice the sales price of the StockItem
 	 */
 	public void setSalesPrice(final double salesPrice) {
 		this.salesPrice = salesPrice;
@@ -156,8 +153,8 @@ public class StockItemTO implements Serializable {
 	/**
 	 * Required for UC 8
 	 *
-	 * @return incomingAmount
-	 *         the amount of products that will be delivered in the near future
+	 * @return incomingAmount the amount of products that will be delivered in the
+	 *         near future
 	 */
 	public long getIncomingAmount() {
 		return this.incomingAmount;
@@ -168,21 +165,20 @@ public class StockItemTO implements Serializable {
 	 * <p>
 	 * Required for UC 8
 	 *
-	 * @param incomingAmount
-	 *            the absolute amount (no delta) of incoming products
+	 * @param incomingAmount the absolute amount (no delta) of incoming products
 	 */
 	public void setIncomingAmount(final long incomingAmount) {
 		this.incomingAmount = incomingAmount;
 	}
-	
+
 	public void setProductId(long productId) {
 		this.productId = productId;
 	}
-	
+
 	public long getProductId() {
 		return this.productId;
 	}
-	
+
 	/**
 	 * @return The store where the StockItem belongs to
 	 */
@@ -191,8 +187,7 @@ public class StockItemTO implements Serializable {
 	}
 
 	/**
-	 * @param store
-	 *            The store where the StockItem belongs to
+	 * @param store The store where the StockItem belongs to
 	 */
 	public void setStoreId(final long storeId) {
 		this.storeId = storeId;

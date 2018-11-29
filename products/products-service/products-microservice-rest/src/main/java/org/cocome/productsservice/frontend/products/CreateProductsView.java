@@ -79,11 +79,10 @@ public class CreateProductsView implements Serializable {
 	}
 
 	/**
-	 * Check if barcode already exists
+	 * Check if barcode already exists. Barcode is cached for session!
 	 * 
 	 * @param barcode
 	 */
-	// TODO diese methode noch debuggen
 	public boolean checkBarcode(long barcode) {
 		init();
 		LOG.debug("Check barcode");

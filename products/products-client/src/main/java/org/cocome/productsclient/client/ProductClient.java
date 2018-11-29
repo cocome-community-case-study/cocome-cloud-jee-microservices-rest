@@ -16,7 +16,12 @@ import javax.ws.rs.core.Response;
 import org.cocome.productsclient.config.Config;
 import org.cocome.productsclient.domain.ProductTO;
 import org.cocome.productsclient.exception.ProductsRestException;
-
+/**
+ * Client to access Product-REST-Interface by simple method calls
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 public class ProductClient {
 	private final WebTarget webTarget;
 
@@ -25,6 +30,11 @@ public class ProductClient {
 		this.webTarget = client.target(Config.getBaseUri());
 	}
 
+	/**
+	 * Retrieve all Products
+	 * @return
+	 * @throws ProductsRestException
+	 */
 	public Collection<ProductTO> findAll() throws ProductsRestException {
 		try {
 			return this.webTarget.path("products").request().accept(MediaType.APPLICATION_XML_TYPE)
@@ -39,6 +49,12 @@ public class ProductClient {
 
 	}
 
+	/**
+	 * Get Product with given Id
+	 * @param id
+	 * @return
+	 * @throws ProductsRestException
+	 */
 	public ProductTO find(long id) throws ProductsRestException {
 		try {
 			return this.webTarget.path("products").path(Long.toString(id)).request()
@@ -52,6 +68,13 @@ public class ProductClient {
 
 	}
 
+	/**
+	 * Create product with given supplier id and product information
+	 * @param product
+	 * @param supplierId
+	 * @return
+	 * @throws ProductsRestException
+	 */
 	public long create(ProductTO product, long supplierId) throws ProductsRestException {
 		try {
 
@@ -68,6 +91,11 @@ public class ProductClient {
 
 	}
 
+	/**
+	 * Update Product Information. Product needs to be existent. If not, Exception is thrown
+	 * @param productTO
+	 * @throws ProductsRestException
+	 */
 	public void update(ProductTO productTO) throws ProductsRestException {
 		try {
 
@@ -82,6 +110,11 @@ public class ProductClient {
 
 	}
 
+	/**
+	 * Delete Product
+	 * @param productTO
+	 * @throws ProductsRestException
+	 */
 	public void delete(ProductTO productTO) throws ProductsRestException {
 		try {
 
@@ -94,6 +127,12 @@ public class ProductClient {
 
 	}
 
+	/**
+	 * Find all Products of a given supplier
+	 * @param supplierId
+	 * @return
+	 * @throws ProductsRestException
+	 */
 	public Collection<ProductTO> findBySupplier(long supplierId) throws ProductsRestException {
 		try {
 			return this.webTarget.path("product-suppliers").path(Long.toString(supplierId)).path("products").request()

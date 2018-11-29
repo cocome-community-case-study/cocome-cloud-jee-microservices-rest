@@ -19,9 +19,9 @@ import javax.persistence.TemporalType;
 
 /**
  * The ProductOrder class represents an ProductOrder of a Store in the database.
+ * @author Niko Benkler
+ * @author Robert Heinrich
  *
- * @author Yannick Welsch
- * @author Nils Sommer
  */
 @Entity(name="ProductOrder")
 @Table(name="productorder")

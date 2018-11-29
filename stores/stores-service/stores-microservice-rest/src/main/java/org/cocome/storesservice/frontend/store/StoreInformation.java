@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
@@ -15,7 +14,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
-import org.cocome.storesservice.domain.StockItem;
 import org.cocome.storesservice.events.ChangeViewEvent;
 import org.cocome.storesservice.events.UserInformationProcessedEvent;
 import org.cocome.storesservice.exceptions.QueryException;
@@ -90,6 +88,9 @@ public class StoreInformation implements IStoreInformation, Serializable {
 		return activeStore;
 	}
 
+	/**
+	 * Fetch items from backend
+	 */
 	@Override
 	public void loadItems() {
 
@@ -140,6 +141,9 @@ public class StoreInformation implements IStoreInformation, Serializable {
 
 	}
 
+	/**
+	 * Switch current View  to store view and activeStore
+	 */
 	@Override
 	public String switchToStore(long storeId) {
 		try {
@@ -154,6 +158,9 @@ public class StoreInformation implements IStoreInformation, Serializable {
 
 	}
 
+	/**
+	 * Switch current View to store view (stock overview) and active store
+	 */
 	@Override
 	public String switchToStock(long storeId) {
 		try {
@@ -171,6 +178,9 @@ public class StoreInformation implements IStoreInformation, Serializable {
 
 	}
 
+	/**
+	 * Update given Stock Item
+	 */
 	@Override
 	public void updateStockItem(StockItemViewData updatedItem) {
 

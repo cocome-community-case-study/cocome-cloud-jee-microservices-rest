@@ -24,7 +24,14 @@ import org.cocome.frontendservice.navigation.NavigationElements;
 import org.cocome.frontendservice.navigation.NavigationView;
 import org.cocome.frontendservice.resolver.IServiceRedirecter;
 
-
+/**
+ * Provides Login Functionality, store current user, checks passwords and user
+ * accounts provided by Credential Factory
+ * 
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 
 @Named
 @SessionScoped
@@ -33,10 +40,10 @@ public class Login implements Serializable {
 
 	@Inject
 	IAuthenticator authenticator;
-	
+
 	@Inject
 	ICredentialFactory credFactory;
-	
+
 	@Inject
 	IServiceRedirecter microserviceRedirecter;
 
@@ -54,11 +61,12 @@ public class Login implements Serializable {
 	private IUser user = null;
 
 	private long requestedStoreId = STORE_ID_NOT_SET;
+	
 
 	private boolean loggedIn = false;
 
 	private static final Logger LOG = Logger.getLogger(Login.class);
-	
+
 	@PostConstruct
 	private void init() {
 		password = credFactory.createPlainPassword("");
@@ -103,9 +111,9 @@ public class Login implements Serializable {
 	public void setRequestedRole(UserRole requestedRole) {
 		this.requestedRole = requestedRole;
 	}
-	
+
 	/**
-	 * Determines whether or not the user needs to enter  a storeID
+	 * Determines whether or not the user needs to enter a storeID
 	 */
 	public boolean isStoreRequired() {
 		if (requestedRole.associatedView() != NavigationView.ENTERPRISE_VIEW) {
@@ -113,7 +121,6 @@ public class Login implements Serializable {
 		}
 		return false;
 	}
-	
 
 	@Produces
 	@javax.enterprise.context.SessionScoped
@@ -124,18 +131,24 @@ public class Login implements Serializable {
 	public void setUser(IUser user) {
 		this.user = user;
 	}
-
+    
+	/**
+	 * Check input, fire Login Event for NavigationMenu
+	 * @return
+	 */
 	public String login() {
+		//TODO check requested Role!
 		IUser storedUser = authenticator.checkCredential(username, password);
 		String outcome;
-	
+
 		if (storedUser != null) {
 			setLoggedIn(true);
 			user = storedUser;
-			loginEvent.fire(new LoginEvent(storedUser, requestedRole, requestedStoreId)); //TODO implment catching for loginInformation
+			loginEvent.fire(new LoginEvent(storedUser, requestedRole, requestedStoreId)); // TODO implment catching for
+																							// loginInformation
 			LOG.info(String.format("Successful login: username %s.", getUserName()));
 			outcome = "templates/commonTemplate";
-			
+
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			String message = context.getApplication().evaluateExpressionGet(context, "#{strings['login.failed.text']}",
@@ -152,10 +165,10 @@ public class Login implements Serializable {
 		password = credFactory.createPlainPassword("");
 		requestedRole = UserRole.ENTERPRISE_MANAGER;
 		requestedStoreId = 0;
-	
+
 		logoutEvent.fire(new LogoutEvent(user));
 		user = null;
-	
+
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return NavigationElements.LOGIN.getNavOutcome();
 	}

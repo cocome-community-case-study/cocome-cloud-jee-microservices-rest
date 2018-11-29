@@ -1,6 +1,7 @@
 package org.cocome.reportsservice.reportsquery;
 
 import java.util.Collection;
+
 import org.cocome.reportsservice.domain.Report;
 import org.cocome.reportsservice.exceptions.QueryException;
 import org.cocome.storesclient.domain.TradingEnterpriseTO;

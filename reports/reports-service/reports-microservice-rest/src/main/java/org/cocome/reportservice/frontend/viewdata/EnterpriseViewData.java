@@ -6,12 +6,7 @@ import java.util.LinkedList;
 import org.cocome.storesclient.domain.TradingEnterpriseTO;
 
 /**
- * Represents a Enterprise Entity
- * {@link org.cocome.storesservice.domain.TradingEnterprise} for the Enterprise
- * Frontend <br>
- * EnterpriseViewData has a Collection of each store that belongs to this
- * Enterprise
- * 
+ * Enterprise View Object for Frontend. 
  * @author Niko Benkler
  * @author Robert Heinrich
  *

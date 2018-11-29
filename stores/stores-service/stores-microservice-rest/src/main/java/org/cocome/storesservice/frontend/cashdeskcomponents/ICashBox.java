@@ -7,7 +7,7 @@ public interface ICashBox {
 	
 	void resetBarcode();
 	void removeLastDigit();
-	void submitBarcode();
+	
 	void addToDigit(char nextDigit);
 	void pressButtonFinishSale();
 	void selectCashPayment();

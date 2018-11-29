@@ -4,6 +4,12 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Combines credential with user
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 public class DummyUser implements IUser {
 	
 	private static final Logger LOG = Logger.getLogger(DummyUser.class);

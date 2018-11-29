@@ -10,6 +10,12 @@ import javax.persistence.PersistenceContext;
 import org.apache.log4j.Logger;
 import org.cocome.ordersservice.domain.OrderEntry;
 
+/**
+ * Entry-Repo: Simple CRUD-Repo. High-Level functionality is provided in corresponding Query
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Remote
 @Stateless
 public class OrderEntryDBRepository implements OrderEntryRepository {

@@ -7,8 +7,12 @@ import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import org.cocome.storesservice.frontend.viewdata.StockItemViewData;
-
+/**
+ * Represents the printer component of the CashDesk
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Named
 @SessionScoped
 public class Printer implements IPrinter, Serializable {

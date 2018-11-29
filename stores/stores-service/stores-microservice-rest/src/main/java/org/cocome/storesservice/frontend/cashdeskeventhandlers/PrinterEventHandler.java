@@ -17,6 +17,12 @@ import org.cocome.storesservice.events.SaleSuccessEvent;
 import org.cocome.storesservice.events.StartCashPaymentEvent;
 import org.cocome.storesservice.frontend.cashdeskcomponents.IPrinter;
 
+/**
+ * Component that controls Printer in case an event was thrown which is determined for Printer
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @SessionScoped
 @Named
 public class PrinterEventHandler implements Serializable {

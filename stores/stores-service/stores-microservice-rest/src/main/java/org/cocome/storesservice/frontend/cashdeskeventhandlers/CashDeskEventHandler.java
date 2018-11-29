@@ -8,11 +8,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
-import org.cocome.storesservice.events.ProductBarcodeScannedEvent;
 import org.cocome.storesservice.events.SaleStartedEvent;
 import org.cocome.storesservice.events.StartCashPaymentEvent;
 import org.cocome.storesservice.frontend.cashdeskcomponents.ICashDesk;
-
+/**
+ * Component that controls CashDesk in case an event was thrown which is determined for CashDesk
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @SessionScoped
 @Named
 class CashDeskEventHandler implements  Serializable {

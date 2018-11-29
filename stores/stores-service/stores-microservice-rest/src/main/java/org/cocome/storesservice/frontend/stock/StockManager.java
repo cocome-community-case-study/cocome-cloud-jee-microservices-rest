@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
@@ -12,7 +11,12 @@ import org.cocome.storesservice.domain.StockItem;
 import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesservice.frontend.viewdata.StockItemViewData;
 import org.cocome.storesserviceservice.StoreQuery.IStockQuery;
-
+/**
+ * Interface that connects backend functionality and frontend regarding Stock
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Named
 @SessionScoped
 public class StockManager implements IStockManager, Serializable {
@@ -25,6 +29,9 @@ public class StockManager implements IStockManager, Serializable {
 	@EJB
 	IStockQuery stockQuery;
 
+	/**
+	 * Return all Items for a certain Store
+	 */
 	@Override
 	public Collection<StockItemViewData> getStockItemsByStore(long storeId) throws QueryException {
 
@@ -33,6 +40,9 @@ public class StockManager implements IStockManager, Serializable {
 		return StockItemViewData.fromStockItemCollection(items);
 	}
 
+	/**
+	 * Update certain stock item
+	 */
 	@Override
 	public void updateStockItem(StockItemViewData item) throws QueryException {
 
@@ -41,6 +51,10 @@ public class StockManager implements IStockManager, Serializable {
 
 	}
 
+	/**
+	 * Return stock item with certain (unique!) barcode from store with given id.
+	 * <br> Store is only given to fasten the query.
+	 */
 	@Override
 	public StockItemViewData getStockItemByBarcodeAndStoreId(long barcode, long storeId) throws QueryException {
 

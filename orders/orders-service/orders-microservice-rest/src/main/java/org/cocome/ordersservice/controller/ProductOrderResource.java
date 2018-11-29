@@ -28,11 +28,19 @@ import org.cocome.ordersservice.entryquery.IEntryQuery;
 import org.cocome.ordersservice.exceptions.QueryException;
 import org.cocome.ordersservice.orderquery.IOrderQuery;
 
+/**
+ * REST-Interface for Order-Queries WITHOUT store-id <br>
+ * Queries to get product-order by given store information are redirected to
+ * Store Ressource
+ * 
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @RequestScoped
 @Path("/product-orders")
 public class ProductOrderResource {
 
-	private final long COULD_NOT_CREATE_ENTITY = -1;
 	private static final Logger LOG = Logger.getLogger(ProductOrderResource.class);
 
 	@EJB
@@ -40,14 +48,23 @@ public class ProductOrderResource {
 
 	@EJB
 	IEntryQuery entryQuery;
-
+	
+	/**
+	 * Find all orders
+	 * @return
+	 */
 	@GET
 	public Collection<ProductOrderTO> findAll() {
 		LOG.debug("REST: Try to find all Orders");
 		return toProductOrderTOCollection(orderQuery.getAllOrders());
 
 	}
-
+	
+	/**
+	 * Find order with given id
+	 * @param id
+	 * @return
+	 */
 	@GET
 	@Path("/{id}")
 	public ProductOrderTO find(@PathParam("id") Long id) {
@@ -62,7 +79,13 @@ public class ProductOrderResource {
 
 		return toProductOrderTO(order);
 	}
-
+	
+	/**
+	 * Update Order with given id
+	 * @param id
+	 * @param order
+	 * @return
+	 */
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
@@ -79,6 +102,11 @@ public class ProductOrderResource {
 
 	}
 
+	/**
+	 * Delete order with given id
+	 * @param id
+	 * @return
+	 */
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
@@ -93,7 +121,12 @@ public class ProductOrderResource {
 		return Response.noContent().build();
 
 	}
-
+	
+	/**
+	 * get entries of given order (id)
+	 * @param orderId
+	 * @return
+	 */
 	@GET
 	@Path("/{id}/order-entries")
 	public Collection<OrderEntryTO> getEntries(@PathParam("id") Long orderId) {
@@ -110,6 +143,13 @@ public class ProductOrderResource {
 
 	}
 
+	/**
+	 * Add new entry to given order
+	 * @param uriInfo
+	 * @param orderId
+	 * @param entry
+	 * @return
+	 */
 	@POST
 	@Path("/{id}/order-entries")
 	@Consumes(MediaType.APPLICATION_XML)
@@ -117,6 +157,7 @@ public class ProductOrderResource {
 		LOG.debug("REST: Create Entry for order with order id: " + orderId);
 		Long entryId;
 		try {
+			//entry query updates corresponding order
 			entryId = entryQuery.createEntry(orderId, entry.getProductId(), entry.getAmount());
 		} catch (CreateException e) {
 			LOG.debug("REST: Could not create Entry for order with order id: " + orderId);

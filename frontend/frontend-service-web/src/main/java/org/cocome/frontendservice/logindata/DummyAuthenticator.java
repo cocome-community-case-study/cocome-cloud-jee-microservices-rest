@@ -8,7 +8,12 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 
 import org.apache.log4j.Logger;
-
+/**
+ * This class creates the user, the permissions and its passwords that are available in the CoCoME-System
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @ApplicationScoped
 public class DummyAuthenticator implements IAuthenticator {
 	private static final Logger LOG = Logger.getLogger(DummyAuthenticator.class);
@@ -16,6 +21,8 @@ public class DummyAuthenticator implements IAuthenticator {
 	private Map<String, IUser> users = Collections.synchronizedMap(new HashMap<String, IUser>());
 	
 	private void createDummyUsers() {
+		
+		//create permissions
 		IPermission adminPermission = new DummyPermission("admin");
 		IPermission enterprisePermission = new DummyPermission("enterprise manager");
 		IPermission storePermission = new DummyPermission("store manager");
@@ -23,11 +30,13 @@ public class DummyAuthenticator implements IAuthenticator {
 		IPermission cashierPermission = new DummyPermission("cashier");
 		IPermission databasePermission = new DummyPermission("database manager");
 		
+		//create credentials
 		ICredential adminCredentials = new PlainCredential("admin");
 		ICredential enterpriseCredentials = new PlainCredential("enterprise");
 		ICredential storeCredentials = new PlainCredential("store");
 		ICredential cashierCredentials = new PlainCredential("cashier");
 		
+		//add permissions to admin
 		IUser admin = new DummyUser("admin", adminCredentials);
 		admin.addPermission(cashierPermission);
 		admin.addPermission(stockPermission);
@@ -36,21 +45,27 @@ public class DummyAuthenticator implements IAuthenticator {
 		admin.addPermission(enterprisePermission);
 		admin.addPermission(databasePermission);
 		
+		//add permissions to enterprisemanager
 		IUser enterpriseManager = new DummyUser("enterprisemanager", enterpriseCredentials);
 		enterpriseManager.addPermission(enterprisePermission);
 		
+		//add permissions to storemanager
 		IUser storeManager = new DummyUser("storemanager", storeCredentials);
 		storeManager.addPermission(storePermission);
 		storeManager.addPermission(stockPermission);
 		storeManager.addPermission(cashierPermission);
 		
+		//add permissions to stockmanager
 		IUser stockManager = new DummyUser("stockmanager", storeCredentials);
 		stockManager.addPermission(stockPermission);
 		stockManager.addPermission(cashierPermission);
 		
+		//add permission to cashier
 		IUser cashier = new DummyUser("cashier", cashierCredentials);
 		cashier.addPermission(cashierPermission);
 		
+		
+		//add user to userList
 		users.put(admin.getUsername(), admin);
 		users.put(enterpriseManager.getUsername(), enterpriseManager);
 		users.put(storeManager.getUsername(), storeManager);

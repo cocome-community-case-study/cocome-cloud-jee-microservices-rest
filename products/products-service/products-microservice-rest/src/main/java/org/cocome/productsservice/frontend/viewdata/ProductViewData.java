@@ -68,11 +68,21 @@ public class ProductViewData {
 		this.supplierId = supplierId;
 	}
 
+	/**
+	 * Changes backend specific product in frontend format
+	 * @param product
+	 * @return
+	 */
 	public static ProductViewData fromProduct(Product product) {
 		return new ProductViewData(product.getId(), product.getBarcode(), product.getPurchasePrice(), product.getName(),
 				product.getSupplier().getId());
 	}
 	
+	 /**
+	  * Changes backend specific product collection in frontend format
+	  * @param products
+	  * @return
+	  */
 	public static Collection<ProductViewData> fromProductCollection(Collection<Product> products){
 		Collection<ProductViewData>  productViewDataColection = new LinkedList<>();
 		

@@ -17,6 +17,11 @@ import org.cocome.storesclient.config.Config;
 import org.cocome.storesclient.domain.TradingEnterpriseTO;
 import org.cocome.storesclient.exception.StoreRestException;
 
+/**
+ * Client to ease REST-Calls to Enterprise Rest-Interface
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ */
 public class TradingEnterpriseClient {
 	private final WebTarget webTarget;
 
@@ -25,6 +30,11 @@ public class TradingEnterpriseClient {
 		this.webTarget = client.target(Config.getBaseUri());
 	}
 
+	/**
+	 * Find all enterprises
+	 * @return
+	 * @throws StoreRestException
+	 */
 	public Collection<TradingEnterpriseTO> findAll() throws StoreRestException {
 		try {
 			return this.webTarget.path("trading-enterprises").request().accept(MediaType.APPLICATION_XML_TYPE)
@@ -39,6 +49,12 @@ public class TradingEnterpriseClient {
 
 	}
 
+	/**
+	 * Find specific enterprise
+	 * @param id
+	 * @return
+	 * @throws StoreRestException
+	 */
 	public TradingEnterpriseTO find(long id) throws StoreRestException {
 		try {
 			return this.webTarget.path("trading-enterprises").path(Long.toString(id)).request()
@@ -52,6 +68,12 @@ public class TradingEnterpriseClient {
 
 	}
 
+	/**
+	 * Create enterprise
+	 * @param enterprise
+	 * @return
+	 * @throws StoreRestException
+	 */
 	public long create(TradingEnterpriseTO enterprise) throws StoreRestException {
 		try {
 			Response response = this.webTarget.path("trading-enterprises").request(MediaType.APPLICATION_XML_TYPE)
@@ -68,6 +90,11 @@ public class TradingEnterpriseClient {
 
 	}
 
+	/**
+	 * Update enterprise
+	 * @param enterprise
+	 * @throws StoreRestException
+	 */
 	public void update(TradingEnterpriseTO enterprise) throws StoreRestException {
 		try {
 			this.webTarget.path("trading-enterprises").path(Long.toString(enterprise.getId()))
@@ -81,6 +108,11 @@ public class TradingEnterpriseClient {
 
 	}
 
+	/**
+	 * Delete Enterprise
+	 * @param enterprise
+	 * @throws StoreRestException
+	 */
 	public void delete(TradingEnterpriseTO enterprise) throws StoreRestException {
 		try {
 			this.webTarget.path("trading-enterprises").path(Long.toString(enterprise.getId()))

@@ -2,6 +2,12 @@ package org.cocome.frontendservice.logindata;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Permissions are admin, storemanager, enterprise manager etc
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 public class DummyPermission implements IPermission {
 
 	private static final Logger LOG = Logger.getLogger(DummyPermission.class);

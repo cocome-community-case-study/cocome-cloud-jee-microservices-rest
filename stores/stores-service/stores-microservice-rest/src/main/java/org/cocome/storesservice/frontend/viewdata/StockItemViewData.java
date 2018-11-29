@@ -4,7 +4,12 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import org.cocome.storesservice.domain.StockItem;
-
+/**
+ * Represents StockItem domain object in frontend format. Contains some more field for temporally saviong new names.
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 public class StockItemViewData {
 
 	// Actuacl fields for stockitem
@@ -44,6 +49,39 @@ public class StockItemViewData {
 		this.newMaxAmount = maxStock;
 		this.newSalesPrice = salesPrice;
 	}
+
+	/*
+	 * ----------------------------------------------------
+	 */
+	
+	/**
+	 * Submit the changes that were made during the edit store process
+	 */
+	public void submitEdit() {
+		this.salesPrice = newSalesPrice;
+		this.minStock = newMinAmount;
+		this.maxStock = newMaxAmount;
+		
+		//amount should not exceed max stock
+		this.amount = Math.min(maxStock, amount);
+		
+		this.editingEnabled = false;
+		
+		//TODO what happen if currentamount < minStock?
+	}
+
+	public void setEditingEnabled(boolean editingEnabled) {
+		this.editingEnabled = editingEnabled;
+	}
+
+
+	
+	public boolean isEditingEnabled() {
+		return editingEnabled;
+	}
+	/*
+	 * ------------------------------------------------
+	 */
 
 	public String getName() {
 		return name;
@@ -129,14 +167,6 @@ public class StockItemViewData {
 	 * ------------------------------------------------
 	 */
 
-	public boolean isEditingEnabled() {
-		return editingEnabled;
-	}
-
-	public void setEditingEnabled(boolean editingEnabled) {
-		this.editingEnabled = editingEnabled;
-	}
-
 	public void setNewMinAmount(long newMinAmount) {
 		this.newMinAmount = newMinAmount;
 	}
@@ -160,25 +190,6 @@ public class StockItemViewData {
 
 	public double getNewSalesPrice() {
 		return newSalesPrice;
-	}
-	
-	
-	/*
-	 * ----------------------------------------------------
-	 */
-	
-	
-	public void submitEdit() {
-		this.salesPrice = newSalesPrice;
-		this.minStock = newMinAmount;
-		this.maxStock = newMaxAmount;
-		
-		//amount should not exceed max stock
-		this.amount = Math.min(maxStock, amount);
-		
-		this.editingEnabled = false;
-		
-		//TODO what happen if currentamount < minStock?
 	}
 	
 	

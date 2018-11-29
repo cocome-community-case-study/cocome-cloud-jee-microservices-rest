@@ -40,6 +40,10 @@ public class ProductResource {
 	private ISupplierQuery supplierQuery;
 	private static final Logger LOG = Logger.getLogger(ProductResource.class);
 
+	/**
+	 * Get all Products
+	 * @return
+	 */
 	@GET
 	public Collection<ProductTO> findAll() {
 		LOG.debug("REST: Retrieve all Products");
@@ -50,6 +54,11 @@ public class ProductResource {
 		return collection;
 	}
 
+	/**
+	 * Find product with given Id
+	 * @param id
+	 * @return
+	 */
 	@GET
 	@Path("/{id}")
 	public ProductTO find(@PathParam("id") Long id) {
@@ -66,6 +75,12 @@ public class ProductResource {
 
 	}
 
+	/**
+	 * Update product with given id
+	 * @param id
+	 * @param productTO
+	 * @return
+	 */
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
@@ -82,6 +97,11 @@ public class ProductResource {
 
 	}
 
+	/**
+	 * Delete product with given id
+	 * @param id
+	 * @return
+	 */
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {

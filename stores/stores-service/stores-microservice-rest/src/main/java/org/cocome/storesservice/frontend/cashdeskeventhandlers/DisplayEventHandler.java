@@ -17,7 +17,12 @@ import org.cocome.storesservice.events.SaleStartedEvent;
 import org.cocome.storesservice.events.SaleSuccessEvent;
 import org.cocome.storesservice.events.StartCashPaymentEvent;
 import org.cocome.storesservice.frontend.cashdeskcomponents.IDisplay;
-
+/**
+ * Component that controls Display in case an event was thrown which is determined for Display
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Named
 @SessionScoped
 public class DisplayEventHandler implements Serializable {

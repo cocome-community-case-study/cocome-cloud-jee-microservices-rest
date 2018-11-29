@@ -6,19 +6,18 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 
-
 /**
- * Represents a store in the database.
+ * Store Object as Transfer Object. It only has a reference to its enterprise
+ * @author Niko Benkler
+ * @author Robert Heinrich
  *
- * @author Yannick Welsch
  */
 @XmlRootElement(name = "Store")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Store", propOrder = { "id" ,"name", "location" })
+@XmlType(name = "Store", propOrder = { "id" ,"name", "location","enterpriseId" })
 public class StoreTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -31,6 +30,9 @@ public class StoreTO implements Serializable {
 
 	@XmlElement(name = "Location")
 	private String location;
+	
+	@XmlElement(name="EnterpriseId")
+	private long enterpriseId;
 
 	/** Empty constructor. */
 	public StoreTO() {}
@@ -84,6 +86,14 @@ public class StoreTO implements Serializable {
 	 */
 	public void setLocation(final String location) {
 		this.location = location;
+	}
+
+	public void setEnterpriseId(long enterpriseId) {
+		this.enterpriseId = enterpriseId;
+	}
+
+	public long getEnterpriseId() {
+		return enterpriseId;
 	}
 
 	@Override

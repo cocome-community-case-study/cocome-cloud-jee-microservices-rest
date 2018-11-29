@@ -5,8 +5,11 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import org.cocome.ordersservice.domain.ProductOrder;
-import org.cocome.productsclient.domain.ProductTO;
-
+/**
+ * Generate OrderViewData from Order Object
+ * @param entry
+ * @return
+ */
 public class OrderViewData {
 
 	private long id;
@@ -65,13 +68,22 @@ public class OrderViewData {
 		this.entries = entries;
 	}
 
+	/**
+	 * Generate OrderViewData from ProductOrder Object
+	 * @param order
+	 * @return
+	 */
 	public static OrderViewData fromOrder(ProductOrder order) {
 		return new OrderViewData(order.getId(), order.getStoreId(),
 				EntryViewData.fromEntryCollection(order.getOrderEntries()), order.getDeliveryDate(),
 				order.getOrderingDate());
 	}
 
-	
+	/**
+	 * Generate OrderViewData Collection from ProductOrder Collection
+	 * @param order
+	 * @return
+	 */
     public static Collection<OrderViewData> fromOrderCollection(Collection<ProductOrder> orders){
     	Collection<OrderViewData> orderViewDataCollection = new LinkedList<>();
     	

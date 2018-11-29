@@ -5,12 +5,17 @@ import java.io.Serializable;
 import javax.ejb.CreateException;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.validation.constraints.NotNull;
 
 import org.cocome.ordersservice.entryquery.IEntryQuery;
 
+/**
+ * This CLass Provides access to backend regarding entry functionality
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Named
 @ApplicationScoped
 public class EntryManager implements IEntryManager, Serializable {
@@ -22,8 +27,11 @@ public class EntryManager implements IEntryManager, Serializable {
 	@EJB
 	IEntryQuery entryQuery;
 
+	/**
+	 * Create Order Entry with given parametes
+	 */
 	@Override
-	public long createEntry(long orderId, long productId, long amount) throws CreateException {
+	public long createEntry(@NotNull long orderId, @NotNull long productId, @NotNull long amount) throws CreateException {
 		long entryId =entryQuery.createEntry(orderId, productId, amount);
 		
 	

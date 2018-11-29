@@ -21,8 +21,7 @@ import org.cocome.productsservice.navigation.NavigationElements;
 import org.cocome.productsservice.productquery.IProductQuery;
 
 /**
- * This class represents the connection between server side Product
- * functionality and client side Sessions
+ * This class serves as interface between backend functionality and frontend
  * 
  * @author Niko Benkler
  * @author Robert Heinrich

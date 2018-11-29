@@ -1,20 +1,13 @@
 package org.cocome.storesservice.frontend.cashdeskcomponents;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
-import org.cocome.storesservice.events.InvalidProductBarcodeEvent;
-import org.cocome.storesservice.exceptions.QueryException;
-import org.cocome.storesservice.frontend.stock.IStockManager;
 import org.cocome.storesservice.frontend.store.IStoreInformation;
-import org.cocome.storesservice.frontend.viewdata.StockItemViewData;
 
 /**
  * Class that holds basic Information/the state of the CashDesk

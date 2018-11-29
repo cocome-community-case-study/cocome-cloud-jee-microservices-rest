@@ -17,6 +17,9 @@ import javax.persistence.Table;
  * Represents a TradingEnterprise in the database. <br>
  * @OneToMany defines, that a Database can have [0..] stores. <br>
  * The mappedBy-attribute 
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
  */
 @Entity(name = "TradingEnterprise")
 @Table(name = "tradingenterprise")

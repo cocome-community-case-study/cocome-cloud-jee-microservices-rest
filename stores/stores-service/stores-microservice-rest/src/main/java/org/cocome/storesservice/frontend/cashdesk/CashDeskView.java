@@ -13,9 +13,6 @@ import javax.inject.Named;
 import org.apache.log4j.Logger;
 import org.cocome.storesservice.events.SaleStartedEvent;
 import org.cocome.storesservice.events.StartCashPaymentEvent;
-
-
-import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesservice.exceptions.UpdateException;
 import org.cocome.storesservice.frontend.cashdeskcomponents.ICashBox;
 import org.cocome.storesservice.frontend.cashdeskcomponents.ICashDesk;
@@ -24,117 +21,135 @@ import org.cocome.storesservice.frontend.cashdeskcomponents.IExpressLight;
 import org.cocome.storesservice.frontend.cashdeskcomponents.IPrinter;
 import org.cocome.storesservice.frontend.cashdeskcomponents.IScanner;
 import org.cocome.storesservice.frontend.store.IStoreInformation;
-import org.cocome.storesservice.frontend.viewdata.StockItemViewData;
 import org.cocome.storesservice.navigation.NavigationElements;
 import org.cocome.storesservice.util.Messages;
 
+/**
+ * This class is the interface for the JSF-Sites concerning the whole
+ * sales-Process. It reroutes the queries to the specific classes
+ * 
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Named
 @SessionScoped
 public class CashDeskView implements Serializable {
 	private static final long serialVersionUID = -2512543291563857980L;
 
 	private static final String[] EMPTY_OUTPUT = {};
-	
+
 	private static final Logger LOG = Logger.getLogger(CashDeskView.class);
 
 	@Inject
 	ICashDesk cashDesk;
-	
+
 	@Inject
 	IExpressLight expressLight;
-	
-	@Inject 
+
+	@Inject
 	IPrinter printer;
-	
-	@Inject 
+
+	@Inject
 	IDisplay display;
-	
+
 	@Inject
 	ICashBox cashbox;
-	
-	@Inject 
+
+	@Inject
 	IScanner scanner;
 
 	@Inject
 	IStoreInformation storeInformation;
-	
-	@Inject 
+
+	@Inject
 	Event<SaleStartedEvent> saleStartedEvents;
-	
+
 	@Inject
 	Event<StartCashPaymentEvent> startCashPaymentEvent;
 
+	/**
+	 * Submitting a new CashDeskName start a new sale Process
+	 * @return
+	 */
 	public String submitCashDeskName() {
-		updateExpressMode(); //TODO 
+		updateExpressMode(); // TODO
 		return resetSale();
 	}
-
-
-
+	
+	/**
+	 * Used for rerendering View
+	 * @return
+	 */
 	private String getSalePageRedirectOutcome() {
 		return NavigationElements.START_SALE.getNavigationOutcome();
 	}
-    
+
 	/**
 	 * Set name of the currently active CashDesk
+	 * 
 	 * @param cashDeskName
 	 */
 	public void setCashDeskName(String cashDeskName) {
 		cashDesk.setCashDeskName(cashDeskName);
 	}
-    
+
 	/**
 	 * Get Name of the currently active CashDesk
+	 * 
 	 * @return
 	 */
 	public String getCashDeskName() {
 		return cashDesk.getCashDeskName();
 	}
-    
+
 	/**
 	 * Determines whether user has to submit a CashDeskName
+	 * 
 	 * @return
 	 */
 	public boolean isCashDeskNameNeeded() {
 		boolean bool = cashDesk.isCashDeskNameNeeded();
 		return bool;
 	}
-    
+
 	/**
 	 * Determines whether sale already started
+	 * 
 	 * @return
 	 */
 	public boolean isSaleStarted() {
 		return cashDesk.isSaleStarted();
 	}
 
-	
 	/**
 	 * Determines wheter CashDesk is in ExpressMode
+	 * 
 	 * @return
 	 */
 	public boolean isInExpressMode() {
 		return expressLight.isInExpressMode();
-		
+
 	}
-    
+
 	/**
 	 * Return Message that should be Displayed
+	 * 
 	 * @return
 	 */
 	public String getDisplayMessage() {
 		return display.getDisplayLine();
 	}
-    
+
 	/**
 	 * Return the lines for the printer
+	 * 
 	 * @return
 	 */
 	public List<String> getPrinterOutput() {
 		return printer.getPrinterOutput();
 	}
-    
-	
+
 	public void updateExpressMode() {
 		String cashDeskName = cashDesk.getCashDeskName();
 
@@ -153,16 +168,14 @@ public class CashDeskView implements Serializable {
 		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", errorString));
 	}
 
-
-
 	public String enterCashAmount(double cashAmount) {
-	
+
 		try {
 			cashbox.enterCashAmount(cashAmount);
 		} catch (UpdateException e) {
 			addFacesError(e.getMessage());
 		}
-		
+
 		return getSalePageRedirectOutcome();
 	}
 
@@ -172,21 +185,21 @@ public class CashDeskView implements Serializable {
 	}
 
 	public String startCashPayment() {
-		
-		//Payment running
-		if(cashDesk.isCardPayment() || cashDesk.isCashPayment()) {
-			
+
+		// Payment running
+		if (cashDesk.isCardPayment() || cashDesk.isCashPayment()) {
+
 			return getSalePageRedirectOutcome();
 		}
-		
+
 		startCashPaymentEvent.fire(new StartCashPaymentEvent());
-		
+
 		return getSalePageRedirectOutcome();
 	}
 
 	public String startCardPayment() {
-		
-		//TODO check if expressmode
+
+		// TODO check if expressmode
 //		String cashDeskName = cashDesk.getCashDeskName();
 //		long storeID = storeInformation.getActiveStoreID();
 //
@@ -222,12 +235,10 @@ public class CashDeskView implements Serializable {
 	public String getBarcode() {
 		return cashbox.getBarcode();
 	}
-	
+
 	public void setBarcode(String barcode) {
 		cashbox.setBarcode(barcode);
 	}
-
-	
 
 	private long convertBarcode() throws NumberFormatException {
 		long barcode = Long.parseLong(cashbox.getBarcode());
@@ -242,27 +253,27 @@ public class CashDeskView implements Serializable {
 		try {
 			barcode = convertBarcode();
 		} catch (NumberFormatException e) {
-			
+
 			addFacesError(Messages.getLocalizedMessage("cashdesk.validation.barcode.failed"));
 
 			return getSalePageRedirectOutcome();
 		}
 		long activeStoreId = storeInformation.getActiveStoreId();
-			scanner.submitBarcode(barcode, activeStoreId);
+		scanner.submitBarcode(barcode, activeStoreId);
 
 		return getSalePageRedirectOutcome();
-		
 
 	}
-    
+
 	/**
 	 * Add Digit to Barcode
+	 * 
 	 * @param digit
 	 */
 	public void addDigitToBarcode(char digit) {
 		cashbox.addToDigit(digit);
 	}
-    
+
 	/**
 	 * Reset current barcode
 	 */
@@ -277,5 +288,4 @@ public class CashDeskView implements Serializable {
 		cashbox.removeLastDigit();
 	}
 
-	
 }

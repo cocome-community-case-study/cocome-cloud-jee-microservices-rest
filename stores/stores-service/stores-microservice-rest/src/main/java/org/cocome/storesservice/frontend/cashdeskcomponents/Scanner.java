@@ -8,12 +8,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.cocome.storesservice.events.ProductBarcodeScannedEvent;
-
-import org.cocome.storesservice.exceptions.QueryException;
 import org.cocome.storesservice.frontend.stock.IStockManager;
 import org.cocome.storesservice.frontend.store.IStoreManager;
-import org.cocome.storesservice.frontend.viewdata.StockItemViewData;
 
+/**
+ * Represents the Scanner Component of the CashDesk
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Named
 @SessionScoped
 public class Scanner implements IScanner, Serializable {

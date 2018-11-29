@@ -5,8 +5,11 @@ import java.util.HashMap;
 import javax.validation.constraints.NotNull;
 
 import org.cocome.frontendservice.navigation.NavigationView;
+
 /**
- * This class represents a simple userdataObject for JSON transmission
+ * This class represents a simple userdataObject for JSON transmission. It is
+ * used to send to other Microservices and contains all necessary information
+ * 
  * @author Niko Benkler
  * @author Robert Heinrich
  *
@@ -24,8 +27,8 @@ public class UserDataTO {
 
 	private long storeID;
 
-	public UserDataTO(@NotNull String userName, @NotNull HashMap<String,IPermission> permissions, @NotNull UserRole useRole,
-			@NotNull NavigationView requestedView, long storeID) {
+	public UserDataTO(@NotNull String userName, @NotNull HashMap<String, IPermission> permissions,
+			@NotNull UserRole useRole, @NotNull NavigationView requestedView, long storeID) {
 		this.username = userName;
 		this.permissions = permissions;
 		this.userRole = useRole;

@@ -1,5 +1,8 @@
 package org.cocome.frontendservice.events;
 
+/**
+ * Emitted when user navigates between different services/frontends
+ */
 import org.cocome.frontendservice.navigation.NavigationView;
 
 public class ChangeViewEvent {

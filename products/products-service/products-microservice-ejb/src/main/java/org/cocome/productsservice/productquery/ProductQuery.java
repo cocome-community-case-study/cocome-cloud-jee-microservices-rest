@@ -38,10 +38,17 @@ public class ProductQuery implements IProductQuery {
 	private Logger LOG = Logger.getLogger(ProductQuery.class);
 	private final long COULD_NOT_CREATE_ENTITY = -1;
 
+	/**
+	 * Find product by given id
+	 */
 	@Override
 	public Product findProductByid(long id) throws QueryException {
 		LOG.debug("QUERY: Retrieving Product from Database with Id: " + id);
+		
+		//find
 		Product product = productRepo.find(id);
+		
+		//error handling
 		if (product != null) {
 			LOG.debug("QUERY: Successfully found product with Id: " + id);
 
@@ -53,12 +60,19 @@ public class ProductQuery implements IProductQuery {
 
 	}
 
+	/**
+	 * Find product by given barcode <br>
+	 * NOTE: Barcode is unique, so can also be used as identifier
+	 */
 	@Override
 	public Product findProductByBarcode(long barcode) throws QueryException {
 		// TODO: Further improvement --> Do SQL statement in Repo
 		LOG.debug("QUERY: Retrieving Product from Database with Barcode: " + barcode);
+		
+		//find all products
 		Collection<Product> products = productRepo.all();
 
+		//return first product (the ONLY one!) that matches
 		for (Product product : products) {
 
 			if (product.getBarcode() == barcode) {
@@ -71,10 +85,16 @@ public class ProductQuery implements IProductQuery {
 		throw new QueryException("Did not find Product with barcode: " + barcode);
 	}
 
+	/**
+	 * Retrieves all Products
+	 */
 	@Override
 	public Collection<Product> getAllProducts() {
+		
+		//find all 
 		Collection<Product> products = productRepo.all();
 
+		//Logging
 		StringBuilder sb = new StringBuilder();
 		sb.append("QUERY: Retrieving ALL Products from database with following [name, Id, supplierName]: ");
 
@@ -86,6 +106,9 @@ public class ProductQuery implements IProductQuery {
 		return products;
 	}
 
+	/**
+	 * Get all products of a certain supplier
+	 */
 	@Override
 	public Collection<Product> getProductsBySupplier(long supplierId) throws QueryException {
 
@@ -98,7 +121,7 @@ public class ProductQuery implements IProductQuery {
 		// get products
 		Collection<Product> products = supplier.getProducts();
 
-		// Log which products were found
+		// Logging
 		StringBuilder sb = new StringBuilder();
 		sb.append("QUERY: Retrieving following Products from supplier with id:  " + supplierId
 				+ "from database [name, Id]: ");
@@ -161,11 +184,15 @@ public class ProductQuery implements IProductQuery {
 
 	}
 
+	/**
+	 * Update product. Product must already be existant
+	 */
 	@Override
 	public void updateProduct(@NotNull long id, @NotNull String name, @NotNull double purchasePrice,
 			@NotNull long barcode) throws QueryException {
 		LOG.debug("QUERY: Trying to update Product with name: " + name + "and Id: " + id);
 
+		//find
 		Product product = productRepo.find(id);
 		if (product == null) {
 			LOG.debug("QUERY: Could not update Product with id: " + id + ". Product not found");
@@ -174,10 +201,12 @@ public class ProductQuery implements IProductQuery {
 			
 		}
 
+		//update
 		product.setName(name);
 		product.setBarcode(barcode);
 		product.setPurchasePrice(purchasePrice);
 
+		//persist
 		if (productRepo.update(product) == null) {
 			LOG.error("QUERY: Could not update Product with name: " + product.getName() + "and Id: " + product.getId());
 			throw new QueryException(
@@ -188,6 +217,9 @@ public class ProductQuery implements IProductQuery {
 		
 	}
 
+	/**
+	 * Delete Product
+	 */
 	@Override
 	public void deleteProduct(@NotNull long id) throws QueryException {
 		LOG.debug("QUERY: Deleting Product from Database with Id: " + id);

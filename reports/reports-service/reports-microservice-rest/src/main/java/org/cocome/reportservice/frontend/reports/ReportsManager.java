@@ -16,11 +16,18 @@ import org.cocome.reportservice.frontend.viewdata.EnterpriseViewData;
 import org.cocome.reportsservice.domain.Report;
 import org.cocome.reportsservice.events.UserInformationProcessedEvent;
 import org.cocome.reportsservice.exceptions.QueryException;
-import org.cocome.reportsservice.navigation.NavigationElements;
-import org.cocome.reportsservice.navigation.NavigationView;
 import org.cocome.reportsservice.reportsquery.IReportsQuery;
 import org.cocome.storesclient.domain.TradingEnterpriseTO;
 
+/**
+ *  Interface between backend functionaility and frontend for creating
+ * Reports. <br>
+ * 
+ * 
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 
 @Named
 @SessionScoped
@@ -44,6 +51,7 @@ public class ReportsManager implements IReportsManager, Serializable {
 	 */
 	@Override
 	public void setActiveStoreId(long storeId) {
+		// executed when LoginEvent is processed
 		LOG.debug("Active Store set to: " + storeId);
 		activeStoreId = storeId;
 
@@ -53,17 +61,12 @@ public class ReportsManager implements IReportsManager, Serializable {
 	public long getActiveStoreId() {
 		return activeStoreId;
 	}
-	
-	
-	
-		
 
-	
 	@Override
 	public long getActiveEnterpriseId() {
 		return activeEnterpriseId;
 	}
-    
+
 	@Override
 	public void setActiveEnterpriseId(long activeEnterpriseId) {
 		LOG.debug("Active enterprise set to: " + activeEnterpriseId);
@@ -74,18 +77,14 @@ public class ReportsManager implements IReportsManager, Serializable {
 	public void selectEnterprise(long enterpriseId) {
 		LOG.debug("Active enterprise set to: " + enterpriseId);
 		enterpriseSet = true;
-		this.activeEnterpriseId =enterpriseId;
-		
-	}
-	
-	
+		this.activeEnterpriseId = enterpriseId;
 
-	
+	}
 
 	@Override
 	public String getEnterpriseDeliveryReport(long enterpriseId) {
 		Report report;
-		
+
 		try {
 			report = reportsquery.getEnterpriseDeliveryReport(enterpriseId);
 		} catch (QueryException e) {
@@ -105,9 +104,10 @@ public class ReportsManager implements IReportsManager, Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
 			/*
-			 * Workaround... FacesMessage is thrown during rendering process and therefore not displayed
+			 * Workaround... FacesMessage is thrown during rendering process and therefore
+			 * not displayed
 			 */
-			
+
 			return e.getMessage();
 		}
 		return report.getReportText();
@@ -144,7 +144,7 @@ public class ReportsManager implements IReportsManager, Serializable {
 		} catch (QueryException e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
-			
+
 		}
 
 		return EnterpriseViewData.fromEnterpriseTOCollectio(enterprises);

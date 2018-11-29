@@ -4,12 +4,10 @@ import java.util.Collection;
 import java.util.Formatter;
 
 import javax.ejb.Local;
-import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 import org.cocome.productsclient.client.ProductClient;
 import org.cocome.productsclient.client.ProductSupplierClient;
-import org.cocome.productsclient.domain.ProductSupplierTO;
 import org.cocome.productsclient.domain.ProductTO;
 import org.cocome.productsclient.exception.ProductsRestException;
 import org.cocome.reportsservice.domain.Report;
@@ -21,29 +19,30 @@ import org.cocome.storesclient.domain.StoreTO;
 import org.cocome.storesclient.domain.TradingEnterpriseTO;
 import org.cocome.storesclient.exception.StoreRestException;
 
-
 /**
- * This class reimplements the original reporting functionality from 
- * <a href="https://github.com/cocome-community-case-study/cocome-cloud-jee-platform-migration/blob/04c26157ea37c307ac4a2b9a623233e83e70e26b/cocome-maven-project/cloud-logic-service/cloud-enterprise-logic/enterprise-logic-ejb/src/main/java/org/cocome/tradingsystem/inventory/application/reporting/ReportingServer.java">
- * org.cocome.tradingsystem.inventory.application.reporting.ReportingServer
- * </a>.
+ * HTML Generator for the reports. Information is loaded dynamically via rest
+ * calls from the specific services
+ * 
+ * @author Niko Benkler
+ * @author Robert Heinrich
  *
  */
 @Local
 @Stateless
 public class HTMLReportGenerator implements ReportGenerator {
-	
-	
+
 	private TradingEnterpriseClient enterpriseClient = new TradingEnterpriseClient();
 	private StoreClient storeClient = new StoreClient();
 	private StockItemClient stockItemClient = new StockItemClient();
 	private ProductSupplierClient supplierClient = new ProductSupplierClient();
 	private ProductClient productClient = new ProductClient();
-	
-	
+
+	/**
+	 * Returns full enterprise delivery report as HTML Page
+	 */
 	@Override
 	public Report getEnterpriseDeliveryReport(long enterpriseId) throws StoreRestException {
-		
+
 		final TradingEnterpriseTO enterprise = this.enterpriseClient.find(enterpriseId);
 		final Formatter report = new Formatter();
 		appendReportHeader(report);
@@ -52,6 +51,9 @@ public class HTMLReportGenerator implements ReportGenerator {
 		return createReportTO(report);
 	}
 
+	/**
+	 * Returns full store report as HTML Page
+	 */
 	@Override
 	public Report getStoreStockReport(long storeId) throws StoreRestException, ProductsRestException {
 		final StoreTO store = this.storeClient.find(storeId);
@@ -62,6 +64,9 @@ public class HTMLReportGenerator implements ReportGenerator {
 		return createReportTO(report);
 	}
 
+	/**
+	 * Returns full enterprise stock report as HTML Page
+	 */
 	@Override
 	public Report getEnterpriseStockReport(long enterpriseId) throws StoreRestException, ProductsRestException {
 		TradingEnterpriseTO enterprise = this.enterpriseClient.find(enterpriseId);
@@ -71,9 +76,9 @@ public class HTMLReportGenerator implements ReportGenerator {
 		appendReportFooter(report);
 		return createReportTO(report);
 	}
-	
-	// Private helper methods
-	
+
+	// -------------------------------Private helper Methods------------
+
 	private void appendDeliveryReport(TradingEnterpriseTO enterprise, Formatter output) {
 		this.appendTableHeader(output, "Supplier ID", "Supplier Name", "Mean Time To Delivery");
 
@@ -94,27 +99,25 @@ public class HTMLReportGenerator implements ReportGenerator {
 		this.appendTableFooter(output);
 	}
 
-	private void appendStoreReport(final StoreTO store, final Formatter output) throws StoreRestException, ProductsRestException {
-		output.format("<h3>Report for %s at %s, id %d</h3>\n", store.getName(),
-				store.getLocation(), store.getId());
+	private void appendStoreReport(final StoreTO store, final Formatter output)
+			throws StoreRestException, ProductsRestException {
+		output.format("<h3>Report for %s at %s, id %d</h3>\n", store.getName(), store.getLocation(), store.getId());
 
-		this.appendTableHeader(output, "StockItem ID", "Product Name",
-				"Amount", "Min Stock", "Max Stock");
-
-		//
+		this.appendTableHeader(output, "StockItem ID", "Product Name", "Amount", "Min Stock", "Max Stock");
 
 		final Collection<StockItemTO> stockItems = this.stockItemClient.findByStore(store.getId());
 
 		for (final StockItemTO si : stockItems) {
 			ProductTO product = this.productClient.find(si.getProductId());
-			this.appendTableRow(output, si.getId(), product.getName(),
-					si.getAmount(), si.getMinStock(), si.getMaxStock());
+			this.appendTableRow(output, si.getId(), product.getName(), si.getAmount(), si.getMinStock(),
+					si.getMaxStock());
 		}
 
 		this.appendTableFooter(output);
 	}
 
-	private void appendEnterpriseReport(final TradingEnterpriseTO enterprise, final Formatter output) throws StoreRestException, ProductsRestException {
+	private void appendEnterpriseReport(final TradingEnterpriseTO enterprise, final Formatter output)
+			throws StoreRestException, ProductsRestException {
 		output.format("<h2>Stock report for %s</h2>\n", enterprise.getName());
 
 		for (final StoreTO store : this.storeClient.findByEnterprise(enterprise.getId())) {
@@ -136,8 +139,7 @@ public class HTMLReportGenerator implements ReportGenerator {
 		return output.format("<html><body>\n");
 	}
 
-	private void appendTableHeader(final Formatter output,
-			final String... names) {
+	private void appendTableHeader(final Formatter output, final String... names) {
 		output.format("<table>\n<tr>");
 		for (final String name : names) {
 			output.format("<th>%s</th>", name);

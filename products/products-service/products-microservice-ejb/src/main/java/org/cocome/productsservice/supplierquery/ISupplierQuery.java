@@ -2,7 +2,6 @@ package org.cocome.productsservice.supplierquery;
 
 import java.util.Collection;
 
-
 import javax.validation.constraints.NotNull;
 
 import org.cocome.productsservice.domain.ProductSupplier;

@@ -3,11 +3,10 @@ package org.cocome.ordersservice.frontend.order;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedList;
 
 import javax.ejb.CreateException;
 import javax.ejb.EJB;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -17,14 +16,19 @@ import org.cocome.ordersservice.controller.ProductOrderResource;
 import org.cocome.ordersservice.domain.ProductOrder;
 import org.cocome.ordersservice.exceptions.QueryException;
 import org.cocome.ordersservice.frontend.viewdata.OrderViewData;
-import org.cocome.ordersservice.frontend.viewdata.ProductViewData;
 import org.cocome.ordersservice.navigation.NavigationElements;
 import org.cocome.ordersservice.orderquery.IOrderQuery;
 import org.cocome.productsclient.exception.ProductsRestException;
 import org.cocome.storesclient.exception.StoreRestException;
 
+/**
+ * This class is an interface between frontend and backend functionality for order functionality
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Named
-@ApplicationScoped
+@SessionScoped
 public class OrderManager implements IOrderManager, Serializable {
 
 	@EJB
@@ -36,6 +40,9 @@ public class OrderManager implements IOrderManager, Serializable {
 
 	
 
+	/**
+	 * Retrieve orders from backend by given storeId
+	 */
 	@Override
 	public Collection<OrderViewData> getOrdersByStoreId(@NotNull long storeId) throws QueryException {
 
@@ -46,6 +53,9 @@ public class OrderManager implements IOrderManager, Serializable {
 		return OrderViewData.fromOrderCollection(orders);
 	}
 
+	/**
+	 * Send create query 
+	 */
 	@Override
 	public long createOrder(Date deliveryDate, Date orderingDate, @NotNull long storeId) throws CreateException {
 
@@ -54,6 +64,9 @@ public class OrderManager implements IOrderManager, Serializable {
 		
 	}
 
+	/**
+	 * Send delete query
+	 */
 	@Override
 	public String deleteOrder(@NotNull long orderId) {
 
@@ -73,6 +86,9 @@ public class OrderManager implements IOrderManager, Serializable {
 		return NavigationElements.EMPTY_PAGE.getNavigationOutcome();
 	}
 
+	/**
+	 * Send backend query to get order by given id
+	 */
 	@Override
 	public OrderViewData findOrderById(@NotNull long orderId) throws QueryException {
 		ProductOrder order = orderQuery.findOrderById(orderId);
@@ -81,7 +97,10 @@ public class OrderManager implements IOrderManager, Serializable {
 
 		return OrderViewData.fromOrder(order);
 	}
-
+    
+	/**
+	 * Send backend query to roll in order ==> Update Stock items in store
+	 */
 	@Override
 	public void rollInOrder(long orderId) throws ProductsRestException, QueryException, StoreRestException {
 		

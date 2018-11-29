@@ -64,9 +64,9 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 	 */
 	@Override
 	public void setActiveEnterpriseId(long enterpriseId) {
-		//reset StoreInformation
+		// reset StoreInformation
 		resetStoreInfo(enterpriseId);
-		
+
 		try {
 			activeEnterprise = enterpriseManager.getEnterpriseById(enterpriseId);
 			activeEnterpriseId = enterpriseId;
@@ -74,7 +74,6 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 			activeEnterpriseId = Long.MIN_VALUE;
 			LOG.error("Could not set Enterprise");
 		}
-		
 
 		LOG.debug("Active Enterprise set to: " + enterpriseId);
 
@@ -114,9 +113,9 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 	@Override
 	public Collection<StoreViewData> getStores() {
 		if (activeEnterpriseId == Long.MIN_VALUE) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not display Stores of enterprise with Id "
-							+ activeEnterpriseId + ". No Enterprise active!", null));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Could not display Stores of enterprise with Id " + activeEnterpriseId + ". No Enterprise active!",
+					null));
 			return null;
 		}
 		return activeEnterprise.getStores();
@@ -134,16 +133,19 @@ public class EnterpriseInformation implements IEnterpriseInformation, Serializab
 
 	}
 
+	/**
+	 * We need to reset Active StoreInformation when the current enterprise changes,
+	 * as the active store no longer belongs to ne (new) active Enterprise
+	 */
 	@Override
-	public void refreshEnterpriseInformation()  {
+	public void refreshEnterpriseInformation() {
 		try {
 			activeEnterprise = enterpriseManager.getEnterpriseById(activeEnterpriseId);
 		} catch (QueryException e) {
 			resetStoreInfo(activeEnterpriseId);
 			activeEnterpriseId = Long.MIN_VALUE;
 		}
-		
-		
+
 	}
 
 }

@@ -3,7 +3,6 @@ package org.cocome.reportservice.frontend.reports;
 import java.util.Collection;
 
 import org.cocome.reportservice.frontend.viewdata.EnterpriseViewData;
-import org.cocome.reportsservice.exceptions.QueryException;
 
 public interface IReportsManager {
 

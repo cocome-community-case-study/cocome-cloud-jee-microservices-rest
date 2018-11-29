@@ -51,6 +51,11 @@ public class SupplierViewData {
 		this.products = products;
 	}
 
+	/**
+	 * Changes backend specific Supplier object in frontend
+	 * @param supplier
+	 * @return
+	 */
 	public static SupplierViewData fromSupplier(ProductSupplier supplier) {
 		return new SupplierViewData(supplier.getId(), supplier.getName(),
 				ProductViewData.fromProductCollection(supplier.getProducts()));

@@ -11,9 +11,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This class represents a Product in the database
- * 
- * @author Yannick Welsch
- * @author Nils Sommer
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
  */
 @XmlRootElement(name = "Product")
 @XmlAccessorType(XmlAccessType.FIELD)

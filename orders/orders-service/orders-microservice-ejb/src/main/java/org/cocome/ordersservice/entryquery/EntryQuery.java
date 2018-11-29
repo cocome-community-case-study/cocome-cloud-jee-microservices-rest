@@ -15,13 +15,18 @@ import org.cocome.ordersservice.exceptions.QueryException;
 import org.cocome.ordersservice.repository.OrderEntryRepository;
 import org.cocome.ordersservice.repository.ProductOrderRepository;
 
+/**
+ * Query that provides high level methods for database queries converning
+ * Order-Entries
+ * 
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Local
 @Stateless
 public class EntryQuery implements IEntryQuery, Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1473925571122335629L;
 	private Logger LOG = Logger.getLogger(EntryQuery.class);
 	private final long COULD_NOT_CREATE_ENTITY = -1;
@@ -31,24 +36,37 @@ public class EntryQuery implements IEntryQuery, Serializable {
 	@EJB
 	ProductOrderRepository orderRepo;
 
+	/**
+	 * An Order has multiple Entries. This Method return all entries for one
+	 * specific order
+	 */
 	@Override
 	public Collection<OrderEntry> getEntriesByOrderId(long orderId) throws QueryException {
 		LOG.debug("QUERY: Trying to retrieve Order Entries for order with orderId: " + orderId);
 
+		// Query
 		ProductOrder order = orderRepo.find(orderId);
 		if (order == null) {
 			LOG.debug("QUERY: Could not find Entries for order with id: " + orderId + ". Order not found");
 			throw new QueryException("Could not find Entries for order with id: " + orderId + ". Order not found");
 		}
+
+		// Logging
 		StringBuilder sb = new StringBuilder();
 		sb.append("QUERY: Sucessfully found Order with id: " + orderId
 				+ ". It has following entries [productId, amount]");
 		for (OrderEntry entry : order.getOrderEntries()) {
 			sb.append("[ " + entry.getProductId() + " ," + entry.getAmount() + " ]");
 		}
+
+		// result
 		return order.getOrderEntries();
 	}
 
+	/**
+	 * Create new Entry for given order. Cannot create Entry if no corresponding
+	 * order is found
+	 */
 	@Override
 	public long createEntry(long orderId, long productId, long amount) throws CreateException {
 		LOG.debug("QUERY: Trying to create Entry for order with orderId: " + orderId + " , productId: " + productId
@@ -72,6 +90,7 @@ public class EntryQuery implements IEntryQuery, Serializable {
 		// persist entry
 		long entryId = entryRepo.create(entry);
 
+		// error handling
 		if (entryId == COULD_NOT_CREATE_ENTITY) {
 			LOG.debug("QUERY: Could not create Entry with orderId: " + orderId + " , productId: " + productId
 					+ " and amount: " + amount);
@@ -89,40 +108,53 @@ public class EntryQuery implements IEntryQuery, Serializable {
 		return entryId;
 	}
 
+	/**
+	 * Update Entry with given id. Only Amount can be updated. ProductId, OrderId,
+	 * EntryId cannot be updated as this may lead to inconsistency
+	 */
 	@Override
 	public void updateEntry(long id, long amount) throws QueryException {
 		LOG.debug("QUERY: Trying to update Entry with id: " + id);
+
+		// find order
 		OrderEntry entry = entryRepo.find(id);
 		if (entry == null) {
 			LOG.debug("QUERY: Could not update Entry with id: " + id + ". Entry does not exist.");
 			throw new QueryException("Could not update Entry with id: " + id + ". Entry does not exist.");
 		}
 
+		// update order
 		entry.setAmount(amount);
 
+		// persist update
 		if (entryRepo.update(entry) == null) {
 			LOG.error("QUERY: Could not update Entry with id: " + id);
 			throw new QueryException(" Could not update Entry with id: " + id);
 		}
-		
-		
+
 		LOG.debug("QUery: Successfully updated entry with id: " + id);
-		
 
 	}
-
+    
+	/**
+	 * Simple CRUD-Functionality to Find entry
+	 * @throws QueryException 
+	 */
 	@Override
-	public OrderEntry findEntryById(long id) {
+	public OrderEntry findEntryById(long id) throws QueryException {
 		LOG.debug("QUERY: Trying to find Entry with id: " + id);
 		OrderEntry entry = entryRepo.find(id);
 
 		if (entry == null) {
 			LOG.debug("QUERY: Did not find OrderEntry with id: " + id);
-			return null;
+			throw new QueryException("Could not find Entry with id: " + id);
 		}
 		return entry;
 	}
 
+	/**
+	 * Simple CRUD-Functionality to Delete entry
+	 */
 	@Override
 	public void deleteEntry(long id) throws QueryException {
 		LOG.debug("QUERY: Trying to dele entry with id: " + id);
@@ -132,10 +164,13 @@ public class EntryQuery implements IEntryQuery, Serializable {
 		}
 		LOG.debug("QUERY: Could not delete Entry with id: " + id);
 		throw new QueryException("Could not delete Entry with id: " + id);
-		
-		
+
 	}
 
+	/**
+	 * Simple CRUD-Entry to retrieve all available Entries. <br>
+	 * Logically, this function should never been used.
+	 */
 	@Override
 	public Collection<OrderEntry> getAllEntries() {
 		LOG.debug("QUERY: Find all Entries");

@@ -5,10 +5,19 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
+/**
+ * Represents the Display component in the CashDesk.<br>
+ * Display always shows one Line and should not accumulate different messages
+ * (except final Goodbye message)
+ *
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Named
 @SessionScoped
-public class Display implements IDisplay, Serializable{
-	
+public class Display implements IDisplay, Serializable {
+
 	/**
 	 * 
 	 */
@@ -37,12 +46,12 @@ public class Display implements IDisplay, Serializable{
 
 	@Override
 	public void removeLastDigit() {
-		 displayString = displayString.substring(0, displayString.length() - 1);
+		displayString = displayString.substring(0, displayString.length() - 1);
 	}
 
 	@Override
 	public void addDisplayLine(String line) {
 		this.displayString += "\n" + line;
-		
+
 	}
 }

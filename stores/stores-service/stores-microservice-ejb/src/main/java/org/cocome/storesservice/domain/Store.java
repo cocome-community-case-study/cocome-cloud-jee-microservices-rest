@@ -21,8 +21,9 @@ import javax.persistence.Table;
  * Represents a store in the database. <br>
  * The @ManyToOne relationship defines a bidirectional @OneToMany relationship
  * with the enterprise as on store belong to exactly on enterprise
+ * @author Niko Benkler
+ * @author Robert Heinrich
  *
- * @author Yannick Welsch
  */
 @Entity(name = "Store")
 @Table(name = "store")

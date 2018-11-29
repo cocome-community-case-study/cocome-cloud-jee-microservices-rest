@@ -21,6 +21,12 @@ import org.cocome.ordersservice.domain.OrderEntry;
 import org.cocome.ordersservice.entryquery.IEntryQuery;
 import org.cocome.ordersservice.exceptions.QueryException;
 
+/**
+ * REST-Interface for Entry-Queries
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @RequestScoped
 @Path("/order-entries")
 public class OrderEntryResource {
@@ -28,28 +34,45 @@ public class OrderEntryResource {
 	@EJB
 	IEntryQuery entryQuery;
 
-	private final long COULD_NOT_CREATE_ENTITY = -1;
 	private static final Logger LOG = Logger.getLogger(OrderEntryResource.class);
     
+	/**
+	 * 
+	 * @return all Order entries for all stores
+	 */
 	@GET
 	public Collection<OrderEntryTO> findAll(){
 		LOG.debug("REST: Find all Entries");
 		return toEntryTOCollection(entryQuery.getAllEntries());
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @return order entry with id
+	 */
 	@GET
 	@Path("/{id}")
 	public OrderEntryTO find(@PathParam("id") Long id) {
 		LOG.debug("REST: Try to find OrderEntry with id: " + id);
-		OrderEntry entry = entryQuery.findEntryById(id);
-		if (entry == null) {
+		OrderEntry entry;
+		try {
+			entry = entryQuery.findEntryById(id);
+		} catch (QueryException e) {
 			LOG.debug("REST: Did not find Entry with id: " + id);
 			throw new NotFoundException("Did not find Entry with id: " + id);
 		}
+		
 
 		return toEntryTO(entry);
 	}
 
+	/**
+	 * Update order entry with given id
+	 * @param id
+	 * @param entryTO
+	 * @return
+	 */
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
@@ -68,7 +91,12 @@ public class OrderEntryResource {
 		
 
 	}
-
+ 
+	/**
+	 * Delete order entry with given id
+	 * @param id
+	 * @return
+	 */
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
@@ -86,6 +114,12 @@ public class OrderEntryResource {
 		
 	}
 
+	/**
+	 * Helper Method to change between local entity and transferable Object. <br>
+	 * Important: Entry TO does not contain whole Order TO. Only a refference (its id)
+	 * @param entry
+	 * @return
+	 */
 	public static OrderEntryTO toEntryTO(OrderEntry entry) {
 		OrderEntryTO entryTO = new OrderEntryTO();
 		entryTO.setAmount(entry.getAmount());
@@ -95,7 +129,13 @@ public class OrderEntryResource {
 		return entryTO;
 
 	}
-
+  
+	/**
+	 * Helper Method to change between local entity collection and transferable Object. <br>
+	 * Important: Entry TO does not contain whole Order TO. Only a refference (its id)
+	 * @param entry
+	 * @return
+	 */
 	public static Collection<OrderEntryTO> toEntryTOCollection(Collection<OrderEntry> entries) {
 		Collection<OrderEntryTO> entrieTOs = new LinkedList<OrderEntryTO>();
 		for(OrderEntry entry: entries) {

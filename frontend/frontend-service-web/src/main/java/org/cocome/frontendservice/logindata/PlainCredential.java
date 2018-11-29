@@ -1,5 +1,11 @@
 package org.cocome.frontendservice.logindata;
 
+/**
+ * Normal Credential and compare method
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 public class PlainCredential implements ICredential {
 	
 	private String password;

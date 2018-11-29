@@ -28,7 +28,12 @@ import org.cocome.productsservice.exceptions.CreateException;
 import org.cocome.productsservice.exceptions.QueryException;
 import org.cocome.productsservice.productquery.IProductQuery;
 import org.cocome.productsservice.supplierquery.ISupplierQuery;
-
+/**
+ * REST-interface for productssupplier queries and product-queries
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @RequestScoped
 @Path("/product-suppliers")
 public class ProductSupplierResource {
@@ -41,6 +46,10 @@ public class ProductSupplierResource {
 
 	private static final Logger LOG = Logger.getLogger(ProductSupplierResource.class);
 
+	/**
+	 * Find all suppliers
+	 * @return
+	 */
 	@GET
 	public Collection<ProductSupplierTO> findAll() {
 		LOG.debug("REST: Retrieve all ProductSuppliers");
@@ -51,6 +60,11 @@ public class ProductSupplierResource {
 		return collection;
 	}
 
+	/**
+	 * Fiond supplier by id
+	 * @param id
+	 * @return
+	 */
 	@GET
 	@Path("/{id}")
 	public ProductSupplierTO find(@PathParam("id") Long id) {
@@ -66,6 +80,12 @@ public class ProductSupplierResource {
 
 	}
 
+	/**
+	 * Update supplier with given id. 
+	 * @param id
+	 * @param supplierTO
+	 * @return
+	 */
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_XML)
@@ -86,6 +106,11 @@ public class ProductSupplierResource {
 
 	}
 
+	/**
+	 * Delete supplier with id
+	 * @param id
+	 * @return
+	 */
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Long id) {
@@ -102,6 +127,11 @@ public class ProductSupplierResource {
 
 	}
 
+	/**
+	 * Get all products from supplier with given id
+	 * @param supplierId
+	 * @return
+	 */
 	@GET
 	@Path("/{id}/products")
 	public Collection<ProductTO> getProductsBySupplierId(@PathParam("id") Long supplierId) {
@@ -124,6 +154,13 @@ public class ProductSupplierResource {
 		return collection;
 	}
 
+	/**
+	 * Create product for specific supplier. Cannot create product without supplier
+	 * @param uriInfo
+	 * @param supplierId
+	 * @param productTO
+	 * @return
+	 */
 	@POST
 	@Path("/{id}/products")
 	@Consumes(MediaType.APPLICATION_XML)
@@ -152,6 +189,12 @@ public class ProductSupplierResource {
 
 	}
 
+	/**
+	 * Create supplier (Only name! no Products)
+	 * @param uriInfo
+	 * @param supplierTO
+	 * @return
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response createSupplier(@Context UriInfo uriInfo, ProductSupplierTO supplierTO) {
@@ -172,6 +215,11 @@ public class ProductSupplierResource {
 
 	}
 
+	/**
+	 * Helper method to change to supplier transfer object
+	 * @param supplier
+	 * @return
+	 */
 	public static ProductSupplierTO toSupplierTO(ProductSupplier supplier) {
 		ProductSupplierTO supplierTO = new ProductSupplierTO();
 		supplierTO.setId(supplier.getId());

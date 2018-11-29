@@ -23,7 +23,12 @@ import org.cocome.ordersservice.domain.ProductOrder;
 import org.cocome.ordersservice.exceptions.QueryException;
 import org.cocome.ordersservice.orderquery.IOrderQuery;
 
-
+/**
+ * This class provides  REST-Interface-dunctionality for order of a specific store
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 
 @RequestScoped
 @Path("/stores")
@@ -33,9 +38,14 @@ public class StoreResource {
 	@EJB
 	IOrderQuery orderQuery;
 	
-	private final long COULD_NOT_CREATE_ENTITY = -1;
+	
 	private static final Logger LOG = Logger.getLogger(StoreResource.class);
 	
+	/**
+	 * Return all product orders of a specific store
+	 * @param storeId
+	 * @return
+	 */
 	@GET
 	@Path("/{id}/product-orders")
 	public Collection<ProductOrderTO> getOrders(@PathParam("id") Long storeId) {
@@ -53,6 +63,13 @@ public class StoreResource {
 		return ProductOrderResource.toProductOrderTOCollection(orders);
 	}
 	
+	/**
+	 * Create Order only possible by giving a store id
+	 * @param uriInfo
+	 * @param storeId
+	 * @param orderTO
+	 * @return
+	 */
 	@POST
 	@Path("/{id}/product-orders")
 	@Consumes(MediaType.APPLICATION_XML)

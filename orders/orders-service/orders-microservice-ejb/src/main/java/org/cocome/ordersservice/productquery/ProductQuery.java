@@ -11,6 +11,13 @@ import org.cocome.productsclient.client.ProductClient;
 import org.cocome.productsclient.domain.ProductTO;
 import org.cocome.productsclient.exception.ProductsRestException;
 
+/**
+ * Separates Product-Queries from toher Queries <br>
+ * Interface for Products-REST-Client
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @Local
 @Stateless
 public class ProductQuery implements IProductQuery, Serializable{

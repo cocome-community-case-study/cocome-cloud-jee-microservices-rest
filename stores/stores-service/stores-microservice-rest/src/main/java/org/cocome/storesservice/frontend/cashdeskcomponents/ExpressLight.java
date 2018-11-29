@@ -5,7 +5,15 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-
+/**
+ * Represents Express Light of CashDesk. 
+ * <br>
+ * Black-Light: Not in Express Mode <br>
+ * Green Light: Express Mode
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 @SessionScoped
 @Named
 public class ExpressLight implements IExpressLight, Serializable{

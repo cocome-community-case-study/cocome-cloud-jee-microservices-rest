@@ -17,6 +17,12 @@ import org.cocome.storesclient.config.Config;
 import org.cocome.storesclient.domain.StoreTO;
 import org.cocome.storesclient.exception.StoreRestException;
 
+/**
+ * Client to ease REST-Calls to Store Rest-Interface
+ * @author Niko Benkler
+ * @author Robert Heinrich
+ *
+ */
 public class StoreClient {
 	private final WebTarget webTarget;
 
@@ -25,6 +31,11 @@ public class StoreClient {
 		this.webTarget = client.target(Config.getBaseUri());
 	}
 
+	/**
+	 * Get all stores
+	 * @return
+	 * @throws StoreRestException
+	 */
 	public Collection<StoreTO> findAll() throws StoreRestException {
 		try {
 			return this.webTarget.path("stores").request().accept(MediaType.APPLICATION_XML_TYPE)
@@ -39,6 +50,12 @@ public class StoreClient {
 
 	}
 
+	/**
+	 * Get sote with specific id
+	 * @param id
+	 * @return
+	 * @throws StoreRestException
+	 */
 	public StoreTO find(long id) throws StoreRestException {
 		try {
 			return this.webTarget.path("stores").path(Long.toString(id)).request()
@@ -52,6 +69,13 @@ public class StoreClient {
 
 	}
 
+	/**
+	 * Create store ==> valid enterprise id needed!
+	 * @param store
+	 * @param enterpriseId
+	 * @return
+	 * @throws StoreRestException
+	 */
 	public long create(StoreTO store, long enterpriseId) throws StoreRestException {
 		try {
 			Response response = this.webTarget.path("trading-enterprises").path(Long.toString(enterpriseId))
@@ -67,6 +91,11 @@ public class StoreClient {
 
 	}
 
+	/**
+	 * Update Store
+	 * @param store
+	 * @throws StoreRestException
+	 */
 	public void update(StoreTO store) throws StoreRestException {
 		try {
 			this.webTarget.path("stores").path(Long.toString(store.getId())).request(MediaType.APPLICATION_XML_TYPE)
@@ -80,6 +109,11 @@ public class StoreClient {
 
 	}
 
+	/**
+	 * Delete store
+	 * @param store
+	 * @throws StoreRestException
+	 */
 	public void delete(StoreTO store) throws StoreRestException {
 		try {
 			this.webTarget.path("stores").path(Long.toString(store.getId())).request().delete();
@@ -92,6 +126,12 @@ public class StoreClient {
 
 	}
 
+	/**
+	 * Get all stores of an specific enterprise
+	 * @param enterpriseId
+	 * @return
+	 * @throws StoreRestException
+	 */
 	public Collection<StoreTO> findByEnterprise(long enterpriseId) throws StoreRestException {
 		try {
 			return this.webTarget.path("trading-enterprises").path(Long.toString(enterpriseId)).path("stores").request()

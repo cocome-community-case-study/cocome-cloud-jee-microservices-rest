@@ -6,10 +6,10 @@ import java.util.LinkedList;
 import org.cocome.storesservice.domain.Store;
 
 /**
- * Holds informtaion about a Store.
- * 
- * @author Tobias Pöppke
+ * Frontend specific Store domain object
+ * @author Niko Benkler
  * @author Robert Heinrich
+ *
  */
 public class StoreViewData {
 	private long id;

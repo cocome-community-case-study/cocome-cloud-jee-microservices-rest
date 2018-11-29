@@ -1,13 +1,12 @@
 package org.cocome.reportsservice.util;
 
-import org.apache.log4j.Logger;
-
 import javax.ws.rs.NotFoundException;
-
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
+
+import org.apache.log4j.Logger;
 
 /**
  * This class intercepts any NotFoundExceptions and adds the proper error

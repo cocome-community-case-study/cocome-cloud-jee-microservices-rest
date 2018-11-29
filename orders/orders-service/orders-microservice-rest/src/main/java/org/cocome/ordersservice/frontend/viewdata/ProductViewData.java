@@ -69,12 +69,23 @@ public class ProductViewData {
 	public void setSupplierId(long supplierId) {
 		this.supplierId = supplierId;
 	}
-
+    
+	/**
+	 * Generate ProductViewData from Product Object
+	 * @param order
+	 * @return
+	 */
 	public static ProductViewData fromProduct(ProductTO product) {
 		return new ProductViewData(product.getId(), product.getBarcode(), product.getPurchasePrice(), product.getName(),
 				product.getSupplier().getId());
 	}
 	
+	
+	/**
+	 * Generate ProductViewData  Collection from Product Collection
+	 * @param order
+	 * @return
+	 */
 	public static Collection<ProductViewData> fromProductCollection(Collection<ProductTO> products){
 		Collection<ProductViewData>  productViewDataColection = new LinkedList<>();
 		
