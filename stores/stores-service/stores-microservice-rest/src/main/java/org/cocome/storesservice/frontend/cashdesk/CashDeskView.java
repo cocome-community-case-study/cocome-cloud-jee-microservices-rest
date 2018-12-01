@@ -169,7 +169,9 @@ public class CashDeskView implements Serializable {
 	}
 
 	public String enterCashAmount(double cashAmount) {
-
+		if(cashDesk.isSaleFinished()) {
+			return getSalePageRedirectOutcome();
+		}
 		try {
 			cashbox.enterCashAmount(cashAmount);
 		} catch (UpdateException e) {

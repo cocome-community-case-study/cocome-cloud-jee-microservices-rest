@@ -40,4 +40,8 @@ public interface ICashDesk {
 	void startSale();
 
 	boolean paymentInProcess();
+
+	boolean isSaleFinished();
+
+	void setSaleFinished(boolean saleFinished);
 }

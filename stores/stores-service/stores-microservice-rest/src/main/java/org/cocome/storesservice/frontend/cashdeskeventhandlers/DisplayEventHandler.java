@@ -72,7 +72,7 @@ public class DisplayEventHandler implements Serializable {
 
 	}
 
-	public void onEvent(InsufficientCashAmountEvent event) {
+	public void onEvent(@Observes InsufficientCashAmountEvent event) {
 		LOG.debug("FRONTEND: Display insufficient CashEvent. Entered: " + event.getEnteredAmount() + ". Required: "
 				+ event.getRequiredAmount());
 		this.display.setDisplayLine("Not enough cash. Please try again...");
