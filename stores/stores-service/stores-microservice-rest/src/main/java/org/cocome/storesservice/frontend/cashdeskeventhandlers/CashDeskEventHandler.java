@@ -10,6 +10,7 @@ import javax.inject.Named;
 import org.apache.log4j.Logger;
 import org.cocome.storesservice.events.SaleStartedEvent;
 import org.cocome.storesservice.events.SaleSuccessEvent;
+import org.cocome.storesservice.events.StartCardPaymentEvent;
 import org.cocome.storesservice.events.StartCashPaymentEvent;
 import org.cocome.storesservice.frontend.cashdeskcomponents.ICashDesk;
 /**
@@ -42,6 +43,12 @@ class CashDeskEventHandler implements  Serializable {
 		LOG.debug("FRONTEND: CashDesk start Cash Payment");
 		cashDesk.setCardPayment(false);
 		cashDesk.setCashPayment(true);
+	}
+	
+	public void onEvent(@Observes StartCardPaymentEvent event) {
+		LOG.debug("FRONTEND: CashDesk start Caard Payment");
+		cashDesk.setCardPayment(true);
+		cashDesk.setCashPayment(false);
 	}
 	
 	public void onEvent(@Observes SaleSuccessEvent event) {

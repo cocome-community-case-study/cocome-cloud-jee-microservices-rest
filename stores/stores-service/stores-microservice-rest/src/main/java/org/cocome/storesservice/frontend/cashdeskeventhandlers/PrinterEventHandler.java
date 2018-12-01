@@ -11,9 +11,12 @@ import javax.inject.Named;
 import org.apache.log4j.Logger;
 import org.cocome.storesservice.events.CashAmountEnteredEvent;
 import org.cocome.storesservice.events.ChangeAmountCalculatedEvent;
+import org.cocome.storesservice.events.CreditCardPaymentSuccessfulEvent;
+import org.cocome.storesservice.events.InsufficientCreditCardBalanceEvent;
 import org.cocome.storesservice.events.RunningTotalChangedEvent;
 import org.cocome.storesservice.events.SaleStartedEvent;
 import org.cocome.storesservice.events.SaleSuccessEvent;
+import org.cocome.storesservice.events.StartCardPaymentEvent;
 import org.cocome.storesservice.events.StartCashPaymentEvent;
 import org.cocome.storesservice.frontend.cashdeskcomponents.IPrinter;
 
@@ -55,7 +58,13 @@ public class PrinterEventHandler implements Serializable {
 
 	public void onEvent(@Observes StartCashPaymentEvent event) {
 		LOG.debug("FRONTEND: Printer start Cash Payment");
-		printSaleTotal(this.runningTotal);
+		this.printSaleTotal(this.runningTotal);
+
+	}
+	
+	public void onEvent(@Observes StartCardPaymentEvent event) {
+		LOG.debug("FRONTEND: Printer start Card Payment");
+		this.printSaleTotal(this.runningTotal);
 
 	}
 
@@ -68,9 +77,14 @@ public class PrinterEventHandler implements Serializable {
 
 	public void onEvent(@Observes ChangeAmountCalculatedEvent event) {
 		final double changeAmount = event.getChangeAmount();
-		LOG.debug("FRONTEND: Printer changeamount calcuatet " + changeAmount);
+		LOG.debug("FRONTEND: Printer changeamount calculated " + changeAmount);
 		this.printChangeAmount(changeAmount);
 
+	}
+	
+	public void onEvent(@Observes CreditCardPaymentSuccessfulEvent event) {
+		LOG.debug("FRONTEND: Credit Card Payment Successful!");
+		this.printer.addPrinterOutput("Credit Card payment successfull");
 	}
 	
 	public void onEvent(@Observes SaleSuccessEvent event) {

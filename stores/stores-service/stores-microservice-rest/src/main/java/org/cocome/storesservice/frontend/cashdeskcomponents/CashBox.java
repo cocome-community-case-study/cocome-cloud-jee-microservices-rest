@@ -5,15 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
+import org.cocome.external.DebitResult;
+import org.cocome.external.IBankLocal;
+import org.cocome.external.TransactionID;
 import org.cocome.storesservice.events.CashAmountEnteredEvent;
 import org.cocome.storesservice.events.ChangeAmountCalculatedEvent;
+import org.cocome.storesservice.events.CreditCardPaymentSuccessfulEvent;
 import org.cocome.storesservice.events.InsufficientCashAmountEvent;
+import org.cocome.storesservice.events.InsufficientCreditCardBalanceEvent;
+import org.cocome.storesservice.events.InvalidCreditCardDetailsEvent;
 import org.cocome.storesservice.events.InvalidProductBarcodeEvent;
 import org.cocome.storesservice.events.ProductOutOfStockEvent;
 import org.cocome.storesservice.events.RunningTotalChangedEvent;
@@ -40,6 +47,9 @@ public class CashBox implements ICashBox, Serializable {
 	@Inject
 	IStockManager stockManager;
 
+	@EJB
+	IBankLocal bank;
+
 	@Inject
 	Event<InvalidProductBarcodeEvent> invalidProductBarcodeEvent;
 
@@ -63,6 +73,15 @@ public class CashBox implements ICashBox, Serializable {
 
 	@Inject
 	Event<SaleUnsuccessfulEvent> saleUnsuccessEvent;
+	
+	@Inject
+	Event<InsufficientCreditCardBalanceEvent> insuffiecientCreditVardBalanceEvent;
+	
+	@Inject
+	Event<InvalidCreditCardDetailsEvent> invalidCreditCardDetailsEvent;
+	
+	@Inject
+	Event<CreditCardPaymentSuccessfulEvent> creditCardPaymentSuccessfullEvent;
 
 	private static final long serialVersionUID = 3992593730770915195L;
 	private String barcode;
@@ -86,7 +105,7 @@ public class CashBox implements ICashBox, Serializable {
 			barcode += nextDigit;
 		}
 	}
-
+	
 	
 
 	@Override
@@ -109,21 +128,6 @@ public class CashBox implements ICashBox, Serializable {
 	public void removeLastDigit() {
 		barcode = barcode.substring(0, barcode.length() - 1);
 
-	}
-
-	@Override
-	public void pressButtonFinishSale() {
-//TODO brauch ich das?
-	}
-
-	@Override
-	public void selectCashPayment() {
-		//TODO brauch ich das?
-	}
-
-	@Override
-	public void selectCardPayment() {
-		//TODO brauch ich das?
 	}
 
 	/**
@@ -156,7 +160,7 @@ public class CashBox implements ICashBox, Serializable {
 
 		StockItemViewData item;
 
-		//Fetch Item
+		// Fetch Item
 		try {
 			item = stockManager.getStockItemByBarcodeAndStoreId(barcode, storeId);
 		} catch (QueryException e) {
@@ -165,7 +169,7 @@ public class CashBox implements ICashBox, Serializable {
 			return;
 		}
 
-		//add it to sale
+		// add it to sale
 		if (addItemToSale(item)) {
 			final double price = item.getSalesPrice();
 			this.runningTotal = this.computeNewRunningTotal(price);
@@ -176,15 +180,17 @@ public class CashBox implements ICashBox, Serializable {
 	}
 
 	/**
-	 * Adds Item to Sale. The StockItem itself contains Information about the current amount in Stock
+	 * Adds Item to Sale. The StockItem itself contains Information about the
+	 * current amount in Stock
+	 * 
 	 * @param stockItem
 	 * @return
 	 */
 	private boolean addItemToSale(StockItemViewData stockItem) {
-	
+
 		// Check if StockItem Exists already in sale and reduce amount
 		int index = saleProducts.indexOf(stockItem);
-	
+
 		// Item already exists
 		if (index != -1) {
 			StockItemViewData itemInSale = saleProducts.get(index);
@@ -195,7 +201,7 @@ public class CashBox implements ICashBox, Serializable {
 				productOutOfStockEvent.fire(new ProductOutOfStockEvent());
 				return false;
 			}
-	
+
 			// Item does not exist --> Add and reduce amount
 		} else {
 			long currentAmount = stockItem.getAmount();
@@ -207,9 +213,9 @@ public class CashBox implements ICashBox, Serializable {
 				stockItem.setAmount(currentAmount - 1);
 				saleProducts.add(stockItem);
 			}
-	
+
 		}
-	
+
 		return true;
 	}
 
@@ -218,12 +224,12 @@ public class CashBox implements ICashBox, Serializable {
 	 */
 	@Override
 	public void enterCashAmount(double cashAmount) throws UpdateException {
-		//Check if customer paid enough
+		// Check if customer paid enough
 		final double change = this.computeChangeAmount(cashAmount);
 		if (Math.signum(change) >= 0) {
 
 			try {
-				//This is the actually sales-process
+				// This is the actually sales-process
 				makeSale();
 			} catch (QueryException e) {
 
@@ -243,8 +249,49 @@ public class CashBox implements ICashBox, Serializable {
 
 	}
 
+	@Override
+	public void enterCardInfo(String cardInfo, int pin) throws UpdateException {
+
+		//check credit Card details
+		TransactionID transaction = bank.validateCard(cardInfo, pin);
+		DebitResult result = bank.debitCard(transaction);
+
+		//take action according to checking result
+		switch (result) {
+		case INSUFFICIENT_BALANCE:
+			insuffiecientCreditVardBalanceEvent.fire(new InsufficientCreditCardBalanceEvent());
+			return;
+		case INVALID_TRANSACTION_ID:
+			invalidCreditCardDetailsEvent.fire(new InvalidCreditCardDetailsEvent());
+			return;
+		case OK:
+             creditCardPaymentSuccessfullEvent.fire(new CreditCardPaymentSuccessfulEvent());
+			break;
+		default:
+			invalidCreditCardDetailsEvent.fire(new InvalidCreditCardDetailsEvent());
+			return;
+
+		}
+
+		
+		//finish Sale
+		try {
+			// This is the actually sales-process
+			makeSale();
+		} catch (QueryException e) {
+
+			saleUnsuccessEvent.fire(new SaleUnsuccessfulEvent());
+			throw new UpdateException("An error occured while finishing the sale!");
+
+		}
+
+		saleSuccessEvent.fire(new SaleSuccessEvent());
+
+	}
+
 	/**
 	 * Finally update the stock item (reduce amount that was sold)
+	 * 
 	 * @throws QueryException
 	 */
 	private void makeSale() throws QueryException {
@@ -259,6 +306,7 @@ public class CashBox implements ICashBox, Serializable {
 
 	/**
 	 * Used to compute new running total when a item is added to the Sale
+	 * 
 	 * @param price
 	 * @return
 	 */
@@ -273,6 +321,7 @@ public class CashBox implements ICashBox, Serializable {
 
 	/**
 	 * Used to compute change amount when a user paid a certain amount
+	 * 
 	 * @param amount
 	 * @return
 	 */

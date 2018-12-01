@@ -12,6 +12,7 @@ import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 import org.cocome.storesservice.events.SaleStartedEvent;
+import org.cocome.storesservice.events.StartCardPaymentEvent;
 import org.cocome.storesservice.events.StartCashPaymentEvent;
 import org.cocome.storesservice.exceptions.UpdateException;
 import org.cocome.storesservice.frontend.cashdeskcomponents.ICashBox;
@@ -67,6 +68,9 @@ public class CashDeskView implements Serializable {
 
 	@Inject
 	Event<StartCashPaymentEvent> startCashPaymentEvent;
+	
+	@Inject
+	Event<StartCardPaymentEvent> startCardPaymentEvent;
 
 	/**
 	 * Submitting a new CashDeskName start a new sale Process
@@ -164,8 +168,9 @@ public class CashDeskView implements Serializable {
 	}
 
 	private void addFacesError(String errorString) {
-		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", errorString));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+				errorString,
+				null));
 	}
 
 	public String enterCashAmount(double cashAmount) {
@@ -182,7 +187,17 @@ public class CashDeskView implements Serializable {
 	}
 
 	public String enterCardInfo(String cardInfo, int pin) {
-
+		if(cashDesk.isSaleFinished()) {
+			return getSalePageRedirectOutcome();
+		}
+		
+		try {
+			cashbox.enterCardInfo(cardInfo, pin);
+		} catch (UpdateException e) {
+			addFacesError(e.getMessage());
+		}
+		
+		
 		return getSalePageRedirectOutcome();
 	}
 
@@ -201,24 +216,18 @@ public class CashDeskView implements Serializable {
 
 	public String startCardPayment() {
 
-		// TODO check if expressmode
-//		String cashDeskName = cashDesk.getCashDeskName();
-//		long storeID = storeInformation.getActiveStoreID();
-//
-//		try {
-//			cashDeskDAO.startCreditCardPayment(cashDeskName, storeID);
-//			cashDesk.setAllItemsRegistered(true);
-//			cashDesk.setCardPayment(true);
-//			cashDesk.setCashPayment(false);
-//		} catch (NotInDatabaseException_Exception | ProductOutOfStockException_Exception | UnhandledException_Exception
-//				| IllegalCashDeskStateException_Exception | IllegalInputException_Exception e) {
-//			addFacesError(String.format(Messages.getLocalizedMessage("cashdesk.error.start_card_pay.failed"),
-//					e.getMessage()));
-//		}
-//
-//		updateDisplayAndPrinter();
+
+		// Payment running
+		if (cashDesk.isCardPayment() || cashDesk.isCashPayment()) {
+
+			return getSalePageRedirectOutcome();
+		}
+
+		startCardPaymentEvent.fire(new StartCardPaymentEvent());
 
 		return getSalePageRedirectOutcome();
+
+		
 	}
 
 	public String resetSale() {
@@ -243,6 +252,10 @@ public class CashDeskView implements Serializable {
 	}
 
 	private long convertBarcode() throws NumberFormatException {
+		if(cashbox.getBarcode() == "") {
+			throw new NumberFormatException("Pleaser insert a Barcode!");
+		}
+		
 		long barcode = Long.parseLong(cashbox.getBarcode());
 		if (barcode < 0) {
 			throw new NumberFormatException("Barcode must be positive!");
@@ -260,7 +273,7 @@ public class CashDeskView implements Serializable {
 			barcode = convertBarcode();
 		} catch (NumberFormatException e) {
 
-			addFacesError(Messages.getLocalizedMessage("cashdesk.validation.barcode.failed"));
+			addFacesError("Please insert a valid positive barcode!");
 
 			return getSalePageRedirectOutcome();
 		}
