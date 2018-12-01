@@ -23,11 +23,7 @@
 			<artifactId>activation</artifactId>
 			<version>1.1</version>
 		</dependency>
-		<dependency>
-			<groupId>com.sun.msv.datatype.xsd</groupId>
-			<artifactId>xsdlib</artifactId>
-			<version>20060615</version>
-		</dependency>
+		
 		<dependency>
 		<groupId>org.codehaus.jackson</groupId>
 		<artifactId>jackson-mapper-asl</artifactId>
@@ -38,6 +34,12 @@
 			<artifactId>stores-microservice-ejb</artifactId>
 			<version>1.0</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.cocome</groupId>
+			<artifactId>cocome-util</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
   		<groupId>org.cocome</groupId>
