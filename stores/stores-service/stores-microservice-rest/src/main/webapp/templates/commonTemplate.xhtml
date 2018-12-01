@@ -185,6 +185,17 @@ a:HOVER {
 .info-message {
 	color: black;
 }
+
+.display {
+	color: #2E8B57;
+	border-color: black;
+	border-style: solid;
+	width: 150px;
+	height: 150px;
+	display: block;
+	text-align: center;
+	
+}
 </style>
 </h:head>
 
@@ -214,17 +225,17 @@ a:HOVER {
 											errorClass="error-message" fatalClass="error-message"
 											warnClass="error-message" infoClass="info-message" /> <ui:insert
 											name="body">
-											
-											<h:panelGroup rendered ="#{navigationMenu.storeService}">
+
+											<h:panelGroup rendered="#{navigationMenu.storeService}">
 											Welcome to Store - Frontend
 											</h:panelGroup>
-											
-											<h:panelGroup rendered ="#{not navigationMenu.storeService}">
+
+											<h:panelGroup rendered="#{not navigationMenu.storeService}">
 											Welcome Enterprise - Frontend
 											</h:panelGroup>
-											
 
-												
+
+
 
 
 										</ui:insert></td>

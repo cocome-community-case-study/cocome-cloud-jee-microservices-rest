@@ -44,9 +44,15 @@
 												styleClass="cashdesk-express-light" /></td>
 									</tr>
 									<tr>
-										<td align="left"><b>#{strings['cashdesk.display.label']}</b>
-											<h:outputText id="result"
-												value="#{cashDeskView.displayMessage}" /></td>
+										<td align="left"><h:outputText
+												value="#{strings['cashdesk.display.label']}"></h:outputText>
+
+
+										</td>
+									</tr>
+									<tr>
+										<td align="left"><h:outputText id="result"
+												value="#{cashDeskView.displayMessage}" styleClass="display" /></td>
 									</tr>
 									<tr>
 										<td align="left"><h:panelGroup
@@ -65,8 +71,7 @@
 																value="#{strings['cashdesk.payment.button.cash.label']}" /></td>
 													</tr>
 												</table>
-											</h:panelGroup> 
-											<h:panelGroup rendered="#{cashDeskView.cardPayment}">
+											</h:panelGroup> <h:panelGroup rendered="#{cashDeskView.cardPayment}">
 												<table>
 													<tr>
 														<td><h:outputText
