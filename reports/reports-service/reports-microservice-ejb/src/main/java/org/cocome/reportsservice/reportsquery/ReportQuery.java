@@ -38,8 +38,10 @@ public class ReportQuery implements IReportsQuery {
 	public Report getEnterpriseDeliveryReport(long enterpriseId) throws QueryException {
 		LOG.debug("QUERY: Try to get enterprise Delivery Report for Enterprise with Id: " + enterpriseId);
 		try {
-			return generator.getEnterpriseDeliveryReport(enterpriseId);
-		} catch (StoreRestException e) {
+			
+				return generator.getEnterpriseDeliveryReport(enterpriseId);
+			
+		} catch (ProductsRestException e) {
 			LOG.error("QUERY: Could not create enterprise Delivery Report for Enterprise with Id: " + enterpriseId);
 			throw new QueryException(e.getMessage());
 		}

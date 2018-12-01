@@ -86,7 +86,7 @@ public class ReceiveOrderView implements Serializable {
 			if (order.getStoreId() != navMenu.getActiveStoreId()) {
 
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-						"Order with id: " + orderId + "does not exist for store with id: " + navMenu.getActiveStoreId(),
+						"Order with id: " + orderId + " does not exist for store with id: " + navMenu.getActiveStoreId(),
 						null));
 				return;
 			}

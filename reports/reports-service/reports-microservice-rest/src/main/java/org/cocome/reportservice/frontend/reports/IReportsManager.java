@@ -6,11 +6,9 @@ import org.cocome.reportservice.frontend.viewdata.EnterpriseViewData;
 
 public interface IReportsManager {
 
-	void setActiveStoreId(long storeId);
 
-	long getActiveStoreId();
 	
-	String getEnterpriseDeliveryReport(long enterpriseId);
+	String getEnterpriseDeliveryReport();
 	
 	String getStoreStockReport();
 	
@@ -20,13 +18,7 @@ public interface IReportsManager {
 
 
 
-	boolean isEnterpriseSet();
 
-	void setEnterpriseSet(boolean enterpriseSet);
-
-	long getActiveEnterpriseId();
-
-	void setActiveEnterpriseId(long activeEnterpriseId);
 
 	String getEnterpriseStockReport();
 

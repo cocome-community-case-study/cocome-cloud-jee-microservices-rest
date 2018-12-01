@@ -134,4 +134,9 @@ public class CashDesk implements Serializable, ICashDesk {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	 @Override
+	public boolean paymentInProcess(){
+		return (this.cardPayment || this.cashPayment);
+	}
 }

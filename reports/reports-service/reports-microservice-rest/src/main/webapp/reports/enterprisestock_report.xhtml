@@ -18,7 +18,7 @@
 
 
 
-					<h:selectOneMenu value="#{reportsManager.activeEnterpriseId}"
+					<h:selectOneMenu value="#{reportsInformation.activeEnterpriseId}"
 						required="true"
 						requiredMessage="#{strings['enterprise.select.text']}">
 						<f:selectItem itemValue="#{null}"
@@ -44,7 +44,7 @@
 
 			<h:panelGroup id="showEnterpriseReport" layout="block" style="padding-top: 4px">
 
-				<h:panelGroup rendered="#{reportsManager.enterpriseSet}">
+				<h:panelGroup rendered="#{reportsInformation.enterpriseSet}">
 					<h:outputText value="#{reportsManager.enterpriseStockReport}"   escape="false" />
 				</h:panelGroup>
 

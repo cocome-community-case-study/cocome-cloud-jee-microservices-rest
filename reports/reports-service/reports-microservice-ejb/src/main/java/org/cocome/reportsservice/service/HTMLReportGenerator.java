@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 
 import org.cocome.productsclient.client.ProductClient;
 import org.cocome.productsclient.client.ProductSupplierClient;
+import org.cocome.productsclient.domain.ProductSupplierTO;
 import org.cocome.productsclient.domain.ProductTO;
 import org.cocome.productsclient.exception.ProductsRestException;
 import org.cocome.reportsservice.domain.Report;
@@ -39,14 +40,16 @@ public class HTMLReportGenerator implements ReportGenerator {
 
 	/**
 	 * Returns full enterprise delivery report as HTML Page
+	 * 
+	 * @throws ProductsRestException
 	 */
 	@Override
-	public Report getEnterpriseDeliveryReport(long enterpriseId) throws StoreRestException {
+	public Report getEnterpriseDeliveryReport(long enterpriseId) throws ProductsRestException {
 
-		final TradingEnterpriseTO enterprise = this.enterpriseClient.find(enterpriseId);
+		final Collection<ProductSupplierTO> suppliers = this.supplierClient.findAll();
 		final Formatter report = new Formatter();
 		appendReportHeader(report);
-		appendDeliveryReport(enterprise, report);
+		appendDeliveryReport(suppliers, report);
 		appendReportFooter(report);
 		return createReportTO(report);
 	}
@@ -79,22 +82,15 @@ public class HTMLReportGenerator implements ReportGenerator {
 
 	// -------------------------------Private helper Methods------------
 
-	private void appendDeliveryReport(TradingEnterpriseTO enterprise, Formatter output) {
+	private void appendDeliveryReport(Collection<ProductSupplierTO> suppliers, Formatter output) {
+		output.format(
+				"<h3> UC6 - \"Show Delivery Reports\" is not implemented as we do not have an actual delivery time. Therefore, we only provide a basic overview of the available suppliers  </h3>\n");
+
 		this.appendTableHeader(output, "Supplier ID", "Supplier Name", "Mean Time To Delivery");
 
-//		for (ProductSupplierTO supplier : this.supplierClient.findByEnterprise(enterprise.getId())) {
-//			// See org.cocome.tradingsystem.inventory.data.enterprise.EnterpriseQueryProvider.java
-//			// in cocome-cloud-jee-platform-migration.
-//			// It's not implemented there, so we use the same fixed value (0) here.
-//			//
-//			//
-//			//final long mtd = this.enterpriseQuery.getMeanTimeToDelivery(
-//			//		supplier, enterprise);
-//			final long mtd = 0;
-//
-//			this.appendTableRow(output, supplier.getId(), supplier.getName(),
-//					(mtd != 0) ? mtd : "N/A"); // NOCS
-//		}
+		for (ProductSupplierTO supplier : suppliers) {
+			this.appendTableRow(output, supplier.getId(), supplier.getName(), "N/A");
+		}
 
 		this.appendTableFooter(output);
 	}

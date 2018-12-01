@@ -249,6 +249,10 @@ public class CashDeskView implements Serializable {
 	}
 
 	public String scanBarcode() {
+		if(cashDesk.paymentInProcess()) {
+			return getSalePageRedirectOutcome();
+		}
+		
 		long barcode;
 		try {
 			barcode = convertBarcode();
@@ -287,5 +291,7 @@ public class CashDeskView implements Serializable {
 	public void removeLastBarcodeDigit() {
 		cashbox.removeLastDigit();
 	}
+	
+	
 
 }

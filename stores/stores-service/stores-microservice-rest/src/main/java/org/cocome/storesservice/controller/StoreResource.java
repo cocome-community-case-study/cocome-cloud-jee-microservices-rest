@@ -47,7 +47,7 @@ public class StoreResource {
 	@EJB
 	private IStockQuery stockQuery;
 
-	private final long COULD_NOT_CREATE_ENTITY = -1;
+
 	private static final Logger LOG = Logger.getLogger(StoreResource.class);
 
 	@GET

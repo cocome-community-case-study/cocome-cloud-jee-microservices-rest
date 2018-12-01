@@ -21,8 +21,9 @@ public interface ReportGenerator {
 	 * @param enterpriseId the enterprise entity identifier for which to generate report
 	 * @return Report transfer object containing mean time to delivery information
 	 * @throws StoreRestException 
+	 * @throws ProductsRestException 
 	 */
-	Report getEnterpriseDeliveryReport(long enterpriseId) throws StoreRestException;
+	Report getEnterpriseDeliveryReport(long enterpriseId) throws ProductsRestException;
 	
 	/**
 	 * Generates report of available stock for all products in the specified
