@@ -81,18 +81,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
-					<execution>
-						<id>unpack-properties-file</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>unpack-dependencies</goal>
-						</goals>
-						<configuration>
-							<includeArtifactIds>cloud-logic-core</includeArtifactIds>
-							<outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
-							<includes>**\/*.properties</includes>
-						</configuration>
-					</execution>
+					
 					<execution>
 						<phase>validate</phase>
 						<goals>

@@ -25,9 +25,14 @@ import javax.persistence.Table;
 @Table(name = "tradingenterprise")
 public class TradingEnterprise implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3795648096852898263L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)

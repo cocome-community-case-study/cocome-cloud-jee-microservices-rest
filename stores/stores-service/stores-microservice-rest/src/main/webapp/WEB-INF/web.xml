@@ -30,6 +30,7 @@
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>faces/store_main.xhtml</welcome-file>
+		<welcome-file>faces/enterprise_main.xhtml</welcome-file>
 	</welcome-file-list>
 	
 	<!-- We want to let 404/500 errors though the error handler as a requesting server needs to get a response -->
@@ -42,7 +43,7 @@
 		<location>/faces/error.xhtml</location>
 	</error-page-->
 	<error-page>
-		<exception-type>java.lang.Exception</exception-type>
+		<exception-type>java.lang.Throwable</exception-type>
 		<location>/faces/error.xhtml</location>
 	</error-page>
 
@@ -54,7 +55,7 @@
 
 	<filter>
 		<filter-name>CorsFilter</filter-name>
-		<filter-class>org.cocome.corsfilter.CORSFilter</filter-class>
+		<filter-class>org.cocome.storesservice.corsfilter.CORSFilter</filter-class>
 	</filter>
 
 	<filter-mapping>
@@ -63,10 +64,5 @@
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>ERROR</dispatcher>
 	</filter-mapping>
-
-
-
-
-
 
 </web-app>

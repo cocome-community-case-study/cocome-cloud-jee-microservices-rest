@@ -24,13 +24,19 @@
 			<artifactId>junit</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.197</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<!-- This dependency is necessary because the standard javaee library 
 				doesn't provide javadocs -->
 			<groupId>org.jboss.spec</groupId>
 			<artifactId>jboss-javaee-all-6.0</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
@@ -47,7 +53,7 @@
 			<version>2.0.1</version>
 		</dependency>
 
-		
+
 	</dependencies>
 
 	<build>
@@ -86,19 +92,7 @@
 				<artifactId>maven-dependency-plugin</artifactId>
 
 				<executions>
-					<execution>
-						<id>unpack-properties-file</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>unpack-dependencies</goal>
-						</goals>
-						<configuration>
-							<includeArtifactIds>cloud-logic-core</includeArtifactIds>
-							<outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
-							<includes>**\/*.properties</includes>
 
-						</configuration>
-					</execution>
 					<execution>
 						<phase>validate</phase>
 						<goals>

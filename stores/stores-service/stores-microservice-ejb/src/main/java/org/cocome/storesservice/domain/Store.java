@@ -29,9 +29,14 @@ import javax.persistence.Table;
 @Table(name = "store")
 public class Store implements Serializable, Comparable<Store> {
 
-	private static final long serialVersionUID = 1L;
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5713187846460131843L;
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)

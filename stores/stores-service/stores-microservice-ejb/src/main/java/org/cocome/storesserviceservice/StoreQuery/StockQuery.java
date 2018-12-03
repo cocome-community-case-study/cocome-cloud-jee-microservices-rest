@@ -345,6 +345,7 @@ public class StockQuery implements IStockQuery, Serializable {
 
 		Collection<StockItem> items = new ArrayList<>();
 		// this is really ugly but works
+		//it 
 		for (Store store : item.getStore().getEnterprise().getStores()) {
 			// add all items of each store inb enterprise
 			items.addAll(store.getStockItems());

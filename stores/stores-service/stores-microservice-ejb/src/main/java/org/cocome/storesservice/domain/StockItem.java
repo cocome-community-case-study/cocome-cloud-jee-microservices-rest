@@ -28,7 +28,7 @@ public class StockItem implements Serializable {
 	private static final long serialVersionUID = -293179135307588628L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	@Column(name = "id", updatable = false, nullable = false)
 	private long id;
 
