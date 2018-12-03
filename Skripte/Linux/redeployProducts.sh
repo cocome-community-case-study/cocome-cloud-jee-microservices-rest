@@ -24,9 +24,9 @@ cd $glassfish_domain
 
 
 
-rm -rf storesmicroservice/applications/* ;
-rm -rf storesmicroservice/generated/* ;
-rm -rf storesmicroservice/osgi-cache/* ;
+rm -rf productsmicroservice/applications/* ;
+rm -rf productsmicroservice/generated/* ;
+rm -rf productsmicroservice/osgi-cache/* ;
 
 
 
