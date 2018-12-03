@@ -301,6 +301,9 @@ public class CashBox implements ICashBox, Serializable {
 		 */
 		for (StockItemViewData item : saleProducts) {
 			stockManager.updateStockItem(item);
+			if(item.getAmount() < item.getMinStock()) {
+				stockManager.doStockExchange(item.getId());
+			}
 		}
 	}
 

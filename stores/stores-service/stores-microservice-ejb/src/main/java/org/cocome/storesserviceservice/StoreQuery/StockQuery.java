@@ -1,8 +1,12 @@
 package org.cocome.storesserviceservice.StoreQuery;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -94,37 +98,36 @@ public class StockQuery implements IStockQuery, Serializable {
 		LOG.debug(sb.toString());
 		return items;
 	}
-	
+
 	@Override
 	public StockItem getStockItemByIdAndStore(long stockItemId, long storeId) throws QueryException {
-		LOG.debug("QUERY: Get StockItem with id: " + stockItemId +" from store with id: " + storeId);
-		StockItem item  = stockRepo.find(stockItemId);
+		LOG.debug("QUERY: Get StockItem with id: " + stockItemId + " from store with id: " + storeId);
+		StockItem item = stockRepo.find(stockItemId);
 		if (item == null) {
 			LOG.debug("QUERY: Did not find StockItem with ID " + stockItemId);
 			throw new QueryException("Did not find StockItem with id: " + stockItemId);
 
 		}
-		
-		if(item.getStore().getId() != storeId) {
+
+		if (item.getStore().getId() != storeId) {
 			LOG.debug("QUERY: StockItem found, but does not belong to store with id:  " + stockItemId);
 			throw new QueryException("Did not find StockItem with id " + stockItemId);
 		}
 		return item;
 
 	}
-	
 
 	@Override
 	public StockItem getStockItemByBarcodeAndStore(long barcode, long storeId) throws QueryException {
-		LOG.debug("QUERY: Get StockItem with barcode: " + barcode +" from store with id: " + storeId);
-		
+		LOG.debug("QUERY: Get StockItem with barcode: " + barcode + " from store with id: " + storeId);
+
 		StockItem item = null;
-		
-		for(StockItem it : this.getStockItemsByStore(storeId)) {
-			if(it.getBarcode() == barcode) {
-				item = it; //Barcode is unique!
+
+		for (StockItem it : this.getStockItemsByStore(storeId)) {
+			if (it.getBarcode() == barcode) {
+				item = it; // Barcode is unique!
 				break;
-				
+
 			}
 		}
 
@@ -133,12 +136,10 @@ public class StockQuery implements IStockQuery, Serializable {
 			throw new QueryException("Did not find StockItem with Barcode: " + barcode);
 
 		}
-		
-	
+
 		return item;
 
 	}
-
 
 	@Override
 	public StockItem getStockItemById(long stockItemId) throws QueryException {
@@ -192,14 +193,14 @@ public class StockQuery implements IStockQuery, Serializable {
 	public void updateStockeItem(long id, double salesPrice, long amount, long minStock, long maxStock, long barcode,
 			long incomingAmount, String name) throws QueryException {
 		LOG.debug("Trying to update StockItem wit id: " + id);
-		
-		//Find Item
+
+		// Find Item
 		StockItem item = stockRepo.find(id);
 		if (item == null) {
 			LOG.debug("QUERY: Could not update StockItem with id:" + id + ". Item not found! ");
 			throw new QueryException("Could not update StockItem with id:" + id + ". Item not found! ");
 		}
-		//Set new values
+		// Set new values
 		item.setSalesPrice(salesPrice);
 		item.setAmount(amount);
 		item.setMinStock(minStock);
@@ -211,17 +212,22 @@ public class StockQuery implements IStockQuery, Serializable {
 		if (stockRepo.update(item) == null) {
 			LOG.debug("QUERY: Could not update StockItem with id: " + item.getId());
 			throw new QueryException("Could not update StockItem with id: " + item.getId());
-			
+
 		}
 
 		LOG.debug("QUERY: Successfully updated StockItem with id: " + item.getId());
-		
+
+	}
+
+	private void updateStockItem(StockItem item) throws QueryException {
+		this.updateStockeItem(item.getId(), item.getSalesPrice(), item.getAmount(), item.getMinStock(),
+				item.getMaxStock(), item.getBarcode(), item.getIncomingAmount(), item.getName());
 	}
 
 	@Override
 	public void deleteStockItem(long stockItemId) throws QueryException {
 		LOG.debug("QUERY: Deleting StockItem from Database with id: " + stockItemId);
-		
+
 		if (stockRepo.delete(stockItemId)) {
 			LOG.debug("QUERY: Successfully deleted StockItem with id: " + stockItemId);
 			return;
@@ -230,4 +236,124 @@ public class StockQuery implements IStockQuery, Serializable {
 		throw new QueryException("Could not delete StockItem with id: " + stockItemId);
 	}
 
+	/**
+	 * Do Stock Exchange of certain item. <br>
+	 * The procedure calls other methods to get any available stock within the same
+	 * enterprise. It uses pseudo heuristics to determine how much items can be
+	 * exchanged <br>
+	 * 
+	 */
+	@Override
+	public void stockExchange(long stockItemId) throws QueryException {
+		LOG.debug("QUERY: Trying to exchange stock for stockItem with id: " + stockItemId);
+		/**
+		 * Notice: This is only a pseudo implementation. It was not necessary to do any
+		 * useful and correct product exchange
+		 */
+		StockItem item = stockRepo.find(stockItemId);
+
+		// do exchange only if necessary
+		if (item.getAmount() < item.getMinStock()) {
+			// Get all items with same productId and from same enterprise
+			Collection<StockItem> items = getStockItemsForExchange(item);
+
+			// Remove item that that's running out of stock to prevent self-donnation
+			items.remove(item);
+			applyExchange(items, item);
+		}
+
+	}
+
+	/*
+	 * This method does not really use any heuristics or checks any useful
+	 * conditions. We only transfer some items to the requesting store by increasing
+	 * the amount of the given stock item and decreasing the amount of the same
+	 * product (different stock item) of antoher store
+	 */
+	private void applyExchange(Collection<StockItem> items, StockItem item) throws QueryException {
+		LOG.debug("QUERY: Apply Heuristics!");
+		long desirableAmount = item.getMinStock() * 3; // randon number
+		long increasingAmount = 0;
+
+		List<StockItem> shuffleList = new ArrayList<>(items);
+		/*
+		 * Pseudo heuristic: We want not always the same items, and therefore the same
+		 * stores to provide items
+		 */
+		Collections.shuffle(shuffleList);
+
+		// List that holds items with changed (reduced/increased) amount
+		List<StockItem> newAmountList = new ArrayList<>();
+
+		/*
+		 * Iterate over List and decrease amount of other stock items as long as enough
+		 * items found
+		 */
+		for (StockItem shuffleItem : shuffleList) {
+
+			// Decrease Amount according to this policy
+			long decreasingAmount = applyHeusistics(shuffleItem);
+			long newAmount = shuffleItem.getAmount() - decreasingAmount;
+			// Only set if enough stock
+			if (newAmount > shuffleItem.getMinStock()) {
+				shuffleItem.setAmount(newAmount);
+				increasingAmount += decreasingAmount;
+				newAmountList.add(shuffleItem);
+
+			}
+			if (increasingAmount > desirableAmount) {
+				LOG.debug("QUERY: Enough Items found. Now, items are updated!");
+				// enough items already found
+				break;
+			}
+		}
+
+		/*
+		 * Only Update stock items if useful! Do not update, if all stores together
+		 * cannot provide enough items
+		 */
+		if (increasingAmount < desirableAmount) {
+			LOG.debug("QUERY: Not enough stock items available in all stores");
+			return;
+
+		}
+
+		// Set new amount and update the changed items
+		item.setAmount(item.getAmount() + increasingAmount);
+		newAmountList.add(item);
+		updateStockItemCollection(newAmountList);
+
+	}
+
+	/*
+	 * This method can be changed
+	 */
+	private long applyHeusistics(StockItem item) {
+		return Math.round(item.getAmount() / 2);
+	}
+
+	private void updateStockItemCollection(Collection<StockItem> items) throws QueryException {
+		for (StockItem item : items) {
+			this.updateStockItem(item);
+		}
+	}
+
+	/*
+	 * This Method provides all StockItems of each store in the
+	 */
+	private Collection<StockItem> getStockItemsForExchange(StockItem item) {
+
+		Collection<StockItem> items = new ArrayList<>();
+		// this is really ugly but works
+		for (Store store : item.getStore().getEnterprise().getStores()) {
+			// add all items of each store inb enterprise
+			items.addAll(store.getStockItems());
+		}
+
+		// filter all items that are not the same
+		items.stream().filter(it -> it.getProductId() == item.getProductId()).collect(Collectors.toList());
+
+		return items;
+
+	}
 }

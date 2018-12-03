@@ -13,4 +13,6 @@ public interface IStockManager {
 
 	StockItemViewData getStockItemByBarcodeAndStoreId(long barcode, long storeId) throws QueryException;
 
+	void doStockExchange(long stockItemId) throws QueryException;
+
 }

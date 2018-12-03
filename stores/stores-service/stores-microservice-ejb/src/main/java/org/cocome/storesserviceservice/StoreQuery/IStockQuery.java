@@ -46,4 +46,6 @@ public interface IStockQuery {
 	StockItem getStockItemByIdAndStore(long stockItemId, long storeId) throws QueryException;
 
 	StockItem getStockItemByBarcodeAndStore(long barcode, long storeId) throws QueryException;
+
+	void stockExchange(long stockItemId) throws QueryException;
 }

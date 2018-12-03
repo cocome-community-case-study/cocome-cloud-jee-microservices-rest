@@ -60,5 +60,14 @@ public class StockManager implements IStockManager, Serializable {
 
 		return StockItemViewData.fromStockItem(stockQuery.getStockItemByBarcodeAndStore(barcode, storeId));
 	}
+	
+	/**
+	 * Do stock Exchange according to UC8
+	 * @throws QueryException 
+	 */
+	 @Override
+	 public void doStockExchange(long stockItemId) throws QueryException {
+		 stockQuery.stockExchange(stockItemId);
+	 }
 
 }
