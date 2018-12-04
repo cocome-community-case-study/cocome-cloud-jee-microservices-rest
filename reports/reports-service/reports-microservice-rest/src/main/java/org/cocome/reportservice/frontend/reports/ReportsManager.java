@@ -44,6 +44,9 @@ public class ReportsManager implements IReportsManager, Serializable {
 	
 	@Inject 
 	IReportsInformation reportsInfo;
+	
+	Collection<TradingEnterpriseTO> enterprises;
+	private boolean init = false;
 
 	/**
 	 * Set active store ID: No check if store really exists. This is done during the
@@ -91,7 +94,7 @@ public class ReportsManager implements IReportsManager, Serializable {
 		} catch (QueryException e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
-			return null;
+			return e.getMessage();
 		}
 		return report.getReportText();
 	}
@@ -100,16 +103,36 @@ public class ReportsManager implements IReportsManager, Serializable {
 
 	@Override
 	public Collection<EnterpriseViewData> getEnterprises() {
-		Collection<TradingEnterpriseTO> enterprises = new LinkedList<>();
+		loadEnterprises();
+		
+		
+
+		return EnterpriseViewData.fromEnterpriseTOCollectio(enterprises);
+	}
+	
+	/**
+	 * Init Enterprises. Executed in metadata of enterpriseStockReport
+	 */
+	public void loadEnterprises() {
+		
+		if(init) {
+			return;
+		}
+		enterprises = new LinkedList<>();
+		init =true;
 		try {
 			enterprises = reportsquery.getAllEnterprises();
+			if(enterprises.isEmpty()) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "No Enterprises Available", null));
+			}
 		} catch (QueryException e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
 
 		}
-
-		return EnterpriseViewData.fromEnterpriseTOCollectio(enterprises);
+		
+		
 	}
 
 
