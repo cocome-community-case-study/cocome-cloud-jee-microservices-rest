@@ -31,4 +31,6 @@ public interface IStoreInformation {
 	
 	void updateStockItem(StockItemViewData item);
 
+	String getActiveStoreName();
+
 }

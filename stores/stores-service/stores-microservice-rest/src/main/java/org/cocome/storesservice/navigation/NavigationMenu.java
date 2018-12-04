@@ -46,6 +46,8 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 
 	private NavigationView navigationState = NavigationView.DEFAULT_VIEW;
 
+	private long activeStoreId = Long.MIN_VALUE;
+
 	/*
 	 * Saves whether the Proxy-Frontend requests Store oder Enterprise-Service <br>
 	 * true => Store <br> false => Enterprise <br>
@@ -89,6 +91,15 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	@Override
 	public NavigationView getCurrentState() {
 		return navigationState;
+	}
+
+	@Override
+	public long getActiveStoreId() {
+		return activeStoreId;
+	}
+	@Override
+	public void setActiveStoreId(long activeStoreId) {
+		this.activeStoreId = activeStoreId;
 	}
 
 	/**
@@ -182,6 +193,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	public void observe(@Observes UserInformationProcessedEvent event) {
 		this.currentUser = event.getUser();
 		this.navigationState = event.getRequestedNavViewState();
+		this.activeStoreId = event.getStoreID();
 
 		/*
 		 * StoreInformation also has an Observe ==> event.getStoreID is catched directly
