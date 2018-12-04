@@ -19,9 +19,10 @@ public interface IAuthenticator {
 	 * 
 	 * @param username
 	 * @param credential
+	 * @param requestedRole 
 	 * @return the user object or null if check failed
 	 */
-	public IUser checkCredential(String username, ICredential credential);
+	public IUser checkCredential(String username, ICredential credential, UserRole requestedRole);
 	
 	/**
 	 * 

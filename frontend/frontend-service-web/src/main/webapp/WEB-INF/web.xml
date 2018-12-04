@@ -22,7 +22,17 @@
 	<welcome-file-list>
 		<welcome-file>faces/login.xhtml</welcome-file>
 	</welcome-file-list>
+	<!-- We want to let 404/500 errors though the error handler as a requesting server needs to get a response -->
 	<error-page>
+		<error-code>404</error-code>
+		<location>/faces/errorHtml.xhtml</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/faces/errorHtml.xhtml</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
 		<location>/faces/error.xhtml</location>
 	</error-page>
 

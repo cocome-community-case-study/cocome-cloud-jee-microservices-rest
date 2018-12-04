@@ -19,6 +19,10 @@ public interface IUser {
 
 	public HashMap<String, IPermission> getPermissions();
 
+	UserRole getRole();
+
+	public boolean checkRole(UserRole requestedRole);
+
 	
 	
 	

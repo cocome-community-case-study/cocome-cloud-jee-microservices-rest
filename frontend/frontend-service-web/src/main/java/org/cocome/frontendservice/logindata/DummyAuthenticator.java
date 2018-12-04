@@ -37,7 +37,7 @@ public class DummyAuthenticator implements IAuthenticator {
 		ICredential cashierCredentials = new PlainCredential("cashier");
 		
 		//add permissions to admin
-		IUser admin = new DummyUser("admin", adminCredentials);
+		IUser admin = new DummyUser("admin", adminCredentials, UserRole.ADMIN);
 		admin.addPermission(cashierPermission);
 		admin.addPermission(stockPermission);
 		admin.addPermission(storePermission);
@@ -46,22 +46,22 @@ public class DummyAuthenticator implements IAuthenticator {
 		admin.addPermission(databasePermission);
 		
 		//add permissions to enterprisemanager
-		IUser enterpriseManager = new DummyUser("enterprisemanager", enterpriseCredentials);
+		IUser enterpriseManager = new DummyUser("enterprisemanager", enterpriseCredentials, UserRole.ENTERPRISE_MANAGER);
 		enterpriseManager.addPermission(enterprisePermission);
 		
 		//add permissions to storemanager
-		IUser storeManager = new DummyUser("storemanager", storeCredentials);
+		IUser storeManager = new DummyUser("storemanager", storeCredentials, UserRole.STORE_MANAGER);
 		storeManager.addPermission(storePermission);
 		storeManager.addPermission(stockPermission);
 		storeManager.addPermission(cashierPermission);
 		
 		//add permissions to stockmanager
-		IUser stockManager = new DummyUser("stockmanager", storeCredentials);
+		IUser stockManager = new DummyUser("stockmanager", storeCredentials, UserRole.STOCK_MANAGER);
 		stockManager.addPermission(stockPermission);
 		stockManager.addPermission(cashierPermission);
 		
 		//add permission to cashier
-		IUser cashier = new DummyUser("cashier", cashierCredentials);
+		IUser cashier = new DummyUser("cashier", cashierCredentials, UserRole.CASHIER);
 		cashier.addPermission(cashierPermission);
 		
 		
@@ -82,7 +82,7 @@ public class DummyAuthenticator implements IAuthenticator {
 	@Override
 	public boolean checkCredentials(IUser user) {
 		LOG.debug("Checking credentials of user...");
-		return checkCredential(user.getUsername(), user.getCredentials()) != null;
+		return checkCredential(user.getUsername(), user.getCredentials(), user.getRole()) != null;
 	}
 
 	@Override
@@ -95,17 +95,23 @@ public class DummyAuthenticator implements IAuthenticator {
 		return false;
 	}
 
+
+
 	@Override
-	public IUser checkCredential(String username, ICredential credential) {
+	public IUser checkCredential(String username, ICredential credential, UserRole requestedRole) {
 		if (credential != null && username != null && !username.trim().isEmpty()) {
 			IUser storedUser = users.get(username);
 			
 			if (storedUser != null) {
+				
+				
 				LOG.debug("Found user, checking credentials...");
-				if(storedUser.checkCredentials(credential)) {
+				if(storedUser.checkCredentials(credential) && storedUser.checkRole(requestedRole) ) {
 					return storedUser;
 				}
 				LOG.debug("Wrong credentials provided.");
+			
+			
 			} else {
 				LOG.warn("No user with name " + username + " found!");
 			}

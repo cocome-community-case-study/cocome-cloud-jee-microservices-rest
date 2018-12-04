@@ -36,7 +36,7 @@
 					</h:selectOneMenu>
 				</p>
 				<p>
-					<h:outputText value="Store ID: "/>
+					<h:outputText value="Store ID: " rendered="#{login.storeRequired}"/>
 					<h:inputText value="#{login.requestedStoreId}" rendered="#{login.storeRequired}"/>
 				</p>
 				<p>

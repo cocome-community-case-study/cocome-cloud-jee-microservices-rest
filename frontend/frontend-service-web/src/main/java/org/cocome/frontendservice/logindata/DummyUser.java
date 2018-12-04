@@ -17,6 +17,7 @@ public class DummyUser implements IUser {
 	private String username;
 	
 	private ICredential credentials;
+	private UserRole role;
 	
 	private HashMap<String, IPermission> permissions;
 	
@@ -24,22 +25,28 @@ public class DummyUser implements IUser {
 	
 	
 
-	public DummyUser(String username, String password) {
-		this(username, new PlainCredential(password));
+	public DummyUser(String username, String password, UserRole role) {
+		this(username, new PlainCredential(password), role);
 	}
 
-	public DummyUser(String username, ICredential credentials) {
+	public DummyUser(String username, ICredential credentials, UserRole role) {
 		this.username = username;
 		this.credentials = credentials;
 		this.permissions = new HashMap<String, IPermission>();
-	
+		this.role = role;
 		
 	}
 	
 	
 	
 	
+	@Override
+	public UserRole getRole() {
+		return role;
+	}
+
 	
+
 	@Override
 	public String getUsername() {
 		return username;
@@ -86,6 +93,11 @@ public class DummyUser implements IUser {
 	@Override
 	public HashMap<String, IPermission> getPermissions() {
 		return permissions;
+	}
+
+	@Override
+	public boolean checkRole(UserRole requestedRole) {
+		return this.role == requestedRole;
 	}
 	
 	

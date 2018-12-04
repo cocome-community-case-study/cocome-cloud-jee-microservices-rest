@@ -138,7 +138,7 @@ public class Login implements Serializable {
 	 */
 	public String login() {
 		//TODO check requested Role!
-		IUser storedUser = authenticator.checkCredential(username, password);
+		IUser storedUser = authenticator.checkCredential(username, password, requestedRole);
 		String outcome;
 
 		if (storedUser != null) {
