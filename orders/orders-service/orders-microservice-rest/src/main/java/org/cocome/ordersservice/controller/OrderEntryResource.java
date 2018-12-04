@@ -43,7 +43,12 @@ public class OrderEntryResource {
 	@GET
 	public Collection<OrderEntryTO> findAll(){
 		LOG.debug("REST: Find all Entries");
-		return toEntryTOCollection(entryQuery.getAllEntries());
+		try {
+			return toEntryTOCollection(entryQuery.getAllEntries());
+		} catch (QueryException e) {
+			LOG.debug("REST: Could not Query all Orders ") ;
+			throw new NotFoundException("Could not Query all Orders " );
+		}
 	}
 	
 	/**

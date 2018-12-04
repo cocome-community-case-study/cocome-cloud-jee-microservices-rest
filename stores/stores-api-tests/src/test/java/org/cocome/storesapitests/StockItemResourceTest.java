@@ -10,6 +10,7 @@ import org.cocome.storesclient.client.TradingEnterpriseClient;
 import org.cocome.storesclient.domain.StockItemTO;
 import org.cocome.storesclient.domain.StoreTO;
 import org.cocome.storesclient.domain.TradingEnterpriseTO;
+import org.cocome.storesclient.exception.StoreRestException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +19,7 @@ public class StockItemResourceTest {
 	private StoreTO store = new StoreTO();
 	
 	@Before
-	public void setup() {
+	public void setup() throws StoreRestException {
 		TradingEnterpriseClient enterpriseClient = new TradingEnterpriseClient();
 		TradingEnterpriseTO enterprise = new TradingEnterpriseTO();
 		enterprise.setName("CoCoME Inc.");
@@ -33,7 +34,7 @@ public class StockItemResourceTest {
 	}
 	
 	@Test
-	public void testCreateReadUpdateDelete() {
+	public void testCreateReadUpdateDelete() throws StoreRestException {
 		System.out.println("Testing creation of entity");
 		System.out.println("Store id is: " + this.store.getId());
 		StockItemTO stockItem = new StockItemTO();
@@ -44,7 +45,7 @@ public class StockItemResourceTest {
 		stockItem.setProductId(1);
 		stockItem.setSalesPrice(9.99d);
 		stockItem.setBarcode(1234);  //Normally this has to be the products barcode
-		stockItem.setStore(store);
+		stockItem.setStoreId(store.getId());
 		long id = this.client.create(stockItem, this.store.getId());
 		stockItem.setId(id);
 		
@@ -60,15 +61,14 @@ public class StockItemResourceTest {
 		
 		stockItem.setId(id);
 		stockItem.setSalesPrice(12.99d);
-		boolean updateSuccess = this.client.update(stockItem);
+		this.client.update(stockItem);
 		
-		assertTrue(updateSuccess);
+		
 		
 		System.out.println("Testing deletion of entity");
 		
 		stockItem.setId(id);
-		//boolean deleteSuccess = this.client.delete(stockItem);
+		this.client.delete(stockItem);
 		
-		//assertTrue(deleteSuccess);
 	}
 }

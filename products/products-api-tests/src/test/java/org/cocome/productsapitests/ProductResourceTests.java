@@ -1,11 +1,14 @@
 package org.cocome.productsapitests;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.cocome.productsclient.client.ProductClient;
 import org.cocome.productsclient.client.ProductSupplierClient;
 import org.cocome.productsclient.domain.ProductSupplierTO;
 import org.cocome.productsclient.domain.ProductTO;
+import org.cocome.productsclient.exception.ProductsRestException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +19,7 @@ public class ProductResourceTests {
 	
 	 
 	@Before
-	public void setup() { 
+	public void setup() throws ProductsRestException { 
 	 
 		this.supplier.setName("Apfel Computer");
 		
@@ -25,7 +28,7 @@ public class ProductResourceTests {
 	}
 	
 	@Test
-	public void testCreateReadUpdateDelete() {
+	public void testCreateReadUpdateDelete() throws ProductsRestException {
 		System.out.println("Testing creation of entity");
 		
 		ProductTO product = new ProductTO();
@@ -42,22 +45,22 @@ public class ProductResourceTests {
 		
 		System.out.println("Testing finding of entity");
 		
-//		product = this.client.find(product.getId());
-//		assertNotNull(product);
-//		
-//		System.out.println("Testing updating entity");
-//		
-//		product.setId(id);
-//		product.setName("New Name");
-//		boolean updateSuccess = this.client.update(product);
-//		
-//		assertTrue(updateSuccess);
-//		
-//		System.out.println("Testing deletion of entity");
-//		
-//		product.setId(id);
-//		boolean deleteSuccess = this.client.delete(product);
-//		
-//		assertTrue(deleteSuccess);
+		product = this.client.find(product.getId());
+		assertNotNull(product);
+		
+		System.out.println("Testing updating entity");
+		
+		product.setId(id);
+		product.setName("New Name");
+		this.client.update(product);
+		
+		
+		
+		System.out.println("Testing deletion of entity");
+		
+		product.setId(id);
+		this.client.delete(product);
+		
+		
 	}
 }

@@ -170,12 +170,18 @@ public class EntryQuery implements IEntryQuery, Serializable {
 	/**
 	 * Simple CRUD-Entry to retrieve all available Entries. <br>
 	 * Logically, this function should never been used.
+	 * @throws QueryException 
 	 */
 	@Override
-	public Collection<OrderEntry> getAllEntries() {
+	public Collection<OrderEntry> getAllEntries() throws QueryException {
 		LOG.debug("QUERY: Find all Entries");
-
-		return entryRepo.all();
+        Collection<OrderEntry> entries = entryRepo.all();
+        
+        if(entries == null) {
+        	LOG.debug("QUERY: Could not retrieve all entries");
+    		throw new QueryException("Could not retrieve all entries");
+        }
+		return entries;
 	}
 
 }

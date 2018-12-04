@@ -12,7 +12,7 @@ public interface IEntryQuery {
 
 	Collection<OrderEntry> getEntriesByOrderId(@NotNull long OrderId) throws QueryException;
 	
-	Collection<OrderEntry> getAllEntries();
+	Collection<OrderEntry> getAllEntries() throws QueryException;
 	
 	long createEntry(@NotNull long orderId, @NotNull long productId, @NotNull long amount) throws CreateException;
 	

@@ -16,7 +16,7 @@ public interface IOrderQuery {
 	
 	ProductOrder findOrderById(@NotNull long id) throws QueryException;
 	
-	Collection<ProductOrder> getAllOrders();
+	Collection<ProductOrder> getAllOrders() throws QueryException;
 	
 	void updateOrder(@NotNull long id, @NotNull Date deliveryDate, @NotNull Date orderingDate) throws QueryException;
 	

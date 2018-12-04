@@ -6,13 +6,14 @@ import static org.junit.Assert.assertTrue;
 
 import org.cocome.storesclient.client.TradingEnterpriseClient;
 import org.cocome.storesclient.domain.TradingEnterpriseTO;
+import org.cocome.storesclient.exception.StoreRestException;
 import org.junit.Test;
 
 public class TradingEnterpriseResourceTest {
 	private TradingEnterpriseClient client = new TradingEnterpriseClient();
 	
 	@Test
-	public void testCreateReadUpdateDelete() {
+	public void testCreateReadUpdateDelete() throws StoreRestException {
 		System.out.println("Testing creation of entity");
 		
 		TradingEnterpriseTO enterprise = new TradingEnterpriseTO();
@@ -32,15 +33,15 @@ public class TradingEnterpriseResourceTest {
 		
 		enterprise.setId(id);
 		enterprise.setName("New Name");
-		boolean updateSuccess = this.client.update(enterprise);
+		this.client.update(enterprise);
 		
-		assertTrue(updateSuccess);
+		
 		
 		System.out.println("Testing deletion of entity");
 		
 		enterprise.setId(id);
-		//boolean deleteSuccess = this.client.delete(enterprise);
+		this.client.delete(enterprise);
 		
-		//assertTrue(deleteSuccess);
+	
 	}
 }

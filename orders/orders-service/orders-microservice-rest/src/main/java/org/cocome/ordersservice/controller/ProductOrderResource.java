@@ -56,7 +56,12 @@ public class ProductOrderResource {
 	@GET
 	public Collection<ProductOrderTO> findAll() {
 		LOG.debug("REST: Try to find all Orders");
-		return toProductOrderTOCollection(orderQuery.getAllOrders());
+		try {
+			return toProductOrderTOCollection(orderQuery.getAllOrders());
+		} catch (QueryException e) {
+			LOG.debug("REST: Could not Query alls Orders");
+			throw new NotFoundException(e.getMessage());
+		}
 
 	}
 	

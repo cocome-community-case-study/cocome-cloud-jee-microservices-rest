@@ -73,12 +73,18 @@ public class OrderQuery implements IOrderQuery, Serializable {
 
 	/**
 	 * Simple CRUD-Functionality to get all Orders from repository
+	 * @throws QueryException 
 	 */
 	@Override
-	public Collection<ProductOrder> getAllOrders() {
+	public Collection<ProductOrder> getAllOrders() throws QueryException {
 
 		// find all orders
 		Collection<ProductOrder> orders = orderRepo.all();
+		
+		if(orders == null) {
+			LOG.error("QUERY: Could retreive all orders");
+			throw new QueryException("Could retreive all orders");
+		}
 
 		// Logging
 		StringBuilder sb = new StringBuilder();
