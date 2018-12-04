@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.ejb.ApplicationException;
 import javax.ejb.CreateException;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;

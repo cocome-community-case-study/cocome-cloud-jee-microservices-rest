@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.ejb.CreateException;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
@@ -17,7 +18,7 @@ import org.cocome.ordersservice.entryquery.IEntryQuery;
  *
  */
 @Named
-@ApplicationScoped
+@SessionScoped
 public class EntryManager implements IEntryManager, Serializable {
 
 	private static final long serialVersionUID = 1151268760064780617L;
