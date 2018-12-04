@@ -36,4 +36,8 @@ public interface INavigationMenu {
 	 * @return the current state
 	 */
 	NavigationView getCurrentState();
+
+	long getActiveStoreId();
+
+	void setActiveStoreId(long activeStoreId);
 }

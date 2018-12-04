@@ -45,6 +45,8 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	private IUser currentUser;
 
 	private NavigationView navigationState = NavigationView.DEFAULT_VIEW;
+	
+	private long activeStoreId= Long.MIN_VALUE;
 
 
 	@PostConstruct
@@ -128,6 +130,16 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 			return NavigationElements.ERROR.getNavigationOutcome();
 		}
 	}
+	
+	@Override
+	public long getActiveStoreId() {
+		return activeStoreId;
+	}
+
+	@Override
+	public void setActiveStoreId(long activeStoreId) {
+		this.activeStoreId = activeStoreId;
+	}
 
 	/**
 	 * Change Header according to requested View
@@ -146,7 +158,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	public void observe(@Observes UserInformationProcessedEvent event) {
 		this.currentUser = event.getUser();
 		this.navigationState = event.getRequestedNavViewState();
-
+		this.activeStoreId = event.getStoreID();
 		/*
 		 * StoreInformation also has an Observe ==> event.getStoreID is catched directly
 		 * at this class

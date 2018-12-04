@@ -1,11 +1,13 @@
 package org.cocome.productsservice.frontend.supplier;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -25,9 +27,13 @@ import org.cocome.productsservice.supplierquery.ISupplierQuery;
  */
 
 @Named
-@ApplicationScoped
-public class SupplierManager implements ISupplierManager {
+@SessionScoped
+public class SupplierManager implements ISupplierManager, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3326890726095755268L;
 	@EJB
 	ISupplierQuery supplierQuery;
 	/*
