@@ -1,4 +1,4 @@
-package org.cocome.productsservice.util;
+package org.cocome.ordersservice.util;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.MediaType;
@@ -22,9 +22,9 @@ import org.apache.log4j.Logger;
  *
  */
 @Provider
-public class StoresserviceExceptionMapper implements ExceptionMapper<NotFoundException> {
+public class OrdersServiceExceptionMapper implements ExceptionMapper<NotFoundException> {
 
-	private final Logger LOG = Logger.getLogger(StoresserviceExceptionMapper.class);
+	private final Logger LOG = Logger.getLogger(OrdersServiceExceptionMapper.class);
 
 	@Override
 	public Response toResponse(NotFoundException exception) {
