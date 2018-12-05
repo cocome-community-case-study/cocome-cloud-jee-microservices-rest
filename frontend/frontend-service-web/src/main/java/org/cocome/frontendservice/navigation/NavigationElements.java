@@ -1,5 +1,8 @@
 package org.cocome.frontendservice.navigation;
 
+import org.apache.log4j.Logger;
+import org.cocome.frontendservice.util.ResourceLoader;
+
 /**
  * Possible Navigation Links ==> If an Service is added, just change this Enum
  * and add new NavigationELement in NavigationMenu
@@ -9,18 +12,28 @@ package org.cocome.frontendservice.navigation;
  *
  */
 public enum NavigationElements {
+	
+	
 
-	// TODO Links anpassen ggf. mit setttings.xml
-	LOGIN("/login.xhtml", "Login"),
-	DEFAULT("http://localhost:8580/frontendservice/faces/templates/defaultView.xhtml", "Default"),
-	ENTERPRISE("http://localhost:8880/storesmicroservice/faces/enterprise_main.xhtml", "Enterprise"),
-	STORE("http://localhost:8880/storesmicroservice/faces/store_main.xhtml", "Store"),
-	PRODUCTS("http://localhost:8980/productsmicroservice/faces/products_main.xhtml", "Products"),
-	ORDERS("http://localhost:8780/ordersmicroservice/faces/orders_main.xhtml", "Orders"),
-	REPORTS("http://localhost:8680/reportsmicroservice/faces/reports_main.xhtml", "Reports");
+
+	/*
+	 * 
+	 * Navigation Outcomes are saved in Config.properties file and loaded via
+	 * ResourceLoader class
+	 */
+	 
+	LOGIN("org.cocome.login", "Login"),
+	DEFAULT("org.cocome.default", "Default"),
+	ENTERPRISE("org.cocome.enterpriseservice", "Enterprise"),
+	STORE("org.cocome.storesservice", "Store"),
+	PRODUCTS("org.cocome.productsservice", "Products"),
+	ORDERS("org.cocome.ordersservice", "Orders"),
+	REPORTS("org.cocome.reportsservice", "Reports");
+	
 
 	private String navOutcome;
 	private String labelName;
+	private static final Logger LOG = Logger.getLogger(NavigationMenu.class);
 
 	private NavigationElements(String navOutcome, String labelName) {
 		this.navOutcome = navOutcome;
@@ -28,11 +41,15 @@ public enum NavigationElements {
 	}
 
 	public String getNavOutcome() {
-		return navOutcome;
+		String outcome = ResourceLoader.getProperty(navOutcome);
+		LOG.debug("Requesting outcome for " + labelName +". Outcome is: " +outcome);
+		return outcome;
 	}
 
 	public String getLabelName() {
 		return labelName;
 	}
+	
+	
 
 }

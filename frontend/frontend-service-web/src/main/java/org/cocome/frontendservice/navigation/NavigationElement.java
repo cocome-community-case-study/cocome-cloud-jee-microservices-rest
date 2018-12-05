@@ -1,5 +1,7 @@
 package org.cocome.frontendservice.navigation;
 
+import org.cocome.frontendservice.util.ResourceLoader;
+
 /**
  * Navigation Element are the Click Buttons in the frontend Header
  * 
@@ -25,7 +27,7 @@ public class NavigationElement implements INavigationElement {
 	 */
 	@Override
 	public String getNavOutcome() {
-
+				
 		return this.navOutcome;
 	}
 

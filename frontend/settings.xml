@@ -1,6 +1,6 @@
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
                           https://maven.apache.org/xsd/settings-1.0.0.xsd">
 
 	<profiles>
@@ -9,14 +9,43 @@
 			<properties>
 				<!-- deployment properties -->
 
-				<!-- logic node deployment configuration -->
+				<!-- node deployment configuration -->
 				<frontendservice.protocol>http</frontendservice.protocol>
-				<frontendservice.domain>frontendmicroservice</frontendservice.domain>
+				<frontendservice.domain>frontendservice</frontendservice.domain> <!-- NOTE: This is a service, not Microservice -->
 				<frontendservice.host>localhost</frontendservice.host>
 				<frontendservice.httpPort>8580</frontendservice.httpPort>
 				<frontendservice.adminPort>8548</frontendservice.adminPort>
 				<frontendservice.user>admin</frontendservice.user>
 				<frontendservice.password></frontendservice.password>
+
+				<!-- Do not change the protocol and domain, as they are used to include 
+					the micro frontends of the specific services -->
+
+				<!-- resource configuration store/enterprise -->
+				<storesmicroservice.protocol>http</storesmicroservice.protocol>
+				<storesmicroservice.domain>storesmicroservice</storesmicroservice.domain>
+				<storesmicroservice.host>localhost</storesmicroservice.host>
+				<storesmicroservice.httpPort>8880</storesmicroservice.httpPort>
+
+				<!-- resource configuration products -->
+				<productsmicroservice.protocol>http</productsmicroservice.protocol>
+				<productsmicroservice.domain>productsmicroservice</productsmicroservice.domain>
+				<productsmicroservice.host>localhost</productsmicroservice.host>
+				<productsmicroservice.httpPort>8980</productsmicroservice.httpPort>
+
+				<!-- resource configuration orders -->
+				<ordersmicroservice.protocol>http</ordersmicroservice.protocol>
+				<ordersmicroservice.domain>ordersmicroservice</ordersmicroservice.domain>
+				<ordersmicroservice.host>localhost</ordersmicroservice.host>
+				<ordersmicroservice.httpPort>8780</ordersmicroservice.httpPort>
+
+				<!-- resource configuration reports -->
+				<reportsmicroservice.protocol>http</reportsmicroservice.protocol>
+				<reportsmicroservice.domain>reportsmicroservice</reportsmicroservice.domain>
+				<reportsmicroservice.host>localhost</reportsmicroservice.host>
+				<reportsmicroservice.httpPort>8680</reportsmicroservice.httpPort>
+
+
 			</properties>
 		</profile>
 	</profiles>
