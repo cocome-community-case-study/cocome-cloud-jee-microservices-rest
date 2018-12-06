@@ -15,14 +15,12 @@
 
 
 							<f:ajax render=":content">
-
-
+							<!-- Content is the IFrame panel Group -->
 								<h:commandLink value="#{navElement.displayText}"
 									action="#{microserviceRedirecter.redirect(navElement)}"
 									styleClass="#{view.viewId eq (navElement.navOutcome += '.xhtml')? 'active-nav-element nav-element' : 'nav-element'}">
 								
 								</h:commandLink>
-
 							</f:ajax>
 
 						</ui:repeat></td>

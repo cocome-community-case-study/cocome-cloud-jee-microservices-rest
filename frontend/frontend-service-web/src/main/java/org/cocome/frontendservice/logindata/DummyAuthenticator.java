@@ -34,7 +34,9 @@ public class DummyAuthenticator implements IAuthenticator {
 		ICredential adminCredentials = new PlainCredential("admin");
 		ICredential enterpriseCredentials = new PlainCredential("enterprise");
 		ICredential storeCredentials = new PlainCredential("store");
+		ICredential stockCredentials = new PlainCredential("stock");
 		ICredential cashierCredentials = new PlainCredential("cashier");
+		ICredential databaseCredentials = new PlainCredential("database");
 		
 		//add permissions to admin
 		IUser admin = new DummyUser("admin", adminCredentials, UserRole.ADMIN);
@@ -53,16 +55,20 @@ public class DummyAuthenticator implements IAuthenticator {
 		IUser storeManager = new DummyUser("storemanager", storeCredentials, UserRole.STORE_MANAGER);
 		storeManager.addPermission(storePermission);
 		storeManager.addPermission(stockPermission);
-		storeManager.addPermission(cashierPermission);
+		
 		
 		//add permissions to stockmanager
-		IUser stockManager = new DummyUser("stockmanager", storeCredentials, UserRole.STOCK_MANAGER);
+		IUser stockManager = new DummyUser("stockmanager", stockCredentials, UserRole.STOCK_MANAGER);
 		stockManager.addPermission(stockPermission);
-		stockManager.addPermission(cashierPermission);
+		
 		
 		//add permission to cashier
 		IUser cashier = new DummyUser("cashier", cashierCredentials, UserRole.CASHIER);
 		cashier.addPermission(cashierPermission);
+		
+		IUser databaseManager = new DummyUser("databasemanager", databaseCredentials, UserRole.DATABASE_MANAGER);
+		admin.addPermission(databasePermission);
+		
 		
 		
 		//add user to userList
@@ -71,6 +77,7 @@ public class DummyAuthenticator implements IAuthenticator {
 		users.put(storeManager.getUsername(), storeManager);
 		users.put(stockManager.getUsername(), stockManager);
 		users.put(cashier.getUsername(), cashier);
+		users.put(databaseManager.getUsername(), databaseManager);
 	}
 	
 	@PostConstruct

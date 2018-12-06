@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import org.cocome.frontendservice.logindata.IUser;
+
 
 /**
  * This class creates the NavigationMenu-Bar of the Frontend-Header.
@@ -42,6 +44,8 @@ public interface INavigationMenu {
 	 * @return the current state
 	 */
 	NavigationView getCurrentState();
+
+	IUser getCurrentUser();
 
 	
 

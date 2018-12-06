@@ -77,7 +77,7 @@ public class UserInformation implements Serializable {
 			this.user.addPermissions(userPOJO.getPermissions());
 
 			LOG.debug("Deserialization of  UserPOJO with name: " + userPOJO.getUsername() + " and Permissions: "
-					+ userPOJO.getPermissions() + " and UserRole: " + userPOJO.getUserRole() + " successfull");
+					+ userPOJO.getPermissions() + " and UserRole: " + userPOJO.getUserRole() + " and requested View: " + userPOJO.getRequestedView() +" successfull");
 
 			userInfoProcessedEvent.fire(new UserInformationProcessedEvent(this.user, userPOJO.getUserRole(),
 					userPOJO.getRequestedView(), userPOJO.getStoreID()));

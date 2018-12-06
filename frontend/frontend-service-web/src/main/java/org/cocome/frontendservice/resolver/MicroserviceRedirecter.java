@@ -7,6 +7,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.cocome.frontendservice.logindata.UserRole;
 import org.cocome.frontendservice.navigation.INavigationMenu;
 import org.cocome.frontendservice.navigation.NavigationElement;
 import org.cocome.frontendservice.navigation.NavigationElements;
@@ -39,12 +40,14 @@ public class MicroserviceRedirecter implements IServiceRedirecter, Serializable 
 	@PostConstruct
 	public void init() {
 
-		
 		navOutcome = NavigationElements.DEFAULT.getNavOutcome();
 
 	}
 
 	public void redirect(NavigationElement navElement) {
+		if (navOutcome == navElement.getNavOutcome()) {
+			return;
+		}
 
 		switch (navElement.getNavElementAsEnum()) {
 		case DEFAULT:
@@ -71,7 +74,7 @@ public class MicroserviceRedirecter implements IServiceRedirecter, Serializable 
 			navMenu.changeStateTo(NavigationView.REPORTS_VIEW);
 			navOutcome = navElement.getNavOutcome();
 			break;
-		
+
 		default:
 			navMenu.changeStateTo(NavigationView.DEFAULT_VIEW); // TODO Better default case?
 			navOutcome = navElement.getNavOutcome();
@@ -82,6 +85,16 @@ public class MicroserviceRedirecter implements IServiceRedirecter, Serializable 
 	}
 
 	public String getNavOutcome() {
+		/*
+		 * This is an ugly workaround to redirect the cashier directly to his store
+		 * service. This is done this way, because s/he should not click on "Store"
+		 * navigation, as this rerenders the session of the storesservice and destroys
+		 * the scope (delete current cashdesk nam, expressmode etc)
+		 */
+		if (navMenu.getCurrentUser().checkRole(UserRole.CASHIER)) {
+			navMenu.changeStateTo(NavigationView.STORE_VIEW);
+			return NavigationElements.STORE.getNavOutcome();
+		}
 		return navOutcome;
 	}
 

@@ -64,14 +64,13 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 
 		List<INavigationElement> storeViewList = populateStoreView();
 
-		List<INavigationElement> cashpadViewList = populateCashpadView();
+		
 
 		List<INavigationElement> defaultViewList = populateDefaultView();
 
 		STATE_MAP = new HashMap<>(NavigationView.values().length, 1);
 		STATE_MAP.put(NavigationView.ENTERPRISE_VIEW, enterpriseViewList);
 		STATE_MAP.put(NavigationView.STORE_VIEW, storeViewList);
-		STATE_MAP.put(NavigationView.CASHPAD_VIEW, cashpadViewList);
 		STATE_MAP.put(NavigationView.DEFAULT_VIEW, defaultViewList);
 		STATE_MAP = Collections.unmodifiableMap(STATE_MAP);
 
@@ -160,9 +159,6 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		}
 
 		switch (newState) {
-		case CASHPAD_VIEW:
-			isStoreService = true;
-			return NavigationElements.START_SALE.getNavigationOutcome();
 		case STORE_VIEW:
 			isStoreService = true;
 			return NavigationElements.STORE_MAIN.getNavigationOutcome();
@@ -203,11 +199,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		changeStateTo(navigationState);
 	}
 
-	private List<INavigationElement> populateCashpadView() {
-		List<INavigationElement> cashpadViewList = new LinkedList<>();
-		cashpadViewList.add(new NavigationElement(NavigationElements.ENTERPRISE_MAIN, labelResolver));
-		return cashpadViewList;
-	}
+	
 
 	/*
 	 * Navigation ELements for StoreView
