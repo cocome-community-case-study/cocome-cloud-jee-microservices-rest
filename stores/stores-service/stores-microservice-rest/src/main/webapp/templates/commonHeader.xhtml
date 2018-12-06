@@ -18,25 +18,24 @@
 											<ui:include src="/templates/commonNavigation.xhtml" />
 										</ui:insert></td>
 									<td align="left" width="20%">
-										<table >
+										<table>
 											<!-- HIER NOCH ÄNDERN DASS DSA NICHTMEHR ANGEZEIGT werden -->
 											<h:panelGroup id="enterpriseInfo"
 												rendered="#{enterpriseInformation.enterpriseSet and not navigationMenu.storeService}">
 												<tr>
 													<td><h:outputText
-															value="#{strings['header.enterprise.text']}" /></td>
-													<td><h:form>
-
-															<h:link outcome="show_stores"
-																value="#{enterpriseInformation.activeEnterprise.name}"
-																title="#{strings['enterprise.table.action.show_stores']}">
-
-																<f:param name="enterprise_id"
-																	value="#{enterpriseInformation.activeEnterpriseId}" />
-															</h:link>
-														</h:form></td>
+															value="#{strings['header.enterprise.text']}">
+														</h:outputText></td>
+														
+													<td><h:outputText value="#{enterpriseInformation.activeEnterprise.name}">
+													
+													</h:outputText>
+													
+													</td>
+													
 												</tr>
 											</h:panelGroup>
+
 											<h:panelGroup id="storeInfo"
 												rendered="#{navigationMenu.storeService and storeInformation.storeSet}">
 												<tr>
@@ -46,6 +45,17 @@
 															value="#{storeInformation.activeStoreName}" /></td>
 												</tr>
 											</h:panelGroup>
+											<h:panelGroup id="cashdeskInfo"
+												rendered="#{not cashDeskView.cashDeskNameNeeded}">
+												<tr>
+													<td><h:outputText
+															value="#{strings['header.cashdesk.text']}" /></td>
+													<td><h:outputText
+															value="#{cashDesk.cashDeskName}" /></td>
+												</tr>
+											</h:panelGroup>
+
+
 										</table>
 									</td>
 
