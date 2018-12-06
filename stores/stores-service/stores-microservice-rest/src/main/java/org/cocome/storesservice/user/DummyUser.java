@@ -39,12 +39,7 @@ public class DummyUser implements IUser {
 		return stored != null;
 	}
 
-	@Override
-	public void addPermission(IPermission permission) {
-		if (permission != null) {
-			permissions.put(permission.getName(), permission);
-		}
-	}
+	
 
 	@Override
 	public boolean hasPermissionString(String permission) {

@@ -11,7 +11,7 @@ public interface IUser {
 	
 	public boolean hasPermission(IPermission permission);
 	
-	public void addPermission(IPermission permission);
+	
 
 	public HashMap<String, IPermission> getPermissions();
 	public void addPermissions(HashMap<String, IPermission> permissions);

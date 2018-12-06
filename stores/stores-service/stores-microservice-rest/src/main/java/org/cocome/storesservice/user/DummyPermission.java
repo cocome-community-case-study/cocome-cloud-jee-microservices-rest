@@ -24,10 +24,7 @@ public class DummyPermission implements IPermission {
 		this.name = name.toLowerCase();
 	}
 	
-	@Override
-	public void setName(String name) {
-		this.name = name.toLowerCase();
-	}
+	
 
 	@Override
 	public String getName() {
