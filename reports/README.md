@@ -3,7 +3,7 @@ Reports Service
 
 ## Deployment Setup
 
-**Prerequisites**: Java8, Maven and Glassfish installed and ready to use.
+**Prerequisites**: Java8, Maven and Payara (not glassfish) installed and ready to use.
 
 Before the first deployment, the domain for the jee application (which is the reports microservice) has to be created.
 
@@ -34,7 +34,7 @@ mvn -s settings.xml clean post-clean
 
 ## RESTful API
 
-URI Schema: `http://{hostname}:8680/storesmicroservice/rest` + resource path
+URI Schema: `http://{hostname}:8680/reportsmicroservice/rest` + resource path
 
 ### Resource: Report
 

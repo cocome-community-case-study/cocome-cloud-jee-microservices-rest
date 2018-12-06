@@ -15,12 +15,12 @@ asadmin create-domain --portbase 8700 ordersmicroservice
 After that, a JBCD resource has to be created.
 
 ```bash
-asadmin create-jdbc-resource --connectionpoolid DerbyPool --host localhost --port 8748  jdbc/CoCoMEOrdersServiceDB
+asadmin create-jdbc-resource --connectionpoolid H2Pool --host localhost --port 8748  jdbc/CoCoMEOrdersServiceDB
 ```
 
 ## RESTful API
 
-URI Schema: `http://{hostname}:8780/storesmicroservice/rest` + resource path
+URI Schema: `http://{hostname}:8780/ordersmicroservice/rest` + resource path
 
 ### Resource: Product Order
 

@@ -3,7 +3,7 @@ Products Service
 
 ## Deployment Setup
 
-**Prerequisites**: Java8, Maven and Glassfish installed and ready to use.
+**Prerequisites**: Java8, Maven and Payara(not Glassfish) installed and ready to use.
 
 Before the first deployment, the domain for the jee application (which is the products microservice) has to be created.
 

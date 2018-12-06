@@ -7,13 +7,13 @@ This service acts as the interface between the microservices that implement the 
 
 ## Deployment Setup
 
-**Prerequisites**: Java8, Maven and Glassfish installed and ready to use.
+**Prerequisites**: Java8, Maven and Payara (not Glassfish) installed and ready to use.
 
 Before the first deployment, the domain for the jee application (which is the frontend service) has to be created.
 
 
 ```bash
-asadmin create-domain --portbase 9000 frontendservice
+asadmin create-domain --portbase 8500 frontendservice
 ```
 
 ### Deploying into Glassfish
@@ -21,7 +21,7 @@ asadmin create-domain --portbase 9000 frontendservice
 Start the domain first.
 
 ```bash
-asadmin start-domain frontendmicroservice
+asadmin start-domain frontendservice
 ```
 
 Then use maven to compile the sources, build the deployment package and deploy to glassfish.
