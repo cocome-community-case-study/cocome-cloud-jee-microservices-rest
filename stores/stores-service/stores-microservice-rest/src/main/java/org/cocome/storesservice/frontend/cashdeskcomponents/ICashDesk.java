@@ -44,4 +44,8 @@ public interface ICashDesk {
 	boolean isSaleFinished();
 
 	void setSaleFinished(boolean saleFinished);
+
+	void checkExpressMode(int numberOfSaleItems);
+
+	int getMaxItemsExpressMode();
 }

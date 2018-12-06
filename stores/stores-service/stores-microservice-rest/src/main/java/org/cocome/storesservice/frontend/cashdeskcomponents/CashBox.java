@@ -17,7 +17,9 @@ import org.cocome.external.IBankLocal;
 import org.cocome.external.TransactionID;
 import org.cocome.storesservice.events.CashAmountEnteredEvent;
 import org.cocome.storesservice.events.ChangeAmountCalculatedEvent;
+import org.cocome.storesservice.events.CheckExpressModeEvent;
 import org.cocome.storesservice.events.CreditCardPaymentSuccessfulEvent;
+import org.cocome.storesservice.events.EnoughItemsForExpressModeEvent;
 import org.cocome.storesservice.events.InsufficientCashAmountEvent;
 import org.cocome.storesservice.events.InsufficientCreditCardBalanceEvent;
 import org.cocome.storesservice.events.InvalidCreditCardDetailsEvent;
@@ -47,6 +49,9 @@ public class CashBox implements ICashBox, Serializable {
 	@Inject
 	IStockManager stockManager;
 
+	@Inject
+	ICashDesk cashDesk;
+
 	@EJB
 	IBankLocal bank;
 
@@ -73,20 +78,32 @@ public class CashBox implements ICashBox, Serializable {
 
 	@Inject
 	Event<SaleUnsuccessfulEvent> saleUnsuccessEvent;
-	
+
 	@Inject
 	Event<InsufficientCreditCardBalanceEvent> insuffiecientCreditVardBalanceEvent;
-	
+
 	@Inject
 	Event<InvalidCreditCardDetailsEvent> invalidCreditCardDetailsEvent;
-	
+
 	@Inject
 	Event<CreditCardPaymentSuccessfulEvent> creditCardPaymentSuccessfullEvent;
+
+	@Inject
+	Event<CheckExpressModeEvent> checkExpressModeEvent;
+
+	@Inject
+	Event<EnoughItemsForExpressModeEvent> enoughItemsForExpressModeEvent;
 
 	private static final long serialVersionUID = 3992593730770915195L;
 	private String barcode;
 	private double runningTotal;
-	private List<StockItemViewData> saleProducts = new ArrayList<>();
+	private List<StockItemViewData> saleProducts;
+
+	/*
+	 * We do not add an item to saleProducts if it already exists. But we need the
+	 * absolute amount of items in current sale for express mode. This is stored in this variable
+	 */
+	private int saleProductsCounter;
 
 	private static final Logger LOG = Logger.getLogger(CashBox.class);
 
@@ -94,6 +111,8 @@ public class CashBox implements ICashBox, Serializable {
 	private void init() {
 		this.barcode = "";
 		this.setRunningTotal(0.0);
+		saleProducts = new ArrayList<>();
+		saleProductsCounter = 0;
 	}
 
 	/**
@@ -105,8 +124,6 @@ public class CashBox implements ICashBox, Serializable {
 			barcode += nextDigit;
 		}
 	}
-	
-	
 
 	@Override
 	public String getBarcode() {
@@ -137,6 +154,8 @@ public class CashBox implements ICashBox, Serializable {
 	public void startSale() {
 		resetBarcode();
 		this.runningTotal = 0.0;
+		this.saleProducts.clear();
+		this.saleProductsCounter = 0;
 
 	}
 
@@ -156,7 +175,11 @@ public class CashBox implements ICashBox, Serializable {
 	 */
 	@Override
 	public void addItemToSale(long barcode, long storeId) {
-		// TODO already enough Items => ExpressCheckout policy
+		LOG.debug("FRONTEND: Trying to add product with barcode " + barcode + " to sale!");
+		if (checkIfAlreadyEnoughItems()) {
+			LOG.debug("FRONTEND: Could not add item with barcode " + barcode + " to sale. Express Mode enabled");
+			return;
+		}
 
 		StockItemViewData item;
 
@@ -171,11 +194,28 @@ public class CashBox implements ICashBox, Serializable {
 
 		// add it to sale
 		if (addItemToSale(item)) {
+			saleProductsCounter++; //this is needed for expressmode counting
 			final double price = item.getSalesPrice();
 			this.runningTotal = this.computeNewRunningTotal(price);
-
 			this.sendRunningTotalChangedEvent(item.getName(), price);
+			LOG.debug("FRONTEND: Successfully added stock item with barcode " + item.getBarcode() + " to sale");
 		} // else: error is covered by productoutofStockEvent
+
+	}
+
+	private boolean checkIfAlreadyEnoughItems() {
+		LOG.debug("FRONTEND: Check if item can be added to sale or sale already exceeds Express mode amount. ");
+		LOG.debug("FRONTEND: Current size of sale list is: " + saleProducts.size());
+		if (!cashDesk.isInExpressMode()) {
+			LOG.debug("FRONTEND: Not in Express Mode. Can add as much items as available.");
+			return false;
+		}
+
+		if (saleProductsCounter >= cashDesk.getMaxItemsExpressMode()) {
+			enoughItemsForExpressModeEvent.fire(new EnoughItemsForExpressModeEvent());
+			return true;
+		}
+		return false;
 
 	}
 
@@ -197,8 +237,10 @@ public class CashBox implements ICashBox, Serializable {
 			long currentAmount = itemInSale.getAmount();
 			if (currentAmount > 0) {
 				itemInSale.setAmount(currentAmount - 1);
+				LOG.debug("FRONEND: Product already in sale. Reduce amoun of available items: " + itemInSale.getName());
 			} else {
 				productOutOfStockEvent.fire(new ProductOutOfStockEvent());
+				LOG.debug(" FRONTEND: Product not available anymore in stock");
 				return false;
 			}
 
@@ -206,12 +248,14 @@ public class CashBox implements ICashBox, Serializable {
 		} else {
 			long currentAmount = stockItem.getAmount();
 			if (currentAmount < 1) {
+				LOG.debug(" FRONTEND: Product not available anymore in stock");
 				productOutOfStockEvent.fire(new ProductOutOfStockEvent());
 				return false;
 			} else {
 				// reduce amount
 				stockItem.setAmount(currentAmount - 1);
 				saleProducts.add(stockItem);
+				LOG.debug("FRONTEND: Product not yet in sale. Added to sale now: " + stockItem.getName());
 			}
 
 		}
@@ -240,6 +284,7 @@ public class CashBox implements ICashBox, Serializable {
 			cashAmountEnteredEvents.fire(new CashAmountEnteredEvent(cashAmount));
 			changeAmountCalculatedEvents.fire(new ChangeAmountCalculatedEvent(change));
 			saleSuccessEvent.fire(new SaleSuccessEvent());
+			checkExpressModeEvent.fire(new CheckExpressModeEvent(saleProducts.size()));
 
 		} else {
 
@@ -252,11 +297,11 @@ public class CashBox implements ICashBox, Serializable {
 	@Override
 	public void enterCardInfo(String cardInfo, int pin) throws UpdateException {
 
-		//check credit Card details
+		// check credit Card details
 		TransactionID transaction = bank.validateCard(cardInfo, pin);
 		DebitResult result = bank.debitCard(transaction);
 
-		//take action according to checking result
+		// take action according to checking result
 		switch (result) {
 		case INSUFFICIENT_BALANCE:
 			insuffiecientCreditVardBalanceEvent.fire(new InsufficientCreditCardBalanceEvent());
@@ -265,7 +310,7 @@ public class CashBox implements ICashBox, Serializable {
 			invalidCreditCardDetailsEvent.fire(new InvalidCreditCardDetailsEvent());
 			return;
 		case OK:
-             creditCardPaymentSuccessfullEvent.fire(new CreditCardPaymentSuccessfulEvent());
+			creditCardPaymentSuccessfullEvent.fire(new CreditCardPaymentSuccessfulEvent());
 			break;
 		default:
 			invalidCreditCardDetailsEvent.fire(new InvalidCreditCardDetailsEvent());
@@ -273,8 +318,7 @@ public class CashBox implements ICashBox, Serializable {
 
 		}
 
-		
-		//finish Sale
+		// finish Sale
 		try {
 			// This is the actually sales-process
 			makeSale();
@@ -286,6 +330,7 @@ public class CashBox implements ICashBox, Serializable {
 		}
 
 		saleSuccessEvent.fire(new SaleSuccessEvent());
+		checkExpressModeEvent.fire(new CheckExpressModeEvent(saleProducts.size()));
 
 	}
 
@@ -301,7 +346,7 @@ public class CashBox implements ICashBox, Serializable {
 		 */
 		for (StockItemViewData item : saleProducts) {
 			stockManager.updateStockItem(item);
-			if(item.getAmount() < item.getMinStock()) {
+			if (item.getAmount() < item.getMinStock()) {
 				stockManager.doStockExchange(item.getId());
 			}
 		}

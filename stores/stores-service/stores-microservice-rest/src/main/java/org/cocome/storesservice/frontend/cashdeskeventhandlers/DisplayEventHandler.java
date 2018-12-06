@@ -10,6 +10,7 @@ import javax.inject.Named;
 import org.apache.log4j.Logger;
 import org.cocome.storesservice.events.ChangeAmountCalculatedEvent;
 import org.cocome.storesservice.events.CreditCardPaymentSuccessfulEvent;
+import org.cocome.storesservice.events.EnoughItemsForExpressModeEvent;
 import org.cocome.storesservice.events.InsufficientCashAmountEvent;
 import org.cocome.storesservice.events.InsufficientCreditCardBalanceEvent;
 import org.cocome.storesservice.events.InvalidCreditCardDetailsEvent;
@@ -70,7 +71,7 @@ public class DisplayEventHandler implements Serializable {
 		this.display.setDisplayLine("Start Cash Payment");
 
 	}
-	
+
 	public void onEvent(@Observes StartCardPaymentEvent event) {
 		LOG.debug("FRONTEND: Display start Card Payment");
 		this.display.setDisplayLine("Start Card Payment");
@@ -89,7 +90,7 @@ public class DisplayEventHandler implements Serializable {
 				+ event.getRequiredAmount());
 		this.display.setDisplayLine("Not enough cash. Please try again...");
 	}
-	
+
 	public void onEvent(@Observes CreditCardPaymentSuccessfulEvent event) {
 		LOG.debug("FRONTEND: Credit Card Payment Successful!");
 		this.display.setDisplayLine("Payment Successful!\n");
@@ -103,10 +104,16 @@ public class DisplayEventHandler implements Serializable {
 		LOG.debug("FRONTEND: Not enough Credit Card Balance!");
 		this.display.setDisplayLine("Not enough balance on credit card!");
 	}
-	
+
 	public void onEvent(@Observes InvalidCreditCardDetailsEvent event) {
 		LOG.debug("FRONTEND: Invalid Credit Card Details");
 		this.display.setDisplayLine("Credit Card Details wrong! \nPlease try it again!");
+	}
+
+	public void onEvent(@Observes EnoughItemsForExpressModeEvent event) {
+		LOG.debug("FRONTNED: Display enough items for expressMode");
+		this.display.setDisplayLine(
+				"You reached the maximum amount of Items for Express Mode! \nPlease proceed to payment ");
 	}
 
 }

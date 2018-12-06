@@ -3,10 +3,12 @@ package org.cocome.storesservice.frontend.cashdeskcomponents;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
+import org.cocome.storesservice.events.EnableExpressModeEvent;
 import org.cocome.storesservice.frontend.store.IStoreInformation;
 
 /**
@@ -22,12 +24,24 @@ public class CashDesk implements Serializable, ICashDesk {
 
 	@Inject
 	IStoreInformation storeInfo;
+	
+	@Inject
+	Event<EnableExpressModeEvent> enableExpressModeEvent;
 
 	private static final Logger LOG = Logger.getLogger(CashDesk.class);
 
 	private static final long serialVersionUID = 2531025289417846417L;
 
 	private String cashDeskName = "defaultCashDesk";
+
+	//lessequal 8 items are express mode sales
+	private final int MAX_ITEMS_EXPRESS_MODE = 8;
+
+	// Max 4 sales with less than 8 items, till express mode gets enabled
+	private final int MAX_EXPRESS_MODE_SALES = 4;
+
+	//counter for expressmodesale in a row
+	private int numberOfExpressModeSales = 0;
 
 	/*
 	 * The following parameters represent the state of the CashDesk. We did not want
@@ -58,6 +72,11 @@ public class CashDesk implements Serializable, ICashDesk {
 	@Override
 	public void setCashPayment(boolean cashPayment) {
 		this.cashPayment = cashPayment;
+	}
+	
+	@Override
+	public int getMaxItemsExpressMode() {
+		return this.MAX_ITEMS_EXPRESS_MODE;
 	}
 
 	@Override
@@ -115,6 +134,7 @@ public class CashDesk implements Serializable, ICashDesk {
 		setCardPayment(false);
 		setSaleStarted(true);
 		setSaleFinished(false);
+		
 
 	}
 
@@ -138,4 +158,31 @@ public class CashDesk implements Serializable, ICashDesk {
 	public boolean paymentInProcess() {
 		return (this.cardPayment || this.cashPayment);
 	}
+
+	/**
+	 * Express Mode Policy: If the last 4 Sales had less than 8 Items, change to
+	 * express mode
+	 */
+	@Override
+	public void checkExpressMode(final int numberOfSaleItems) {
+		if(isInExpressMode()) return;
+		
+		//increase counter
+		if (numberOfSaleItems > MAX_ITEMS_EXPRESS_MODE) {
+			LOG.debug("FRONTEND: Reset expressmode Counter");
+			// reset number of sale Items
+			numberOfExpressModeSales = 0;
+		} else {
+			numberOfExpressModeSales++;
+			LOG.debug("FRONTEND: increase ExpressMode counter. Counter is at: " + numberOfExpressModeSales );
+		}
+		
+		if (numberOfExpressModeSales >= MAX_EXPRESS_MODE_SALES) {
+			LOG.debug("FRONEND: Fire EnableExpressMode event");
+			setInExpressMode(true);
+			enableExpressModeEvent.fire(new EnableExpressModeEvent());
+		}
+	}
+	
+	
 }

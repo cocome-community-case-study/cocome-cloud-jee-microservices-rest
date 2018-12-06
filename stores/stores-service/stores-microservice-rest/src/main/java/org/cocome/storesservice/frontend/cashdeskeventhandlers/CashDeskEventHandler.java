@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
+import org.cocome.storesservice.events.CheckExpressModeEvent;
 import org.cocome.storesservice.events.SaleStartedEvent;
 import org.cocome.storesservice.events.SaleSuccessEvent;
 import org.cocome.storesservice.events.StartCardPaymentEvent;
@@ -46,13 +47,19 @@ class CashDeskEventHandler implements  Serializable {
 	}
 	
 	public void onEvent(@Observes StartCardPaymentEvent event) {
-		LOG.debug("FRONTEND: CashDesk start Caard Payment");
+		LOG.debug("FRONTEND: CashDesk start Card Payment");
 		cashDesk.setCardPayment(true);
 		cashDesk.setCashPayment(false);
 	}
 	
 	public void onEvent(@Observes SaleSuccessEvent event) {
+		LOG.debug("FRONTEND: CashDesk Sale Success ");
 		cashDesk.setSaleFinished(true);
+	}
+	
+	public void onEvent(@Observes CheckExpressModeEvent event) {
+		LOG.debug("FRONTEND: Cashdesk Eventhandler CheckExpressMode. Current sale has this amount of items: " + event.getNumberOfSaleItems());
+		cashDesk.checkExpressMode(event.getNumberOfSaleItems());
 	}
 
 }
