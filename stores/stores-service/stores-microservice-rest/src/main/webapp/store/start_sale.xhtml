@@ -35,6 +35,17 @@
 							<td width="25%" style="vertical-align: top;">
 								<table align="left">
 									<tr>
+										<td align="left">
+										<h:panelGroup rendered= "#{cashDeskView.inExpressMode}">
+										<h:commandButton id="reset-expressmode"
+																action="#{cashDeskView.resetExpressMode}"
+																value="#{strings['cashdesk.reset_express_mode.label']}"></h:commandButton>
+										</h:panelGroup>
+										
+										</td>
+
+									</tr>
+									<tr>
 										<td align="left" style="vertical-align: top;"><b>#{strings['cashdesk.express_mode.label']}</b>
 											<h:graphicImage value="#{resource['image:blackBall.png']}"
 												rendered="#{not cashDeskView.inExpressMode}"

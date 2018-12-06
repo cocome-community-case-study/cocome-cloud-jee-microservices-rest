@@ -48,4 +48,6 @@ public interface ICashDesk {
 	void checkExpressMode(int numberOfSaleItems);
 
 	int getMaxItemsExpressMode();
+
+	void resetExpressMode();
 }

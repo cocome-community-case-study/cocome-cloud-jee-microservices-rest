@@ -9,6 +9,7 @@ import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 import org.cocome.storesservice.events.EnableExpressModeEvent;
+import org.cocome.storesservice.events.ResetExpressModeEvent;
 import org.cocome.storesservice.frontend.cashdeskcomponents.IExpressLight;
 
 /**
@@ -31,6 +32,11 @@ public class ExpressLightEventHandler implements Serializable {
 	public void onEvent(@Observes EnableExpressModeEvent event) {
 		LOG.debug("FRONTEND: Enable Express Light");
 		this.expressLight.updateExpressLight(true);
+	}
+	
+	public void onEvent(@Observes ResetExpressModeEvent event) {
+		LOG.debug("FRONTEND: Reset Express Mode");
+		this.expressLight.updateExpressLight(false);
 	}
 
 }

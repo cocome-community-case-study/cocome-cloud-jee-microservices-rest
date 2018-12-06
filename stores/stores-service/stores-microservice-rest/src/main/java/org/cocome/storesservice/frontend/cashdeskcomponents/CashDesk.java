@@ -9,6 +9,7 @@ import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 import org.cocome.storesservice.events.EnableExpressModeEvent;
+import org.cocome.storesservice.events.ResetExpressModeEvent;
 import org.cocome.storesservice.frontend.store.IStoreInformation;
 
 /**
@@ -27,6 +28,9 @@ public class CashDesk implements Serializable, ICashDesk {
 	
 	@Inject
 	Event<EnableExpressModeEvent> enableExpressModeEvent;
+	
+	@Inject
+	Event<ResetExpressModeEvent> resetExpressModeEvent;
 
 	private static final Logger LOG = Logger.getLogger(CashDesk.class);
 
@@ -182,6 +186,15 @@ public class CashDesk implements Serializable, ICashDesk {
 			setInExpressMode(true);
 			enableExpressModeEvent.fire(new EnableExpressModeEvent());
 		}
+	}
+
+	@Override
+	public void resetExpressMode() {
+		setInExpressMode(false);
+		numberOfExpressModeSales = 0;
+		resetExpressModeEvent.fire(new ResetExpressModeEvent());
+		
+		
 	}
 	
 	

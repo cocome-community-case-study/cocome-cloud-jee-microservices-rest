@@ -38,9 +38,7 @@ import org.cocome.storesservice.util.Messages;
 public class CashDeskView implements Serializable {
 	private static final long serialVersionUID = -2512543291563857980L;
 
-	private static final String[] EMPTY_OUTPUT = {};
 
-	private static final Logger LOG = Logger.getLogger(CashDeskView.class);
 
 	@Inject
 	ICashDesk cashDesk;
@@ -71,13 +69,14 @@ public class CashDeskView implements Serializable {
 	
 	@Inject
 	Event<StartCardPaymentEvent> startCardPaymentEvent;
+	
+	
 
 	/**
 	 * Submitting a new CashDeskName start a new sale Process
 	 * @return
 	 */
 	public String submitCashDeskName() {
-		updateExpressMode(); // TODO
 		return resetSale();
 	}
 	
@@ -105,6 +104,11 @@ public class CashDeskView implements Serializable {
 	 */
 	public String getCashDeskName() {
 		return cashDesk.getCashDeskName();
+	}
+	
+	public String resetExpressMode() {
+		cashDesk.resetExpressMode();
+		return getSalePageRedirectOutcome();
 	}
 
 	/**
@@ -154,18 +158,7 @@ public class CashDeskView implements Serializable {
 		return printer.getPrinterOutput();
 	}
 
-	public void updateExpressMode() {
-		String cashDeskName = cashDesk.getCashDeskName();
-
-		long storeID = storeInformation.getActiveStoreId();
-
-		boolean expressMode = false;
-
-		// TODO implement ExpressMode Policy
-		// expressMode = cashDeskDAO.isInExpressMode(cashDeskName, storeID);
-
-		cashDesk.setInExpressMode(expressMode);
-	}
+	
 
 	private void addFacesError(String errorString) {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
