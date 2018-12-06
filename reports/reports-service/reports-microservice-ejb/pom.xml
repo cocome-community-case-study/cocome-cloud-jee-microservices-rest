@@ -92,18 +92,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
-					<execution>
-						<id>unpack-properties-file</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>unpack-dependencies</goal>
-						</goals>
-						<configuration>
-							<includeArtifactIds>cloud-logic-core</includeArtifactIds>
-							<outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
-							<includes>**\/*.properties</includes>
-						</configuration>
-					</execution>
+				
 					<execution>
 						<phase>validate</phase>
 						<goals>
@@ -122,33 +111,7 @@
 							</artifactItems>
 						</configuration>
 					</execution>
-					<execution>
-						<id>copy</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.cocome</groupId>
-									<artifactId>stores-client</artifactId>
-									<version>1.0</version>
-									<type>jar</type>
-									<overWrite>true</overWrite>
-              						<outputDirectory>${project.build.directory}/lib/</outputDirectory>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.cocome</groupId>
-									<artifactId>products-client</artifactId>
-									<version>1.0</version>
-									<type>jar</type>
-									<overWrite>true</overWrite>
-              						<outputDirectory>${project.build.directory}/lib/</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
+					
 				</executions>
 			</plugin>
 <!-- 			<plugin> -->
