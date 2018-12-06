@@ -40,12 +40,7 @@
 			<version>1.0</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.cocome</groupId>
-			<artifactId>cocome-util</artifactId>
-			<version>1.0</version>
-			<scope>compile</scope>
-		</dependency>
+		
 		<dependency>
   		<groupId>org.cocome</groupId>
   		<artifactId>stores-client</artifactId>
