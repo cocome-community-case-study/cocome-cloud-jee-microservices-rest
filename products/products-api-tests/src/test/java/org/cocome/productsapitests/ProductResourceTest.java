@@ -12,7 +12,7 @@ import org.cocome.productsclient.exception.ProductsRestException;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ProductResourceTests {
+public class ProductResourceTest {
 	private ProductClient client = new ProductClient();
 	private ProductSupplierTO supplier = new ProductSupplierTO();
 	private ProductSupplierClient supplierClient= new ProductSupplierClient();

@@ -9,7 +9,7 @@ import org.cocome.productsclient.domain.ProductSupplierTO;
 import org.cocome.productsclient.exception.ProductsRestException;
 import org.junit.Test;
 
-public class ProductSupplierResourceTests {
+public class ProductSupplierResourceTest {
 	private ProductSupplierClient client = new ProductSupplierClient();
 
 	@Test

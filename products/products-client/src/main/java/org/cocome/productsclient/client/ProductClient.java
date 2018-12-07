@@ -13,7 +13,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.cocome.productsclient.config.Config;
+import org.cocome.productsclient.config.ProductsConfig;
 import org.cocome.productsclient.domain.ProductTO;
 import org.cocome.productsclient.exception.ProductsRestException;
 /**
@@ -27,7 +27,7 @@ public class ProductClient {
 
 	public ProductClient() {
 		Client client = ClientBuilder.newClient();
-		this.webTarget = client.target(Config.getBaseUri());
+		this.webTarget = client.target(ProductsConfig.getBaseUri());
 	}
 
 	/**

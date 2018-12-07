@@ -4,7 +4,7 @@
 
   <groupId>org.cocome</groupId>
   <artifactId>products-api-tests</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>jar</packaging>
 
   <name>products-api-tests</name>
@@ -19,7 +19,7 @@
   		<groupId>org.cocome</groupId>
   		<artifactId>products-client</artifactId>
   		<version>1.0</version>
-  		<scope>compile</scope>
+  		<scope>provided</scope>
   	</dependency>
     <dependency>
       <groupId>junit</groupId>
