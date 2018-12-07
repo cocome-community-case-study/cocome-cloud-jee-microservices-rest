@@ -14,7 +14,7 @@ import org.cocome.ordersclient.exception.OrdersRestException;
 import org.junit.Before;
 import org.junit.Test;
 
-public class OrderEntryResourceTests {
+public class OrderEntryResourceTest {
 	private OrderEntryClient client = new OrderEntryClient();
 	private ProductOrderTO order = new ProductOrderTO();
 	
