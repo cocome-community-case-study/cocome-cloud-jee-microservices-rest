@@ -13,7 +13,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.cocome.storesclient.config.Config;
+import org.cocome.storesclient.config.StoresConfig;
 import org.cocome.storesclient.domain.StockItemTO;
 import org.cocome.storesclient.exception.StoreRestException;
 /**
@@ -27,7 +27,7 @@ public class StockItemClient {
 
 	public StockItemClient() {
 		Client client = ClientBuilder.newClient();
-		this.webTarget = client.target(Config.getBaseUri());
+		this.webTarget = client.target(StoresConfig.getBaseUri());
 	}
 
 	/**

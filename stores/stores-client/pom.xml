@@ -7,6 +7,14 @@
   <properties>
   	<jersey.version>2.26</jersey.version>
   </properties>
+  <build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				 <filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
   <dependencies>
 	<dependency>
 	    <groupId>org.glassfish.jersey.core</groupId>
