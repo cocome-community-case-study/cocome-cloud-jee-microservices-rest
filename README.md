@@ -84,18 +84,20 @@ asadmin start-database
 
 The client libraries need to be built first, because some of the services depend on them.
 
+**Important**: If you used different portbases (as mentioned in `1.Create the domains`),  please adapt the specific settings.xml according to the portbases you used for each settings.xml file
+
 ```bash
-cd stores/stores-client     & mvn install
-cd products/products-client & mvn install
-cd orders/orders-client     & mvn install
-cd reporst/reports-client   & mvn install
+cd stores/stores-client     &  mvn -s settings.xml install
+cd products/products-client &  mvn -s settings.xml install
+cd orders/orders-client     & mvn -s settings.xml install
+cd reporst/reports-client   & mvn -s settings.xml installl
 
 ```
 
 **6. Build and deploy the services**
 
 The maven commands not only builds deployable packages but also deploys them to their corresponding glassfish/payara domains.
-Important: If you used different portbases (as mentioned in `1.Create the domains`),  please adapt the specific settings.xml according to the portbases you used.
+**Important**: If you used different portbases (as mentioned in `1.Create the domains`),  please adapt the specific settings.xml according to the portbases you used.
 
 ```bash
 cd frontend  & mvn -s settings.xml install
