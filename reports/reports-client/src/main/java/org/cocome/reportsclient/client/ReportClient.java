@@ -9,7 +9,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.cocome.reportsclient.config.Config;
+
+import org.cocome.reportsclient.config.ReportsConfig;
 import org.cocome.reportsclient.exceptions.ReportsRestException;
 
 public class ReportClient {
@@ -17,7 +18,7 @@ public class ReportClient {
 
 	public ReportClient() {
 		Client client = ClientBuilder.newClient();
-		this.webTarget = client.target(Config.getBaseUri());
+		this.webTarget = client.target(ReportsConfig.getBaseUri());
 	}
 
 	public String generateEnterpriseDeliveryReport(long enterpriseId) throws ReportsRestException {
