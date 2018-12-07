@@ -13,7 +13,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.cocome.ordersclient.config.Config;
+import org.cocome.ordersclient.config.OrdersConfig;
 import org.cocome.ordersclient.domain.OrderEntryTO;
 import org.cocome.ordersclient.exception.OrdersRestException;
 
@@ -22,7 +22,7 @@ public class OrderEntryClient {
 
 	public OrderEntryClient() {
 		Client client = ClientBuilder.newClient();
-		this.webTarget = client.target(Config.getBaseUri());
+		this.webTarget = client.target(OrdersConfig.getBaseUri());
 	}
 
 	public Collection<OrderEntryTO> findAll() throws OrdersRestException {
