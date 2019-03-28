@@ -2,29 +2,29 @@
 
 
 
-frontend_settings="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/frontend/settings.xml"
-frontend_pom="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/frontend/pom.xml"
+frontend_settings="/home/......./cocome-cloud-jee-microservices-rest/frontend/settings.xml"
+frontend_pom="/home/......./cocome-cloud-jee-microservices-rest/frontend/pom.xml"
 
-reports_settings="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/reports/reports-service/settings.xml"
- reports_pom="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/reports/reports-service/pom.xml"
-
-
-
- stores_settings="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/stores/stores-service/settings.xml"
- stores_pom="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/stores/stores-service/pom.xml"
-
- orders_settings="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/orders/orders-service/settings.xml"
-orders_pom="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/orders/orders-service/pom.xml"
+reports_settings="/home/......./cocome-cloud-jee-microservices-rest/reports/reports-service/settings.xml"
+ reports_pom="/home/......./cocome-cloud-jee-microservices-rest/reports/reports-service/pom.xml"
 
 
- products_settings="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/products/products-service/settings.xml"
- products_pom="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/products/products-service/pom.xml"
+
+ stores_settings="/home/......./cocome-cloud-jee-microservices-rest/stores/stores-service/settings.xml"
+ stores_pom="/home/......./cocome-cloud-jee-microservices-rest/stores/stores-service/pom.xml"
+
+ orders_settings="/home/......./cocome-cloud-jee-microservices-rest/orders/orders-service/settings.xml"
+orders_pom="/home/......./cocome-cloud-jee-microservices-rest/orders/orders-service/pom.xml"
+
+
+ products_settings="/......./cocome-cloud-jee-microservices-rest/products/products-service/settings.xml"
+ products_pom="/home/......./cocome-cloud-jee-microservices-rest/products/products-service/pom.xml"
 
 
 
  
-glassfish_home="/home/nikolaus/Schreibtisch/payara5/bin/"
-glassfish_domain="/home/nikolaus/Schreibtisch/payara5/glassfish/domains/"
+glassfish_home="/home/......./payara5/bin/"
+glassfish_domain="/home/......./payara5/glassfish/domains/"
 
 
 

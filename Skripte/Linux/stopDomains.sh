@@ -3,7 +3,7 @@
 
 
 
-glassfish_home="/home/nikolaus/Schreibtisch/payara5/bin"
+glassfish_home="/home/......./payara5/bin"
 
 cd $glassfish_home
 ./asadmin stop-domain frontendmicroservice ;

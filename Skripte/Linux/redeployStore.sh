@@ -4,11 +4,11 @@
 
 
 
- stores_settings="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/stores/stores-service/settings.xml"
- stores_pom="/home/nikolaus/Schreibtisch/cocome-cloud-jee-microservices-rest/stores/stores-service/pom.xml"
+ stores_settings="/home/......./cocome-cloud-jee-microservices-rest/stores/stores-service/settings.xml"
+ stores_pom="/home/......./cocome-cloud-jee-microservices-rest/stores/stores-service/pom.xml"
 
-glassfish_home="/home/nikolaus/Schreibtisch/payara5/bin/"
-glassfish_domain="/home/nikolaus/Schreibtisch/payara5/glassfish/domains/"
+glassfish_home="/home/......./payara5/bin/"
+glassfish_domain="/home/......./payara5/glassfish/domains/"
 
 
 
