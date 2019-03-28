@@ -1,0 +1,137 @@
+\usepackage[final]{listings}
+\definecolor{ForestGreen}{RGB}{0,155,85}
+\definecolor{RedViolet}{RGB}{161,36,107}
+
+\lstset{
+flexiblecolumns=true,
+basicstyle=\ttfamily\small,
+commentstyle=\color{kit-blue100},
+keywordstyle=\bfseries\color{RedViolet},
+stringstyle=\color{black!75},
+frame=single, 
+captionpos=b,
+numberbychapter=false,
+breaklines=true
+}
+
+\lstdefinelanguage{mql}{
+morekeywords={SELECT, select, FROM, from, WHERE, where, JOIN, join, THETA, theta, KEEP, keep, 
+			WITH, with, SUPERTYPE, supertype, OUTGOING, outgoing, 
+			TYPE, type, ATTRIBUTES, attributes, REFERENCE, reference, 
+			ATTRIBUTE, attribute, CALCULATED, calculated,
+			NATURAL, natural, LEFT, left, OUTER, outer, AS, as, URI, uri, forAll, exists, concat,
+			aggregate, over, OVER, avg, sum, min, max, size},
+sensitive=true,
+morecomment=[l]{//},
+morecomment=[s]{/*}{*/},
+morestring=[b]",
+morestring=[d]’,
+showstringspaces=true,
+}
+
+\lstdefinelanguage{QVT}{
+  morekeywords={
+% relations:  
+   checkonly, domain, enforce, extends, implementedby, import, 
+  key, overrides, primitive, query, relation, top, 
+  transformation, when, where
+% operational: 
+ Bag, Collection, Dict, OrderedSet, Sequence, Set, Tuple, abstract, 
+access, and, any, assert, blackbox, break, case, class, collect, 
+collectNested, collectOne, collectselect, collectselectOne, 
+composes, compute, configuration, constructor, continue, datatype, 
+default, derived, disjuncts, do, elif, else, end, endif, 
+enum, except, exists, extends, exception, false, forAll, forEach , 
+forOne, from, helper, if, implies, import , in, inherits, init, 
+inout, intermediate, invresolve, invresolveIn, invresolveone, 
+invresolveoneIn , isUnique, iterate, late, let, library, literal, 
+log, main, map, mapping, merges, metamodel, modeltype, new, not, 
+null, object, one, or, ordered, out, package, population, primitive, property, 
+query, raise, readonly, references, refines, reject, resolve, resolveIn, resolveone, 
+resolveoneIn, result, return, select, selectOne, self, sortedBy, static, 
+switch, tag, then, transformation, true, try, typedef, unlimited, 
+uses, var, when, where, while, with, xcollect , xmap, xor, xselect 
+ },
+ keywordstyle=[2]{\textbf},
+ morecomment=[l]{//},
+ morestring=[b]{'},
+ tabsize=4}
+ 
+ 
+\newcommand{\lstQVT}[1]{\lstinline[language=QVT,breaklines=true,basicstyle=\listingsfontinline,mathescape,literate={\-}{}{0\discretionary{-}{}{}}]§#1§}
+
+%ATL
+
+\lstdefinelanguage{ATL}{
+  morekeywords={true,false,
+   Bag,Set,OrderedSet,Sequence,Tuple,Integer,Real,Boolean,String,TupleType,
+  not,and,or,xor,implies,module,create,from,uses,helper,def,context,
+  rule,using,derived,to,mapsTo,distinct,
+  foreach,in,do,if,then,else,endif,let,
+  library,query,for,div,refining,entrypoint},
+ keywordstyle=[2]{\textbf},
+ morecomment=[l]{--},
+ morestring=[b]{'},
+ tabsize=4}
+ 
+\newcommand{\lstATL}[1]{\lstinline[language=ATL,breaklines=true,basicstyle=\listingsfontinline,mathescape,literate={\-}{}{0\discretionary{-}{}{}}]§#1§}
+
+%ETL -- Epsilon Transformation Language
+
+\lstdefinelanguage{ETL}{
+  morekeywords={true,false,
+   pre, rule, operation, 
+  var, transform,to,
+  select, selectOne, all,
+  @greedy,
+  for,if,else,
+  not,and,or,
+  Any,String,Boolean,
+  true,false,return},
+ keywordstyle=[2]{\textbf},
+ morecomment=[l]{//}, 
+ morecomment=[s]{/*}{*/}, 
+ morestring=[b]",
+ tabsize=4}
+ 
+\newcommand{\lstETL}[1]{\lstinline[language=ETL,breaklines=true,basicstyle=\listingsfontinline,mathescape,literate={\-}{}{0\discretionary{-}{}{}}]§#1§}
+
+
+%Xtend 1.0.1
+
+\lstdefinelanguage{Xtend}{
+ morekeywords={cached,case,default,extension,false,import,JAVA,WORKFLOWSLOT,let,new,null,private,create,switch,this,true,reexport,around,if,then,else,context},
+ keywordstyle=[2]{\textbf},
+ morecomment=[l]{//}, 
+ morecomment=[s]{/*}{*/}, 
+ morestring=[b]",
+ tabsize=4}
+ 
+\newcommand{\lstXtend}[1]{\lstinline[breaklines=true,language=Xtend,basicstyle=\listingsfontinline,mathescape,literate={\-}{}{0\discretionary{-}{}{}}]\S#1\S}
+
+%Xtext 1.0.1
+
+\lstdefinelanguage{Xtext}{
+ morekeywords={grammar, with, hidden, generate, as, import, returns, current, terminal, enum},
+ keywordstyle=[2]{\textbf},
+ morecomment=[l]{//}, 
+ morecomment=[s]{/*}{*/}, 
+ morestring=[b]",
+ morestring=[b]',
+ tabsize=4}
+ 
+\newcommand{\lstXtext}[1]{\lstinline[breaklines=true,language=Xtext,basicstyle=\listingsfontinline,mathescape,literate={\-}{}{0\discretionary{-}{}{}}]\S#1\S}
+
+%Xpand
+
+\lstdefinelanguage{Xpand}{
+ morekeywords={IMPORT, DEFINE, ENDDEFINE, LET, ENDLET, FOR, FILE, ENDFILE, ITERATOR, FOREACH, AS, IF, ENDFOREACH, ENDIF, EXPAND, INSTANCEOF, USING, SEPARATOR, CSTART, CEND, PROTECT, ENDPROTECT, ID, EXTENSION, ERROR, WARNING, INFO},
+ inputencoding=latin1,
+ extendedchars=true,
+ % note: first and last guillemot of comments will not appear in comment style, guillemots are not possible in delimiters
+ morecomment=[s]{REM}{ENDREM},
+ morestring=[s]{"}{"},
+ % for use with UTF-8
+ literate={«}{\guillemotleft}{1}
+          {»}{\guillemotright}{1}
+}

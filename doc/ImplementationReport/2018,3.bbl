@@ -1,0 +1,20 @@
+\begin{thebibliography}{1}
+
+\bibitem{SWB-469002735}
+R.~V. Heinrich.
+\newblock The cocome platform for collaborative empirical research on
+  information system evolution, [2016].
+
+\bibitem{olsson2012climbing}
+H.~H. Olsson, H.~Alahyari, and J.~Bosch.
+\newblock Climbing the" stairway to heaven"--a mulitiple-case study exploring
+  barriers in the transition from agile development towards continuous
+  deployment of software.
+\newblock In {\em Software Engineering and Advanced Applications (SEAA), 2012
+  38th EUROMICRO Conference on}, pages 392--399. IEEE, 2012.
+
+\bibitem{schnabel}
+J.~Schnabel.
+\newblock Mobile application client for a cloud based software system.
+
+\end{thebibliography}

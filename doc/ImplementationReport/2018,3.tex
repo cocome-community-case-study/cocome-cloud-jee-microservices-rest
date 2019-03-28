@@ -1,0 +1,81 @@
+
+%% F?r die endg?ltige Version von ``draft'' auf ``final'' umstellen
+\documentclass[12pt,headsepline,twoside,final]{scrreprt}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+
+
+\usepackage{templates/kitreport}
+\usepackage{templates/listings}
+\usepackage{templates/tikzkit}
+\usepackage{templates/tikzuml}
+\usepackage{import}
+\usepackage{xspace}
+
+\usepackage{wrapfig}
+\usepackage{subfigure}
+\usepackage{rotating}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{booktabs}
+
+\newcommand{\CoCoME}{\mbox{CoCoME}\xspace}
+\newcommand{\CoCoMEP}{\mbox{CoCoMEP}\xspace}
+\newcommand{\textcode}[1]{\textsf{\footnotesize #1}}
+
+
+%Draft Watermark
+\usepackage{draftwatermark}
+\SetWatermarkLightness{0.95}
+
+\lstset{numberstyle=\small\ttfamily\color{gray},numbers=left, numbersep=1.5ex}
+
+%Algorithms
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% Document ------------------------------------------------------------------
+\begin{document}
+	\setpdf
+	
+	\setcounter{secnumdepth}{3}
+	
+	\title{Implementation Report on the microservice-based Variant of CoCoME} 
+	
+	
+	\author{ Niko Benkler}
+	%\institute{Institute for Program Structures and Data Organization}
+	
+	\date{\today}
+	
+	
+	
+	%% \ThisCenterWallPaper{1}{templates/title-background.pdf}
+	\maketitle
+	\clearpage
+	
+	\tableofcontents
+	\clearpage
+	
+
+	
+	%\listoftodos
+	%\clearpage
+	
+	% Text ----------------------------------------------------------------------
+	
+	\input{texfiles/Introduction.tex}
+	\input{texfiles/Decisions.tex}
+	
+
+	
+	
+	%
+	% ---- Bibliography ----
+	%
+%	\bibliographystyle{abbrv}
+%	\bibliography{literatur}
+	
+	\sloppy
+\end{document}

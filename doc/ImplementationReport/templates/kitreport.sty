@@ -1,0 +1,156 @@
+% Schriften -----------------------------------------------------------------
+\RequirePackage{libertine}
+\RequirePackage[italic]{mathastext}
+\RequirePackage[scaled=.85]{helvet}
+\RequirePackage[scaled=.92]{sourcesanspro}
+\RequirePackage[scaled=.78]{beramono}
+
+% Semi-bold
+\newcommand*{\sbdefault}{sb}
+\DeclareRobustCommand{\sbseries}{%
+  \not@math@alphabet\sbseries\relax
+  \fontseries\sbdefault\selectfont}
+
+\DeclareTextFontCommand{\textsb}{\sbseries}
+
+\RequirePackage{amsthm}
+\RequirePackage{amssymb}
+\RequirePackage{amsmath}
+\RequirePackage{amsfonts}
+
+\RequirePackage{ifthen}
+\RequirePackage{ifdraft}
+\RequirePackage[protrusion=true,expansion=true]{microtype}
+
+% Code-Ausdrücke im Fließtext
+\newcommand{\code}[1]{\texttt{#1}}
+% MM-Elemente im Fließtext
+\newcommand{\mmel}[1]{\textsf{#1}}
+%\newcommand{\mmel}[1]{{\fontseries{sb}\selectfont\sffamily#1}}
+
+\RequirePackage[color=kit-green30,obeyDraft]{todonotes}
+
+% TikZ
+%\RequirePackage{templates/tikzkit}
+%\RequirePackage{templates/tikzuml}
+
+% Tabellen
+\RequirePackage{booktabs}
+
+% schmalerer Abstand für Aufzählungen
+\RequirePackage{enumitem}
+\setlist{noitemsep}
+
+% Colors -----------------------------------------------------------------
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+% Bilder auch im Draft-Modus
+\setkeys{Gin}{draft=false}
+%\definecolor{kit-green100}{rgb}{0,.59,.51}
+%\definecolor{kit-green70}{rgb}{.3,.71,.65}
+%\definecolor{kit-green50}{rgb}{.50,.79,.75}
+%\definecolor{kit-green30}{rgb}{.69,.87,.85}
+%\definecolor{kit-green15}{rgb}{.85,.93,.93}
+
+\definecolor{kit-green100}{cmyk}{1,0,.6,0}
+\definecolor{kit-green70}{cmyk}{.7,0,.42,0}
+\definecolor{kit-green50}{cmyk}{.5,0,.3,0}
+\definecolor{kit-green30}{cmyk}{.3,0,.18,0}
+\definecolor{kit-green15}{cmyk}{.15,0,.09,0}
+
+%\definecolor{kit-blue100}{rgb}{.27,.39,.67}
+%\definecolor{kit-blue70}{rgb}{.49,.57,.76}
+%\definecolor{kit-blue50}{rgb}{.64,.69,.83}
+%\definecolor{kit-blue30}{rgb}{.78,.82,.9}
+%\definecolor{kit-blue15}{rgb}{.89,.91,.95}
+
+\definecolor{kit-blue100}{cmyk}{1,.5,0,0}
+\definecolor{kit-blue70}{cmyk}{.56,.53,0,0}
+\definecolor{kit-blue50}{cmyk}{.4,.25,0,0}
+\definecolor{kit-blue30}{cmyk}{.24,.15,0,0}
+\definecolor{kit-blue15}{cmyk}{.12,.075,0,0}
+
+\definecolor{kit-yellow100}{cmyk}{0,.05,1,0}
+\definecolor{kit-yellow70}{cmyk}{0,.035,.7,0}
+\definecolor{kit-yellow50}{cmyk}{0,.025,.5,0}
+\definecolor{kit-yellow30}{cmyk}{0,.015,.3,0}
+\definecolor{kit-yellow15}{cmyk}{0,.0075,.15,0}
+
+\definecolor{kit-orange100}{cmyk}{0,.45,1,0}
+\definecolor{kit-orange70}{cmyk}{0,.315,.7,0}
+\definecolor{kit-orange50}{cmyk}{0,.225,.5,0}
+\definecolor{kit-orange30}{cmyk}{0,.135,.3,0}
+\definecolor{kit-orange15}{cmyk}{0,.0675,.15,0}
+
+\definecolor{kit-red100}{cmyk}{.25,1,1,0}
+\definecolor{kit-red70}{cmyk}{.175,.7,.7,0}
+\definecolor{kit-red50}{cmyk}{.125,.5,.5,0}
+\definecolor{kit-red30}{cmyk}{.075,.3,.3,0}
+\definecolor{kit-red15}{cmyk}{.0375,.15,.15,0}
+
+\RequirePackage{wallpaper}
+
+\RequirePackage{colortbl,multirow,hhline}
+\RequirePackage[plainpages=false,  % highlight reference, create links, bookmarks for pdf documents
+						pdfpagelabels,
+						bookmarks, 
+						bookmarksnumbered, 
+%						citebordercolor=000,
+%						linkbordercolor=000,
+%						pagebordercolor=000,
+						breaklinks=true,
+						colorlinks,
+						linkcolor=kit-blue100,
+						citecolor=kit-green100,
+						urlcolor=kit-red100]{hyperref}
+
+\newcommand\setpdf{ \hypersetup{%
+			pdftitle={\@title},%
+			pdfsubject={\@subject},%
+			pdfauthor={\@author},%
+			pdfkeywords={},%
+			pdfborder={0 0 0}%
+			}
+}
+% \Urlmuskip = 0mu plus 1mu
+% \makeatletter
+% \g@addto@macro{\UrlBreaks}{\UrlOrds}
+% \makeatother
+
+\RequirePackage{subfigure}
+%\RequirePackage{index}
+\RequirePackage{makeidx}
+
+
+% Format of the pages -------------------------------------------------------
+\RequirePackage{geometry}
+\geometry{a4paper,left=2.5cm,right=2.5cm,top=4cm,bottom=4cm}
+
+\titlehead{\includegraphics[height=1.8cm]{logos/kitlogo_en_cmyk}}
+
+%\RequirePackage{typearea}
+
+\RequirePackage[markuppercase]{scrpage2}
+
+\pagestyle{scrheadings}
+\linespread{1.0}
+\setlength{\parskip}{0pt}
+
+%page number in head instead of foot
+\ohead{\pagemark}
+\ofoot{}
+
+%chapter name in headline
+\ihead{\headmark}
+\automark[section]{chapter}
+
+%no chapter numbers in title
+\renewcommand*{\chaptermarkformat}{} 
+\renewcommand*{\sectionmarkformat}{}
+
+%no page numbers on chapter title pages
+\renewcommand*{\chapterpagestyle}{empty}
+
+
+
+

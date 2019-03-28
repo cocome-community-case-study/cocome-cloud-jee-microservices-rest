@@ -1,0 +1,32 @@
+\tikzset{uml box/.style={draw, text width=1cm, minimum height=.7cm, text badly centered},
+	uml small box/.style={draw, text width=.7cm, minimum height=.5cm, text badly centered},
+	uml class/.style={rectangle split, rectangle split parts=2, draw, minimum width=0, font=\sffamily},
+	uml directed/.style={thick, -angle 90},
+	uml aggregation head/.style={shape=diamond, aspect=.5, anchor=north, thick, draw},
+	uml composition head/.style={shape=diamond, aspect=.5, anchor=north, thick, fill, draw},
+	uml generalization head/.style={shape=isosceles triangle, isosceles triangle apex angle=60, shape border rotate=90, scale=.8, draw, thick, anchor=apex},
+	uml cardinality start/.style={very near start, auto, font=\sffamily},
+	uml cardinality end/.style={very near end, auto, font=\sffamily},
+	uml role start/.style={very near start, auto, font=\footnotesize\sffamily},
+	uml role end/.style={near end, auto, font=\footnotesize\sffamily},
+	uml association name/.style={midway, auto, font=\footnotesize\sffamily},
+}%
+
+% Strichmännchen
+% #1 = Name des Nodes
+% #2 = Position
+% #3 = Stil
+
+\newcommand{\umlhuman}[3]{
+\node[circle, draw, yshift=1.25em, #3] (#1_head) #2 {};
+\draw[#3] (#1_head.south) -- ++ (0,-1.5em) -- ++ (1em,-1em) node[inner sep=0em] (#1_rightfoot) {};
+\draw[#3] (#1_head.south) ++ (0,-1.5em) -- ++ (-1em,-1em) node[inner sep=0em] (#1_leftfoot) {};
+\draw[#3] (#1_head.south) ++ (0,-.6em) -- ++ (1em,.4em) node[inner sep=0em] (#1_righthand) {};
+\draw[#3] (#1_head.south) ++ (0,-.6em) -- ++ (-1em,.4em) node[inner sep=0em] (#1_lefthand) {};
+}
+
+% Strichmännchen im Kasten
+\newcommand{\umlboxedhuman}[4]{
+\umlhuman{#1}{#2}{#3}
+\node[rectangle, draw, fit=(#1_head) (#1_leftfoot) (#1_rightfoot), #4] (#1) {};
+}

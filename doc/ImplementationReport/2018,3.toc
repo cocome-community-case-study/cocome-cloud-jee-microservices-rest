@@ -1,0 +1,24 @@
+\contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.1}% 
+\contentsline {chapter}{\numberline {2}Design Decisions and General Information}{4}{chapter.2}% 
+\contentsline {section}{\numberline {2.1}Documentation and Code}{4}{section.2.1}% 
+\contentsline {section}{\numberline {2.2}Scripts}{4}{section.2.2}% 
+\contentsline {section}{\numberline {2.3}Payara/Glassfish}{4}{section.2.3}% 
+\contentsline {section}{\numberline {2.4}H2 Migration}{4}{section.2.4}% 
+\contentsline {section}{\numberline {2.5}Frontend vs Backend Architecture}{4}{section.2.5}% 
+\contentsline {section}{\numberline {2.6}EJB Backend and Frontend}{5}{section.2.6}% 
+\contentsline {section}{\numberline {2.7}Domain Entities}{5}{section.2.7}% 
+\contentsline {section}{\numberline {2.8}Exception Handling REST calls}{5}{section.2.8}% 
+\contentsline {section}{\numberline {2.9}Frontend}{5}{section.2.9}% 
+\contentsline {section}{\numberline {2.10}Double Code}{6}{section.2.10}% 
+\contentsline {section}{\numberline {2.11}CORS Filter}{6}{section.2.11}% 
+\contentsline {section}{\numberline {2.12}Authentication}{6}{section.2.12}% 
+\contentsline {section}{\numberline {2.13}Roles and Rights Management}{6}{section.2.13}% 
+\contentsline {section}{\numberline {2.14}Caching}{6}{section.2.14}% 
+\contentsline {section}{\numberline {2.15}REST interfaces}{7}{section.2.15}% 
+\contentsline {section}{\numberline {2.16}Rollbacks}{7}{section.2.16}% 
+\contentsline {section}{\numberline {2.17}Roll-In Orders}{7}{section.2.17}% 
+\contentsline {section}{\numberline {2.18}Supplier}{7}{section.2.18}% 
+\contentsline {section}{\numberline {2.19}Tests}{7}{section.2.19}% 
+\contentsline {section}{\numberline {2.20}Several Users}{7}{section.2.20}% 
+\contentsline {section}{\numberline {2.21}Navigation}{8}{section.2.21}% 
+\contentsline {section}{\numberline {2.22}Express Mode Policy}{8}{section.2.22}% 

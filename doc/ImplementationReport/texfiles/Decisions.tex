@@ -1,0 +1,87 @@
+\chapter{Design Decisions and General Information}
+\label{ch:Decisions}
+
+\section{Documentation and Code}
+The source code \footnote{https://github.com/cocome-community-case-study/cocome-cloud-jee-microservices-rest} contains as much JavaDocs as possible to describe each class and functionality. The README.md\footnote{https://github.com/cocome-community-case-study/cocome-cloud-jee-microservices-rest/blob/master/README.md} provides the deployment information
+
+\section{Scripts}
+We wrote several scripts to start/stop/redeploy/undeploy the whole application or simply single services. The Scripts\footnote{https://github.com/cocome-community-case-study/cocome-cloud-jee-microservices-rest/tree/master/Skripte} are available for Linux only, as we implemented and tested the microservice-based variant with Ubuntu 16.04. To execute the scripts, one must adapt the paths to the payara/glassfish folder and the source code folder in each script.
+
+\section{Payara/Glassfish}
+As glassfish causes some serious trouble when deploying the application, we decided to migrate to payara (\textit{https://www.payara.fish/}), which is a open source project based on glassfish. The asadmin commands are the same. Simply install the newest variant and replace the system variable, also known as path variable of glassfish.
+
+\section{H2 Migration}
+Payara comes with the H2 Database, which is faster and more efficient as the Derby DB we used before. Further, the Derby DB caused some trouble we could not solve. Migration to H2 solved the problem 
+
+\section{Frontend vs Backend Architecture}
+Each service has its own frontend. The service \textit{Frontend} only uses the iframe technology to include the prevailing frontends of the microservices into a frame. The microservice \textit{Frontend} itself handles the login functionality, besides the navigating through and including of the right microservice frontend.
+
+\section{EJB Backend and Frontend}
+Each service has stateless EJBs as backend and stateful EJBs for the frontend. So each user gets a new session when using CoCoME (for the frontend) but shares the backend functionality with all current users. For more information please use a search engine to get information about the \textit{@Stateless} and \textit{@SessionScoped} etc. Annotations.
+
+\section{Domain Entities}
+Each service, apart from reporting, handles its own domain entities.
+Several entities have many-to-one relationships, for instance: The enterprise has a list of stores that belong to it. The classes that represent the domain entities have annotations like \textit{@ManyToOne} and \textit{@JoinColumn} so that the database is able to handle those data dependencies efficiently. However, we need to send entities to other services via REST interfaces. Therefore, the interfaces generally convert the domain entities into TO (=Transferable Object, included in the service clients) entities, that do not include a list of other entities, but only their IDs. This was decided due to efficiency. \\
+Further, the frontend requires another domain entity format to display the entity information. Therefore, the backend-frontend-query also converts the actual database format into appropriate frontend format.
+
+\section{Exception Handling REST calls}
+The exception handling for REST calls raised several difficulties. Usual error handling cannot be applies (e.getMessage() etc.). So each REST Controller throws a predefined \textit{NotFoundException} with an error message. The client catches this exception and reads the message by using \textit{e.getResponse().readEntity(String.class)}. This allows us to send actual error messages from one service to another.
+
+\section{Frontend}
+Each service provides a frontend which can be found in project \textit{servicename-rest} where the html files are in \textit{src/main/webapp} and the accompanying frontend logic in the folders \textit{org.cocome.servicename.frontend. ...} 
+
+\section{Double Code}
+One of the drawbacks of the microservice architecture is double code. Each service that provides a frontend as described in the previous sections needs the login functionality and the main frame of the frontend. Further, each microservice has more or less the same code for navigation (navigation bar) and user authentication. 
+
+\section{CORS Filter}
+The COARS and X-Frame-Options headers prevent to include iframes from different serves. As the proxy frontend and the frontend of the other microservices run on different payara servers, the browser forbids to include the frontends into the proxy via iframe. This is circumvented by using a COARSE filter that overwrites the headers of each request and response, although this causes a security break. However, it is possible to only allow requests from distinct servers. So it would be possible to limit the legal access only to the server URLs that belong to the cocome system.
+
+\section{Authentication}  
+The authentication is performed in the proxy frontend microservices. According to the role, the navigation menu is adapted so that a store manager for instance, cannot create and adapt enterprises. However, the microservices need to know which use is currently logged in. For example, the Report Service needs to know whether store manager of store with id 1 or 2 is currently logged in, so that the service can create the correct store report. Therefore, the user data is serialized using JSON via the\textit{window.post-API} and sent to the microservice during navigation. The microservice itself is able to read this information and save it in the current session.
+
+\section{Roles and Rights Management}
+The roles and accompanying rights of the initial CoCoME report \footnote{https://github.com/cocome-community-case-study/papers} did not correspond to the former hybrid cloud-based variant of CoCoME \footnote{https://github.com/cocome-community-case-study/cocome-cloud-jee-platform-migration}. For the microservice variant, we used the roles and rights management that is described in the report.
+
+\section{Caching}
+Currently, we use caching to prevent multiple database queries while loading the page. Getters are executed several times by JSF, when the page is loaded. To prevent this, we execute the getter only when the session is started. This saves s tremendous amount of queries. However, this comes with the price of data consistency, as data entities created by other users do not appear instantaneously, but only in case of a navigation event (as it causes a page reload).
+
+\section{REST interfaces}
+The old REST interfaces have not been complete. Also, error handling did not happen. Now, the REST interfaces provide all necessary functionality and error handling.
+
+\section{Rollbacks}
+Multiple databases cause problems, as stated by the \textit{CAP-Theorem}. We did not focus on full database consistency, roll back mechanisms and so on as this was part of the project. 
+
+\section{Roll-In Orders}
+In the cloud-based variant, ordering products is not implemented correctly. It is possible to edit the stock amount (=order more stock) by simply enter a higher amount of current stock. \\
+In contrary, the microservice-based variant put the desired functionality in practice: The stock manager needs to navigate to the order service and places the order. Afterwards, the stock manager needs to roll in the order, which updates the stock corresponding to the ordered amount of stock items.
+
+\section{Supplier}
+The microservice-based variant implemented the create/add supplier as desired
+
+\section{Tests}
+Tests can only be executed by using the maven command \textit{mvn:test}. The eclipse test environment does not work.
+
+\section{Several Users}
+As the frontend is session scoped, it is possible that several users use CoCoME at the same time. Therefore, the microservice variant is closer to the reality.
+
+\section{Navigation}
+The displayed navigation bar in the proxy frontend and the microservice frontend depends on the currently logged in user. The role \textit{admin} has all rights. Regarding the store id, one need to be aware of the existing store in advance. So if store with store id 3 does not exist, an error message is thrown if somebody want to login as store manager using store id 3. \\
+The cashier is instantaneously redirected to his cash desk view, as s/he has no other rights like create products...
+
+\section{Express Mode Policy}
+The cash desk switches to express mode if the last 4 purchases did not exceed 8 stock items. Afterwards, the cash desk is in express mode which means that only 8 items can be purchased. Being in express mode is indicated by the express light. Further, the cashier is able to switch into standard mode again.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
